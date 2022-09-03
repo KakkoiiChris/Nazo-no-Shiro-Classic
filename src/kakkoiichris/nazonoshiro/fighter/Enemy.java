@@ -5,6 +5,7 @@ import kakkoiichris.nazonoshiro.item.kasugi.*;
 import kakkoiichris.nazonoshiro.item.weapon.Weapon;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Enemy extends Fighter {
     private Item droppable, droppable1;
@@ -13,7 +14,7 @@ public abstract class Enemy extends Fighter {
         super(n, a, d, s, h);
     }
     
-    public void setDrop(Fighter self, ArrayList<Weapon> weapons, int wCount) {
+    public void setDrop(Fighter self, List<Weapon> weapons, int wCount) {
         wCount = (int) (10 - self.getAtk());
         if (Math.random() > 0.5 && wCount > 0) {
             int temp = (int) (Math.random() * weapons.size());

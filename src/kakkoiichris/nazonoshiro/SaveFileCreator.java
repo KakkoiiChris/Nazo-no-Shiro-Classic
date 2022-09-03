@@ -7,6 +7,7 @@ import kakkoiichris.nazonoshiro.fighter.Self;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Formatter;
+import java.util.List;
 import java.util.Scanner;
 
 public class SaveFileCreator {
@@ -25,7 +26,7 @@ public class SaveFileCreator {
         }
     }
     
-    public void addData(ArrayList<CastleFloor> castle, Fighter[] guards, Self self, int R, int C, int F, int t) {
+    public void addData(List<CastleFloor> castle, Fighter[] guards, Self self, int R, int C, int F, boolean t) {
         for (int f = 0; f < castle.size(); f++) {
             x.format("%s%s", castle.get(f).getName(), "\n");
         }
