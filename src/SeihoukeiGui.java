@@ -33,7 +33,7 @@
    	 
        public SeihoukeiGui()
       {
-         super("Seihoukei");
+         super("kakkoiichris.nazonoshiro.castle.puzzle.Seihoukei");
          setLayout(new FlowLayout());
          setSize(438, 458);
          

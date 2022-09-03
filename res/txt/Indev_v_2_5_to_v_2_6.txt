@@ -1,0 +1,67 @@
+Indev v.2.5 Maps
+
+                       0   1   2   3   4
+        
+	            	 0   #   #   #   #   #
+
+		             1   #   #   #   #   #
+Castle(kakkoiichris.nazonoshiro.castle.Room[][] ):
+                   2   #   #   #   #   #
+		  
+		             3   #   #   #   #   #
+		  
+		  
+		  - Only one floor
+		  - R & C controlled positioning
+		  - for-loops to traverse Castle array set at limited at <4 for rows and <5 for columns
+		  
+__________________________________________________________________________________________________
+Indev v.2.6 Maps
+
+Castle(ArrayList<kakkoiichris.nazonoshiro.castle.CastleFloor>) : 0 Floor 1
+
+                                 1 Floor 2
+											
+											2 Floor 3
+											
+											3 Floor 4
+											.
+											.
+											.
+											
+
+                            0   1   2   3...
+        
+	            	      0   #   #   #   #
+
+		                  1   #   #   #   #
+kakkoiichris.nazonoshiro.castle.CastleFloor(kakkoiichris.nazonoshiro.castle.Room[][]):
+                        2   #   #   #   #
+		  
+		                  3   #   #   #   #
+								.
+								.
+								.
+								
+		  - Multiple floors possible
+		  - R, C, and F control positioning
+		  - for-loops to traverse Castle ArrayList limit set based on Castle.size()
+		  - for-loops to traverse kakkoiichris.nazonoshiro.castle.CastleFloor array[][] limits based on xSize for rows and ySize for columns
+		  - new commands for up("up", "r") and down("down", "f")
+		  
+____________________________________________________________________________________________________________
+Indev v.2.5 Memory
+
+        - storeState occurred before entering another room
+		  - Saved all the dynamic variables to copies of those variables
+		  - copy variables were marked as the name of the copied variable with a 1 at the end
+		  - resetState only occurred if the player died during a battle with an enemy
+		  - the game would start again at the room you were in pre-battle, since storeState occurred before you left that room  
+		  
+______________________________________________________________________________________________________________________________
+Indev v.2.6 Memory
+
+        - storeState and resetState will print or read variables to or from a .txt file
+		  - save files will be saved to the nazoNoShiro folder as "save#.txt"
+		  - after ending a program run the .txt files will close, saving the current state of the game
+		  - a resume game option will allow you to choose a save filename and resume that game

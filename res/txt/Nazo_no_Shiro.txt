@@ -1,0 +1,15 @@
+The door to the secret chambers is located in the west annex.
+It will only open after the final puzzle is solved.
+The puzzles will be harder, but the reward will be great. 
+
+Himitsu-shitsu e no tobira, nishi no bekkan ni ichi shite imasu.
+Saishuu-tekina pazuru ga kaiketsu sa reta nochi ni nomi hyouji sa remasu.
+Pazuru wa, muzukashiku naru houshuu wa subarashii monoda.
+
+(small) squares-  (kogata) kakkoiichris.nazonoshiro.castle.puzzle.Seihoukei
+
+(small) sudoku-   (Kogata) suu Doku
+
+(small) memorize- (kogata) oboeru
+
+

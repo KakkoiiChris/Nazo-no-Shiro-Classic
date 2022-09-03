@@ -1,5 +1,9 @@
    //Christian Alexander, 10/06/2011, Period 8
    
+   import kakkoiichris.nazonoshiro.castle.CastleFloor;
+   import kakkoiichris.nazonoshiro.fighter.Fighter;
+   import kakkoiichris.nazonoshiro.fighter.Self;
+
    import java.io.*;
    import java.lang.*;
    import java.util.*;
@@ -38,29 +42,29 @@
                for(int c=0; c<castle.get(f).getYSize(); c++)
                {
                   x.format("%s%s%s%s%s", "#", f, r, c, castle.get(f).getRoom(r, c).getName() + "\n");
-                  x.format("%s%s%s%s%s", castle.get(f).puzzleType[r][c], ",", castle.get(f).floorPlan[r][c].getKey(), "'", castle.get(f).floorPlan[r][c].getLock() + "\n");
+                  x.format("%s%s%s%s%s", castle.get(f).getPuzzleType()[r][c], ",", castle.get(f).getFloorPlan()[r][c].getKey(), "'", castle.get(f).getFloorPlan()[r][c].getLock() + "\n");
                   for(int w=0; w<castle.get(f).getRoom(r, c).getSize(); w++)
                   {
                      x.format("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s", 
                         "|" + castle.get(f).getRoom(r, c).getWall(w).getSide() + ":", 
                               castle.get(f).getRoom(r, c).getWall(w).getStorage().getName() + "\n", 
-                        "!" + castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("Tanto") + "a",
-                        		castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("Wakizashi") + "b",
-                        		castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("Katana") + "c",
-                        		castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("Bo Staff") + "d",
-                        		castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("Shuriken") + "e",
-                              castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("Nunchaku") + "\n",
+                        "!" + castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("kakkoiichris.nazonoshiro.item.weapon.Tanto") + "a",
+                        		castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("kakkoiichris.nazonoshiro.item.weapon.Wakizashi") + "b",
+                        		castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("kakkoiichris.nazonoshiro.item.weapon.Katana") + "c",
+                        		castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("kakkoiichris.nazonoshiro.item.weapon.Bo Staff") + "d",
+                        		castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("kakkoiichris.nazonoshiro.item.weapon.Shuriken") + "e",
+                              castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("kakkoiichris.nazonoshiro.item.weapon.Nunchaku") + "\n",
                         "*" + castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("Herb") + "a",
                         		castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("Bushel") + "b",
-                        		castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("Coin") + "\n",
-                        "&" + castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("Pure") + "a",
-                        		castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("Corrupt") + "b",
-                        		castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("Ultra") + "c",
-                        		castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("Brace") + "d",
-                        		castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("Velocity") + "e",
-                        		castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("Sub") + "f",
-                        		castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("Intimidate") + "g",
-                        		castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("Blind") + "\n");
+                        		castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("kakkoiichris.nazonoshiro.item.Coin") + "\n",
+                        "&" + castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("kakkoiichris.nazonoshiro.item.kasugi.Pure") + "a",
+                        		castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("kakkoiichris.nazonoshiro.item.kasugi.Corrupt") + "b",
+                        		castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("kakkoiichris.nazonoshiro.item.kasugi.Ultra") + "c",
+                        		castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("kakkoiichris.nazonoshiro.item.kasugi.Brace") + "d",
+                        		castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("kakkoiichris.nazonoshiro.item.kasugi.Velocity") + "e",
+                        		castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("kakkoiichris.nazonoshiro.item.kasugi.Sub") + "f",
+                        		castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("kakkoiichris.nazonoshiro.item.kasugi.Intimidate") + "g",
+                        		castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("kakkoiichris.nazonoshiro.item.kasugi.Blind") + "\n");
                   }
                }
             }
@@ -69,35 +73,35 @@
          x.format("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
                         "S" + F + R + C + ":" + self.getName() + "," + self.getGender() + "," + self.getDoB() + "\n",
                         "P" + self.getAtk() + "," + self.getDef() + "," + self.getSpd() + "," + self.getHP() + "\n",
-                        "!" + self.getCount("Tanto") + "a",
-                        		self.getCount("Wakizashi") + "b",
-                        		self.getCount("Katana") + "c",
-                        		self.getCount("Bo Staff") + "d",
-                        		self.getCount("Shuriken") + "e",
-                              self.getCount("Nunchaku") + "\n",
+                        "!" + self.getCount("kakkoiichris.nazonoshiro.item.weapon.Tanto") + "a",
+                        		self.getCount("kakkoiichris.nazonoshiro.item.weapon.Wakizashi") + "b",
+                        		self.getCount("kakkoiichris.nazonoshiro.item.weapon.Katana") + "c",
+                        		self.getCount("kakkoiichris.nazonoshiro.item.weapon.Bo Staff") + "d",
+                        		self.getCount("kakkoiichris.nazonoshiro.item.weapon.Shuriken") + "e",
+                              self.getCount("kakkoiichris.nazonoshiro.item.weapon.Nunchaku") + "\n",
                         "*" + self.getCount("Herb") + "a",
                         		self.getCount("Bushel") + "b",
-                        		self.getCount("Coin") + "\n",
-                        "&" + self.getCountB("Pure") + "a",
-                        		self.getCountB("Corrupt") + "b",
-                        		self.getCountB("Ultra") + "c",
-                        		self.getCountB("Brace") + "d",
-                        		self.getCountB("Velocity") + "e",
-                        		self.getCountB("Sub") + "f",
-                        		self.getCountB("Intimidate") + "g",
-                        		self.getCountB("Blind") + "\n");   	
+                        		self.getCount("kakkoiichris.nazonoshiro.item.Coin") + "\n",
+                        "&" + self.getCountB("kakkoiichris.nazonoshiro.item.kasugi.Pure") + "a",
+                        		self.getCountB("kakkoiichris.nazonoshiro.item.kasugi.Corrupt") + "b",
+                        		self.getCountB("kakkoiichris.nazonoshiro.item.kasugi.Ultra") + "c",
+                        		self.getCountB("kakkoiichris.nazonoshiro.item.kasugi.Brace") + "d",
+                        		self.getCountB("kakkoiichris.nazonoshiro.item.kasugi.Velocity") + "e",
+                        		self.getCountB("kakkoiichris.nazonoshiro.item.kasugi.Sub") + "f",
+                        		self.getCountB("kakkoiichris.nazonoshiro.item.kasugi.Intimidate") + "g",
+                        		self.getCountB("kakkoiichris.nazonoshiro.item.kasugi.Blind") + "\n");
       						
-         for(int i=0; i<self.effectives.size(); i++)
+         for(int i = 0; i< self.getEffectives().size(); i++)
          {
-            if(self.effectives.size() > 0)
-               x.format("%s", "e" + self.effectives.get(i).getName() + ":" + self.effectives.get(i).getTimer() + "\n");
+            if(self.getEffectives().size() > 0)
+               x.format("%s", "e" + self.getEffectives().get(i).getName() + ":" + self.getEffectives().get(i).getTimer() + "\n");
          }
          
          x.format("%s", "k");
          
-         for(int i=0; i<self.keys.size(); i++)
+         for(int i = 0; i< self.getKeys().size(); i++)
          {
-            x.format("%s", self.keys.get(i) + ",");
+            x.format("%s", self.getKeys().get(i) + ",");
          }
          
          x.format("%s", "\n");
@@ -107,28 +111,28 @@
             x.format("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
                         "S" + F + R + C + ":" + guards[g].getName() + "\n",
                         "P" + guards[g].getAtk() + "," + guards[g].getDef() + "," + guards[g].getSpd() + "," + guards[g].getHP() + "\n",
-                        "!" + guards[g].getCount("Tanto") + "a",
-                        		guards[g].getCount("Wakizashi") + "b",
-                        		guards[g].getCount("Katana") + "c",
-                        		guards[g].getCount("Bo Staff") + "d",
-                        		guards[g].getCount("Shuriken") + "e",
-                              guards[g].getCount("Nunchaku") + "\n",
+                        "!" + guards[g].getCount("kakkoiichris.nazonoshiro.item.weapon.Tanto") + "a",
+                        		guards[g].getCount("kakkoiichris.nazonoshiro.item.weapon.Wakizashi") + "b",
+                        		guards[g].getCount("kakkoiichris.nazonoshiro.item.weapon.Katana") + "c",
+                        		guards[g].getCount("kakkoiichris.nazonoshiro.item.weapon.Bo Staff") + "d",
+                        		guards[g].getCount("kakkoiichris.nazonoshiro.item.weapon.Shuriken") + "e",
+                              guards[g].getCount("kakkoiichris.nazonoshiro.item.weapon.Nunchaku") + "\n",
                         "*" + guards[g].getCount("Herb") + "a",
                         		guards[g].getCount("Bushel") + "b",
-                        		guards[g].getCount("Coin") + "\n",
-                        "&" + guards[g].getCountB("Pure") + "a",
-                        		guards[g].getCountB("Corrupt") + "b",
-                        		guards[g].getCountB("Ultra") + "c",
-                        		guards[g].getCountB("Brace") + "d",
-                        		guards[g].getCountB("Velocity") + "e",
-                        		guards[g].getCountB("Sub") + "f",
-                        		guards[g].getCountB("Intimidate") + "g",
-                        		guards[g].getCountB("Blind") + "\n");
+                        		guards[g].getCount("kakkoiichris.nazonoshiro.item.Coin") + "\n",
+                        "&" + guards[g].getCountB("kakkoiichris.nazonoshiro.item.kasugi.Pure") + "a",
+                        		guards[g].getCountB("kakkoiichris.nazonoshiro.item.kasugi.Corrupt") + "b",
+                        		guards[g].getCountB("kakkoiichris.nazonoshiro.item.kasugi.Ultra") + "c",
+                        		guards[g].getCountB("kakkoiichris.nazonoshiro.item.kasugi.Brace") + "d",
+                        		guards[g].getCountB("kakkoiichris.nazonoshiro.item.kasugi.Velocity") + "e",
+                        		guards[g].getCountB("kakkoiichris.nazonoshiro.item.kasugi.Sub") + "f",
+                        		guards[g].getCountB("kakkoiichris.nazonoshiro.item.kasugi.Intimidate") + "g",
+                        		guards[g].getCountB("kakkoiichris.nazonoshiro.item.kasugi.Blind") + "\n");
                			
-            for(int i=0; i<guards[g].effectives.size(); i++)
+            for(int i = 0; i< guards[g].getEffectives().size(); i++)
             {
-               if(guards[g].effectives.size() > 0)
-                  x.format("%s", "e" + guards[g].effectives.get(i).getName() + ":" + guards[g].effectives.get(i).getTimer() + "\n");
+               if(guards[g].getEffectives().size() > 0)
+                  x.format("%s", "e" + guards[g].getEffectives().get(i).getName() + ":" + guards[g].getEffectives().get(i).getTimer() + "\n");
             }
          }
       }

@@ -1,5 +1,15 @@
  //Christian Alexander, 5/12/11, Pd. 6
 
+import kakkoiichris.nazonoshiro.castle.CastleFloor;
+import kakkoiichris.nazonoshiro.castle.OriginalCastle;
+import kakkoiichris.nazonoshiro.castle.Room;
+import kakkoiichris.nazonoshiro.castle.puzzle.IroIro;
+import kakkoiichris.nazonoshiro.fighter.*;
+import kakkoiichris.nazonoshiro.item.Coin;
+import kakkoiichris.nazonoshiro.item.HealthPack;
+import kakkoiichris.nazonoshiro.item.Item;
+import kakkoiichris.nazonoshiro.item.weapon.*;
+
 import java.io.*;
 import java.util.*;
 import javax.swing.JFrame;
@@ -19,7 +29,7 @@ public class nazoNoShiroDriver
    				 wCount = 0,
    					size = 0; //used when reading in '.txt' files
 							
-   public static IroIro iroiro = new IroIro();  
+   public static IroIro iroiro = new IroIro();
 	
    public static SaveFileCreator saver = new SaveFileCreator();
 	
@@ -89,9 +99,9 @@ public class nazoNoShiroDriver
    
       distributeAllItems();
       
-      self.keys.add(0);
-      self.inventory.add(new Katana());
-      self.inventory.add(new Tanto());
+      self.getKeys().add(0);
+      self.getInventory().add(new Katana());
+      self.getInventory().add(new Tanto());
       
       guards[0] = new Ninja();
       guards[1] = new Samurai();
@@ -125,7 +135,7 @@ public class nazoNoShiroDriver
       // while(!lines[data].startsWith("#"))
       // {
          // if(lines[data].equals("Original Castle"))
-            // Castle.add(new OriginalCastle());
+            // Castle.add(new kakkoiichris.nazonoshiro.castle.OriginalCastle());
          // data++;
       // }
    //    
@@ -140,60 +150,60 @@ public class nazoNoShiroDriver
          // int p = stringToInt(lines[data].substring(0, lines[data].indexOf(",")));
          // int k = stringToInt(lines[data].substring(lines[data].indexOf(",")+1, lines[data].indexOf("'")));
          // int l = stringToInt(lines[data].substring(lines[data].indexOf("'")+1));
-         // Castle.get(f).floorPlan[r][c] = new Room(name, p, k, l);
+         // Castle.get(f).floorPlan[r][c] = new kakkoiichris.nazonoshiro.castle.Room(name, p, k, l);
          // data++;
          // while(!lines[data].startsWith("#") && !lines[data].startsWith("S"))
          // {
             // char d = lines[data].charAt(lines[data].indexOf('|')+1);
             // String name2 = lines[data].substring(lines[data].indexOf(':')+1);
-            // Castle.get(f).floorPlan[r][c].walls.add(new Wall(r, c, d, name2));
+            // Castle.get(f).floorPlan[r][c].walls.add(new kakkoiichris.nazonoshiro.castle.Wall(r, c, d, name2));
             // data++;
          //    
             // for(int u=0; u<stringToInt(lines[data].substring(lines[data].indexOf('!')+1, lines[data].indexOf('a'))); u++)
             // {
-               // Castle.get(f).floorPlan[r][c].walls.get(0).getStorage().addToStored(new Tanto());
+               // Castle.get(f).floorPlan[r][c].walls.get(0).getStorage().addToStored(new kakkoiichris.nazonoshiro.item.weapon.Tanto());
             // }
          //    
             // for(int v=0; v<stringToInt(lines[data].substring(lines[data].indexOf('a')+1, lines[data].indexOf('b'))); v++)
             // {
-               // Castle.get(f).floorPlan[r][c].walls.get(0).getStorage().addToStored(new Wakizashi());
+               // Castle.get(f).floorPlan[r][c].walls.get(0).getStorage().addToStored(new kakkoiichris.nazonoshiro.item.weapon.Wakizashi());
             // }
          //    
             // for(int w=0; w<stringToInt(lines[data].substring(lines[data].indexOf('b')+1, lines[data].indexOf('c'))); w++)
             // {
-               // Castle.get(f).floorPlan[r][c].walls.get(0).getStorage().addToStored(new Katana());
+               // Castle.get(f).floorPlan[r][c].walls.get(0).getStorage().addToStored(new kakkoiichris.nazonoshiro.item.weapon.Katana());
             // }
          //    
             // for(int x=0; x<stringToInt(lines[data].substring(lines[data].indexOf('c')+1, lines[data].indexOf('d'))); x++)
             // {
-               // Castle.get(f).floorPlan[r][c].walls.get(0).getStorage().addToStored(new Bo());
+               // Castle.get(f).floorPlan[r][c].walls.get(0).getStorage().addToStored(new kakkoiichris.nazonoshiro.item.weapon.Bo());
             // }
          //    
             // for(int y=0; y<stringToInt(lines[data].substring(lines[data].indexOf('d')+1, lines[data].indexOf('e'))); y++)
             // {
-               // Castle.get(f).floorPlan[r][c].walls.get(0).getStorage().addToStored(new Shuriken());
+               // Castle.get(f).floorPlan[r][c].walls.get(0).getStorage().addToStored(new kakkoiichris.nazonoshiro.item.weapon.Shuriken());
             // }
          //    
             // for(int z=0; z<stringToInt(lines[data].substring(lines[data].indexOf('e')+1)); z++)
             // {
-               // Castle.get(f).floorPlan[r][c].walls.get(0).getStorage().addToStored(new Nunchaku());
+               // Castle.get(f).floorPlan[r][c].walls.get(0).getStorage().addToStored(new kakkoiichris.nazonoshiro.item.weapon.Nunchaku());
             // }
          //    
             // data++;
          // 	
             // for(int x=0; x<stringToInt(lines[data].substring(lines[data].indexOf('*')+1, lines[data].indexOf('a'))); x++)
             // {
-               // Castle.get(f).floorPlan[r][c].walls.get(0).getStorage().addToStored(new HealthPack("Herb", 3));
+               // Castle.get(f).floorPlan[r][c].walls.get(0).getStorage().addToStored(new kakkoiichris.nazonoshiro.item.HealthPack("Herb", 3));
             // }
          //    
             // for(int y=0; y<stringToInt(lines[data].substring(lines[data].indexOf('a')+1, lines[data].indexOf('b'))); y++)
             // {
-               // Castle.get(f).floorPlan[r][c].walls.get(0).getStorage().addToStored(new HealthPack("Bushel", 5));
+               // Castle.get(f).floorPlan[r][c].walls.get(0).getStorage().addToStored(new kakkoiichris.nazonoshiro.item.HealthPack("Bushel", 5));
             // }
          //    
             // for(int z=0; z<stringToInt(lines[data].substring(lines[data].indexOf('b')+1)); z++)
             // {
-               // Castle.get(f).floorPlan[r][c].walls.get(0).getStorage().addToStored(new Coin());
+               // Castle.get(f).floorPlan[r][c].walls.get(0).getStorage().addToStored(new kakkoiichris.nazonoshiro.item.Coin());
             // }
          //    
             // data +=2;
@@ -202,11 +212,11 @@ public class nazoNoShiroDriver
          // }
       // }
    //    
-      // guards[0] = new Ninja();
-      // guards[1] = new Samurai();
-      // guards[2] = new Daimyo();
-      // guards[3] = new Shogun();
-      // guards[4] = new Imperial();
+      // guards[0] = new kakkoiichris.nazonoshiro.fighter.Ninja();
+      // guards[1] = new kakkoiichris.nazonoshiro.fighter.Samurai();
+      // guards[2] = new kakkoiichris.nazonoshiro.fighter.Daimyo();
+      // guards[3] = new kakkoiichris.nazonoshiro.fighter.Shogun();
+      // guards[4] = new kakkoiichris.nazonoshiro.fighter.Imperial();
    }
    
    public static int stringToInt(String a)
@@ -219,24 +229,24 @@ public class nazoNoShiroDriver
 	
    public static void mainMenu() throws IOException
    {
-      size = getFileSize("src/mainMenu1.txt");
+      size = getFileSize("res/txt/mainMenu1.txt");
       String[] lines = new String[size];
-      readFile(lines, "src/mainMenu1.txt");
+      readFile(lines, "res/txt/mainMenu1.txt");
       for(int i=0; i<size; i++)
       {
          System.out.println(lines[i]);
       }
       System.out.println();
       
-      size = getFileSize("src/splashText.txt");
+      size = getFileSize("res/txt/splashText.txt");
       lines = new String[size];
-      readFile(lines, "src/splashText.txt");
+      readFile(lines, "res/txt/splashText.txt");
             
       System.out.println(lines[(int)(Math.random()*lines.length)].toUpperCase());
       
-      size = getFileSize("src/mainMenu2.txt");
+      size = getFileSize("res/txt/mainMenu2.txt");
       lines = new String[size];
-      readFile(lines, "src/mainMenu2.txt");
+      readFile(lines, "res/txt/mainMenu2.txt");
       for(int i=0; i<size; i++)
       {
          System.out.println(lines[i]);
@@ -284,9 +294,9 @@ public class nazoNoShiroDriver
    
    public static void credits() throws IOException
    {
-      size = getFileSize("src/credits.txt");
+      size = getFileSize("res/txt/credits.txt");
       String[] a = new String[size];
-      readFile(a, "src/credits.txt");
+      readFile(a, "res/txt/credits.txt");
       for(int i=0; i<size; i++)
       {
          System.out.println(a[i]);
@@ -300,9 +310,9 @@ public class nazoNoShiroDriver
       System.out.println("                    [XXXXX{================>");
       System.out.println();
       
-      size = getFileSize("src/first1-2-A.txt");
+      size = getFileSize("res/txt/first1-2-A.txt");
       String[] lines1 = new String[size];
-      readFile(lines1, "src/first1-2-A.txt");
+      readFile(lines1, "res/txt/first1-2-A.txt");
       
       for(int i=0; i<5; i++)
       {
@@ -367,9 +377,9 @@ public class nazoNoShiroDriver
       else
          System.out.print("[Salesperson]: Alright, ma'am! ");
    		
-      size = getFileSize("src/first1-2-B.txt");
+      size = getFileSize("res/txt/first1-2-B.txt");
       String[] lines2 = new String[size];
-      readFile(lines2, "src/first1-2-B.txt");
+      readFile(lines2, "res/txt/first1-2-B.txt");
       
       for(int i=0; i<2; i++)
       {
@@ -476,7 +486,7 @@ public class nazoNoShiroDriver
             System.out.println("You were victorious!");
             System.out.println();
             guards[a].dropItem(self);
-            self.keys.add(r.getKey());
+            self.getKeys().add(r.getKey());
             r.setKey(99);
             storeState();
          }
@@ -501,7 +511,7 @@ public class nazoNoShiroDriver
          }
          System.out.println();
          
-         if(choice.equals("play puzzle") || choice.equals("play") || choice.equals("solve puzzle") || choice.equals("solve") && Castle.get(F).puzzles[R][C].getWon() == false)
+         if(choice.equals("play puzzle") || choice.equals("play") || choice.equals("solve puzzle") || choice.equals("solve") && Castle.get(F).getPuzzles()[R][C].getWon() == false)
             Castle.get(F).playPuzzle(R, C);
          else
             if(choice.equals("show inventory") || choice.equals("inventory") || choice.equals("view inventory") || choice.equals("e"))
@@ -518,7 +528,7 @@ public class nazoNoShiroDriver
                         dir = r.getWall(i).getSide();
                      }
                   }
-                  r.look(self, self.inventory, dir);
+                  r.look(self, self.getInventory(), dir);
                }
                else
                   if(choice.startsWith("go"))
@@ -596,7 +606,7 @@ public class nazoNoShiroDriver
                             
          if(choice.equals("play puzzle") || choice.equals("play") || choice.equals("solve puzzle") || choice.equals("solve") || choice.equals("skip") && Castle.get(F).getRoom(R, C).getKey() != 99)
          {
-            self.keys.add(r.getKey());
+            self.getKeys().add(r.getKey());
             r.setKey(99);
             storeState();  
          }
@@ -619,39 +629,39 @@ public class nazoNoShiroDriver
 
    public static void fight(Fighter enemy) throws IOException
    {
-      size = getFileSize("src/directHit.txt");
+      size = getFileSize("res/txt/directHit.txt");
       String[] list = new String[size];
       
-      readFile(list, "src/directHit.txt");
+      readFile(list, "res/txt/directHit.txt");
          
-      size = getFileSize("src/indirectHit.txt");
+      size = getFileSize("res/txt/indirectHit.txt");
       String[] list2 = new String[size];
       
-      readFile(list2, "src/indirectHit.txt");
+      readFile(list2, "res/txt/indirectHit.txt");
          
-      size = getFileSize("src/missHit.txt");
+      size = getFileSize("res/txt/missHit.txt");
       String[] list3 = new String[size];
       
-      readFile(list3, "src/missHit.txt");
+      readFile(list3, "res/txt/missHit.txt");
       
-      size = getFileSize("src/directBlock.txt");
+      size = getFileSize("res/txt/directBlock.txt");
       String[] list4 = new String[size];
       
-      readFile(list4, "src/directBlock.txt");
+      readFile(list4, "res/txt/directBlock.txt");
          
-      size = getFileSize("src/indirectBlock.txt");
+      size = getFileSize("res/txt/indirectBlock.txt");
       String[] list5 = new String[size];
       
-      readFile(list5, "src/indirectBlock.txt");
+      readFile(list5, "res/txt/indirectBlock.txt");
          
-      size = getFileSize("src/missBlock.txt");
+      size = getFileSize("res/txt/missBlock.txt");
       String[] list6 = new String[size];
       
-      readFile(list6, "src/missBlock.txt");
+      readFile(list6, "res/txt/missBlock.txt");
       
       while(self.isDead() == false && enemy.isDead() == false)
       {
-         if(enemy.getName().equals("Imperial Guard"))
+         if(enemy.getName().equals("kakkoiichris.nazonoshiro.fighter.Imperial Guard"))
             System.out.println("An "+enemy+" stands before you.");
          else
             System.out.println("A "+enemy+" stands before you.");
@@ -862,18 +872,18 @@ public class nazoNoShiroDriver
    {
       int w=0, h=0, b=0, c=0, n=0;
       
-      for(int i=0; i<self.inventory.size(); i++)
+      for(int i = 0; i< self.getInventory().size(); i++)
       {
-         if(self.inventory.get(i).getName().equals("herb"))
+         if(self.getInventory().get(i).getName().equals("herb"))
             h++;
          else
-            if(self.inventory.get(i).getName().equals("herb bushel"))
+            if(self.getInventory().get(i).getName().equals("herb bushel"))
                b++;
             else
-               if(self.inventory.get(i).getName().equals("coin"))
+               if(self.getInventory().get(i).getName().equals("coin"))
                   c++;
                else
-                  if(self.inventory.get(i).getName().equals("note"))
+                  if(self.getInventory().get(i).getName().equals("note"))
                      n++;
                   else
                      w++;
@@ -952,12 +962,12 @@ public class nazoNoShiroDriver
             System.out.println();
          }
          
-         for(int i=0; i<self.inventory.size(); i++)
+         for(int i = 0; i< self.getInventory().size(); i++)
          {
-            if((self.inventory.get(i).getName()).equals(selection))
+            if((self.getInventory().get(i).getName()).equals(selection))
             {
-               self.inventory.get(i).use(self, self.inventory.get(i).getValue());
-               self.inventory.remove(i);
+               self.getInventory().get(i).use(self, self.getInventory().get(i).getValue());
+               self.getInventory().remove(i);
                if(selection.startsWith("h"))
                   h--;
                else
@@ -978,22 +988,22 @@ public class nazoNoShiroDriver
       F1 = F;
       ran1 = ran;
    	
-      for(int i=0; i<self.keys1.size(); i++)
+      for(int i = 0; i< self.getKeys1().size(); i++)
       {
-         self.keys1.remove(i);
+         self.getKeys1().remove(i);
       }
-      for(int i=0; i<self.keys.size(); i++)
+      for(int i = 0; i< self.getKeys().size(); i++)
       {
-         self.keys1.add(self.keys.get(i));
+         self.getKeys1().add(self.getKeys().get(i));
       }
       
-      for(int i=0; i<self.inventory1.size(); i++)
+      for(int i = 0; i< self.getInventory1().size(); i++)
       {
-         self.inventory1.remove(i);
+         self.getInventory1().remove(i);
       }
-      for(int i=0; i<self.inventory.size(); i++)
+      for(int i = 0; i< self.getInventory().size(); i++)
       {
-         self.inventory1.add(self.inventory.get(i));
+         self.getInventory1().add(self.getInventory().get(i));
       }
       
       for(int i=0; i<guards.length; i++)
@@ -1007,7 +1017,7 @@ public class nazoNoShiroDriver
          {
             for(int j=0; j<Castle.get(h).getYSize(); j++)
             {
-               Castle.get(h).puzzles[i][j].storeState();
+               Castle.get(h).getPuzzles()[i][j].storeState();
                Castle.get(h).getRoom(i, j).storeState();
             }
          }
@@ -1022,24 +1032,24 @@ public class nazoNoShiroDriver
       F = F1;
       ran = ran1;
       
-      for(int i=0; i<self.keys1.size(); i++)
+      for(int i = 0; i< self.getKeys1().size(); i++)
       {
-         if(self.keys.get(i) == null)
-            self.keys.add(self.keys1.get(i));
+         if(self.getKeys().get(i) == null)
+            self.getKeys().add(self.getKeys1().get(i));
             
          else
-            if(self.keys.get(i) != self.keys1.get(i))
-               self.keys.add(i, self.keys1.get(i));
+            if(self.getKeys().get(i) != self.getKeys1().get(i))
+               self.getKeys().add(i, self.getKeys1().get(i));
       }
       
-      for(int i=0; i<self.inventory1.size(); i++)
+      for(int i = 0; i< self.getInventory1().size(); i++)
       {
-         if(self.inventory.get(i) == null)
-            self.inventory.add(self.inventory1.get(i));
+         if(self.getInventory().get(i) == null)
+            self.getInventory().add(self.getInventory1().get(i));
             
          else
-            if(self.inventory.get(i) != self.inventory1.get(i))
-               self.inventory.add(i, self.inventory1.get(i));
+            if(self.getInventory().get(i) != self.getInventory1().get(i))
+               self.getInventory().add(i, self.getInventory1().get(i));
       }
       
       for(int i=0; i<guards.length; i++)
@@ -1053,7 +1063,7 @@ public class nazoNoShiroDriver
          {
             for(int j=0; j<Castle.get(h).getYSize(); j++)
             {
-               Castle.get(h).puzzles[i][j].resetState();
+               Castle.get(h).getPuzzles()[i][j].resetState();
                Castle.get(h).getRoom(i, j).resetState();
             }
          }
@@ -1064,9 +1074,9 @@ public class nazoNoShiroDriver
    {
       try
       {
-         size = getFileSize("src/endGame.txt");
+         size = getFileSize("res/txt/endGame.txt");
          String[] a = new String[size];
-         readFile(a, "src/endGame.txt");
+         readFile(a, "res/txt/endGame.txt");
          for(int i=0; i<size; i++)
          {
             System.out.println(a[i]);
@@ -1082,7 +1092,7 @@ public class nazoNoShiroDriver
    {
       for(int i=0; i<Castle.get(F).getRoom(R, C).getSize(); i++)
       {
-         if(Castle.get(F).getRoom(R, C).walls.get(i).getSide() == w)
+         if(Castle.get(F).getRoom(R, C).getWalls().get(i).getSide() == w)
             return true;
       }
       return false;
@@ -1144,7 +1154,7 @@ public class nazoNoShiroDriver
    public static int north(int R, int C)
    {   
       count = 0;
-      for(int i=0; i<self.keys.size(); i++)
+      for(int i = 0; i< self.getKeys().size(); i++)
       {
          if(hasWall('N') == true || northernMost() == true)
          {
@@ -1163,7 +1173,7 @@ public class nazoNoShiroDriver
                break;
             }
             else
-               if(self.keys.get(i).equals(Castle.get(F).getRoom(R-1, C).getLock()))
+               if(self.getKeys().get(i).equals(Castle.get(F).getRoom(R-1, C).getLock()))
                {
                   System.out.println("The door is unlocked.");
                   System.out.println();
@@ -1173,7 +1183,7 @@ public class nazoNoShiroDriver
                else
                {
                   count++;
-                  if(count == self.keys.size())
+                  if(count == self.getKeys().size())
                   {
                      System.out.println("None of the keys you have fit that lock.");
                      System.out.println();
@@ -1187,7 +1197,7 @@ public class nazoNoShiroDriver
    public static int south(int R, int C)
    {  
       count = 0; 
-      for(int i=0; i<self.keys.size(); i++)
+      for(int i = 0; i< self.getKeys().size(); i++)
       {
          if(hasWall('S') == true || southernMost() == true)
          {
@@ -1202,7 +1212,7 @@ public class nazoNoShiroDriver
                break;
             }
             else
-               if(self.keys.get(i).equals(Castle.get(F).getRoom(R+1, C).getLock()))
+               if(self.getKeys().get(i).equals(Castle.get(F).getRoom(R+1, C).getLock()))
                {
                   System.out.println("The door is unlocked.");
                   System.out.println();
@@ -1212,7 +1222,7 @@ public class nazoNoShiroDriver
                else
                {
                   count++;
-                  if(count == self.keys.size())
+                  if(count == self.getKeys().size())
                   {
                      System.out.println("None of the keys you have fit that lock.");
                      System.out.println();
@@ -1226,7 +1236,7 @@ public class nazoNoShiroDriver
    public static int east(int R, int C)
    {   
       count = 0;
-      for(int i=0; i<self.keys.size(); i++)
+      for(int i = 0; i< self.getKeys().size(); i++)
       {
          if(hasWall('E') == true || easternMost() == true)
          {
@@ -1241,7 +1251,7 @@ public class nazoNoShiroDriver
                break;
             }
             else
-               if(self.keys.get(i).equals(Castle.get(F).getRoom(R, C+1).getLock()))
+               if(self.getKeys().get(i).equals(Castle.get(F).getRoom(R, C+1).getLock()))
                {
                   System.out.println("The door is unlocked.");
                   System.out.println();
@@ -1251,7 +1261,7 @@ public class nazoNoShiroDriver
                else
                {
                   count++;
-                  if(count == self.keys.size())
+                  if(count == self.getKeys().size())
                   {
                      System.out.println("None of the keys you have fit that lock.");
                      System.out.println();
@@ -1265,7 +1275,7 @@ public class nazoNoShiroDriver
    public static int west(int R, int C)
    {   
       count = 0;
-      for(int i=0; i<self.keys.size(); i++)
+      for(int i = 0; i< self.getKeys().size(); i++)
       {
          if(hasWall('W') == true || westernMost() == true)
          {
@@ -1280,7 +1290,7 @@ public class nazoNoShiroDriver
                break;
             }
             else
-               if(self.keys.get(i).equals(Castle.get(F).getRoom(R, C-1).getLock()))
+               if(self.getKeys().get(i).equals(Castle.get(F).getRoom(R, C-1).getLock()))
                {
                   System.out.println("The door is unlocked.");
                   System.out.println();
@@ -1291,7 +1301,7 @@ public class nazoNoShiroDriver
                else
                {
                   count++;
-                  if(count == self.keys.size())
+                  if(count == self.getKeys().size())
                   {
                      System.out.println("None of the keys you have fit that lock.");
                      System.out.println();
