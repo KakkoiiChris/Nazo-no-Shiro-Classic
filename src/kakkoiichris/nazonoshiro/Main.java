@@ -495,7 +495,7 @@ public class Main {
             
             System.out.println();
             
-            if (choice.equals("play puzzle") || choice.equals("play") || choice.equals("solve puzzle") || choice.equals("solve") && !floors.get(floor).getPuzzles()[row][column].getWon()) {
+            if (choice.equals("play puzzle") || choice.equals("play") || choice.equals("solve puzzle") || choice.equals("solve") && !floors.get(floor).getPuzzles()[row][column].isWon()) {
                 floors.get(floor).playPuzzle(row, column);
             }
             else if (choice.equals("show inventory") || choice.equals("inventory") || choice.equals("view inventory") || choice.equals("e")) {

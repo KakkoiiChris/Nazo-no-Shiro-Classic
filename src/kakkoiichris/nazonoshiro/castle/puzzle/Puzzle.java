@@ -1,14 +1,14 @@
 package kakkoiichris.nazonoshiro.castle.puzzle;//Christian Alexander, 5/12/11, Pd. 6
 
 public abstract class Puzzle {
-    private String name;
-    protected boolean won = false, won1 = false;
+    private final String name;
+    protected boolean won = false, wonLast = false;
     
-    public Puzzle(String n) {
-        name = n;
+    public Puzzle(String name) {
+        this.name = name;
     }
     
-    public boolean getWon() {
+    public boolean isWon() {
         return won;
     }
     
@@ -17,20 +17,22 @@ public abstract class Puzzle {
     }
     
     public void storeState() {
-        won1 = won;
+        wonLast = won;
     }
     
     public void resetState() {
-        won = won1;
+        won = wonLast;
     }
     
     public void victory() {
-        System.out.println("You won!");
-        System.out.println();
-        System.out.println("You have earned a key.");
-        System.out.println();
-        System.out.println("Now to figure out which door it unlocks...");
-        System.out.println();
+        System.out.println("""
+            You won!
+            
+            You have earned a key.
+            
+            Now to figure out which door it unlocks...
+            """.stripIndent());
+        
         won = true;
     }
     

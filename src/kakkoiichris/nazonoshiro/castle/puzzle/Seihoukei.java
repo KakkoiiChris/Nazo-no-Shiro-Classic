@@ -6,8 +6,7 @@ public class Seihoukei extends Puzzle {
     public char[][] board = new char[6][6];
     public char[][] key = new char[6][6];
     public int r, c, t;
-    public String choice = new String();
-    ;
+    public String choice = "";
     public char temp;
     public Scanner input = new Scanner(System.in);
     
@@ -82,7 +81,7 @@ public class Seihoukei extends Puzzle {
         int k = (int) (Math.random() * 20);
         
         switch (k) {
-            case 0:
+            case 0 -> {
                 key[0][0] = '#';
                 key[0][5] = '#';
                 key[1][1] = '#';
@@ -95,8 +94,8 @@ public class Seihoukei extends Puzzle {
                 key[4][1] = '#';
                 key[5][5] = '#';
                 key[5][0] = '#';
-                break;
-            case 1:
+            }
+            case 1 -> {
                 key[0][0] = '#';
                 key[0][4] = '#';
                 key[0][5] = '#';
@@ -109,8 +108,8 @@ public class Seihoukei extends Puzzle {
                 key[5][0] = '#';
                 key[5][1] = '#';
                 key[5][5] = '#';
-                break;
-            case 2:
+            }
+            case 2 -> {
                 key[0][0] = '#';
                 key[0][1] = '#';
                 key[1][0] = '#';
@@ -123,8 +122,8 @@ public class Seihoukei extends Puzzle {
                 key[4][5] = '#';
                 key[5][4] = '#';
                 key[5][5] = '#';
-                break;
-            case 3:
+            }
+            case 3 -> {
                 key[0][0] = '#';
                 key[0][5] = '#';
                 key[1][2] = '#';
@@ -137,8 +136,8 @@ public class Seihoukei extends Puzzle {
                 key[4][3] = '#';
                 key[5][0] = '#';
                 key[5][5] = '#';
-                break;
-            case 4:
+            }
+            case 4 -> {
                 key[0][2] = '#';
                 key[0][3] = '#';
                 key[1][1] = '#';
@@ -151,8 +150,8 @@ public class Seihoukei extends Puzzle {
                 key[4][4] = '#';
                 key[5][2] = '#';
                 key[5][3] = '#';
-                break;
-            case 5:
+            }
+            case 5 -> {
                 key[0][0] = '#';
                 key[0][1] = '#';
                 key[1][4] = '#';
@@ -165,8 +164,8 @@ public class Seihoukei extends Puzzle {
                 key[4][1] = '#';
                 key[5][4] = '#';
                 key[5][5] = '#';
-                break;
-            case 6:
+            }
+            case 6 -> {
                 key[0][0] = '#';
                 key[0][5] = '#';
                 key[1][0] = '#';
@@ -179,8 +178,8 @@ public class Seihoukei extends Puzzle {
                 key[4][5] = '#';
                 key[5][0] = '#';
                 key[5][5] = '#';
-                break;
-            case 7:
+            }
+            case 7 -> {
                 key[1][0] = '#';
                 key[1][2] = '#';
                 key[1][3] = '#';
@@ -193,8 +192,8 @@ public class Seihoukei extends Puzzle {
                 key[4][2] = '#';
                 key[4][3] = '#';
                 key[4][5] = '#';
-                break;
-            case 8:
+            }
+            case 8 -> {
                 key[0][0] = '#';
                 key[0][4] = '#';
                 key[1][1] = '#';
@@ -207,8 +206,8 @@ public class Seihoukei extends Puzzle {
                 key[4][4] = '#';
                 key[5][1] = '#';
                 key[5][5] = '#';
-                break;
-            case 9:
+            }
+            case 9 -> {
                 key[0][0] = '#';
                 key[0][3] = '#';
                 key[0][5] = '#';
@@ -221,8 +220,8 @@ public class Seihoukei extends Puzzle {
                 key[5][0] = '#';
                 key[5][2] = '#';
                 key[5][5] = '#';
-                break;
-            case 10:
+            }
+            case 10 -> {
                 key[0][1] = '#';
                 key[0][5] = '#';
                 key[1][0] = '#';
@@ -235,8 +234,8 @@ public class Seihoukei extends Puzzle {
                 key[4][5] = '#';
                 key[5][0] = '#';
                 key[5][4] = '#';
-                break;
-            case 11:
+            }
+            case 11 -> {
                 key[0][1] = '#';
                 key[0][3] = '#';
                 key[1][5] = '#';
@@ -249,8 +248,8 @@ public class Seihoukei extends Puzzle {
                 key[4][0] = '#';
                 key[5][2] = '#';
                 key[5][4] = '#';
-                break;
-            case 12:
+            }
+            case 12 -> {
                 key[0][1] = '#';
                 key[0][4] = '#';
                 key[1][0] = '#';
@@ -263,8 +262,8 @@ public class Seihoukei extends Puzzle {
                 key[4][5] = '#';
                 key[5][1] = '#';
                 key[5][4] = '#';
-                break;
-            case 13:
+            }
+            case 13 -> {
                 key[0][1] = '#';
                 key[0][3] = '#';
                 key[1][0] = '#';
@@ -277,8 +276,8 @@ public class Seihoukei extends Puzzle {
                 key[4][5] = '#';
                 key[5][2] = '#';
                 key[5][4] = '#';
-                break;
-            case 14:
+            }
+            case 14 -> {
                 key[0][0] = '#';
                 key[0][3] = '#';
                 key[1][1] = '#';
@@ -291,8 +290,8 @@ public class Seihoukei extends Puzzle {
                 key[4][4] = '#';
                 key[5][2] = '#';
                 key[5][5] = '#';
-                break;
-            case 15:
+            }
+            case 15 -> {
                 key[0][0] = '#';
                 key[0][2] = '#';
                 key[0][5] = '#';
@@ -305,8 +304,8 @@ public class Seihoukei extends Puzzle {
                 key[5][0] = '#';
                 key[5][3] = '#';
                 key[5][5] = '#';
-                break;
-            case 16:
+            }
+            case 16 -> {
                 key[0][0] = '#';
                 key[0][3] = '#';
                 key[1][0] = '#';
@@ -319,8 +318,8 @@ public class Seihoukei extends Puzzle {
                 key[4][5] = '#';
                 key[5][2] = '#';
                 key[5][5] = '#';
-                break;
-            case 17:
+            }
+            case 17 -> {
                 key[0][0] = '#';
                 key[0][5] = '#';
                 key[1][2] = '#';
@@ -333,8 +332,8 @@ public class Seihoukei extends Puzzle {
                 key[4][3] = '#';
                 key[5][1] = '#';
                 key[5][4] = '#';
-                break;
-            case 18:
+            }
+            case 18 -> {
                 key[0][0] = '#';
                 key[0][2] = '#';
                 key[1][3] = '#';
@@ -347,8 +346,8 @@ public class Seihoukei extends Puzzle {
                 key[4][2] = '#';
                 key[5][3] = '#';
                 key[5][5] = '#';
-                break;
-            case 19:
+            }
+            case 19 -> {
                 key[0][0] = '#';
                 key[0][5] = '#';
                 key[1][1] = '#';
@@ -361,7 +360,7 @@ public class Seihoukei extends Puzzle {
                 key[4][5] = '#';
                 key[5][1] = '#';
                 key[5][4] = '#';
-                break;
+            }
         }
     }
     
@@ -373,9 +372,7 @@ public class Seihoukei extends Puzzle {
                     count++;
             }
         }
-        if (count == 36)
-            return true;
-        return false;
+        return count == 36;
     }
     
     public void play() {
@@ -385,7 +382,8 @@ public class Seihoukei extends Puzzle {
         setKey();
         System.out.println("Solve for this pattern:");
         System.out.println();
-        while (win() == false) {
+label:
+        while (!win()) {
             System.out.println("  [Solution]");
             show(key);
             System.out.println();
@@ -396,49 +394,50 @@ public class Seihoukei extends Puzzle {
             choice = input.next();
             choice = choice.toLowerCase();
             
-            if (choice.equals("up")) {
-                System.out.print("Column: ");
-                t = input.nextInt();
-                while (t > 5 || t < 0) {
-                    System.out.println("Invalid: enter again");
+            switch (choice) {
+                case "up":
                     System.out.print("Column: ");
                     t = input.nextInt();
-                }
-                shiftUp(t);
-            }
-            else if (choice.equals("down")) {
-                System.out.print("Column: ");
-                t = input.nextInt();
-                while (t > 5 || t < 0) {
-                    System.out.println("Invalid: enter again");
+                    while (t > 5 || t < 0) {
+                        System.out.println("Invalid: enter again");
+                        System.out.print("Column: ");
+                        t = input.nextInt();
+                    }
+                    shiftUp(t);
+                    break;
+                case "down":
                     System.out.print("Column: ");
                     t = input.nextInt();
-                }
-                shiftDown(t);
-            }
-            else if (choice.equals("left")) {
-                System.out.print("Row: ");
-                t = input.nextInt();
-                while (t > 5 || t < 0) {
-                    System.out.println("Invalid: enter again");
+                    while (t > 5 || t < 0) {
+                        System.out.println("Invalid: enter again");
+                        System.out.print("Column: ");
+                        t = input.nextInt();
+                    }
+                    shiftDown(t);
+                    break;
+                case "left":
                     System.out.print("Row: ");
                     t = input.nextInt();
-                }
-                shiftLeft(t);
-            }
-            else if (choice.equals("right")) {
-                System.out.print("Row: ");
-                t = input.nextInt();
-                while (t > 5 || t < 0) {
-                    System.out.println("Invalid: enter again");
+                    while (t > 5 || t < 0) {
+                        System.out.println("Invalid: enter again");
+                        System.out.print("Row: ");
+                        t = input.nextInt();
+                    }
+                    shiftLeft(t);
+                    break;
+                case "right":
                     System.out.print("Row: ");
                     t = input.nextInt();
-                }
-                shiftRight(t);
-            }
-            else {
-                System.out.println("Goodbye.");
-                break;
+                    while (t > 5 || t < 0) {
+                        System.out.println("Invalid: enter again");
+                        System.out.print("Row: ");
+                        t = input.nextInt();
+                    }
+                    shiftRight(t);
+                    break;
+                default:
+                    System.out.println("Goodbye.");
+                    break label;
             }
         }
         victory();

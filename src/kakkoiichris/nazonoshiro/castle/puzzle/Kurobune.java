@@ -9,19 +9,18 @@ public class Kurobune extends Puzzle {
     }
     
     public void play() {
-        Scanner input = new Scanner(System.in);
-        String again = "y";
-        int w = 0;
-        int l = 0;
-        int t = 0;
+        var input = new Scanner(System.in);
+        var again = "y";
+        var l = 0;
+        var t = 0;
         while (again.equals("y") || again.equals("Y")) {
             t = t + 1;
             System.out.println("  <[KUROBUNE]>  ");
             System.out.println();
-            int torpedoes = 20;
-            int hits = 0;
+            var torpedoes = 20;
+            var hits = 0;
             int row, column;
-            char[][] board = new char[8][8];
+            var board = new char[8][8];
             for (int r = 0; r < 8; r++) {
                 for (int c = 0; c < 8; c++) {
                     board[r][c] = '~';
@@ -71,54 +70,62 @@ public class Kurobune extends Puzzle {
                     System.out.println();
                 }
             }
-            if (hits == 4) {
-                w++;
-            }
-            else if (hits != 4) {
+            
+            if (hits != 4) {
                 System.out.println("You lose.");
                 l++;
             }
             
             if (l > 0) {
                 System.out.println("Try again? y/n");
+                
                 again = input.next();
+                
                 l = 0;
             }
             else {
                 victory();
+                
                 again = "n";
             }
+            
             System.out.println();
         }
     }
     
     public void show(char[][] board) {
-        System.out.println("   0 1 2 3 4 5 6 7");
-        System.out.println();
-        for (int r = 0; r < 8; r++) {
-            System.out.print(r + "  ");
-            for (int c = 0; c < 8; c++) {
-                if (board[r][c] == 'S')
+        System.out.println("   0 1 2 3 4 5 6 7\n");
+        
+        for (var r = 0; r < 8; r++) {
+            System.out.printf("%d  ", r);
+            
+            for (var c = 0; c < 8; c++) {
+                if (board[r][c] == 'S') {
                     System.out.print("~ ");
-                else
+                }
+                else {
                     System.out.print(board[r][c] + " ");
+                }
             }
+            
             System.out.println();
         }
     }
     
     public void setUp(char[][] board) {
         if (Math.random() > 0.5) {
-            int r = (int) (Math.random() * (7 - 0 + 1)) + 0;
-            int c = (int) (Math.random() * (4 - 0 + 1)) + 0;
-            for (int i = 0; i < 4; i++) {
+            var r = (int) (Math.random() * 8);
+            var c = (int) (Math.random() * 5);
+            
+            for (var i = 0; i < 4; i++) {
                 board[r][c + i] = 'S';
             }
         }
         else {
-            int r = (int) (Math.random() * (4 - 0 + 1)) + 0;
-            int c = (int) (Math.random() * (7 - 0 + 1)) + 0;
-            for (int i = 0; i < 4; i++) {
+            var r = (int) (Math.random() * 5);
+            var c = (int) (Math.random() * 8);
+            
+            for (var i = 0; i < 4; i++) {
                 board[r + i][c] = 'S';
             }
         }

@@ -3,8 +3,8 @@ package kakkoiichris.nazonoshiro.castle.puzzle;//Christian Alexander, 5/12/11, P
 import java.util.Scanner;
 
 public class Oboeru extends Puzzle {
-    public String[][] board = new String[5][6];
-    public String[][] key = new String[5][6];
+    public char[][] board = new char[5][6];
+    public char[][] key = new char[5][6];
     public int r, c, a, b, x, y, i, count = 0;
     public Scanner input = new Scanner(System.in);
     
@@ -13,195 +13,39 @@ public class Oboeru extends Puzzle {
     }
     
     public void setUp() {
-        for (int r = 0; r < 5; r++) {
-            for (int c = 0; c < 6; c++) {
-                board[r][c] = "~";
+        for (var r = 0; r < 5; r++) {
+            for (var c = 0; c < 6; c++) {
+                board[r][c] = '~';
+                key[r][c] = '~';
             }
         }
         
-        for (int r = 0; r < 5; r++) {
-            for (int c = 0; c < 6; c++) {
-                key[r][c] = "~";
+        for (var letter = 'A'; letter < 'O'; letter++) {
+            for (var i = 0; i < 2; i++) {
+                r = (int) (Math.random() * 5);
+                c = (int) (Math.random() * 6);
+                
+                if (key[r][c] == '~') {
+                    key[r][c] = letter;
+                    board[r][c] = letter;
+                }
+                else {
+                    i--;
+                }
             }
-        }
-        
-        for (int i = 0; i < 2; i++) {
-            r = (int) (Math.random() * 5);
-            c = (int) (Math.random() * 6);
-            
-            if (key[r][c].equals("~")) {
-                key[r][c] = "A";
-                board[r][c] = "A";
-            }
-            else
-                i--;
-        }
-        for (int i = 0; i < 2; i++) {
-            r = (int) (Math.random() * 5);
-            c = (int) (Math.random() * 6);
-            
-            if (key[r][c].equals("~")) {
-                key[r][c] = "B";
-                board[r][c] = "B";
-            }
-            else
-                i--;
-        }
-        for (int i = 0; i < 2; i++) {
-            r = (int) (Math.random() * 5);
-            c = (int) (Math.random() * 6);
-            
-            if (key[r][c].equals("~")) {
-                key[r][c] = "C";
-                board[r][c] = "C";
-            }
-            else
-                i--;
-        }
-        for (int i = 0; i < 2; i++) {
-            r = (int) (Math.random() * 5);
-            c = (int) (Math.random() * 6);
-            
-            if (key[r][c].equals("~")) {
-                key[r][c] = "D";
-                board[r][c] = "D";
-            }
-            else
-                i--;
-        }
-        for (int i = 0; i < 2; i++) {
-            r = (int) (Math.random() * 5);
-            c = (int) (Math.random() * 6);
-            
-            if (key[r][c].equals("~")) {
-                key[r][c] = "E";
-                board[r][c] = "E";
-            }
-            else
-                i--;
-        }
-        for (int i = 0; i < 2; i++) {
-            r = (int) (Math.random() * 5);
-            c = (int) (Math.random() * 6);
-            
-            if (key[r][c].equals("~")) {
-                key[r][c] = "F";
-                board[r][c] = "F";
-            }
-            else
-                i--;
-        }
-        for (int i = 0; i < 2; i++) {
-            r = (int) (Math.random() * 5);
-            c = (int) (Math.random() * 6);
-            
-            if (key[r][c].equals("~")) {
-                key[r][c] = "G";
-                board[r][c] = "G";
-            }
-            else
-                i--;
-        }
-        for (int i = 0; i < 2; i++) {
-            r = (int) (Math.random() * 5);
-            c = (int) (Math.random() * 6);
-            
-            if (key[r][c].equals("~")) {
-                key[r][c] = "H";
-                board[r][c] = "H";
-            }
-            else
-                i--;
-        }
-        for (int i = 0; i < 2; i++) {
-            r = (int) (Math.random() * 5);
-            c = (int) (Math.random() * 6);
-            
-            if (key[r][c].equals("~")) {
-                key[r][c] = "I";
-                board[r][c] = "I";
-            }
-            else
-                i--;
-        }
-        for (int i = 0; i < 2; i++) {
-            r = (int) (Math.random() * 5);
-            c = (int) (Math.random() * 6);
-            
-            if (key[r][c].equals("~")) {
-                key[r][c] = "J";
-                board[r][c] = "J";
-            }
-            else
-                i--;
-        }
-        for (int i = 0; i < 2; i++) {
-            r = (int) (Math.random() * 5);
-            c = (int) (Math.random() * 6);
-            
-            if (key[r][c].equals("~")) {
-                key[r][c] = "K";
-                board[r][c] = "K";
-            }
-            else
-                i--;
-        }
-        for (int i = 0; i < 2; i++) {
-            r = (int) (Math.random() * 5);
-            c = (int) (Math.random() * 6);
-            
-            if (key[r][c].equals("~")) {
-                key[r][c] = "L";
-                board[r][c] = "L";
-            }
-            else
-                i--;
-        }
-        for (int i = 0; i < 2; i++) {
-            r = (int) (Math.random() * 5);
-            c = (int) (Math.random() * 6);
-            
-            if (key[r][c].equals("~")) {
-                key[r][c] = "M";
-                board[r][c] = "M";
-            }
-            else
-                i--;
-        }
-        for (int i = 0; i < 2; i++) {
-            r = (int) (Math.random() * 5);
-            c = (int) (Math.random() * 6);
-            
-            if (key[r][c].equals("~")) {
-                key[r][c] = "N";
-                board[r][c] = "N";
-            }
-            else
-                i--;
-        }
-        for (int i = 0; i < 2; i++) {
-            r = (int) (Math.random() * 5);
-            c = (int) (Math.random() * 6);
-            
-            if (key[r][c].equals("~")) {
-                key[r][c] = "O";
-                board[r][c] = "O";
-            }
-            else
-                i--;
         }
     }
     
-    public void show(String[][] board) {
+    public void showBoard() {
         System.out.println("   0   1   2   3   4   5");
+        
         for (r = 0; r < 5; r++) {
             System.out.print(r + " ");
+            
             for (c = 0; c < 6; c++) {
-                if (!board[r][c].equals("~"))
-                    System.out.print("[~] ");
-                else if (board[r][c].equals("~"))
-                    System.out.print("[" + key[r][c] + "] ");
+                System.out.print("[" + board[r][c] + "] ");
             }
+            
             System.out.println();
         }
     }
@@ -213,45 +57,62 @@ public class Oboeru extends Puzzle {
     
     public void play() {
         setUp();
-        show(board);
+        
+        showBoard();
+        
         while (count < 15) {
             System.out.println("   0   1   2   3   4   5");
+        
             for (r = 0; r < 5; r++) {
                 System.out.print(r + " ");
+        
                 for (c = 0; c < 6; c++) {
                     System.out.print("[" + key[r][c] + "] ");
                 }
+        
                 System.out.println();
             }
             
-            System.out.println("Flip two cards:");
-            System.out.print("Row 1:");
-            x = input.nextInt();
-            System.out.println();
-            System.out.print("Column 1:");
-            y = input.nextInt();
-            System.out.println();
-            board[x][y] = "~";
-            show(board);
-            System.out.print("Row 2:");
-            a = input.nextInt();
-            System.out.println();
-            System.out.print("Column 2:");
-            b = input.nextInt();
-            System.out.println();
-            board[a][b] = "~";
-            show(board);
+            System.out.println("Flip two cards:\nRow 1:");
             
-            if (key[x][y].equals(key[a][b])) {
+            x = input.nextInt();
+            
+            System.out.print("\nColumn 1:");
+            
+            y = input.nextInt();
+            
+            board[x][y] = '~';
+            
+            showBoard();
+            
+            System.out.print("\nRow 2:");
+            
+            a = input.nextInt();
+            
+            System.out.print("\nColumn 2:");
+            
+            b = input.nextInt();
+    
+            board[a][b] = '~';
+    
+            System.out.println();
+            
+            showBoard();
+            
+            if (key[x][y] == key[a][b]) {
                 System.out.println("That's a match.");
+                
                 count++;
             }
             else {
                 System.out.println("Not a match.");
+                
                 reset(x, y, a, b);
             }
+            
             System.out.println();
         }
+        
         victory();
     }
 }
