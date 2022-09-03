@@ -6,7 +6,7 @@ public class Ultra extends Kasugi
    {
        public Ultra()
       {
-         super("kakkoiichris.nazonoshiro.item.kasugi.Ultra", 3, 3);
+         super("Ultra", 3, 3);
          forYou = true;
       }
       
@@ -14,7 +14,7 @@ public class Ultra extends Kasugi
       {
          if(timer != 0)
          {
-            if(any.getName().equals("kakkoiichris.nazonoshiro.fighter.Ninja") || any.getName().equals("kakkoiichris.nazonoshiro.fighter.Shogun") || any.getName().equals("kakkoiichris.nazonoshiro.fighter.Samurai") || any.getName().equals("kakkoiichris.nazonoshiro.fighter.Daimyo") || any.getName().equals("kakkoiichris.nazonoshiro.fighter.Imperial Guard"))
+            if(any.getName().equals("Ninja") || any.getName().equals("Shogun") || any.getName().equals("Samurai") || any.getName().equals("Daimyo") || any.getName().equals("Imperial Guard"))
                System.out.print("They ");
             else
                System.out.print("You ");
@@ -24,7 +24,7 @@ public class Ultra extends Kasugi
          }
          else
          {
-            System.out.println("kakkoiichris.nazonoshiro.item.kasugi.Ultra has worn off.");
+            System.out.println("Ultra has worn off.");
          }
          timer--;
       }  

@@ -4,12 +4,12 @@ public class Bo extends Weapon
    {
        public Bo()
       {
-         super("kakkoiichris.nazonoshiro.item.weapon.Bo Staff", 1);
+         super("Bo Staff", 1);
       }
          
        public void show()
       {
          System.out.println("========XXXXXX========");
-         System.out.println("       kakkoiichris.nazonoshiro.item.weapon.Bo Staff");
+         System.out.println("       Bo Staff");
       }
    }

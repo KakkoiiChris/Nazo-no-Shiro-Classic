@@ -3,6 +3,7 @@ package kakkoiichris.nazonoshiro; //Christian Alexander, 5/12/11, Pd. 6
 import kakkoiichris.nazonoshiro.castle.CastleFloor;
 import kakkoiichris.nazonoshiro.castle.OriginalCastle;
 import kakkoiichris.nazonoshiro.castle.Room;
+import kakkoiichris.nazonoshiro.castle.Wall;
 import kakkoiichris.nazonoshiro.castle.puzzle.IroIro;
 import kakkoiichris.nazonoshiro.fighter.*;
 import kakkoiichris.nazonoshiro.item.Coin;
@@ -124,99 +125,99 @@ public class nazoNoShiroDriver
 
    public static void setUpLoad() throws IOException
    { 
-      // System.out.print("File Name > ");
-      // String fileName = input.nextLine() + ".txt";
-      // size = getFileSize(fileName);
-      // String[] lines = new String[size];
-      // readFile(lines, fileName);
-   //    
-      // int data = 0;
-   //    
-      // while(!lines[data].startsWith("#"))
-      // {
-         // if(lines[data].equals("Original Castle"))
-            // Castle.add(new kakkoiichris.nazonoshiro.castle.OriginalCastle());
-         // data++;
-      // }
-   //    
-      // while(!lines[data].startsWith("S"))
-      // {
-         // int index = lines[data].indexOf("#");
-         // int f = (int)(lines[data].charAt(index + 1))-48;
-         // int r = (int)(lines[data].charAt(index + 2))-48;
-         // int c = (int)(lines[data].charAt(index + 3))-48;
-         // String name = lines[data].substring(index +4);
-         // data++;
-         // int p = stringToInt(lines[data].substring(0, lines[data].indexOf(",")));
-         // int k = stringToInt(lines[data].substring(lines[data].indexOf(",")+1, lines[data].indexOf("'")));
-         // int l = stringToInt(lines[data].substring(lines[data].indexOf("'")+1));
-         // Castle.get(f).floorPlan[r][c] = new kakkoiichris.nazonoshiro.castle.Room(name, p, k, l);
-         // data++;
-         // while(!lines[data].startsWith("#") && !lines[data].startsWith("S"))
-         // {
-            // char d = lines[data].charAt(lines[data].indexOf('|')+1);
-            // String name2 = lines[data].substring(lines[data].indexOf(':')+1);
-            // Castle.get(f).floorPlan[r][c].walls.add(new kakkoiichris.nazonoshiro.castle.Wall(r, c, d, name2));
-            // data++;
-         //    
-            // for(int u=0; u<stringToInt(lines[data].substring(lines[data].indexOf('!')+1, lines[data].indexOf('a'))); u++)
-            // {
-               // Castle.get(f).floorPlan[r][c].walls.get(0).getStorage().addToStored(new kakkoiichris.nazonoshiro.item.weapon.Tanto());
-            // }
-         //    
-            // for(int v=0; v<stringToInt(lines[data].substring(lines[data].indexOf('a')+1, lines[data].indexOf('b'))); v++)
-            // {
-               // Castle.get(f).floorPlan[r][c].walls.get(0).getStorage().addToStored(new kakkoiichris.nazonoshiro.item.weapon.Wakizashi());
-            // }
-         //    
-            // for(int w=0; w<stringToInt(lines[data].substring(lines[data].indexOf('b')+1, lines[data].indexOf('c'))); w++)
-            // {
-               // Castle.get(f).floorPlan[r][c].walls.get(0).getStorage().addToStored(new kakkoiichris.nazonoshiro.item.weapon.Katana());
-            // }
-         //    
-            // for(int x=0; x<stringToInt(lines[data].substring(lines[data].indexOf('c')+1, lines[data].indexOf('d'))); x++)
-            // {
-               // Castle.get(f).floorPlan[r][c].walls.get(0).getStorage().addToStored(new kakkoiichris.nazonoshiro.item.weapon.Bo());
-            // }
-         //    
-            // for(int y=0; y<stringToInt(lines[data].substring(lines[data].indexOf('d')+1, lines[data].indexOf('e'))); y++)
-            // {
-               // Castle.get(f).floorPlan[r][c].walls.get(0).getStorage().addToStored(new kakkoiichris.nazonoshiro.item.weapon.Shuriken());
-            // }
-         //    
-            // for(int z=0; z<stringToInt(lines[data].substring(lines[data].indexOf('e')+1)); z++)
-            // {
-               // Castle.get(f).floorPlan[r][c].walls.get(0).getStorage().addToStored(new kakkoiichris.nazonoshiro.item.weapon.Nunchaku());
-            // }
-         //    
-            // data++;
-         // 	
-            // for(int x=0; x<stringToInt(lines[data].substring(lines[data].indexOf('*')+1, lines[data].indexOf('a'))); x++)
-            // {
-               // Castle.get(f).floorPlan[r][c].walls.get(0).getStorage().addToStored(new kakkoiichris.nazonoshiro.item.HealthPack("Herb", 3));
-            // }
-         //    
-            // for(int y=0; y<stringToInt(lines[data].substring(lines[data].indexOf('a')+1, lines[data].indexOf('b'))); y++)
-            // {
-               // Castle.get(f).floorPlan[r][c].walls.get(0).getStorage().addToStored(new kakkoiichris.nazonoshiro.item.HealthPack("Bushel", 5));
-            // }
-         //    
-            // for(int z=0; z<stringToInt(lines[data].substring(lines[data].indexOf('b')+1)); z++)
-            // {
-               // Castle.get(f).floorPlan[r][c].walls.get(0).getStorage().addToStored(new kakkoiichris.nazonoshiro.item.Coin());
-            // }
-         //    
-            // data +=2;
-         //    
-         // 	
-         // }
-      // }
-   //    
-      // guards[0] = new kakkoiichris.nazonoshiro.fighter.Ninja();
-      // guards[1] = new kakkoiichris.nazonoshiro.fighter.Samurai();
-      // guards[2] = new kakkoiichris.nazonoshiro.fighter.Daimyo();
-      // guards[3] = new kakkoiichris.nazonoshiro.fighter.Shogun();
-      // guards[4] = new kakkoiichris.nazonoshiro.fighter.Imperial();
+       System.out.print("File Name > ");
+       String fileName = input.nextLine() + ".txt";
+       size = getFileSize(fileName);
+       String[] lines = new String[size];
+       readFile(lines, fileName);
+
+       int data = 0;
+
+       while(!lines[data].startsWith("#"))
+       {
+          if(lines[data].equals("Original Castle"))
+             Castle.add(new OriginalCastle());
+          data++;
+       }
+
+       while(!lines[data].startsWith("S"))
+       {
+          int index = lines[data].indexOf("#");
+          int f = (int)(lines[data].charAt(index + 1))-48;
+          int r = (int)(lines[data].charAt(index + 2))-48;
+          int c = (int)(lines[data].charAt(index + 3))-48;
+          String name = lines[data].substring(index +4);
+          data++;
+          int p = stringToInt(lines[data].substring(0, lines[data].indexOf(",")));
+          int k = stringToInt(lines[data].substring(lines[data].indexOf(",")+1, lines[data].indexOf("'")));
+          int l = stringToInt(lines[data].substring(lines[data].indexOf("'")+1));
+          Castle.get(f).getFloorPlan()[r][c] = new Room(name, p, k, l, false);
+          data++;
+          while(!lines[data].startsWith("#") && !lines[data].startsWith("S"))
+          {
+             char d = lines[data].charAt(lines[data].indexOf('|')+1);
+             String name2 = lines[data].substring(lines[data].indexOf(':')+1);
+             Castle.get(f).getFloorPlan()[r][c].getWalls().add(new Wall(r, c, d, name2));
+             data++;
+
+             for(int u=0; u<stringToInt(lines[data].substring(lines[data].indexOf('!')+1, lines[data].indexOf('a'))); u++)
+             {
+                Castle.get(f).getFloorPlan()[r][c].getWalls().get(0).getStorage().addToStored(new Tanto());
+             }
+
+             for(int v=0; v<stringToInt(lines[data].substring(lines[data].indexOf('a')+1, lines[data].indexOf('b'))); v++)
+             {
+                Castle.get(f).getFloorPlan()[r][c].getWalls().get(0).getStorage().addToStored(new Wakizashi());
+             }
+
+             for(int w=0; w<stringToInt(lines[data].substring(lines[data].indexOf('b')+1, lines[data].indexOf('c'))); w++)
+             {
+                Castle.get(f).getFloorPlan()[r][c].getWalls().get(0).getStorage().addToStored(new Katana());
+             }
+
+             for(int x=0; x<stringToInt(lines[data].substring(lines[data].indexOf('c')+1, lines[data].indexOf('d'))); x++)
+             {
+                Castle.get(f).getFloorPlan()[r][c].getWalls().get(0).getStorage().addToStored(new Bo());
+             }
+
+             for(int y=0; y<stringToInt(lines[data].substring(lines[data].indexOf('d')+1, lines[data].indexOf('e'))); y++)
+             {
+                Castle.get(f).getFloorPlan()[r][c].getWalls().get(0).getStorage().addToStored(new Shuriken());
+             }
+
+             for(int z=0; z<stringToInt(lines[data].substring(lines[data].indexOf('e')+1)); z++)
+             {
+                Castle.get(f).getFloorPlan()[r][c].getWalls().get(0).getStorage().addToStored(new Nunchaku());
+             }
+
+             data++;
+
+             for(int x=0; x<stringToInt(lines[data].substring(lines[data].indexOf('*')+1, lines[data].indexOf('a'))); x++)
+             {
+                Castle.get(f).getFloorPlan()[r][c].getWalls().get(0).getStorage().addToStored(new HealthPack("Herb", 3));
+             }
+
+             for(int y=0; y<stringToInt(lines[data].substring(lines[data].indexOf('a')+1, lines[data].indexOf('b'))); y++)
+             {
+                Castle.get(f).getFloorPlan()[r][c].getWalls().get(0).getStorage().addToStored(new HealthPack("Bushel", 5));
+             }
+
+             for(int z=0; z<stringToInt(lines[data].substring(lines[data].indexOf('b')+1)); z++)
+             {
+                Castle.get(f).getFloorPlan()[r][c].getWalls().get(0).getStorage().addToStored(new Coin());
+             }
+
+             data +=2;
+
+
+          }
+       }
+
+       guards[0] = new Ninja();
+       guards[1] = new Samurai();
+       guards[2] = new Daimyo();
+       guards[3] = new Shogun();
+       guards[4] = new Imperial();
    }
    
    public static int stringToInt(String a)
@@ -661,7 +662,7 @@ public class nazoNoShiroDriver
       
       while(self.isDead() == false && enemy.isDead() == false)
       {
-         if(enemy.getName().equals("kakkoiichris.nazonoshiro.fighter.Imperial Guard"))
+         if(enemy.getName().equals("Imperial Guard"))
             System.out.println("An "+enemy+" stands before you.");
          else
             System.out.println("A "+enemy+" stands before you.");

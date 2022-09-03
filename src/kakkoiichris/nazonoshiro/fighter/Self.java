@@ -6,7 +6,7 @@ public class Self extends Fighter
    {   
        public Self()
       {
-         super("kakkoiichris.nazonoshiro.fighter.Self", (int)(Math.random()*5)+3, (int)(Math.random()*5)+3, (int)(Math.random()*5)+3, 50);
+         super("Self", (int)(Math.random()*5)+3, (int)(Math.random()*5)+3, (int)(Math.random()*5)+3, 50);
       }
    	
        public void addKasugi(Kasugi a)
@@ -113,54 +113,54 @@ public class Self extends Fighter
          
          boolean done = false;
       	
-         System.out.println("kakkoiichris.nazonoshiro.item.kasugi.Kasugi:");
+         System.out.println("Kasugi:");
          for(int j=0; j<useable.size(); j++)
          {
-            if(useable.get(i).getName().equals("kakkoiichris.nazonoshiro.item.kasugi.Blind"))
+            if(useable.get(i).getName().equals("Blind"))
                a++;
             else
-               if(useable.get(i).getName().equals("kakkoiichris.nazonoshiro.item.kasugi.Brace"))
+               if(useable.get(i).getName().equals("Brace"))
                   b++;
                else
-                  if(useable.get(i).getName().equals("kakkoiichris.nazonoshiro.item.kasugi.Burn"))
+                  if(useable.get(i).getName().equals("Burn"))
                      c++;
                   else
-                     if(useable.get(i).getName().equals("kakkoiichris.nazonoshiro.item.kasugi.Corrupt"))
+                     if(useable.get(i).getName().equals("Corrupt"))
                         d++;
                      else
-                        if(useable.get(i).getName().equals("kakkoiichris.nazonoshiro.item.kasugi.Fixer"))
+                        if(useable.get(i).getName().equals("Fixer"))
                            e++;
                         else
-                           if(useable.get(i).getName().equals("kakkoiichris.nazonoshiro.item.kasugi.Pure"))
+                           if(useable.get(i).getName().equals("Pure"))
                               f++;
                            else
-                              if(useable.get(i).getName().equals("kakkoiichris.nazonoshiro.item.kasugi.Ultra"))
+                              if(useable.get(i).getName().equals("Ultra"))
                                  g++;
                               else
-                                 if(useable.get(i).getName().equals("kakkoiichris.nazonoshiro.item.kasugi.Velocity"))
+                                 if(useable.get(i).getName().equals("Velocity"))
                                     h++;
                                  else
                                     i++;
          }
       	
          if(a > 0)
-            System.out.println("kakkoiichris.nazonoshiro.item.kasugi.Blind: [" + a + "]");
+            System.out.println("Blind: [" + a + "]");
          if(b > 0)
-            System.out.println("kakkoiichris.nazonoshiro.item.kasugi.Brace: [" + b + "]");
+            System.out.println("Brace: [" + b + "]");
          if(c > 0)
-            System.out.println("kakkoiichris.nazonoshiro.item.kasugi.Burn: [" + c + "]");
+            System.out.println("Burn: [" + c + "]");
          if(d > 0)
-            System.out.println("kakkoiichris.nazonoshiro.item.kasugi.Corrupt: [" + d + "]");
+            System.out.println("Corrupt: [" + d + "]");
          if(e > 0)
-            System.out.println("kakkoiichris.nazonoshiro.item.kasugi.Fixer: [" + e + "]");
+            System.out.println("Fixer: [" + e + "]");
          if(f > 0)
-            System.out.println("kakkoiichris.nazonoshiro.item.kasugi.Pure: [" + f + "]");
+            System.out.println("Pure: [" + f + "]");
          if(g > 0)
-            System.out.println("kakkoiichris.nazonoshiro.item.kasugi.Ultra: [" + g + "]");
+            System.out.println("Ultra: [" + g + "]");
          if(h > 0)
-            System.out.println("kakkoiichris.nazonoshiro.item.kasugi.Velocity: [" + h + "]");
+            System.out.println("Velocity: [" + h + "]");
          if(i > 0)
-            System.out.println("kakkoiichris.nazonoshiro.item.kasugi.Volatile: [" + i + "]");
+            System.out.println("Volatile: [" + i + "]");
          System.out.println();
             
          while(done == false)
@@ -170,7 +170,7 @@ public class Self extends Fighter
             System.out.println();
             System.out.println();
          
-            while(!temp.equals("kakkoiichris.nazonoshiro.item.kasugi.Blind") && !temp.equals("kakkoiichris.nazonoshiro.item.kasugi.Brace") && !temp.equals("kakkoiichris.nazonoshiro.item.kasugi.Burn") && !temp.equals("kakkoiichris.nazonoshiro.item.kasugi.Corrupt") && !temp.equals("kakkoiichris.nazonoshiro.item.kasugi.Fixer") && !temp.equals("kakkoiichris.nazonoshiro.item.kasugi.Pure") && !temp.equals("kakkoiichris.nazonoshiro.item.kasugi.Ultra") && !temp.equals("kakkoiichris.nazonoshiro.item.kasugi.Velocity") && !temp.equals("kakkoiichris.nazonoshiro.item.kasugi.Volatile"))
+            while(!temp.equals("Blind") && !temp.equals("Brace") && !temp.equals("Burn") && !temp.equals("Corrupt") && !temp.equals("Fixer") && !temp.equals("Pure") && !temp.equals("Ultra") && !temp.equals("Velocity") && !temp.equals("Volatile"))
             {
                System.out.print("What?");
                System.out.println();

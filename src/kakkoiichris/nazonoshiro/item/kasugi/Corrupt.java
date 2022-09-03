@@ -6,13 +6,13 @@ public class Corrupt extends Kasugi
    {
        public Corrupt()
       {
-         super("kakkoiichris.nazonoshiro.item.kasugi.Corrupt", 1, 99);
+         super("Corrupt", 1, 99);
          forYou = false;
       }
       
        public void affect(Fighter any)
       {
-         if(any.getName().equals("kakkoiichris.nazonoshiro.fighter.Ninja") || any.getName().equals("kakkoiichris.nazonoshiro.fighter.Shogun") || any.getName().equals("kakkoiichris.nazonoshiro.fighter.Samurai") || any.getName().equals("kakkoiichris.nazonoshiro.fighter.Daimyo") || any.getName().equals("kakkoiichris.nazonoshiro.fighter.Imperial Guard"))
+         if(any.getName().equals("Ninja") || any.getName().equals("Shogun") || any.getName().equals("Samurai") || any.getName().equals("Daimyo") || any.getName().equals("Imperial Guard"))
             System.out.print("They");
          else
             System.out.print("You");

@@ -4,12 +4,12 @@ public class Shuriken extends Weapon
    {
        public Shuriken()
       {
-         super("kakkoiichris.nazonoshiro.item.weapon.Shuriken", 1);
+         super("Shuriken", 1);
       }
          
        public void show()
       {
          System.out.println("    O-]==>");
-         System.out.println("kakkoiichris.nazonoshiro.item.weapon.Shuriken Knife");
+         System.out.println("Shuriken Knife");
       }
    }

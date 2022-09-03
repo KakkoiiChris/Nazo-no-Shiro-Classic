@@ -13,7 +13,7 @@ package kakkoiichris.nazonoshiro.castle.puzzle;//Christian Alexander, 5/12/11, P
    	 
        public Seihoukei()
       {
-         super("kakkoiichris.nazonoshiro.castle.puzzle.Seihoukei");
+         super("Seihoukei");
       }
    
        public void shiftUp(int c)
@@ -399,7 +399,7 @@ package kakkoiichris.nazonoshiro.castle.puzzle;//Christian Alexander, 5/12/11, P
    
        public void play()
       {
-         System.out.println("<[kakkoiichris.nazonoshiro.castle.puzzle.Seihoukei]>");
+         System.out.println("<[Seihoukei]>");
          System.out.println();
          setUp();
          setKey();

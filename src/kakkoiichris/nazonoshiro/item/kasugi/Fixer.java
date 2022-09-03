@@ -6,7 +6,7 @@ public class Fixer extends Kasugi
    {
        public Fixer()
       {
-         super("kakkoiichris.nazonoshiro.item.kasugi.Kasugi", 0, 3);
+         super("Kasugi", 0, 3);
       }
       
        public void affect(Fighter enemy)

@@ -4,12 +4,12 @@ public class Tanto extends Weapon
    {
        public Tanto()
       {
-         super("kakkoiichris.nazonoshiro.item.weapon.Tanto", 1);
+         super("Tanto", 1);
       }
          
        public void show()
       {
          System.out.println("[XXX{========>");
-         System.out.println("    kakkoiichris.nazonoshiro.item.weapon.Tanto");
+         System.out.println("    Tanto");
       }
    }

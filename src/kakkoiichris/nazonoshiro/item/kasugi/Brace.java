@@ -6,7 +6,7 @@ public class Brace extends Kasugi
    {
        public Brace()
       {
-         super("kakkoiichris.nazonoshiro.item.kasugi.Brace", 3, 3);
+         super("Brace", 3, 3);
          forYou = true;
       }
       
@@ -14,7 +14,7 @@ public class Brace extends Kasugi
       {
          if(timer != 0)
          {
-            if(any.getName().equals("kakkoiichris.nazonoshiro.fighter.Ninja") || any.getName().equals("kakkoiichris.nazonoshiro.fighter.Shogun") || any.getName().equals("kakkoiichris.nazonoshiro.fighter.Samurai") || any.getName().equals("kakkoiichris.nazonoshiro.fighter.Daimyo") || any.getName().equals("kakkoiichris.nazonoshiro.fighter.Imperial Guard"))
+            if(any.getName().equals("Ninja") || any.getName().equals("Shogun") || any.getName().equals("Samurai") || any.getName().equals("Daimyo") || any.getName().equals("Imperial Guard"))
                System.out.print("They");
             else
                System.out.print("You");
@@ -24,7 +24,7 @@ public class Brace extends Kasugi
          }
          else
          {
-            System.out.println("kakkoiichris.nazonoshiro.item.kasugi.Brace has worn off.");
+            System.out.println("Brace has worn off.");
          }
          timer--;
       } 

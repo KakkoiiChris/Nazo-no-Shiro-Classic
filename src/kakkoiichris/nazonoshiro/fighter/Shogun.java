@@ -8,7 +8,7 @@ package kakkoiichris.nazonoshiro.fighter;//Christian Alexander, 5/12/11, Pd. 6
    {   
        public Shogun()
       {
-         super("kakkoiichris.nazonoshiro.fighter.Shogun", 2, 3, 1, 30);
+         super("Shogun", 2, 3, 1, 30);
       }
    	
       protected ArrayList<Kasugi> useable = new ArrayList();

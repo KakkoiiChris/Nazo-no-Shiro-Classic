@@ -64,16 +64,16 @@ public class Wall
       
        public void setStorage(int r, int c, String n)
       {
-         if(n.equals("kakkoiichris.nazonoshiro.castle.storage.Armoir"))
+         if(n.equals("Armoir"))
             storage[0] = new Armoir(r, c);
          else
-            if(n.equals("kakkoiichris.nazonoshiro.castle.storage.Crate"))
+            if(n.equals("Crate"))
                storage[0] = new Crate(r, c);
             else
-               if(n.equals("kakkoiichris.nazonoshiro.castle.storage.Dresser"))
+               if(n.equals("Dresser"))
                   storage[0] = new Dresser(r, c);
                else
-                  if(n.equals("kakkoiichris.nazonoshiro.castle.storage.Desk"))
+                  if(n.equals("Desk"))
                      storage[0] = new Desk(r, c);
                   else
                      if(n.equals("Jewelry Box"))

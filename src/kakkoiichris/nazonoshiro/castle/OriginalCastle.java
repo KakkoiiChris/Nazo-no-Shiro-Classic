@@ -58,7 +58,7 @@ public class OriginalCastle extends CastleFloor
          getFloorPlan()[3][3] = new Room("Secret Chamber E",     getPuzzleType()[3][3], 18, 17, 99, false);
          getFloorPlan()[0][4] = new Room("Foyer",                getPuzzleType()[0][4], 13, 12, 99, false);
          getFloorPlan()[1][4] = new Room("East: Annex A",        getPuzzleType()[1][4], 10, 9,  99, false);
-         getFloorPlan()[2][4] = new Room("Secret Treasure kakkoiichris.nazonoshiro.castle.Room", 4,                20, 19, 3,  false);
+         getFloorPlan()[2][4] = new Room("Secret Treasure Room", 4,                20, 19, 3,  false);
          getFloorPlan()[3][4] = new Room("Secret Chamber F",     getPuzzleType()[3][4], 19, 18, 99, false);
       		
          getFloorPlan()[0][0].setWall(0, 0, 'N');

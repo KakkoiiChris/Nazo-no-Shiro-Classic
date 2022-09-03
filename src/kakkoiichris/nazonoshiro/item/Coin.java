@@ -5,7 +5,7 @@ public class Coin extends Item
    {
        public Coin()
       {
-         super("kakkoiichris.nazonoshiro.item.Coin", 5);
+         super("Coin", 5);
       }
    
        public void pickUp(Fighter self)

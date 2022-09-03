@@ -9,7 +9,7 @@ package kakkoiichris.nazonoshiro.castle.storage;//Christian Alexander, 6/21/11, 
    {
        public Dresser(int x, int y)
       {
-         super("kakkoiichris.nazonoshiro.castle.storage.Dresser", x, y);
+         super("Dresser", x, y);
       } 
       
        public void open(Fighter self, ArrayList<Item> inventory)
@@ -27,7 +27,7 @@ package kakkoiichris.nazonoshiro.castle.storage;//Christian Alexander, 6/21/11, 
             if(stored.get(i).getName().equals("metal"))
                m++;
             else
-               if(stored.get(i).getName().equals("kakkoiichris.nazonoshiro.item.Coin"))
+               if(stored.get(i).getName().equals("Coin"))
                   c++;
                else
                   if(stored.get(i).getName().equals("herb"))
@@ -37,7 +37,7 @@ package kakkoiichris.nazonoshiro.castle.storage;//Christian Alexander, 6/21/11, 
                         b++;
          }
             
-         System.out.println("The kakkoiichris.nazonoshiro.castle.storage.Dresser contains:");
+         System.out.println("The Dresser contains:");
          System.out.println();
             
          if(m>0)
@@ -55,7 +55,7 @@ package kakkoiichris.nazonoshiro.castle.storage;//Christian Alexander, 6/21/11, 
          if(c>0)
          {
             {
-               System.out.print("-"+c+" kakkoiichris.nazonoshiro.item.Coin");
+               System.out.print("-"+c+" Coin");
                if(c>1)
                   System.out.println("s");
                else
@@ -139,11 +139,11 @@ package kakkoiichris.nazonoshiro.castle.storage;//Christian Alexander, 6/21/11, 
                      System.out.println();
                   }
                   else
-                     if(pick.equals("take kakkoiichris.nazonoshiro.item.Coin"))
+                     if(pick.equals("take Coin"))
                      {
                         for(int i=0; i<stored.size(); i++)
                         {
-                           if((stored.get(i).getName()).equals("kakkoiichris.nazonoshiro.item.Coin"))
+                           if((stored.get(i).getName()).equals("Coin"))
                            {
                               inventory.add(stored.get(i));
                               stored.remove(i);

@@ -6,7 +6,7 @@ public class Override extends Kasugi
    {
        public Override()
       {
-         super("kakkoiichris.nazonoshiro.item.kasugi.Override", 1, 0);
+         super("Override", 1, 0);
       }
       
        public void affect(Fighter enemy)

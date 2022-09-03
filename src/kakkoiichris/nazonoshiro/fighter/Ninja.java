@@ -8,7 +8,7 @@ package kakkoiichris.nazonoshiro.fighter;//Christian Alexander, 5/12/11, Pd. 6
    {
        public Ninja()
       {
-         super("kakkoiichris.nazonoshiro.fighter.Ninja", 1, 2, 3, 25);
+         super("Ninja", 1, 2, 3, 25);
       }  
       
       protected ArrayList<Kasugi> useable = new ArrayList();

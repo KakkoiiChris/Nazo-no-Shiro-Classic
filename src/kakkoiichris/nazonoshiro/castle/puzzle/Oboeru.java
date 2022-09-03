@@ -11,7 +11,7 @@ package kakkoiichris.nazonoshiro.castle.puzzle;//Christian Alexander, 5/12/11, P
    
        public Oboeru()
       {
-         super("kakkoiichris.nazonoshiro.castle.puzzle.Oboeru");
+         super("Oboeru");
       }
    	
        public void setUp()

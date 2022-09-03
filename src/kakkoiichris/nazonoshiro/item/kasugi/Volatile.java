@@ -6,7 +6,7 @@ public class Volatile extends Kasugi
    {
        public Volatile()
       {
-         super("kakkoiichris.nazonoshiro.item.kasugi.Volatile", 3, 0);
+         super("Volatile", 3, 0);
       }
       
        public void affect(Fighter enemy)

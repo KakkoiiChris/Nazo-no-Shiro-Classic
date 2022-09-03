@@ -19,7 +19,7 @@ package kakkoiichris.nazonoshiro.castle.puzzle;//Christian Alexander, 8/8/11, Pd
          
        public IroIro()
       {
-         super("kakkoiichris.nazonoshiro.castle.puzzle.IroIro");
+         super("IroIro");
       }
       
        public void play()

@@ -6,7 +6,7 @@ public class Sub extends Kasugi
    {
        public Sub()
       {
-         super("kakkoiichris.nazonoshiro.item.kasugi.Sub", 3, 3);
+         super("Sub", 3, 3);
          forYou = false;
       }
       
@@ -14,7 +14,7 @@ public class Sub extends Kasugi
       {
          if(timer != 0)
          {
-            if(any.getName().equals("kakkoiichris.nazonoshiro.fighter.Ninja") || any.getName().equals("kakkoiichris.nazonoshiro.fighter.Shogun") || any.getName().equals("kakkoiichris.nazonoshiro.fighter.Samurai") || any.getName().equals("kakkoiichris.nazonoshiro.fighter.Daimyo") || any.getName().equals("kakkoiichris.nazonoshiro.fighter.Imperial Guard"))
+            if(any.getName().equals("Ninja") || any.getName().equals("Shogun") || any.getName().equals("Samurai") || any.getName().equals("Daimyo") || any.getName().equals("Imperial Guard"))
                System.out.print("Their");
             else
                System.out.print("Your");
@@ -24,7 +24,7 @@ public class Sub extends Kasugi
          }
          else
          {
-            System.out.println("kakkoiichris.nazonoshiro.item.kasugi.Sub has worn off.");
+            System.out.println("Sub has worn off.");
          }
          timer--;
       }  

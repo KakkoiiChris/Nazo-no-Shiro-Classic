@@ -121,7 +121,7 @@ package kakkoiichris.nazonoshiro.fighter;//Christian Alexander, 5/12/11, Pd. 6
          y=b;
       }
       
-       public static int pickWord(String[] words)// picks a random kakkoiichris.nazonoshiro.item.Item from the ".txt" file that it is sent
+       public static int pickWord(String[] words)// picks a random Item from the ".txt" file that it is sent
       {
          int x = (int)(Math.random()*words.length);
          return x;

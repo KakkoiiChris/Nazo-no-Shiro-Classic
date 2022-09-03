@@ -32,7 +32,7 @@ package kakkoiichris.nazonoshiro;//Christian Alexander, 5/12/11, Pd. 6
    	 
        public SeihoukeiGui()
       {
-         super("kakkoiichris.nazonoshiro.castle.puzzle.Seihoukei");
+         super("Seihoukei");
          setLayout(new FlowLayout());
          setSize(438, 458);
          

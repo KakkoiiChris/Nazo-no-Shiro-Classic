@@ -7,7 +7,7 @@ package kakkoiichris.nazonoshiro.castle.puzzle;//Christian Alexander, 5/12/11, P
       
        public Kurobune()
       {
-         super("kakkoiichris.nazonoshiro.castle.puzzle.Kurobune");
+         super("Kurobune");
       }
       
        public void play()

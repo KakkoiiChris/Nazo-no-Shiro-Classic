@@ -4,12 +4,12 @@ public class Wakizashi extends Weapon
    {
        public Wakizashi()
       {
-         super("kakkoiichris.nazonoshiro.item.weapon.Wakizashi", 1);
+         super("Wakizashi", 1);
       }
          
        public void show()
       {
          System.out.println("[XXXX{============>");
-         System.out.println("     kakkoiichris.nazonoshiro.item.weapon.Wakizashi");
+         System.out.println("     Wakizashi");
       }
    }

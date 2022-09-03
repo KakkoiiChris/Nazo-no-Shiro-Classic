@@ -124,28 +124,28 @@ package kakkoiichris.nazonoshiro.fighter;//Christian Alexander, 1/1/11, Pd. 6
       
          for(int j=0; j<useable.size(); j++)
          {
-            if(useable.get(i).getName().equals("kakkoiichris.nazonoshiro.item.kasugi.Blind"))
+            if(useable.get(i).getName().equals("Blind"))
                a++;
             else
-               if(useable.get(i).getName().equals("kakkoiichris.nazonoshiro.item.kasugi.Brace"))
+               if(useable.get(i).getName().equals("Brace"))
                   b++;
                else
-                  if(useable.get(i).getName().equals("kakkoiichris.nazonoshiro.item.kasugi.Burn"))
+                  if(useable.get(i).getName().equals("Burn"))
                      c++;
                   else
-                     if(useable.get(i).getName().equals("kakkoiichris.nazonoshiro.item.kasugi.Corrupt"))
+                     if(useable.get(i).getName().equals("Corrupt"))
                         d++;
                      else
-                        if(useable.get(i).getName().equals("kakkoiichris.nazonoshiro.item.kasugi.Fixer"))
+                        if(useable.get(i).getName().equals("Fixer"))
                            e++;
                         else
-                           if(useable.get(i).getName().equals("kakkoiichris.nazonoshiro.item.kasugi.Pure"))
+                           if(useable.get(i).getName().equals("Pure"))
                               f++;
                            else
-                              if(useable.get(i).getName().equals("kakkoiichris.nazonoshiro.item.kasugi.Ultra"))
+                              if(useable.get(i).getName().equals("Ultra"))
                                  g++;
                               else
-                                 if(useable.get(i).getName().equals("kakkoiichris.nazonoshiro.item.kasugi.Velocity"))
+                                 if(useable.get(i).getName().equals("Velocity"))
                                     h++;
                                  else
                                     i++;
@@ -155,16 +155,16 @@ package kakkoiichris.nazonoshiro.fighter;//Christian Alexander, 1/1/11, Pd. 6
          {
             for(int j = 0; j< getEffectives().size(); j++)
             {
-               if(getEffectives().get(j).getName().equals("kakkoiichris.nazonoshiro.item.kasugi.Corrupt") && health <= 10)
+               if(getEffectives().get(j).getName().equals("Corrupt") && health <= 10)
                {                   
-                  int index = search("kakkoiichris.nazonoshiro.item.kasugi.Pure", useable);
+                  int index = search("Pure", useable);
                   
                   if(index >= 0)
                      useable.remove(index);
                   else
                      System.out.println("NO!!!!!"); 
                	
-                  index = search("kakkoiichris.nazonoshiro.item.kasugi.Corrupt", getEffectives());
+                  index = search("Corrupt", getEffectives());
                   if(index >= 0)
                      getEffectives().remove(index);
                   else
@@ -189,7 +189,7 @@ package kakkoiichris.nazonoshiro.fighter;//Christian Alexander, 1/1/11, Pd. 6
                   case 1:
                      for(int k=0; k<useable.size(); k++)
                      {
-                        if(useable.get(k).getName().equals("kakkoiichris.nazonoshiro.item.kasugi.Ultra"))
+                        if(useable.get(k).getName().equals("Ultra"))
                         {
                            getEffectives().add(useable.remove(k));
                            done = true;
@@ -200,7 +200,7 @@ package kakkoiichris.nazonoshiro.fighter;//Christian Alexander, 1/1/11, Pd. 6
                   case 2:
                      for(int k=0; k<useable.size(); k++)
                      {
-                        if(useable.get(k).getName().equals("kakkoiichris.nazonoshiro.item.kasugi.Brace"))
+                        if(useable.get(k).getName().equals("Brace"))
                         {
                            getEffectives().add(new Brace());
                            useable.remove(k);
@@ -212,7 +212,7 @@ package kakkoiichris.nazonoshiro.fighter;//Christian Alexander, 1/1/11, Pd. 6
                   case 3:
                      for(int k=0; k<useable.size(); k++)
                      {
-                        if(useable.get(k).getName().equals("kakkoiichris.nazonoshiro.item.kasugi.Velocity"))
+                        if(useable.get(k).getName().equals("Velocity"))
                         {
                            getEffectives().add(new Velocity());
                            useable.remove(k);
@@ -233,7 +233,7 @@ package kakkoiichris.nazonoshiro.fighter;//Christian Alexander, 1/1/11, Pd. 6
                   case 1:
                      for(int k=0; k<useable.size(); k++)
                      {
-                        if(useable.get(k).getName().equals("kakkoiichris.nazonoshiro.item.kasugi.Sub"))
+                        if(useable.get(k).getName().equals("Sub"))
                         {
                            getEffectives().add(new Sub());
                            useable.remove(k);
@@ -245,7 +245,7 @@ package kakkoiichris.nazonoshiro.fighter;//Christian Alexander, 1/1/11, Pd. 6
                   case 2:
                      for(int k=0; k<useable.size(); k++)
                      {
-                        if(useable.get(k).getName().equals("kakkoiichris.nazonoshiro.item.kasugi.Intimidate"))
+                        if(useable.get(k).getName().equals("Intimidate"))
                         {
                            getEffectives().add(new Intimidate());
                            useable.remove(k);
@@ -257,7 +257,7 @@ package kakkoiichris.nazonoshiro.fighter;//Christian Alexander, 1/1/11, Pd. 6
                   case 3:
                      for(int k=0; k<useable.size(); k++)
                      {
-                        if(useable.get(k).getName().equals("kakkoiichris.nazonoshiro.item.kasugi.Blind"))
+                        if(useable.get(k).getName().equals("Blind"))
                         {
                            getEffectives().add(new Blind());
                            useable.remove(k);

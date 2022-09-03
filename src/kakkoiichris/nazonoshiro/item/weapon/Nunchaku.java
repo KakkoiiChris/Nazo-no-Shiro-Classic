@@ -4,12 +4,12 @@ public class Nunchaku extends Weapon
    {
        public Nunchaku()
       {
-         super("kakkoiichris.nazonoshiro.item.weapon.Nunchaku", 1);
+         super("Nunchaku", 1);
       }
          
        public void show()
       {
          System.out.println("|XXXX|O-oooooo-O|XXXX|");
-         System.out.println("       kakkoiichris.nazonoshiro.item.weapon.Nunchaku");
+         System.out.println("       Nunchaku");
       }
    }
