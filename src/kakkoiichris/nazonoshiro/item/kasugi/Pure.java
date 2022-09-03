@@ -1,23 +1,20 @@
 package kakkoiichris.nazonoshiro.item.kasugi;//Christian Alexander, 9/13/2011
 
-   import kakkoiichris.nazonoshiro.fighter.Fighter;
+import kakkoiichris.nazonoshiro.fighter.Fighter;
 
-public class Pure extends Kasugi
-   {
-       public Pure()
-      {
-         super("Pure", 0, 0);
-         forYou = true;
-         timer = 99;
-      }
-      
-       public void affect(Fighter any)
-      {
-         if(any.getName().equals("Ninja") || any.getName().equals("Shogun") || any.getName().equals("Samurai") || any.getName().equals("Daimyo") || any.getName().equals("Imperial Guard"))
+public class Pure extends Kasugi {
+    public Pure() {
+        super("Pure", 0, 0);
+        forYou = true;
+        timer = 99;
+    }
+    
+    public void affect(Fighter any) {
+        if (any.getName().equals("Ninja") || any.getName().equals("Shogun") || any.getName().equals("Samurai") || any.getName().equals("Daimyo") || any.getName().equals("Imperial Guard"))
             System.out.print("They");
-         else
+        else
             System.out.print("You");
-         System.out.println(" used an antidote");
-         System.out.println();
-      }  
-   }
+        System.out.println(" used an antidote");
+        System.out.println();
+    }
+}
