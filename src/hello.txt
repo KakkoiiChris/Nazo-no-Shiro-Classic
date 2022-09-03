@@ -1,0 +1,236 @@
+Original Castle
+#000North: Annex C
+3,11'10
+|N:Dresser
+!0a0b0c0d0e0
+*0a1b126
+&0a0b0c0d0e0f0g0
+|W:Jewelry Box
+!0a0b0c0d0e0
+*1a1b93
+&0a0b0c0d0e0f0g0
+|S:Armoir
+!0a0b0c0d0e0
+*2a1b68
+&0a0b0c0d0e0f0g0
+#001North: Annex A
+3,5'4
+|N:Dresser
+!0a0b0c0d0e0
+*3a6b163
+&0a0b0c0d0e0f0g0
+|S:Armoir
+!0a0b0c0d0e0
+*1a7b107
+&0a0b0c0d0e0f0g0
+#002North Wing
+3,2'1
+|N:Dresser
+!0a0b0c0d0e0
+*0a5b250
+&0a0b0c0d0e0f0g0
+#003North: Annex B
+3,8'7
+|N:Armoir
+!0a0b0c0d0e0
+*2a1b127
+&0a0b0c0d0e0f0g0
+|E:Jewelry Box
+!0a0b0c0d0e0
+*1a3b94
+&0a0b0c0d0e0f0g0
+|S:Dresser
+!0a0b0c0d0e0
+*1a2b70
+&0a0b0c0d0e0f0g0
+#004Foyer
+3,13'12
+|E:Armoir
+!0a0b0c0d0e0
+*0a2b169
+&0a0b0c0d0e0f0g0
+|W:Dresser
+!0a0b0c0d0e0
+*2a3b109
+&0a0b0c0d0e0f0g0
+#010West: Annex A
+3,4'3
+|N:Desk
+!0a0b0c0d0e0
+*0a0b170
+&0a0b0c0d0e0f0g0
+|W:Jewelry Box
+!0a0b0c0d0e0
+*2a0b111
+&0a0b0c0d0e0f0g0
+#011West Wing
+3,3'2
+|N:Crate
+!0a0b0c0d0e0
+*3a5b164
+&0a0b0c0d0e0f0g0
+|S:Crate
+!0a0b0c0d0e0
+*4a3b107
+&0a0b0c0d0e0f0g0
+#012Central Hall
+3,1'0
+#013East Wing
+3,6'5
+|N:Desk
+!0a0b0c0d0e0
+*4a2b164
+&0a0b0c0d0e0f0g0
+|S:Crate
+!0a0b0c0d0e0
+*3a3b107
+&0a0b0c0d0e0f0g0
+#014East: Annex A
+3,10'9
+|E:Jewelry Box
+!0a0b0c0d0e0
+*2a2b167
+&0a0b0c0d0e0f0g0
+|S:Dresser
+!0a0b0c0d0e0
+*4a4b106
+&0a0b0c0d0e0f0g0
+#020Secret Chamber A
+3,14'13
+|E:Desk
+!0a0b0c0d0e0
+*11a0b164
+&0a0b0c0d0e0f0g0
+|W:Armoir
+!0a0b0c0d0e0
+*8a4b105
+&0a0b0c0d0e0f0g0
+#021South: Annex A
+3,9'8
+|N:Desk
+!0a0b0c0d0e0
+*0a3b124
+&0a0b0c0d0e0f0g0
+|S:Armoir
+!0a0b0c0d0e0
+*1a0b94
+&0a0b0c0d0e0f0g0
+|W:Armoir
+!0a0b0c0d0e0
+*1a0b71
+&0a0b0c0d0e0f0g0
+#022South Wing
+3,7'6
+|S:Dresser
+!0a0b0c0d0e0
+*0a3b252
+&0a0b0c0d0e0f0g0
+#023South: Annex B
+3,12'11
+|N:Dresser
+!0a0b0c0d0e0
+*3a4b122
+&0a0b0c0d0e0f0g0
+|E:Desk
+!0a0b0c0d0e0
+*1a1b94
+&0a0b0c0d0e0f0g0
+|S:Jewelry Box
+!0a0b0c0d0e0
+*4a1b67
+&0a0b0c0d0e0f0g0
+#024Secret Treasure Room
+3,20'19
+|N:Jewelry Box
+!0a0b0c0d0e0
+*1a1b126
+&0a0b0c0d0e0f0g0
+|E:Armoir
+!0a0b0c0d0e0
+*1a2b93
+&0a0b0c0d0e0f0g0
+|W:Dresser
+!0a0b0c0d0e0
+*1a1b70
+&0a0b0c0d0e0f0g0
+#030Secret Chamber B
+3,15'14
+|W:Armoir
+!0a0b0c0d0e0
+*0a2b170
+&0a0b0c0d0e0f0g0
+|S:Armoir
+!0a0b0c0d0e0
+*1a2b111
+&0a0b0c0d0e0f0g0
+#031Secret Chamber C
+3,16'15
+|N:Desk
+!0a0b0c0d0e0
+*3a2b167
+&0a0b0c0d0e0f0g0
+|S:Crate
+!0a0b0c0d0e0
+*5a3b107
+&0a0b0c0d0e0f0g0
+#032Secret Chamber D
+3,17'16
+|N:Desk
+!0a0b0c0d0e0
+*0a1b167
+&0a0b0c0d0e0f0g0
+|S:Crate
+!0a0b0c0d0e0
+*0a0b112
+&0a0b0c0d0e0f0g0
+#033Secret Chamber E
+3,18'17
+|N:Desk
+!0a0b0c0d0e0
+*4a2b164
+&0a0b0c0d0e0f0g0
+|S:Desk
+!0a0b0c0d0e0
+*1a1b112
+&0a0b0c0d0e0f0g0
+#034Secret Chamber F
+3,19'18
+|E:Dresser
+!0a0b0c0d0e0
+*1a2b167
+&0a0b0c0d0e0f0g0
+|S:Dresser
+!0a0b0c0d0e0
+*0a2b111
+&0a0b0c0d0e0f0g0
+S012:a,,
+P4.0,5.0,4.0,50.0
+!1a0b1c0d0e0
+*0a0b0
+&0a0b0c0d0e0f0g0
+k0,
+S012:Ninja
+P1.0,6.0,10.0,25.0
+!0a0b0c0d0e0
+*0a0b0
+&0a0b0c0d0e0f0g0
+S012:Samurai
+P9.0,1.0,6.0,25.0
+!0a0b0c0d0e0
+*0a0b0
+&0a0b0c0d0e0f0g0
+S012:Daimyo
+P7.0,6.0,6.0,30.0
+!0a0b0c0d0e0
+*0a0b0
+&0a0b0c0d0e0f0g0
+S012:Shogun
+P5.0,8.0,3.0,30.0
+!0a0b0c0d0e0
+*0a0b0
+&0a0b0c0d0e0f0g0
+S012:Imperial Guard
+P10.0,10.0,7.0,35.0
+!0a0b0c0d0e0
+*0a0b0
+&0a0b0c0d0e0f0g0

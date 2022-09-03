@@ -1,0 +1,13 @@
+ ______________________________________________________
+| NORTH:   | NORTH:   | NORTH    | NORTH:   | FOYER    |
+| ANNEX C    ANNEX A    WING       ANNEX B  |          |
+|__________|__________|____  ____|__________|____  ____|
+| WEST:    | WEST     | CENTRAL  | EAST     | EAST:    |
+| ANNEX      WING       HALL       WING       ANNEX    |
+|____  ____|__________|____  ____|__________|__________|
+| SECRET   | SOUTH:   | SOUTH    | SOUTH:   | TREASURE |
+| A        | ANNEX A    WING       ANNEX B  | ROOM     |
+|____  ____|__________|__________|__________|____  ____|
+| SECRET   | SECRET   | SECRET   | SECRET   | SECRET   |
+| B          C          D          E          F        |
+|__________|__________|__________|__________|__________|
