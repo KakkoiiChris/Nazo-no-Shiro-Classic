@@ -1,6 +1,5 @@
-//Christian Alexander, 5/12/11, Pd. 6
+package kakkoiichris.nazonoshiro;//Christian Alexander, 5/12/11, Pd. 6
 
-   import java.io.*;
    import java.util.*;
    import javax.swing.*;
    import java.awt.*;

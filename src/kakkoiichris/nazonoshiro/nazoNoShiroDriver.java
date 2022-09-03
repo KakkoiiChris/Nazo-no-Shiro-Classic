@@ -1,4 +1,4 @@
- //Christian Alexander, 5/12/11, Pd. 6
+package kakkoiichris.nazonoshiro; //Christian Alexander, 5/12/11, Pd. 6
 
 import kakkoiichris.nazonoshiro.castle.CastleFloor;
 import kakkoiichris.nazonoshiro.castle.OriginalCastle;

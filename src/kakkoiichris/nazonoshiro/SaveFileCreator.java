@@ -1,4 +1,4 @@
-   //Christian Alexander, 10/06/2011, Period 8
+package kakkoiichris.nazonoshiro;   //Christian Alexander, 10/06/2011, Period 8
    
    import kakkoiichris.nazonoshiro.castle.CastleFloor;
    import kakkoiichris.nazonoshiro.fighter.Fighter;

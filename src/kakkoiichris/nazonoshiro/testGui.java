@@ -1,3 +1,5 @@
+package kakkoiichris.nazonoshiro;
+
 import javax.swing.JFrame;
 
 public class testGui

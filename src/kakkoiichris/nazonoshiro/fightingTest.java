@@ -1,4 +1,6 @@
-   import java.io.*;
+package kakkoiichris.nazonoshiro;
+
+import java.io.*;
    import java.util.*;
 
     public class fightingTest
