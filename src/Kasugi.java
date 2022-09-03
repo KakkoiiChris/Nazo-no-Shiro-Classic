@@ -31,8 +31,12 @@
       {
          return timer;
       }
-      
-       public abstract void affect(Fighter any);
+   
+      public void setTimer(int timer) {
+         this.timer = timer;
+      }
+   
+      public abstract void affect(Fighter any);
        
        public static int getFileSize(String fileName)throws IOException//returns the size of the ".txt" file that it is sent
       {

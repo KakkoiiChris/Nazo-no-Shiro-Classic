@@ -24,7 +24,7 @@
             }
       }
    
-       public void addData(ArrayList<CastleFloor> castle, Fighter[] guards, Fighter self, int R, int C, int F, int t)
+       public void addData(ArrayList<CastleFloor> castle, Fighter[] guards, Self self, int R, int C, int F, int t)
       {
          for(int f=0; f<castle.size(); f++)
          {

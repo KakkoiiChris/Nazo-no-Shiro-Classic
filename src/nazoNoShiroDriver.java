@@ -219,24 +219,24 @@ public class nazoNoShiroDriver
 	
    public static void mainMenu() throws IOException
    {
-      size = getFileSize("mainMenu1.txt");
+      size = getFileSize("src/mainMenu1.txt");
       String[] lines = new String[size];
-      readFile(lines, "mainMenu1.txt");
+      readFile(lines, "src/mainMenu1.txt");
       for(int i=0; i<size; i++)
       {
          System.out.println(lines[i]);
       }
       System.out.println();
       
-      size = getFileSize("splashText.txt");
+      size = getFileSize("src/splashText.txt");
       lines = new String[size];
-      readFile(lines, "splashText.txt");
+      readFile(lines, "src/splashText.txt");
             
       System.out.println(lines[(int)(Math.random()*lines.length)].toUpperCase());
       
-      size = getFileSize("mainMenu2.txt");
+      size = getFileSize("src/mainMenu2.txt");
       lines = new String[size];
-      readFile(lines, "mainMenu2.txt");
+      readFile(lines, "src/mainMenu2.txt");
       for(int i=0; i<size; i++)
       {
          System.out.println(lines[i]);
@@ -284,9 +284,9 @@ public class nazoNoShiroDriver
    
    public static void credits() throws IOException
    {
-      size = getFileSize("credits.txt");
+      size = getFileSize("src/credits.txt");
       String[] a = new String[size];
-      readFile(a, "credits.txt");
+      readFile(a, "src/credits.txt");
       for(int i=0; i<size; i++)
       {
          System.out.println(a[i]);
@@ -300,9 +300,9 @@ public class nazoNoShiroDriver
       System.out.println("                    [XXXXX{================>");
       System.out.println();
       
-      size = getFileSize("first1-2-A.txt");
+      size = getFileSize("src/first1-2-A.txt");
       String[] lines1 = new String[size];
-      readFile(lines1, "first1-2-A.txt");
+      readFile(lines1, "src/first1-2-A.txt");
       
       for(int i=0; i<5; i++)
       {
@@ -367,9 +367,9 @@ public class nazoNoShiroDriver
       else
          System.out.print("[Salesperson]: Alright, ma'am! ");
    		
-      size = getFileSize("first1-2-B.txt");
+      size = getFileSize("src/first1-2-B.txt");
       String[] lines2 = new String[size];
-      readFile(lines2, "first1-2-B.txt");
+      readFile(lines2, "src/first1-2-B.txt");
       
       for(int i=0; i<2; i++)
       {
@@ -619,35 +619,35 @@ public class nazoNoShiroDriver
 
    public static void fight(Fighter enemy) throws IOException
    {
-      size = getFileSize("directHit.txt");
+      size = getFileSize("src/directHit.txt");
       String[] list = new String[size];
       
-      readFile(list, "directHit.txt");
+      readFile(list, "src/directHit.txt");
          
-      size = getFileSize("indirectHit.txt");
+      size = getFileSize("src/indirectHit.txt");
       String[] list2 = new String[size];
       
-      readFile(list2, "indirectHit.txt");
+      readFile(list2, "src/indirectHit.txt");
          
-      size = getFileSize("missHit.txt");
+      size = getFileSize("src/missHit.txt");
       String[] list3 = new String[size];
       
-      readFile(list3, "missHit.txt");
+      readFile(list3, "src/missHit.txt");
       
-      size = getFileSize("directBlock.txt");
+      size = getFileSize("src/directBlock.txt");
       String[] list4 = new String[size];
       
-      readFile(list4, "directBlock.txt");
+      readFile(list4, "src/directBlock.txt");
          
-      size = getFileSize("indirectBlock.txt");
+      size = getFileSize("src/indirectBlock.txt");
       String[] list5 = new String[size];
       
-      readFile(list5, "indirectBlock.txt");
+      readFile(list5, "src/indirectBlock.txt");
          
-      size = getFileSize("missBlock.txt");
+      size = getFileSize("src/missBlock.txt");
       String[] list6 = new String[size];
       
-      readFile(list6, "missBlock.txt");
+      readFile(list6, "src/missBlock.txt");
       
       while(self.isDead() == false && enemy.isDead() == false)
       {
@@ -1064,9 +1064,9 @@ public class nazoNoShiroDriver
    {
       try
       {
-         size = getFileSize("endGame.txt");
+         size = getFileSize("src/endGame.txt");
          String[] a = new String[size];
-         readFile(a, "endGame.txt");
+         readFile(a, "src/endGame.txt");
          for(int i=0; i<size; i++)
          {
             System.out.println(a[i]);
