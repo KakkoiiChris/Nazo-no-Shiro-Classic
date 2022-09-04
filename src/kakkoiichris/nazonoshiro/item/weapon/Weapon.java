@@ -15,10 +15,12 @@ public abstract class Weapon extends Item {
         self.setAttack(1);
     }
     
-    public void use(Fighter self, int value) {
+    @Override
+    public void use(Fighter self) {
         System.out.println("You cannot use this.");
     }
     
+    @Override
     public String toString() {
         return name;
     }

@@ -1,23 +1,26 @@
-package kakkoiichris.nazonoshiro.item;//Christian Alexander, 6/15/11, Pd. 6
+//Christian Alexander, 6/15/11, Pd. 6
+package kakkoiichris.nazonoshiro.item;
 
 import kakkoiichris.nazonoshiro.fighter.Fighter;
 
 public class HealthPack extends Item {
-    public HealthPack(String name, int v) {
-        super(name, v);
+    public HealthPack(String name, int value) {
+        super(name, value);
     }
     
     @Override
     public void pickUp(Fighter self) {
     }
     
-    public void use(Fighter self, int value) {
-        System.out.println("HP increased by " + value + " points.");
+    @Override
+    public void use(Fighter self) {
+        System.out.printf("HP increased by %d points.%n%n", value);
+        
         self.heal(value);
-        System.out.println();
     }
     
+    @Override
     public String toString() {
-        return (value) + " point recovery.";
+        return "%d point recovery.".formatted(value);
     }
 }

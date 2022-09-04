@@ -884,7 +884,7 @@ public class Main {
             
             for (var i = 0; i < self.getInventory().size(); i++) {
                 if ((self.getInventory().get(i).getName()).equals(selection)) {
-                    self.getInventory().get(i).use(self, self.getInventory().get(i).getValue());
+                    self.getInventory().get(i).use(self);
                     
                     self.getInventory().remove(i);
                     
