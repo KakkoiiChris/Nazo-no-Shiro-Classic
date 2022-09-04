@@ -3,19 +3,21 @@ package kakkoiichris.nazonoshiro.castle;//Christian Alexander, 10/06/2011, Perio
 import kakkoiichris.nazonoshiro.castle.puzzle.Puzzle;
 
 public abstract class CastleFloor {
+    protected final int xSize, ySize;
+    protected final String name;
+    
     private Room[][] floorPlan;
     private Puzzle[][] puzzles; //2-D int array to store puzzle types
     private int[][] puzzleType;
-    protected int XSize, YSize;
-    protected String name;
     
-    public CastleFloor(int xSize, int ySize, String n) {
-        setFloorPlan(new Room[xSize][ySize]);
-        setPuzzles(new Puzzle[xSize][ySize]);
-        setPuzzleType(new int[xSize][ySize]);
-        XSize = xSize;
-        YSize = ySize;
-        name = n;
+    public CastleFloor(int xSize, int ySize, String name) {
+        this.xSize = xSize;
+        this.ySize = ySize;
+        this.name = name;
+        
+        floorPlan = new Room[xSize][ySize];
+        puzzles = new Puzzle[xSize][ySize];
+        puzzleType = new int[xSize][ySize];
     }
     
     public abstract void setUpNew();
@@ -27,11 +29,11 @@ public abstract class CastleFloor {
     }
     
     public int getXSize() {
-        return XSize;
+        return xSize;
     }
     
     public int getYSize() {
-        return YSize;
+        return ySize;
     }
     
     public String getName() {

@@ -10,16 +10,17 @@ public class OriginalCastle extends CastleFloor {
     }
     
     public void setUpNew() {
-        for (int r = 0; r < 4; r++) {
-            for (int c = 0; c < 5; c++) {
-                getPuzzleType()[r][c] = 3;//(int)(Math.random()*3)+1;
+        for (var r = 0; r < 4; r++) {
+            for (var c = 0; c < 5; c++) {
+                getPuzzleType()[r][c] = (int) (Math.random() * 3) + 1;
                 
-                if (getPuzzleType()[r][c] == 1)
-                    getPuzzles()[r][c] = new Oboeru();
-                else if (getPuzzleType()[r][c] == 2)
-                    getPuzzles()[r][c] = new Seihoukei();
-                else if (getPuzzleType()[r][c] == 3)
-                    getPuzzles()[r][c] = new Kurobune();
+                switch (getPuzzleType()[r][c]) {
+                    case 1 -> getPuzzles()[r][c] = new Oboeru();
+                    
+                    case 2 -> getPuzzles()[r][c] = new Seihoukei();
+                    
+                    case 3 -> getPuzzles()[r][c] = new Kurobune();
+                }
             }
         }
         

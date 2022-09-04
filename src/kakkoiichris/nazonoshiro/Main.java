@@ -511,7 +511,7 @@ public class Main {
                     }
                 }
                 
-                room.look(self, self.getInventory(), dir);
+                room.look(self, dir);
             }
             else if (choice.startsWith("go")) {
                 storeState();
