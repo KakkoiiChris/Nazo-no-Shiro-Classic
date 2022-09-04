@@ -10,7 +10,6 @@ import java.util.Scanner;
 
 public abstract class Fighter {
     private String name;
-    protected int temp;
     protected int attack,
             defense,
             speed,
@@ -97,11 +96,6 @@ public abstract class Fighter {
         return false;
     }
 
-    // picks a random Item from the ".txt" file that it is sent
-    public static int pickWord(String[] words) {
-        return (int) (Math.random() * words.length);
-    }
-
     public void filter() {
         for (var i = 0; i < getEffectives().size(); i++) {
             if (getEffectives().get(i).getTimer() == -1) {
@@ -157,7 +151,7 @@ public abstract class Fighter {
         useable.add(a);
     }
 
-    public abstract void attack(Fighter enemy, String[] a, String[] b, String[] c);
+    public abstract void attack(Fighter enemy, List<String> direct, List<String> indirect, List<String> miss);
 
     public abstract void use(Fighter enemy);
 

@@ -1,5 +1,5 @@
 
-Copyright © Christian Alexander: CompSci Games, inc.
+Copyright (C) Christian Alexander: CompSci Games, inc.
 
    
 1) New Game

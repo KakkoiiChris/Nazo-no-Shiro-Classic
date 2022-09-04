@@ -11,8 +11,6 @@ import kakkoiichris.nazonoshiro.item.HealthPack;
 import kakkoiichris.nazonoshiro.item.weapon.*;
 
 import javax.swing.*;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,45 +18,39 @@ import java.util.Objects;
 import java.util.Scanner;
 
 public class Main {
-    public static OptionsMenu aaa = new OptionsMenu();
+    private static final OptionsMenu aaa = new OptionsMenu();
     
-    public static int row = 1, //the row you are located in
-        column = 2, //the column you are located in
-        floor = 0, //the floor you are located in
-        rowLast = 1, //stores previous row for restart checkpoint
-        columnLast = 2, //stores previous column for restart checkpoint
-        floorLast = 0, //stores previous floor for restart checkpoint
-        currentKey = 0, //used to count the number of keys you have
-        wCount = 0,
-        fileSize = 0; //used when reading in '.txt' files
+    private static int row = 1; //the row you are located in
+    private static int column = 2; //the column you are located in
+    private static int floor = 0; //the floor you are located in
+    private static int rowLast = 1; //stores previous row for restart checkpoint
+    private static int columnLast = 2; //stores previous column for restart checkpoint
+    private static int floorLast = 0; //stores previous floor for restart checkpoint
+    private static int currentKey = 0; //used to count the number of keys you have
     
-    public static boolean yourTurn = true; //determines who's attacking and who's defending in battle
+    private static boolean yourTurn = true; //determines who's attacking and who's defending in battle
     
-    public static SaveFileCreator saver = new SaveFileCreator();
+    private static final SaveFileCreator saver = new SaveFileCreator();
     
-    public static double speedDiff; //used in run method
+    private static boolean ran = false, ranLast = false; //keeps track of if you run from a fight
     
-    public static boolean ran = false, ranLast = false; //keeps track of if you run from a fight
+    private static String choice = ""; //used when navigating between rooms
+    private static String action = ""; //used when fighting
+    private static String selection = ""; //used in inventory
     
-    public static String choice = "", //used when navigating between rooms
-        action = "", //used when fighting
-        selection = "", //used in inventory
-        fileName = "",
-        mapName = "null";
+    private static final Scanner input = new Scanner(System.in);
     
-    public static Scanner input = new Scanner(System.in);
-    
-    public static Enemy[] guards = { //collection of all enemies
+    private static final Enemy[] guards = { //collection of all enemies
         new Ninja(),
         new Samurai(),
         new Daimyo(),
         new Shogun(),
         new Imperial()
     };
-    public static Self self = new Self();     //this fighter represents you
+    private static final Self self = new Self();     //this fighter represents you
     
-    public static List<Weapon> weapons = new ArrayList<>(); //stores all possible weapons
-    public static List<CastleFloor> floors = new ArrayList<>();
+    private static final List<Weapon> weapons = new ArrayList<>(); //stores all possible weapons
+    private static final List<CastleFloor> floors = new ArrayList<>();
     
     public static void main(String[] argv) throws IOException {
         mainMenu();
@@ -76,11 +68,17 @@ public class Main {
         }
     }
     
-    public static void setUpNew() throws IOException {
+    private static void setUpNew() {
         floors.clear();
         
+        System.out.print("Map Name > ");
+        
+        var mapName = input.nextLine();
+        
+        System.out.println();
+        
         switch (mapName) {
-            case "Original Castle", "null" -> floors.add(new OriginalCastle());
+            case "Original Castle", "" -> floors.add(new OriginalCastle());
             
             case "Double Classic" -> {
                 floors.add(new OriginalCastle());
@@ -118,87 +116,85 @@ public class Main {
         introduction();
     }
     
-    public static void setUpLoad() throws IOException {
+    private static void setUpLoad() {
         System.out.print("File Name > ");
         
-        var fileName = input.nextLine() + ".txt";
-        fileSize = getFileSize(fileName);
+        var fileName = input.nextLine();
         
-        var lines = new String[fileSize];
-        readFile(lines, fileName);
+        var lines = Resources.getLines(fileName);
         
         var data = 0;
         
-        while (!lines[data].startsWith("#")) {
-            if (lines[data].equals("Original Castle")) {
+        while (!lines.get(data).startsWith("#")) {
+            if (lines.get(data).equals("Original Castle")) {
                 floors.add(new OriginalCastle());
             }
             
             data++;
         }
         
-        while (!lines[data].startsWith("S")) {
-            var index = lines[data].indexOf("#");
+        while (!lines.get(data).startsWith("S")) {
+            var index = lines.get(data).indexOf("#");
             
-            var f = (int) (lines[data].charAt(index + 1)) - 48;
-            var r = (int) (lines[data].charAt(index + 2)) - 48;
-            var c = (int) (lines[data].charAt(index + 3)) - 48;
+            var f = (int) (lines.get(data).charAt(index + 1)) - 48;
+            var r = (int) (lines.get(data).charAt(index + 2)) - 48;
+            var c = (int) (lines.get(data).charAt(index + 3)) - 48;
             
-            var name = lines[data].substring(index + 4);
+            var name = lines.get(data).substring(index + 4);
             
             data++;
             
-            var p = Integer.parseInt(lines[data].substring(0, lines[data].indexOf(",")));
-            var k = Integer.parseInt(lines[data].substring(lines[data].indexOf(",") + 1, lines[data].indexOf("'")));
-            var l = Integer.parseInt(lines[data].substring(lines[data].indexOf("'") + 1));
+            var p = Integer.parseInt(lines.get(data).substring(0, lines.get(data).indexOf(",")));
+            var k = Integer.parseInt(lines.get(data).substring(lines.get(data).indexOf(",") + 1, lines.get(data).indexOf("'")));
+            var l = Integer.parseInt(lines.get(data).substring(lines.get(data).indexOf("'") + 1));
             
             floors.get(f).getFloorPlan()[r][c] = new Room(name, p, k, l, false);
             
             data++;
             
-            while (!lines[data].startsWith("#") && !lines[data].startsWith("S")) {
-                var d = lines[data].charAt(lines[data].indexOf('|') + 1);
-                var name2 = lines[data].substring(lines[data].indexOf(':') + 1);
+            while (!lines.get(data).startsWith("#") && !lines.get(data).startsWith("S")) {
+                var d = lines.get(data).charAt(lines.get(data).indexOf('|') + 1);
+                var name2 = lines.get(data).substring(lines.get(data).indexOf(':') + 1);
                 
                 floors.get(f).getFloorPlan()[r][c].getWalls().add(new Wall(r, c, d, name2));
                 
                 data++;
                 
-                for (var u = 0; u < Integer.parseInt(lines[data].substring(lines[data].indexOf('!') + 1, lines[data].indexOf('a'))); u++) {
+                for (var u = 0; u < Integer.parseInt(lines.get(data).substring(lines.get(data).indexOf('!') + 1, lines.get(data).indexOf('a'))); u++) {
                     floors.get(f).getFloorPlan()[r][c].getWalls().get(0).getStorage().add(new Tanto());
                 }
                 
-                for (var v = 0; v < Integer.parseInt(lines[data].substring(lines[data].indexOf('a') + 1, lines[data].indexOf('b'))); v++) {
+                for (var v = 0; v < Integer.parseInt(lines.get(data).substring(lines.get(data).indexOf('a') + 1, lines.get(data).indexOf('b'))); v++) {
                     floors.get(f).getFloorPlan()[r][c].getWalls().get(0).getStorage().add(new Wakizashi());
                 }
                 
-                for (var w = 0; w < Integer.parseInt(lines[data].substring(lines[data].indexOf('b') + 1, lines[data].indexOf('c'))); w++) {
+                for (var w = 0; w < Integer.parseInt(lines.get(data).substring(lines.get(data).indexOf('b') + 1, lines.get(data).indexOf('c'))); w++) {
                     floors.get(f).getFloorPlan()[r][c].getWalls().get(0).getStorage().add(new Katana());
                 }
                 
-                for (var x = 0; x < Integer.parseInt(lines[data].substring(lines[data].indexOf('c') + 1, lines[data].indexOf('d'))); x++) {
+                for (var x = 0; x < Integer.parseInt(lines.get(data).substring(lines.get(data).indexOf('c') + 1, lines.get(data).indexOf('d'))); x++) {
                     floors.get(f).getFloorPlan()[r][c].getWalls().get(0).getStorage().add(new Bo());
                 }
                 
-                for (var y = 0; y < Integer.parseInt(lines[data].substring(lines[data].indexOf('d') + 1, lines[data].indexOf('e'))); y++) {
+                for (var y = 0; y < Integer.parseInt(lines.get(data).substring(lines.get(data).indexOf('d') + 1, lines.get(data).indexOf('e'))); y++) {
                     floors.get(f).getFloorPlan()[r][c].getWalls().get(0).getStorage().add(new Shuriken());
                 }
                 
-                for (var z = 0; z < Integer.parseInt(lines[data].substring(lines[data].indexOf('e') + 1)); z++) {
+                for (var z = 0; z < Integer.parseInt(lines.get(data).substring(lines.get(data).indexOf('e') + 1)); z++) {
                     floors.get(f).getFloorPlan()[r][c].getWalls().get(0).getStorage().add(new Nunchaku());
                 }
                 
                 data++;
                 
-                for (var x = 0; x < Integer.parseInt(lines[data].substring(lines[data].indexOf('*') + 1, lines[data].indexOf('a'))); x++) {
+                for (var x = 0; x < Integer.parseInt(lines.get(data).substring(lines.get(data).indexOf('*') + 1, lines.get(data).indexOf('a'))); x++) {
                     floors.get(f).getFloorPlan()[r][c].getWalls().get(0).getStorage().add(new HealthPack("Herb", 3));
                 }
                 
-                for (var y = 0; y < Integer.parseInt(lines[data].substring(lines[data].indexOf('a') + 1, lines[data].indexOf('b'))); y++) {
+                for (var y = 0; y < Integer.parseInt(lines.get(data).substring(lines.get(data).indexOf('a') + 1, lines.get(data).indexOf('b'))); y++) {
                     floors.get(f).getFloorPlan()[r][c].getWalls().get(0).getStorage().add(new HealthPack("Bushel", 5));
                 }
                 
-                for (var z = 0; z < Integer.parseInt(lines[data].substring(lines[data].indexOf('b') + 1)); z++) {
+                for (var z = 0; z < Integer.parseInt(lines.get(data).substring(lines.get(data).indexOf('b') + 1)); z++) {
                     floors.get(f).getFloorPlan()[r][c].getWalls().get(0).getStorage().add(new Coin());
                 }
                 
@@ -207,33 +203,17 @@ public class Main {
         }
     }
     
-    public static void mainMenu() throws IOException {
-        fileSize = getFileSize("res/txt/mainMenu1.txt");
-        
-        var lines = new String[fileSize];
-        readFile(lines, "res/txt/mainMenu1.txt");
-        
-        for (var i = 0; i < fileSize; i++) {
-            System.out.println(lines[i]);
-        }
+    private static void mainMenu() {
+        var lines = Resources.getLines("mainMenu1");
+        lines.forEach(System.out::println);
         
         System.out.println();
         
-        fileSize = getFileSize("res/txt/splashText.txt");
+        lines = Resources.getLines("splashText");
+        System.out.println(Util.getRandom(lines).toUpperCase());
         
-        lines = new String[fileSize];
-        readFile(lines, "res/txt/splashText.txt");
-        
-        System.out.println(lines[(int) (Math.random() * lines.length)].toUpperCase());
-        
-        fileSize = getFileSize("res/txt/mainMenu2.txt");
-        
-        lines = new String[fileSize];
-        readFile(lines, "res/txt/mainMenu2.txt");
-        
-        for (var i = 0; i < fileSize; i++) {
-            System.out.println(lines[i]);
-        }
+        lines = Resources.getLines("mainMenu2");
+        lines.forEach(System.out::println);
         
         System.out.println();
         
@@ -268,73 +248,67 @@ public class Main {
         }
     }
     
-    public static void options() {
+    private static void options() {
         aaa.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         aaa.setSize(300, 200);
         aaa.setVisible(true);
     }
     
-    public static void credits() throws IOException {
-        fileSize = getFileSize("res/txt/credits.txt");
+    private static void credits() {
+        var lines = Resources.getLines("credits");
         
-        var a = new String[fileSize];
-        readFile(a, "res/txt/credits.txt");
-        
-        for (var i = 0; i < fileSize; i++) {
-            System.out.println(a[i]);
-        }
+        lines.forEach(System.out::println);
         
         System.out.println();
     }
     
-    public static void introduction() throws IOException {
+    private static void introduction() {
         System.out.println("                        [Nazo No Shiro]");
         System.out.println("                    [XXXXX{================>");
         System.out.println();
         
-        fileSize = getFileSize("res/txt/first1-2-A.txt");
+        var lines = Resources.getLines("introA");
         
-        var lines1 = new String[fileSize];
-        readFile(lines1, "res/txt/first1-2-A.txt");
+        var i = 0;
         
-        for (var i = 0; i < 5; i++) {
-            System.out.println(lines1[i]);
+        for (; i < 5; i++) {
+            System.out.println(lines.get(i));
         }
         
         delay(12);
         
-        for (var i = 5; i < 11; i++) {
-            System.out.println(lines1[i]);
+        for (; i < 11; i++) {
+            System.out.println(lines.get(i));
         }
         
         delay(15);
         
-        for (var i = 11; i < 14; i++) {
-            System.out.println(lines1[i]);
+        for (; i < 14; i++) {
+            System.out.println(lines.get(i));
         }
         
         delay(6);
         
-        for (var i = 14; i < 16; i++) {
-            System.out.println(lines1[i]);
+        for (; i < 16; i++) {
+            System.out.println(lines.get(i));
         }
         
         delay(2);
         
-        for (var i = 16; i < 22; i++) {
-            System.out.println(lines1[i]);
+        for (; i < 22; i++) {
+            System.out.println(lines.get(i));
         }
         
         delay(7);
         
-        for (var i = 22; i < 24; i++) {
-            System.out.println(lines1[i]);
+        for (; i < 24; i++) {
+            System.out.println(lines.get(i));
         }
         
         delay(4);
         
-        for (var i = 24; i < 27; i++) {
-            System.out.println(lines1[i]);
+        for (; i < 27; i++) {
+            System.out.println(lines.get(i));
         }
         
         delay(6);
@@ -362,70 +336,65 @@ public class Main {
             System.out.print("[Salesperson]: Alright, ma'am! ");
         }
         
-        fileSize = getFileSize("res/txt/first1-2-B.txt");
+        lines = Resources.getLines("introB");
         
-        var lines2 = new String[fileSize];
-        readFile(lines2, "res/txt/first1-2-B.txt");
-        
-        for (var i = 0; i < 2; i++) {
-            System.out.println(lines2[i]);
+        for (i = 0; i < 2; i++) {
+            System.out.println(lines.get(i));
         }
         
         delay(6);
         
-        for (var i = 2; i < 4; i++) {
-            System.out.println(lines2[i]);
+        for (; i < 4; i++) {
+            System.out.println(lines.get(i));
         }
         
         delay(2);
         
-        for (var i = 4; i < 8; i++) {
-            System.out.println(lines2[i]);
+        for (; i < 8; i++) {
+            System.out.println(lines.get(i));
         }
         
         delay(3);
         
-        for (var i = 8; i < 16; i++) {
-            System.out.println(lines2[i]);
+        for (; i < 16; i++) {
+            System.out.println(lines.get(i));
         }
         
         if (self.getName().length() < 15) {
-            var namePadding = 15 - self.getName().length();
+            var namePadding = (15 - self.getName().length()) - 1;
             
-            System.out.print(lines2[17] + self.getName().toUpperCase());
+            System.out.printf("%s%s", lines.get(17), self.getName().toUpperCase());
             
-            for (var i = 1; i < namePadding; i++) {
-                System.out.print(" ");
-            }
+            System.out.print(" ".repeat(namePadding));
             
             System.out.println("         |");
         }
         else {
-            System.out.println(lines2[17] + self.getName().substring(0, 14).toUpperCase() + lines2[18]);
+            System.out.printf("%s%s%s%n", lines.get(17), self.getName().substring(0, 14).toUpperCase(), lines.get(18));
         }
         
-        System.out.println(lines2[19]);
-        System.out.println(lines2[20] + DoB + lines2[21]);
-        System.out.println(lines2[22]);
-        System.out.println(lines2[23] + gen.toUpperCase() + lines2[24]);
-        System.out.println(lines2[25]);
+        System.out.println(lines.get(19));
+        System.out.printf("%s%s%s%n", lines.get(20), DoB, lines.get(21));
+        System.out.println(lines.get(22));
+        System.out.printf("%s%s%s%n", lines.get(23), gen.toUpperCase(), lines.get(24));
+        System.out.println(lines.get(25));
         
         delay(8);
         
-        for (var i = 26; i < 28; i++) {
-            System.out.println(lines2[i]);
+        for (i = 26; i < 28; i++) {
+            System.out.println(lines.get(i));
         }
         
         delay(2);
         
-        for (var i = 28; i < 33; i++) {
-            System.out.println(lines2[i]);
+        for (; i < 33; i++) {
+            System.out.println(lines.get(i));
         }
         
         delay(11);
         
-        for (var i = 33; i < 35; i++) {
-            System.out.println(lines2[i]);
+        for (; i < 35; i++) {
+            System.out.println(lines.get(i));
         }
         
         delay(3);
@@ -433,24 +402,25 @@ public class Main {
         System.out.println();
     }
     
-    public static void explore(Room room) throws IOException {
-        System.out.println(room);
-        System.out.println();
+    private static void explore(Room room) throws IOException {
+        System.out.printf("%s%n%n", room);
         
         var timing = alreadyVisited(row, column) ? "then" : "first";
+    
+        var fileName = "%s%d-%d-%d".formatted(timing, row, column, floor);
         
-        fileName = "%s%d-%d.txt".formatted(timing, row, column);
+        var description = Resources.getLines(fileName);
         
-        fileSize = getFileSize(fileName);
-        
-        var description = new String[fileSize];
-        readFile(description, fileName);
+        description.forEach(System.out::println);
         
         for (var i = 0; i < room.getSize(); i++) {
             var direction = switch (room.getWall(i).getSide()) {
                 case 'N' -> "north";
+                
                 case 'S' -> "south";
+                
                 case 'E' -> "east";
+                
                 default -> "west";
             };
             
@@ -598,54 +568,18 @@ public class Main {
         }
     }
     
-    public static void readFile(String[] words, String fileName) throws IOException {
-        var input = new Scanner(new FileReader(fileName));
+    private static void fight(Fighter enemy) throws IOException {
+        var directHit = Resources.getLines("directHit");
         
-        var i = 0;
+        var indirectHit = Resources.getLines("indirectHit");
         
-        String line;
+        var missHit = Resources.getLines("missHit");
         
-        while (input.hasNextLine()) {
-            line = input.nextLine();
-            
-            words[i] = line;
-            
-            i++;
-        }
+        var directBlock = Resources.getLines("directBlock");
         
-        input.close();
-    }
-    
-    public static void fight(Fighter enemy) throws IOException {
-        fileSize = getFileSize("res/txt/directHit.txt");
-        var list = new String[fileSize];
+        var indirectBlock = Resources.getLines("indirectBlock");
         
-        readFile(list, "res/txt/directHit.txt");
-        
-        fileSize = getFileSize("res/txt/indirectHit.txt");
-        var list2 = new String[fileSize];
-        
-        readFile(list2, "res/txt/indirectHit.txt");
-        
-        fileSize = getFileSize("res/txt/missHit.txt");
-        var list3 = new String[fileSize];
-        
-        readFile(list3, "res/txt/missHit.txt");
-        
-        fileSize = getFileSize("res/txt/directBlock.txt");
-        var list4 = new String[fileSize];
-        
-        readFile(list4, "res/txt/directBlock.txt");
-        
-        fileSize = getFileSize("res/txt/indirectBlock.txt");
-        var list5 = new String[fileSize];
-        
-        readFile(list5, "res/txt/indirectBlock.txt");
-        
-        fileSize = getFileSize("res/txt/missBlock.txt");
-        var list6 = new String[fileSize];
-        
-        readFile(list6, "res/txt/missBlock.txt");
+        var missBlock = Resources.getLines("missBlock");
         
         while (!self.isDead() && !enemy.isDead()) {
             if (enemy.getName().equals("Imperial Guard")) {
@@ -684,7 +618,7 @@ public class Main {
                     }
                     
                     if (action.equals("attack") || action.equals("a")) {
-                        self.attack(enemy, list, list2, list3);
+                        self.attack(enemy, directHit, indirectHit, missHit);
                     }
                     else if (action.equals("use") || action.equals("e")) {
                         self.use(enemy);
@@ -700,7 +634,7 @@ public class Main {
                     enemy.allAffect();
                     enemy.filter();
                     
-                    enemy.attack(self, list4, list5, list6);
+                    enemy.attack(self, directBlock, indirectBlock, missBlock);
                 }
                 
                 yourTurn = !yourTurn;
@@ -720,8 +654,9 @@ public class Main {
         }
     }
     
-    public static void run(Fighter enemy, String dir) throws IOException {
-        speedDiff = ((double) self.getSpeed() / enemy.getSpeed()) * 50;
+    private static void run(Fighter enemy, String dir) throws IOException {
+        //used in run method
+        double speedDiff = ((double) self.getSpeed() / enemy.getSpeed()) * 50;
         
         var runChance = Math.random() * 100;
         
@@ -752,16 +687,16 @@ public class Main {
         }
     }
     
-    public static void delay(int secs) {
-        try {
-            Thread.sleep(secs * 1000L);
-        }
-        catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+    private static void delay(int secs) {
+        //try {
+            //TODO: Reenable pausing: Thread.sleep(secs * 1000L);
+        //}
+        //catch (InterruptedException e) {
+        //    throw new RuntimeException(e);
+        //}
     }
     
-    public static void move(String dir) {
+    private static void move(String dir) {
         switch (dir) {
             case "north" -> row = north();
             
@@ -777,7 +712,7 @@ public class Main {
         }
     }
     
-    public static void distributeAllItems() {
+    private static void distributeAllItems() {
         for (var castleFloor : floors) {
             for (var r = 0; r < castleFloor.getXSize(); r++) {
                 for (var c = 0; c < castleFloor.getYSize(); c++) {
@@ -799,7 +734,7 @@ public class Main {
         }
     }
     
-    public static void showInventory() {
+    private static void showInventory() {
         int w = 0, h = 0, b = 0, c = 0, n = 0;
         
         for (var i = 0; i < self.getInventory().size(); i++) {
@@ -903,7 +838,7 @@ public class Main {
         selection = "none";
     }
     
-    public static void storeState() {
+    private static void storeState() {
         self.storeState();
         
         rowLast = row;
@@ -941,7 +876,7 @@ public class Main {
         }
     }
     
-    public static void resetState() {
+    private static void resetState() {
         self.resetState();
         
         row = rowLast;
@@ -981,26 +916,17 @@ public class Main {
         }
     }
     
-    public static void endGame() {
-        try {
-            fileSize = getFileSize("res/txt/endGame.txt");
-            
-            var text = new String[fileSize];
-            readFile(text, "res/txt/endGame.txt");
-            
-            for (var i = 0; i < fileSize; i++) {
-                System.out.println(text[i]);
-            }
-            
-            System.out.println();
-        }
-        catch (IOException ignored) {
-        }
+    private static void endGame() {
+        var text = Resources.getLines("endGame");
+        
+        text.forEach(System.out::println);
+        
+        System.out.println();
         
         System.exit(0);
     }
     
-    public static boolean hasWall(char side) {
+    private static boolean hasWall(char side) {
         for (var i = 0; i < floors.get(floor).getRoom(row, column).getSize(); i++) {
             if (floors.get(floor).getRoom(row, column).getWalls().get(i).getSide() == side) {
                 return true;
@@ -1010,23 +936,23 @@ public class Main {
         return false;
     }
     
-    public static boolean northernMost() {
+    private static boolean northernMost() {
         return row == 0;
     }
     
-    public static boolean southernMost() {
+    private static boolean southernMost() {
         return row == 3;
     }
     
-    public static boolean easternMost() {
+    private static boolean easternMost() {
         return column == 4;
     }
     
-    public static boolean westernMost() {
+    private static boolean westernMost() {
         return column == 0;
     }
     
-    public static boolean isExploreOption(String choice) {
+    private static boolean isExploreOption(String choice) {
         return choice.equals("play puzzle") || choice.equals("play") ||
             choice.equals("solve puzzle") || choice.equals("solve") ||
             choice.equals("show inventory") || choice.equals("inventory") ||
@@ -1041,11 +967,11 @@ public class Main {
             choice.equals("r") || choice.equals("f");
     }
     
-    public static boolean alreadyVisited(int row, int column) {
+    private static boolean alreadyVisited(int row, int column) {
         return floors.get(floor).getRoom(row, column).getKey() == 99;
     }
     
-    public static int north() {
+    private static int north() {
         currentKey = 0;
         
         for (var i = 0; i < self.getKeys().size(); i++) {
@@ -1084,7 +1010,7 @@ public class Main {
         return row;
     }
     
-    public static int south() {
+    private static int south() {
         currentKey = 0;
         
         for (var i = 0; i < self.getKeys().size(); i++) {
@@ -1119,7 +1045,7 @@ public class Main {
         return row;
     }
     
-    public static int east() {
+    private static int east() {
         currentKey = 0;
         
         for (var i = 0; i < self.getKeys().size(); i++) {
@@ -1154,7 +1080,7 @@ public class Main {
         return column;
     }
     
-    public static int west() {
+    private static int west() {
         currentKey = 0;
         
         for (var i = 0; i < self.getKeys().size(); i++) {
@@ -1189,51 +1115,15 @@ public class Main {
         return column;
     }
     
-    public static int up() {
+    private static int up() {
         floor++;
         
         return floor;
     }
     
-    public static int down() {
+    private static int down() {
         floor--;
         
         return floor;
-    }
-    
-    public static int getFileSize(String fileName) throws IOException {
-        var input = new Scanner(new FileReader(fileName));
-        
-        var size = 0;
-        
-        while (input.hasNextLine()) {
-            size++;
-            
-            input.nextLine();
-        }
-        
-        input.close();
-        
-        return size;
-    }
-    
-    public static int input(String[] lines, String fileName) throws Exception {
-        var reader = new BufferedReader(new FileReader(fileName));
-        
-        var index = 0;
-        
-        var line = reader.readLine();
-        
-        while (line != null) {
-            lines[index] = line;
-            
-            index++;
-            
-            line = reader.readLine();
-        }
-        
-        reader.close();
-        
-        return index;
     }
 }
