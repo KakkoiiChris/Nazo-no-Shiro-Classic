@@ -4,6 +4,7 @@ import kakkoiichris.nazonoshiro.item.Item;
 import kakkoiichris.nazonoshiro.item.kasugi.Kasugi;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public abstract class Fighter {
@@ -89,7 +90,7 @@ public abstract class Fighter {
         return health <= 0;
     }
     
-    public boolean hasItem(String a, ArrayList<Item> inventory) {
+    public boolean hasItem(String a) {
         for (int i = 0; i < inventory.size(); i++) {
             if (inventory.get(i).getName().equalsIgnoreCase(a))
                 return true;

@@ -1,6 +1,6 @@
 package kakkoiichris.nazonoshiro.castle;//Christian Alexander, 5/12/11, Pd. 6
 
-import kakkoiichris.nazonoshiro.fighter.Fighter;
+import kakkoiichris.nazonoshiro.fighter.Self;
 import kakkoiichris.nazonoshiro.item.Item;
 
 import java.util.ArrayList;
@@ -55,7 +55,7 @@ public class Room {
             for (int i = 0; i < getWalls().size(); i++) {
                 for (int j = 0; j < d; j++) {
                     int random = (int) (Math.random() * items.size());
-                    getWalls().get(i).getStorage().addToStored(items.get(random));
+                    getWalls().get(i).getStorage().add(items.get(random));
                     items.remove(random);
                 }
             }
@@ -115,11 +115,11 @@ public class Room {
         return name;
     }
     
-    public void look(Fighter self, ArrayList<Item> inventory, char dir) {
+    public void look(Self self, ArrayList<Item> inventory, char dir) {
         if (getWalls().size() > 0) {
             for (i = 0; i < getWalls().size(); i++) {
                 if (getWalls().get(i).getSide() == dir) {
-                    getWalls().get(i).getStorage().open(self, inventory);
+                    getWalls().get(i).getStorage().open(self);
                 }
                 else
                     System.out.println("Just a door. Nothing else.");
@@ -132,7 +132,7 @@ public class Room {
     public void redistribute() {
         for (int i = 0; i < this.getSize(); i++) {
             for (int j = 0; j < items.size() / this.getSize(); j++) {
-                this.getWall(i).getStorage().addToStored(items.get((int) (Math.random() * items.size())));
+                this.getWall(i).getStorage().add(items.get((int) (Math.random() * items.size())));
                 items.remove(j);
             }
         }

@@ -165,41 +165,41 @@ public class Main {
                 data++;
                 
                 for (var u = 0; u < Integer.parseInt(lines[data].substring(lines[data].indexOf('!') + 1, lines[data].indexOf('a'))); u++) {
-                    floors.get(f).getFloorPlan()[r][c].getWalls().get(0).getStorage().addToStored(new Tanto());
+                    floors.get(f).getFloorPlan()[r][c].getWalls().get(0).getStorage().add(new Tanto());
                 }
                 
                 for (var v = 0; v < Integer.parseInt(lines[data].substring(lines[data].indexOf('a') + 1, lines[data].indexOf('b'))); v++) {
-                    floors.get(f).getFloorPlan()[r][c].getWalls().get(0).getStorage().addToStored(new Wakizashi());
+                    floors.get(f).getFloorPlan()[r][c].getWalls().get(0).getStorage().add(new Wakizashi());
                 }
                 
                 for (var w = 0; w < Integer.parseInt(lines[data].substring(lines[data].indexOf('b') + 1, lines[data].indexOf('c'))); w++) {
-                    floors.get(f).getFloorPlan()[r][c].getWalls().get(0).getStorage().addToStored(new Katana());
+                    floors.get(f).getFloorPlan()[r][c].getWalls().get(0).getStorage().add(new Katana());
                 }
                 
                 for (var x = 0; x < Integer.parseInt(lines[data].substring(lines[data].indexOf('c') + 1, lines[data].indexOf('d'))); x++) {
-                    floors.get(f).getFloorPlan()[r][c].getWalls().get(0).getStorage().addToStored(new Bo());
+                    floors.get(f).getFloorPlan()[r][c].getWalls().get(0).getStorage().add(new Bo());
                 }
                 
                 for (var y = 0; y < Integer.parseInt(lines[data].substring(lines[data].indexOf('d') + 1, lines[data].indexOf('e'))); y++) {
-                    floors.get(f).getFloorPlan()[r][c].getWalls().get(0).getStorage().addToStored(new Shuriken());
+                    floors.get(f).getFloorPlan()[r][c].getWalls().get(0).getStorage().add(new Shuriken());
                 }
                 
                 for (var z = 0; z < Integer.parseInt(lines[data].substring(lines[data].indexOf('e') + 1)); z++) {
-                    floors.get(f).getFloorPlan()[r][c].getWalls().get(0).getStorage().addToStored(new Nunchaku());
+                    floors.get(f).getFloorPlan()[r][c].getWalls().get(0).getStorage().add(new Nunchaku());
                 }
                 
                 data++;
                 
                 for (var x = 0; x < Integer.parseInt(lines[data].substring(lines[data].indexOf('*') + 1, lines[data].indexOf('a'))); x++) {
-                    floors.get(f).getFloorPlan()[r][c].getWalls().get(0).getStorage().addToStored(new HealthPack("Herb", 3));
+                    floors.get(f).getFloorPlan()[r][c].getWalls().get(0).getStorage().add(new HealthPack("Herb", 3));
                 }
                 
                 for (var y = 0; y < Integer.parseInt(lines[data].substring(lines[data].indexOf('a') + 1, lines[data].indexOf('b'))); y++) {
-                    floors.get(f).getFloorPlan()[r][c].getWalls().get(0).getStorage().addToStored(new HealthPack("Bushel", 5));
+                    floors.get(f).getFloorPlan()[r][c].getWalls().get(0).getStorage().add(new HealthPack("Bushel", 5));
                 }
                 
                 for (var z = 0; z < Integer.parseInt(lines[data].substring(lines[data].indexOf('b') + 1)); z++) {
-                    floors.get(f).getFloorPlan()[r][c].getWalls().get(0).getStorage().addToStored(new Coin());
+                    floors.get(f).getFloorPlan()[r][c].getWalls().get(0).getStorage().add(new Coin());
                 }
                 
                 data += 2;
