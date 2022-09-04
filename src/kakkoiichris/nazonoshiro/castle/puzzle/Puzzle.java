@@ -2,6 +2,7 @@ package kakkoiichris.nazonoshiro.castle.puzzle;//Christian Alexander, 5/12/11, P
 
 public abstract class Puzzle {
     private final String name;
+    
     protected boolean won = false, wonLast = false;
     
     public Puzzle(String name) {

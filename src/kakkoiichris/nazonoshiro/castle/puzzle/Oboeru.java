@@ -3,10 +3,10 @@ package kakkoiichris.nazonoshiro.castle.puzzle;//Christian Alexander, 5/12/11, P
 import java.util.Scanner;
 
 public class Oboeru extends Puzzle {
-    public char[][] board = new char[5][6];
-    public char[][] key = new char[5][6];
-    public int r, c, a, b, x, y, i, count = 0;
-    public Scanner input = new Scanner(System.in);
+    private final char[][] board = new char[5][6];
+    private final char[][] key = new char[5][6];
+    
+    private final Scanner input = new Scanner(System.in);
     
     public Oboeru() {
         super("Oboeru");
@@ -22,8 +22,8 @@ public class Oboeru extends Puzzle {
         
         for (var letter = 'A'; letter < 'O'; letter++) {
             for (var i = 0; i < 2; i++) {
-                r = (int) (Math.random() * 5);
-                c = (int) (Math.random() * 6);
+                var r = (int) (Math.random() * 5);
+                var c = (int) (Math.random() * 6);
                 
                 if (key[r][c] == '~') {
                     key[r][c] = letter;
@@ -39,67 +39,69 @@ public class Oboeru extends Puzzle {
     public void showBoard() {
         System.out.println("   0   1   2   3   4   5");
         
-        for (r = 0; r < 5; r++) {
-            System.out.print(r + " ");
+        for (var r = 0; r < 5; r++) {
+            System.out.printf("%d ", r);
             
-            for (c = 0; c < 6; c++) {
-                System.out.print("[" + board[r][c] + "] ");
+            for (var c = 0; c < 6; c++) {
+                System.out.printf("[%s] ", board[r][c]);
             }
             
             System.out.println();
         }
     }
     
-    public void reset(int x, int y, int a, int b) {
-        board[x][y] = key[x][y];
-        board[a][b] = key[a][b];
+    public void reset(int r1, int c1, int r2, int c2) {
+        board[r1][c1] = key[r1][c1];
+        board[r2][c2] = key[r2][c2];
     }
     
     public void play() {
         setUp();
         
         showBoard();
+    
+        var count = 0;
         
         while (count < 15) {
             System.out.println("   0   1   2   3   4   5");
-        
-            for (r = 0; r < 5; r++) {
-                System.out.print(r + " ");
-        
-                for (c = 0; c < 6; c++) {
-                    System.out.print("[" + key[r][c] + "] ");
+            
+            for (var r = 0; r < 5; r++) {
+                System.out.printf("%d ", r);
+                
+                for (var c = 0; c < 6; c++) {
+                    System.out.printf("[%s] ", key[r][c]);
                 }
-        
+                
                 System.out.println();
             }
             
             System.out.println("Flip two cards:\nRow 1:");
             
-            x = input.nextInt();
+            var r1 = input.nextInt();
             
             System.out.print("\nColumn 1:");
             
-            y = input.nextInt();
+            var c1 = input.nextInt();
             
-            board[x][y] = '~';
+            board[r1][c1] = '~';
             
             showBoard();
             
             System.out.print("\nRow 2:");
             
-            a = input.nextInt();
+            var r2 = input.nextInt();
             
             System.out.print("\nColumn 2:");
             
-            b = input.nextInt();
-    
-            board[a][b] = '~';
-    
+            var c2 = input.nextInt();
+            
+            board[r2][c2] = '~';
+            
             System.out.println();
             
             showBoard();
             
-            if (key[x][y] == key[a][b]) {
+            if (key[r1][c1] == key[r2][c2]) {
                 System.out.println("That's a match.");
                 
                 count++;
@@ -107,7 +109,7 @@ public class Oboeru extends Puzzle {
             else {
                 System.out.println("Not a match.");
                 
-                reset(x, y, a, b);
+                reset(r1, c1, r2, c2);
             }
             
             System.out.println();

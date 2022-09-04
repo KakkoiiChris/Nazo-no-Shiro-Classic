@@ -5,23 +5,25 @@ import java.util.List;
 import java.util.Scanner;
 
 public class IroIro extends Puzzle {
-    public static Scanner input = new Scanner(System.in);
-    public static String again = "", temp = "";
-    public static char[][] board = new char[4][4];
-    public static char[][] guide = new char[4][4];
-    public static int l = 0, t = 0;
-    public static List<Character> colors = new ArrayList<>();
-    public static List<Character> level1 = new ArrayList<>();
-    public static List<Character> level2 = new ArrayList<>();
-    public static List<Character> level3 = new ArrayList<>();
-    public static List<Character> level4 = new ArrayList<>();
+    private final Scanner input = new Scanner(System.in);
+    
+    private final char[][] board = new char[4][4];
+    private final char[][] guide = new char[4][4];
+    
+    private int l = 0;
+    
+    private final List<Character> colors = new ArrayList<>();
+    private final List<Character> level1 = new ArrayList<>();
+    private final List<Character> level2 = new ArrayList<>();
+    private final List<Character> level3 = new ArrayList<>();
+    private final List<Character> level4 = new ArrayList<>();
     
     public IroIro() {
         super("IroIro");
     }
     
     public void play() {
-        again = "y";
+        var again = "y";
         
         while (again.equals("y") || again.equals("Y")) {
             System.out.println("  <[IROIRO]>\n");
@@ -32,7 +34,7 @@ public class IroIro extends Puzzle {
             
             System.out.print(" > ");
             
-            temp = input.next();
+            var temp = input.next();
             
             System.out.println();
             
@@ -54,7 +56,7 @@ public class IroIro extends Puzzle {
     public void show(char[][] guide) {
         for (var r = 0; r < 4; r++) {
             for (var c = 0; c < 4; c++) {
-                System.out.print(guide[r][c] + " ");
+                System.out.printf("%s ", guide[r][c]);
             }
             
             System.out.println();
