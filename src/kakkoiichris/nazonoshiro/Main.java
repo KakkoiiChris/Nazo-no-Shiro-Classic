@@ -763,13 +763,13 @@ public class Main {
     
     public static void move(String dir) {
         switch (dir) {
-            case "north" -> row = north( );
+            case "north" -> row = north();
             
-            case "south" -> row = south( );
+            case "south" -> row = south();
             
-            case "east" -> column = east( );
+            case "east" -> column = east();
             
-            case "west" -> column = west( );
+            case "west" -> column = west();
             
             case "up" -> floor = up();
             
@@ -1053,7 +1053,7 @@ public class Main {
                 if (column == 4 && alreadyVisited(2, 4)) {
                     endGame();
                 }
-        
+                
                 System.out.println("A wall blocks your path.\n");
                 
                 break;
@@ -1226,9 +1226,9 @@ public class Main {
         
         while (line != null) {
             lines[index] = line;
-        
+            
             index++;
-        
+            
             line = reader.readLine();
         }
         

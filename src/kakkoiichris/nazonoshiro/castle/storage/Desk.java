@@ -1,11 +1,7 @@
-package kakkoiichris.nazonoshiro.castle.storage;//Christian Alexander, 6/21/11, Pd. 6
+//Christian Alexander, 6/21/11, Pd. 6
+package kakkoiichris.nazonoshiro.castle.storage;
 
-import kakkoiichris.nazonoshiro.fighter.Fighter;
 import kakkoiichris.nazonoshiro.fighter.Self;
-import kakkoiichris.nazonoshiro.item.Item;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Desk extends Storage {
     public Desk(int x, int y) {

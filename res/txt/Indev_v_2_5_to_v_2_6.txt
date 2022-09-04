@@ -5,7 +5,7 @@ Indev v.2.5 Maps
 	            	 0   #   #   #   #   #
 
 		             1   #   #   #   #   #
-Castle(kakkoiichris.nazonoshiro.castle.Room[][] ):
+Castle(Room[][] ):
                    2   #   #   #   #   #
 		  
 		             3   #   #   #   #   #
@@ -18,7 +18,7 @@ Castle(kakkoiichris.nazonoshiro.castle.Room[][] ):
 __________________________________________________________________________________________________
 Indev v.2.6 Maps
 
-Castle(ArrayList<kakkoiichris.nazonoshiro.castle.CastleFloor>) : 0 Floor 1
+Castle(ArrayList<CastleFloor>) : 0 Floor 1
 
                                  1 Floor 2
 											
@@ -35,7 +35,7 @@ Castle(ArrayList<kakkoiichris.nazonoshiro.castle.CastleFloor>) : 0 Floor 1
 	            	      0   #   #   #   #
 
 		                  1   #   #   #   #
-kakkoiichris.nazonoshiro.castle.CastleFloor(kakkoiichris.nazonoshiro.castle.Room[][]):
+CastleFloor(Room[][]):
                         2   #   #   #   #
 		  
 		                  3   #   #   #   #
@@ -46,7 +46,7 @@ kakkoiichris.nazonoshiro.castle.CastleFloor(kakkoiichris.nazonoshiro.castle.Room
 		  - Multiple floors possible
 		  - R, C, and F control positioning
 		  - for-loops to traverse Castle ArrayList limit set based on Castle.size()
-		  - for-loops to traverse kakkoiichris.nazonoshiro.castle.CastleFloor array[][] limits based on xSize for rows and ySize for columns
+		  - for-loops to traverse CastleFloor array[][] limits based on xSize for rows and ySize for columns
 		  - new commands for up("up", "r") and down("down", "f")
 		  
 ____________________________________________________________________________________________________________

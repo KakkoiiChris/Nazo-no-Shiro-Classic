@@ -3,39 +3,31 @@ package kakkoiichris.nazonoshiro;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 
 public class OptionsMenu extends JFrame {
-    private JComboBox box;
+    private static final String[] mapNames = { "-Choose One-", "Original Castle", "Double Classic", "The Ziggurat" };
     
-    private static String[] mapNames = { "-Choose One-", "Original Castle", "Double Classic", "The Ziggurat" };
+    private final JComboBox<String> box = new JComboBox<>(mapNames);
     
-    private JLabel Subtitle;
     private String map = "null";
     
     public OptionsMenu() {
         super("Options Menu");
+        
         setLayout(new FlowLayout());
         
+        box.addItemListener(event -> {
+            if (event.getStateChange() == ItemEvent.SELECTED) {
+                map = mapNames[box.getSelectedIndex()];
+                
+                setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            }
+        });
         
-        box = new JComboBox(mapNames);
+        var subtitle = new JLabel("Generate Castle:");
+        subtitle.setToolTipText("The map you will play on in a new game.");
         
-        box.addItemListener
-            (
-                new ItemListener() {
-                    public void itemStateChanged(ItemEvent event) {
-                        if (event.getStateChange() == ItemEvent.SELECTED) {
-                            map = mapNames[box.getSelectedIndex()];
-                            setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                        }
-                    }
-                }
-            );
-        
-        Subtitle = new JLabel("Generate Castle:");
-        Subtitle.setToolTipText("The map you will play on in a new game.");
-        
-        add(Subtitle);
+        add(subtitle);
         add(box);
     }
     

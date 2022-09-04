@@ -1,4 +1,5 @@
-package kakkoiichris.nazonoshiro.item.weapon;//Christian Alexander, 5/12/11, Pd. 6
+//Christian Alexander, 5/12/11, Pd. 6
+package kakkoiichris.nazonoshiro.item.weapon;
 
 import kakkoiichris.nazonoshiro.fighter.Fighter;
 import kakkoiichris.nazonoshiro.item.Item;

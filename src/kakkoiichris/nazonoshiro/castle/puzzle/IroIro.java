@@ -1,4 +1,5 @@
-package kakkoiichris.nazonoshiro.castle.puzzle;//Christian Alexander, 8/8/11, Pd. 6
+//Christian Alexander, 8/8/11, Pd. 6
+package kakkoiichris.nazonoshiro.castle.puzzle;
 
 import java.util.ArrayList;
 import java.util.List;

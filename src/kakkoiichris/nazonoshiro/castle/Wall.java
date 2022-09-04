@@ -1,4 +1,5 @@
-package kakkoiichris.nazonoshiro.castle;//Christian Alexander, 6/22/11, Period 6
+//Christian Alexander, 6/22/11, Period 6
+package kakkoiichris.nazonoshiro.castle;
 
 import kakkoiichris.nazonoshiro.castle.storage.*;
 

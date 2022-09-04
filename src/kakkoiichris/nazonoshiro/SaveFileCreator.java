@@ -1,4 +1,5 @@
-package kakkoiichris.nazonoshiro;   //Christian Alexander, 10/06/2011, Period 8
+//Christian Alexander, 10/06/2011, Period 8
+package kakkoiichris.nazonoshiro;
 
 import kakkoiichris.nazonoshiro.castle.CastleFloor;
 import kakkoiichris.nazonoshiro.fighter.Fighter;
@@ -9,123 +10,127 @@ import java.util.List;
 import java.util.Scanner;
 
 public class SaveFileCreator {
-    private final Scanner input = new Scanner(System.in);
-    private Formatter x;
-
+    private Formatter formatter;
+    
     public void openFile() {
-        try {
+        try (var input = new Scanner(System.in)) {
             System.out.print("File Name > ");
-            x = new Formatter(input.nextLine() + ".txt");
+            
+            var fileName = input.nextLine();
+            
+            formatter = new Formatter("%s.txt".formatted(fileName));
+            
             System.out.println();
         }
         catch (Exception e) {
             System.err.println("FILE SAVE ERROR");
         }
     }
-
-    public void addData(List<CastleFloor> castle, Fighter[] guards, Self self, int R, int C, int F, boolean t) {
+    
+    public void addData(List<CastleFloor> castle, Fighter[] guards, Self self, int row, int column, int floor, boolean yourTurn) {
         for (var castleFloor : castle) {
-            x.format("%s%s", castleFloor.getName(), "\n");
+            formatter.format("%s%s", castleFloor.getName(), "\n");
         }
-
+        
         for (var f = 0; f < castle.size(); f++) {
             for (var r = 0; r < castle.get(f).getXSize(); r++) {
                 for (var c = 0; c < castle.get(f).getYSize(); c++) {
-                    x.format("%s%s%s%s%s", "#", f, r, c, castle.get(f).getRoom(r, c).getName() + "\n");
-                    x.format("%s%s%s%s%s", castle.get(f).getPuzzleType()[r][c], ",", castle.get(f).getFloorPlan()[r][c].getKey(), "'", castle.get(f).getFloorPlan()[r][c].getLock() + "\n");
-
+                    formatter.format("#%s%s%s%s%n", f, r, c, castle.get(f).getRoom(r, c).getName());
+                    formatter.format("%s,%s'%s%n", castle.get(f).getPuzzleType()[r][c], castle.get(f).getFloorPlan()[r][c].getKey(), castle.get(f).getFloorPlan()[r][c].getLock());
+                    
                     for (var w = 0; w < castle.get(f).getRoom(r, c).getSize(); w++) {
-                        x.format("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
-                                "|" + castle.get(f).getRoom(r, c).getWall(w).getSide() + ":",
-                                castle.get(f).getRoom(r, c).getWall(w).getStorage().getName() + "\n",
-                                "!" + castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("Tanto") + "a",
-                                castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("Wakizashi") + "b",
-                                castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("Katana") + "c",
-                                castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("Bo Staff") + "d",
-                                castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("Shuriken") + "e",
-                                castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("Nunchaku") + "\n",
-                                "*" + castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("Herb") + "a",
-                                castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("Bushel") + "b",
-                                castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("Coin") + "\n",
-                                "&" + castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("Pure") + "a",
-                                castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("Corrupt") + "b",
-                                castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("Ultra") + "c",
-                                castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("Brace") + "d",
-                                castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("Velocity") + "e",
-                                castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("Sub") + "f",
-                                castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("Intimidate") + "g",
-                                castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("Blind") + "\n");
+                        formatter.format("|%s:%s%n%sa%sb%sc%sd%se%s%n*%sa%sb%s%n&%sa%sb%sc%sd%se%sf%sg%s%n",
+                            castle.get(f).getRoom(r, c).getWall(w).getSide(),
+                            castle.get(f).getRoom(r, c).getWall(w).getStorage().getName(),
+                            castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("Tanto"),
+                            castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("Wakizashi"),
+                            castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("Katana"),
+                            castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("Bo Staff"),
+                            castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("Shuriken"),
+                            castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("Nunchaku"),
+                            castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("Herb"),
+                            castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("Bushel"),
+                            castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("Coin"),
+                            castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("Pure"),
+                            castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("Corrupt"),
+                            castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("Ultra"),
+                            castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("Brace"),
+                            castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("Velocity"),
+                            castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("Sub"),
+                            castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("Intimidate"),
+                            castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("Blind")
+                        );
                     }
                 }
             }
         }
-
-        x.format("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
-                "S" + F + R + C + ":" + self.getName() + "," + self.getGender() + "," + self.getBirthday() + "\n",
-                "P" + self.getAttack() + "," + self.getDefense() + "," + self.getSpeed() + "," + self.getHealth() + "\n",
-                "!" + self.getCount("Tanto") + "a",
-                self.getCount("Wakizashi") + "b",
-                self.getCount("Katana") + "c",
-                self.getCount("Bo Staff") + "d",
-                self.getCount("Shuriken") + "e",
-                self.getCount("Nunchaku") + "\n",
-                "*" + self.getCount("Herb") + "a",
-                self.getCount("Bushel") + "b",
-                self.getCount("Coin") + "\n",
-                "&" + self.getCountB("Pure") + "a",
-                self.getCountB("Corrupt") + "b",
-                self.getCountB("Ultra") + "c",
-                self.getCountB("Brace") + "d",
-                self.getCountB("Velocity") + "e",
-                self.getCountB("Sub") + "f",
-                self.getCountB("Intimidate") + "g",
-                self.getCountB("Blind") + "\n");
-
+        
+        formatter.format("S%d%d%d:%s,%s,%s%nP%d,%d,%d,%d%n!%sa%sb%sc%sd%se%s%n*%sa%sb%s%n&%sa%sb%sc%sd%se%sf%sg%s%n",
+            floor, row, column, self.getName(), self.getGender(), self.getBirthday(),
+            self.getAttack(), self.getDefense(), self.getSpeed(), self.getHealth(),
+            self.getCount("Tanto"),
+            self.getCount("Wakizashi"),
+            self.getCount("Katana"),
+            self.getCount("Bo Staff"),
+            self.getCount("Shuriken"),
+            self.getCount("Nunchaku"),
+            self.getCount("Herb"),
+            self.getCount("Bushel"),
+            self.getCount("Coin"),
+            self.getCountB("Pure"),
+            self.getCountB("Corrupt"),
+            self.getCountB("Ultra"),
+            self.getCountB("Brace"),
+            self.getCountB("Velocity"),
+            self.getCountB("Sub"),
+            self.getCountB("Intimidate"),
+            self.getCountB("Blind")
+        );
+        
         for (var i = 0; i < self.getEffectives().size(); i++) {
-            if (self.getEffectives().size() > 0) {
-                x.format("%s", "e" + self.getEffectives().get(i).getName() + ":" + self.getEffectives().get(i).getTimer() + "\n");
-            }
+            formatter.format("e%s:%d%n", self.getEffectives().get(i).getName(), self.getEffectives().get(i).getTimer());
         }
-
-        x.format("%s", "k");
-
+        
+        formatter.format("k");
+        
         for (var i = 0; i < self.getKeys().size(); i++) {
-            x.format("%s", self.getKeys().get(i) + ",");
+            formatter.format("%d,", self.getKeys().get(i));
         }
-
-        x.format("%s", "\n");
-
+        
+        formatter.format("%n");
+        
         for (var guard : guards) {
-            x.format("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
-                    "S" + F + R + C + ":" + guard.getName() + "\n",
-                    "P" + guard.getAttack() + "," + guard.getDefense() + "," + guard.getSpeed() + "," + guard.getHealth() + "\n",
-                    "!" + guard.getCount("Tanto") + "a",
-                    guard.getCount("Wakizashi") + "b",
-                    guard.getCount("Katana") + "c",
-                    guard.getCount("Bo Staff") + "d",
-                    guard.getCount("Shuriken") + "e",
-                    guard.getCount("Nunchaku") + "\n",
-                    "*" + guard.getCount("Herb") + "a",
-                    guard.getCount("Bushel") + "b",
-                    guard.getCount("Coin") + "\n",
-                    "&" + guard.getCountB("Pure") + "a",
-                    guard.getCountB("Corrupt") + "b",
-                    guard.getCountB("Ultra") + "c",
-                    guard.getCountB("Brace") + "d",
-                    guard.getCountB("Velocity") + "e",
-                    guard.getCountB("Sub") + "f",
-                    guard.getCountB("Intimidate") + "g",
-                    guard.getCountB("Blind") + "\n");
-
+            formatter.format("S%d%d%d:%s%nP%d,%d,%d,%d%n!%da%db%dc%dd%de%d%n*%da%db%d%n&%da%db%dc%dd%de%df%dg%d%n",
+                floor, row, column, guard.getName(),
+                guard.getAttack(), guard.getDefense(), guard.getSpeed(), guard.getHealth(),
+                guard.getCount("Tanto"),
+                guard.getCount("Wakizashi"),
+                guard.getCount("Katana"),
+                guard.getCount("Bo Staff"),
+                guard.getCount("Shuriken"),
+                guard.getCount("Nunchaku"),
+                guard.getCount("Herb"),
+                guard.getCount("Bushel"),
+                guard.getCount("Coin"),
+                guard.getCountB("Pure"),
+                guard.getCountB("Corrupt"),
+                guard.getCountB("Ultra"),
+                guard.getCountB("Brace"),
+                guard.getCountB("Velocity"),
+                guard.getCountB("Sub"),
+                guard.getCountB("Intimidate"),
+                guard.getCountB("Blind")
+            );
+            
             for (var i = 0; i < guard.getEffectives().size(); i++) {
                 if (guard.getEffectives().size() > 0) {
-                    x.format("%s", "e" + guard.getEffectives().get(i).getName() + ":" + guard.getEffectives().get(i).getTimer() + "\n");
+                    formatter.format("e%s:%d%n", guard.getEffectives().get(i).getName(), guard.getEffectives().get(i).getTimer());
                 }
             }
         }
     }
-
+    
     public void closeFile() {
-        x.close();
+        formatter.close();
     }
 }

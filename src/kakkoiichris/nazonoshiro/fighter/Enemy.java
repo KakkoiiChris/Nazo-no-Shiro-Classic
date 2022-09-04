@@ -1,4 +1,5 @@
-package kakkoiichris.nazonoshiro.fighter;//Christian Alexander, 1/1/11, Pd. 6
+//Christian Alexander, 1/1/11, Pd. 6
+package kakkoiichris.nazonoshiro.fighter;
 
 import kakkoiichris.nazonoshiro.item.Item;
 import kakkoiichris.nazonoshiro.item.kasugi.*;

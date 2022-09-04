@@ -6,7 +6,7 @@ Himitsu-shitsu e no tobira, nishi no bekkan ni ichi shite imasu.
 Saishuu-tekina pazuru ga kaiketsu sa reta nochi ni nomi hyouji sa remasu.
 Pazuru wa, muzukashiku naru houshuu wa subarashii monoda.
 
-(small) squares-  (kogata) kakkoiichris.nazonoshiro.castle.puzzle.Seihoukei
+(small) squares-  (kogata) Seihoukei
 
 (small) sudoku-   (Kogata) suu Doku
 
