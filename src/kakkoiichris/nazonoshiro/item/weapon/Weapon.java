@@ -15,7 +15,7 @@ public abstract class Weapon extends Item {
     public abstract void show();
     
     public void pickUp(Fighter self) {
-        self.setAtk(1);
+        self.setAttack(1);
     }
     
     public void use(Fighter self, int value) {

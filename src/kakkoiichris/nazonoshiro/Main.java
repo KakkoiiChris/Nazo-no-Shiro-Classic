@@ -112,7 +112,7 @@ public class Main {
         weapons.add(new Katana());
         
         for (var guard : guards) {
-            guard.setDrop(self, weapons, wCount);
+            guard.setDrop(self, weapons);
         }
         
         introduction();
@@ -459,10 +459,10 @@ public class Main {
         
         var foeIndex = room.getFoe();
         
-        if (room.getPuzzle() == 4 && guards[foeIndex].getHP() > 0) {
+        if (room.getPuzzle() == 4 && guards[foeIndex].getHealth() > 0) {
             fight(guards[foeIndex]);
             
-            if (guards[foeIndex].getHP() <= 0) {
+            if (guards[foeIndex].getHealth() <= 0) {
                 System.out.println("You were victorious!");
                 System.out.println();
                 
@@ -661,7 +661,7 @@ public class Main {
             
             ran = false;
             
-            while (enemy.getHP() > 0 && self.getHP() > 0 && !ran) {
+            while (enemy.getHealth() > 0 && self.getHealth() > 0 && !ran) {
                 self.showHP();
                 enemy.showHP();
                 
@@ -721,7 +721,7 @@ public class Main {
     }
     
     public static void run(Fighter enemy, String dir) throws IOException {
-        speedDiff = ((double) self.getSpd() / enemy.getSpd()) * 50;
+        speedDiff = ((double) self.getSpeed() / enemy.getSpeed()) * 50;
         
         var runChance = Math.random() * 100;
         

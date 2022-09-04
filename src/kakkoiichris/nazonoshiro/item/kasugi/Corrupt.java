@@ -15,6 +15,6 @@ public class Corrupt extends Kasugi {
             System.out.print("You");
         System.out.println("'ve been poisoned!");
         System.out.println();
-        any.setHP(1);
+        any.setHealth(1);
     }
 }

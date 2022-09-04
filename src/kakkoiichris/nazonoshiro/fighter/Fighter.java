@@ -8,203 +8,199 @@ import java.util.List;
 import java.util.Scanner;
 
 public abstract class Fighter {
-    private String name, action;
-    private int turn;
+    private String name;
     protected int temp;
     protected int attack,
-        defense,
-        speed,
-        health,
-        x,
-        y,
-        attack1,
-        defense1,
-        speed1,
-        health1,
-        x1,
-        y1;
-    
-    protected boolean ran = false, ran1 = false;
+            defense,
+            speed,
+            health,
+            x,
+            y,
+            attackLast,
+            defenseLast,
+            speedlast,
+            healthLast,
+            xLast,
+            yLast;
+
     protected Scanner input = new Scanner(System.in);
-    private ArrayList<Kasugi> effectives = new ArrayList<>();
-    protected ArrayList<Kasugi> useable = new ArrayList<>();
-    private ArrayList<Item> inventory = new ArrayList<>();
-    private ArrayList<Item> inventory1 = new ArrayList<>();
-    private ArrayList<Integer> keys = new ArrayList<>();   //stores all the keys you pick up
-    private ArrayList<Integer> keys1 = new ArrayList<>();
-    protected String gender = new String(), DoB = new String();
-    
-    public Fighter(String n, int a, int d, int s, int h) {
-        name = n;
-        attack = a;
-        defense = d;
-        speed = s;
-        health = h;
+    private List<Kasugi> effectives = new ArrayList<>();
+    protected List<Kasugi> useable = new ArrayList<>();
+    private List<Item> inventory = new ArrayList<>();
+    private List<Item> inventory1 = new ArrayList<>();
+    private List<Integer> keys = new ArrayList<>();   //stores all the keys you pick up
+    private List<Integer> keys1 = new ArrayList<>();
+
+    public Fighter(String name, int attack, int defense, int speed, int health) {
+        this.name = name;
+        this.attack = attack;
+        this.defense = defense;
+        this.speed = speed;
+        this.health = health;
     }
-    
-    public void setName(String n) {
-        name = n;
-    }
-    
-    public int getAtk() {
-        return attack;
-    }
-    
-    public void setAtk(int n) {
-        attack += n;
-    }
-    
-    public int getDef() {
-        return defense;
-    }
-    
-    public void setDef(int n) {
-        defense = n;
-    }
-    
-    public int getSpd() {
-        return speed;
-    }
-    
-    public void setSpd(int n) {
-        speed = n;
-    }
-    
-    public int getHP() {
-        return health;
-    }
-    
-    public void setHP(int a) {
-        health = health - a;
-    }
-    
+
     public String getName() {
         return name;
     }
-    
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAttack() {
+        return attack;
+    }
+
+    public void setAttack(int n) {
+        attack += n;
+    }
+
+    public int getDefense() {
+        return defense;
+    }
+
+    public void setDefense(int n) {
+        defense = n;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int n) {
+        speed = n;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int a) {
+        health = health - a;
+    }
+
     public void heal(int value) {
         health += value;
     }
-    
+
     public boolean isDead() {
         return health <= 0;
     }
-    
+
     public boolean hasItem(String a) {
-        for (int i = 0; i < inventory.size(); i++) {
-            if (inventory.get(i).getName().equalsIgnoreCase(a))
+        for (var item : inventory) {
+            if (item.getName().equalsIgnoreCase(a)) {
                 return true;
+            }
         }
         return false;
     }
-    
-    public void setRandomRoom() {
-        int a = (int) (Math.random() * 5);
-        int b = (int) (Math.random() * 4);
-        if (a != 1 && b != 2)
-            x = a;
-        y = b;
+
+    // picks a random Item from the ".txt" file that it is sent
+    public static int pickWord(String[] words) {
+        return (int) (Math.random() * words.length);
     }
-    
-    public static int pickWord(String[] words)// picks a random Item from the ".txt" file that it is sent
-    {
-        int x = (int) (Math.random() * words.length);
-        return x;
-    }
-    
+
     public void filter() {
-        for (int i = 0; i < getEffectives().size(); i++) {
-            if (getEffectives().get(i).getTimer() == -1)
-                getEffectives().remove(i);
+        for (var i = 0; i < getEffectives().size(); i++) {
+            if (getEffectives().get(i).getTimer() == -1) {
+                getEffectives().remove(i--);
+            }
         }
     }
-    
+
     public void allAffect() {
-        for (int i = 0; i < getEffectives().size(); i++) {
+        for (var i = 0; i < getEffectives().size(); i++) {
             getEffectives().get(i).affect(this);
         }
     }
-    
+
     public String toString() {
         return name;
     }
-    
+
     public void showHP() {
         System.out.print(name + ": " + health + " [");
-        for (int i = 0; i < health; i++) {
+        for (var i = 0; i < health; i++) {
             System.out.print("=");
         }
         System.out.println("]");
         System.out.println();
     }
-    
+
     public int getCount(String n) {
-        int temp = 0;
-        for (int i = 0; i < getInventory().size(); i++) {
-            if (getInventory().get(i).getName().equals(n.toLowerCase()))
+        var temp = 0;
+
+        for (var i = 0; i < getInventory().size(); i++) {
+            if (getInventory().get(i).getName().equals(n.toLowerCase())) {
                 temp++;
+            }
         }
+
         return temp;
     }
-    
+
     public int getCountB(String n) {
-        int temp = 0;
-        for (int i = 0; i < useable.size(); i++) {
-            if (useable.get(i).getName().equals(n.toLowerCase()))
+        var temp = 0;
+
+        for (var kasugi : useable) {
+            if (kasugi.getName().equals(n.toLowerCase())) {
                 temp++;
+            }
         }
+
         return temp;
     }
-    
+
     public void addKasugi(Kasugi a) {
         useable.add(a);
     }
-    
+
     public abstract void attack(Fighter enemy, String[] a, String[] b, String[] c);
-    
+
     public abstract void use(Fighter enemy);
-    
+
     public abstract void storeState();
-    
+
     public abstract void resetState();
-    
-    public ArrayList<Kasugi> getEffectives() {
+
+    public List<Kasugi> getEffectives() {
         return effectives;
     }
-    
-    public void setEffectives(ArrayList<Kasugi> effectives) {
+
+    public void setEffectives(List<Kasugi> effectives) {
         this.effectives = effectives;
     }
-    
-    public ArrayList<Integer> getKeys() {
+
+    public List<Integer> getKeys() {
         return keys;
     }
-    
-    public void setKeys(ArrayList<Integer> keys) {
+
+    public void setKeys(List<Integer> keys) {
         this.keys = keys;
     }
-    
-    public ArrayList<Item> getInventory() {
+
+    public List<Item> getInventory() {
         return inventory;
     }
-    
-    public void setInventory(ArrayList<Item> inventory) {
+
+    public void setInventory(List<Item> inventory) {
         this.inventory = inventory;
     }
-    
-    public ArrayList<Integer> getKeys1() {
+
+    public List<Integer> getKeys1() {
         return keys1;
     }
-    
-    public void setKeys1(ArrayList<Integer> keys1) {
+
+    public void setKeys1(List<Integer> keys1) {
         this.keys1 = keys1;
     }
-    
-    public ArrayList<Item> getInventory1() {
+
+    public List<Item> getInventory1() {
         return inventory1;
     }
-    
-    public void setInventory1(ArrayList<Item> inventory1) {
+
+    public void setInventory1(List<Item> inventory1) {
         this.inventory1 = inventory1;
     }
 }

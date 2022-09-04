@@ -15,7 +15,7 @@ public class Burn extends Kasugi {
                 System.out.print("Your");
             System.out.println(" shield's been degraded!");
             System.out.println();
-            any.setSpd(any.getSpd() - magnitude);
+            any.setSpeed(any.getSpeed() - magnitude);
         }
         else {
             if (any.getName().equals("Ninja") || any.getName().equals("Shogun") || any.getName().equals("Samurai") || any.getName().equals("Daimyo") || any.getName().equals("Imperial Guard"))

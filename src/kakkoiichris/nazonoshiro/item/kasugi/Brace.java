@@ -16,7 +16,7 @@ public class Brace extends Kasugi {
                 System.out.print("You");
             System.out.println("'ve braced for impact!");
             System.out.println();
-            any.setDef(any.getDef() - 3);
+            any.setDefense(any.getDefense() - 3);
         }
         else {
             System.out.println("Brace has worn off.");

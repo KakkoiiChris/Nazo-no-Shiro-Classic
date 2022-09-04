@@ -16,7 +16,7 @@ public class Sub extends Kasugi {
                 System.out.print("Your");
             System.out.println(" power's been dulled!");
             System.out.println();
-            any.setAtk(any.getAtk() - 3);
+            any.setAttack(any.getAttack() - 3);
         }
         else {
             System.out.println("Sub has worn off.");

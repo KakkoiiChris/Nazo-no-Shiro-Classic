@@ -61,8 +61,8 @@ public class SaveFileCreator {
         }
 
         x.format("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
-                "S" + F + R + C + ":" + self.getName() + "," + self.getGender() + "," + self.getDoB() + "\n",
-                "P" + self.getAtk() + "," + self.getDef() + "," + self.getSpd() + "," + self.getHP() + "\n",
+                "S" + F + R + C + ":" + self.getName() + "," + self.getGender() + "," + self.getBirthday() + "\n",
+                "P" + self.getAttack() + "," + self.getDefense() + "," + self.getSpeed() + "," + self.getHealth() + "\n",
                 "!" + self.getCount("Tanto") + "a",
                 self.getCount("Wakizashi") + "b",
                 self.getCount("Katana") + "c",
@@ -98,7 +98,7 @@ public class SaveFileCreator {
         for (var guard : guards) {
             x.format("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
                     "S" + F + R + C + ":" + guard.getName() + "\n",
-                    "P" + guard.getAtk() + "," + guard.getDef() + "," + guard.getSpd() + "," + guard.getHP() + "\n",
+                    "P" + guard.getAttack() + "," + guard.getDefense() + "," + guard.getSpeed() + "," + guard.getHealth() + "\n",
                     "!" + guard.getCount("Tanto") + "a",
                     guard.getCount("Wakizashi") + "b",
                     guard.getCount("Katana") + "c",

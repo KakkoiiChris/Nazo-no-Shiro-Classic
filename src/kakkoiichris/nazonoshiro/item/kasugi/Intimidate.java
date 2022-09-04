@@ -16,7 +16,7 @@ public class Intimidate extends Kasugi {
                 System.out.print("You");
             System.out.println("'ve been intimidated!");
             System.out.println();
-            any.setDef(any.getDef() - 3);
+            any.setDefense(any.getDefense() - 3);
         }
         else {
             System.out.println("Intimidate has worn off.");

@@ -16,12 +16,12 @@ public class Blind extends Kasugi {
                 System.out.print("You");
             System.out.println("'ve been blinded!");
             System.out.println();
-            any.setSpd(any.getSpd() - 3);
+            any.setSpeed(any.getSpeed() - 3);
         }
         else {
             System.out.println("Blind has worn off.");
             System.out.println();
-            any.setSpd(any.getSpd() + 3);
+            any.setSpeed(any.getSpeed() + 3);
         }
         timer--;
     }

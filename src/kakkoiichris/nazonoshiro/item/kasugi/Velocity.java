@@ -16,7 +16,7 @@ public class Velocity extends Kasugi {
                 System.out.print("Your");
             System.out.println(" reactions are much quicker.");
             System.out.println();
-            any.setSpd(any.getSpd() + 3);
+            any.setSpeed(any.getSpeed() + 3);
         }
         else {
             System.out.println("Velocity has worn off.");

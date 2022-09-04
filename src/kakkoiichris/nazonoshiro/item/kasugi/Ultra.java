@@ -16,7 +16,7 @@ public class Ultra extends Kasugi {
                 System.out.print("You ");
             System.out.println("feel reinvigored.");
             System.out.println();
-            any.setHP(-3);
+            any.setHealth(-3);
         }
         else {
             System.out.println("Ultra has worn off.");
