@@ -1,20 +1,20 @@
-package kakkoiichris.nazonoshiro.item.kasugi;//Christian Alexander, 9/13/2011
+//Christian Alexander, 9/13/2011
+package kakkoiichris.nazonoshiro.item.kasugi;
 
+import kakkoiichris.nazonoshiro.fighter.Enemy;
 import kakkoiichris.nazonoshiro.fighter.Fighter;
 
 public class Corrupt extends Kasugi {
     public Corrupt() {
-        super("Corrupt", 1, 99);
-        forYou = false;
+        super("Corrupt", 1, 99, false);
     }
     
-    public void affect(Fighter any) {
-        if (any.getName().equals("Ninja") || any.getName().equals("Shogun") || any.getName().equals("Samurai") || any.getName().equals("Daimyo") || any.getName().equals("Imperial Guard"))
-            System.out.print("They");
-        else
-            System.out.print("You");
-        System.out.println("'ve been poisoned!");
-        System.out.println();
-        any.setHealth(1);
+    @java.lang.Override
+    public void affect(Fighter fighter) {
+        var pronoun = (fighter instanceof Enemy) ? "They" : "You";
+        
+        System.out.printf("%s've been poisoned!%n%n", pronoun);
+        
+        fighter.setHealth(1);
     }
 }

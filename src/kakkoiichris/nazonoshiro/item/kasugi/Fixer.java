@@ -1,13 +1,15 @@
-package kakkoiichris.nazonoshiro.item.kasugi;//Christian Alexander, 9/13/2011
+//Christian Alexander, 9/13/2011
+package kakkoiichris.nazonoshiro.item.kasugi;
 
 import kakkoiichris.nazonoshiro.fighter.Fighter;
 
 public class Fixer extends Kasugi {
     public Fixer() {
-        super("Kasugi", 0, 3);
+        super("Kasugi", 0, 3, true);
     }
     
-    public void affect(Fighter enemy) {
+    @java.lang.Override
+    public void affect(Fighter fighter) {
     
     }
 }

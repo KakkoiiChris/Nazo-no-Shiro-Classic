@@ -1,22 +1,23 @@
-package kakkoiichris.nazonoshiro.item.kasugi;//Christian Alexander, 9/27/2011
+//Christian Alexander, 9/27/2011
+package kakkoiichris.nazonoshiro.item.kasugi;
 
 import kakkoiichris.nazonoshiro.fighter.Fighter;
 
 public class Intimidate extends Kasugi {
     public Intimidate() {
-        super("Intimidate", 3, 3);
-        forYou = false;
+        super("Intimidate", 3, 3, false);
     }
     
-    public void affect(Fighter any) {
+    @java.lang.Override
+    public void affect(Fighter fighter) {
         if (timer != 0) {
-            if (any.getName().equals("Ninja") || any.getName().equals("Shogun") || any.getName().equals("Samurai") || any.getName().equals("Daimyo") || any.getName().equals("Imperial Guard"))
+            if (fighter.getName().equals("Ninja") || fighter.getName().equals("Shogun") || fighter.getName().equals("Samurai") || fighter.getName().equals("Daimyo") || fighter.getName().equals("Imperial Guard"))
                 System.out.print("They");
             else
                 System.out.print("You");
             System.out.println("'ve been intimidated!");
             System.out.println();
-            any.setDefense(any.getDefense() - 3);
+            fighter.setDefense(fighter.getDefense() - 3);
         }
         else {
             System.out.println("Intimidate has worn off.");

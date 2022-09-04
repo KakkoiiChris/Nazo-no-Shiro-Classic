@@ -1,29 +1,26 @@
-package kakkoiichris.nazonoshiro.item.kasugi;//Christian Alexander, 9/13/2011
+//Christian Alexander, 9/13/2011
+package kakkoiichris.nazonoshiro.item.kasugi;
 
+import kakkoiichris.nazonoshiro.fighter.Enemy;
 import kakkoiichris.nazonoshiro.fighter.Fighter;
 
 public class Burn extends Kasugi {
     public Burn() {
-        super("Burn", 3, -1);
+        super("Burn", 3, -1, true);
     }
     
-    public void affect(Fighter any) {
+    @java.lang.Override
+    public void affect(Fighter fighter) {
+        var pronoun = (fighter instanceof Enemy) ? "Their" : "Your";
+        
         if (timer != 0) {
-            if (any.getName().equals("Ninja") || any.getName().equals("Shogun") || any.getName().equals("Samurai") || any.getName().equals("Daimyo") || any.getName().equals("Imperial Guard"))
-                System.out.print("Thier");
-            else
-                System.out.print("Your");
-            System.out.println(" shield's been degraded!");
-            System.out.println();
-            any.setSpeed(any.getSpeed() - magnitude);
+            System.out.printf("%s shield's been degraded!%n%n", pronoun);
+            
+            fighter.setSpeed(fighter.getSpeed() - magnitude);
         }
         else {
-            if (any.getName().equals("Ninja") || any.getName().equals("Shogun") || any.getName().equals("Samurai") || any.getName().equals("Daimyo") || any.getName().equals("Imperial Guard"))
-                System.out.print("Thier");
-            else
-                System.out.print("Your");
-            System.out.println(" poison is cured!");
-            System.out.println();
+            System.out.printf("%s poison's been cured!%n%n", pronoun);
+            
             setTimer(0);
         }
     }

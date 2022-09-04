@@ -1,26 +1,18 @@
-package kakkoiichris.nazonoshiro.item.kasugi;//Christian Alexander, 9/13/2011
+//Christian Alexander, 9/13/2011
+package kakkoiichris.nazonoshiro.item.kasugi;
 
 import kakkoiichris.nazonoshiro.fighter.Fighter;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Scanner;
-
 public abstract class Kasugi {
-    protected String name = new String();
-    protected int duration, magnitude, timer = 0;
-    protected boolean forYou = true;
+    protected String name;
+    protected int magnitude, duration, timer;
+    protected boolean forYou;
     
-    public Kasugi(String n, int m, int d) {
-        duration = d;
-        magnitude = m;
-        name = n;
-        timer = duration;
-    }
-    
-    public String toString() {
-        return name;
+    public Kasugi(String name, int magnitude, int duration, boolean forYou) {
+        this.name = name;
+        this.magnitude = magnitude;
+        this.duration = timer = duration;
+        this.forYou = forYou;
     }
     
     public String getName() {
@@ -35,46 +27,13 @@ public abstract class Kasugi {
         this.timer = timer;
     }
     
-    public abstract void affect(Fighter any);
-    
-    public static int getFileSize(String fileName) throws IOException//returns the size of the ".txt" file that it is sent
-    {
-        Scanner input = new Scanner(new FileReader(fileName));
-        int size = 0;
-        while (input.hasNextLine()) {
-            size++;
-            input.nextLine();
-        }
-        input.close();
-        return size;
-    }
-    
-    public static int input(String[] array, String filename) throws Exception {
-        BufferedReader infile = new BufferedReader(new FileReader(filename));
-        int n = 0;
-        String s = infile.readLine();
-        while (s != null) {
-            array[n] = s;
-            n++;
-            s = infile.readLine();
-        }
-        infile.close();
-        return n;
-    }
-    
-    public static void readFile(String[] words, String fileName) throws IOException {
-        Scanner input = new Scanner(new FileReader(fileName));
-        int i = 0;
-        String line;
-        while (input.hasNextLine()) {
-            line = input.nextLine();
-            words[i] = line;
-            i++;
-        }
-        input.close();
-    }
-    
-    public boolean getForYou() {
+    public boolean isForYou() {
         return forYou;
+    }
+    
+    public abstract void affect(Fighter fighter);
+    
+    public String toString() {
+        return name;
     }
 }

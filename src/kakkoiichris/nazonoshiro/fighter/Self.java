@@ -179,7 +179,7 @@ public class Self extends Fighter {
 
             for (var kasugi : useable) {
                 if (temp.equals(kasugi.getName())) {
-                    if (kasugi.getForYou()) {
+                    if (kasugi.isForYou()) {
                         this.getEffectives().add(kasugi);
                     }
                     else {
