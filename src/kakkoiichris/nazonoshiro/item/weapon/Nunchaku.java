@@ -1,4 +1,5 @@
-package kakkoiichris.nazonoshiro.item.weapon;//Christian Alexander, 5/12/11, Pd. 6
+//Christian Alexander, 5/12/11, Pd. 6
+package kakkoiichris.nazonoshiro.item.weapon;
 
 public class Nunchaku extends Weapon {
     public Nunchaku() {
@@ -6,7 +7,8 @@ public class Nunchaku extends Weapon {
     }
     
     public void show() {
-        System.out.println("|XXXX|O-oooooo-O|XXXX|");
-        System.out.println("       Nunchaku");
+        System.out.println("""
+            |XXXX|O-oooooo-O|XXXX|
+                   Nunchaku""".stripIndent());
     }
 }

@@ -1,4 +1,5 @@
-package kakkoiichris.nazonoshiro.item.weapon;//Christian Alexander, 5/12/11, Pd. 6
+//Christian Alexander, 5/12/11, Pd. 6
+package kakkoiichris.nazonoshiro.item.weapon;
 
 public class Wakizashi extends Weapon {
     public Wakizashi() {
@@ -6,7 +7,8 @@ public class Wakizashi extends Weapon {
     }
     
     public void show() {
-        System.out.println("[XXXX{============>");
-        System.out.println("     Wakizashi");
+        System.out.println("""
+            [XXXX{============>
+                 Wakizashi""".stripIndent());
     }
 }

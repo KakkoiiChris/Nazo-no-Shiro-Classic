@@ -7,6 +7,7 @@ public class HealthPack extends Item {
         super(name, v);
     }
     
+    @Override
     public void pickUp(Fighter self) {
     }
     

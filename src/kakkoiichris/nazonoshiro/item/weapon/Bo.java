@@ -1,4 +1,5 @@
-package kakkoiichris.nazonoshiro.item.weapon;//Christian Alexander, 5/12/11, Pd. 6
+//Christian Alexander, 5/12/11, Pd. 6
+package kakkoiichris.nazonoshiro.item.weapon;
 
 public class Bo extends Weapon {
     public Bo() {
@@ -6,7 +7,8 @@ public class Bo extends Weapon {
     }
     
     public void show() {
-        System.out.println("========XXXXXX========");
-        System.out.println("       Bo Staff");
+        System.out.println("""
+            ========XXXXXX========
+                   Bo Staff""".stripIndent());
     }
 }

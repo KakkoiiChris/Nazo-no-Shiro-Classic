@@ -4,16 +4,13 @@ import kakkoiichris.nazonoshiro.fighter.Fighter;
 import kakkoiichris.nazonoshiro.item.Item;
 
 public abstract class Weapon extends Item {
-    public Weapon(String n, int v) {
-        super(n, v);
-    }
-    
-    public int getAtk() {
-        return value;
+    public Weapon(String name, int value) {
+        super(name, value);
     }
     
     public abstract void show();
     
+    @Override
     public void pickUp(Fighter self) {
         self.setAttack(1);
     }

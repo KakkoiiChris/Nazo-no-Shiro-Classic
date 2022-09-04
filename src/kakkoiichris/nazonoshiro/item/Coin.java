@@ -7,6 +7,7 @@ public class Coin extends Item {
         super("Coin", 5);
     }
     
+    @Override
     public void pickUp(Fighter self) {
     }
     

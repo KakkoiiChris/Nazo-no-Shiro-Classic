@@ -1,4 +1,5 @@
-package kakkoiichris.nazonoshiro.item.weapon;//Christian Alexander, 5/12/11, Pd. 6
+//Christian Alexander, 5/12/11, Pd. 6
+package kakkoiichris.nazonoshiro.item.weapon;
 
 public class Tanto extends Weapon {
     public Tanto() {
@@ -6,7 +7,8 @@ public class Tanto extends Weapon {
     }
     
     public void show() {
-        System.out.println("[XXX{========>");
-        System.out.println("    Tanto");
+        System.out.println("""
+            [XXX{========>
+                Tanto""".stripIndent());
     }
 }
