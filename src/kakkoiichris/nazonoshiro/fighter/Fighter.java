@@ -25,11 +25,9 @@ public abstract class Fighter {
 
     protected Scanner input = new Scanner(System.in);
     private List<Kasugi> effectives = new ArrayList<>();
-    protected List<Kasugi> useable = new ArrayList<>();
+    protected List<Kasugi> usable = new ArrayList<>();
     private List<Item> inventory = new ArrayList<>();
-    private List<Item> inventory1 = new ArrayList<>();
-    private List<Integer> keys = new ArrayList<>();   //stores all the keys you pick up
-    private List<Integer> keys1 = new ArrayList<>();
+    private List<Item> inventoryLast = new ArrayList<>();
 
     public Fighter(String name, int attack, int defense, int speed, int health) {
         this.name = name;
@@ -123,11 +121,11 @@ public abstract class Fighter {
         System.out.println();
     }
 
-    public int getCount(String n) {
+    public int getCount(String name) {
         var temp = 0;
 
         for (var i = 0; i < getInventory().size(); i++) {
-            if (getInventory().get(i).getName().equals(n.toLowerCase())) {
+            if (getInventory().get(i).getName().equals(name.toLowerCase())) {
                 temp++;
             }
         }
@@ -135,11 +133,11 @@ public abstract class Fighter {
         return temp;
     }
 
-    public int getCountB(String n) {
+    public int getCountB(String name) {
         var temp = 0;
 
-        for (var kasugi : useable) {
-            if (kasugi.getName().equals(n.toLowerCase())) {
+        for (var kasugi : usable) {
+            if (kasugi.getName().equals(name.toLowerCase())) {
                 temp++;
             }
         }
@@ -147,8 +145,8 @@ public abstract class Fighter {
         return temp;
     }
 
-    public void addKasugi(Kasugi a) {
-        useable.add(a);
+    public void addKasugi(Kasugi kasugi) {
+        usable.add(kasugi);
     }
 
     public abstract void attack(Fighter enemy, List<String> direct, List<String> indirect, List<String> miss);
@@ -167,14 +165,6 @@ public abstract class Fighter {
         this.effectives = effectives;
     }
 
-    public List<Integer> getKeys() {
-        return keys;
-    }
-
-    public void setKeys(List<Integer> keys) {
-        this.keys = keys;
-    }
-
     public List<Item> getInventory() {
         return inventory;
     }
@@ -183,19 +173,11 @@ public abstract class Fighter {
         this.inventory = inventory;
     }
 
-    public List<Integer> getKeys1() {
-        return keys1;
+    public List<Item> getInventoryLast() {
+        return inventoryLast;
     }
 
-    public void setKeys1(List<Integer> keys1) {
-        this.keys1 = keys1;
-    }
-
-    public List<Item> getInventory1() {
-        return inventory1;
-    }
-
-    public void setInventory1(List<Item> inventory1) {
-        this.inventory1 = inventory1;
+    public void setInventoryLast(List<Item> inventoryLast) {
+        this.inventoryLast = inventoryLast;
     }
 }

@@ -3,10 +3,15 @@ package kakkoiichris.nazonoshiro.fighter;
 
 import kakkoiichris.nazonoshiro.Util;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Self extends Fighter {
     private String gender = "", birthday = "";
+    
+    private Set<Integer> keys = new HashSet<>();   //stores all the keys you pick up
+    private Set<Integer> keysLast = new HashSet<>();
     
     public Self(String name, String gender, String birthday) {
         super(name, (int) (Math.random() * 5) + 3, (int) (Math.random() * 5) + 3, (int) (Math.random() * 5) + 3, 50);
@@ -45,6 +50,30 @@ public class Self extends Fighter {
     
     public String getBirthday() {
         return birthday;
+    }
+    
+    public Set<Integer> getKeys() {
+        return keys;
+    }
+    
+    public void setKeys(Set<Integer> keys) {
+        this.keys = keys;
+    }
+    
+    public Set<Integer> getKeysLast() {
+        return keysLast;
+    }
+    
+    public void setKeysLast(Set<Integer> keysLast) {
+        this.keysLast = keysLast;
+    }
+    
+    public void addKey(int key) {
+        keys.add(key);
+    }
+    
+    public boolean hasKey(int lock) {
+        return keys.stream().anyMatch(key -> key == lock);
     }
     
     @Override
@@ -108,8 +137,8 @@ public class Self extends Fighter {
         
         System.out.println("Kasugi:");
         
-        for (var j = 0; j < useable.size(); j++) {
-            switch (useable.get(i).getName()) {
+        for (var j = 0; j < usable.size(); j++) {
+            switch (usable.get(i).getName()) {
                 case "Blind" -> a++;
                 
                 case "Brace" -> b++;
@@ -185,7 +214,7 @@ public class Self extends Fighter {
             
             var k = 0;
             
-            for (var kasugi : useable) {
+            for (var kasugi : usable) {
                 if (temp.equals(kasugi.getName())) {
                     if (kasugi.isForYou()) {
                         this.getEffectives().add(kasugi);
@@ -202,17 +231,17 @@ public class Self extends Fighter {
                 }
             }
             
-            if (k == useable.size() && !done) {
+            if (k == usable.size() && !done) {
                 System.out.printf("You don't have any %ss to use.\n%n", temp);
             }
         }
     }
     
-    public int getCount(String n) {
+    public int getCount(String name) {
         var temp = 0;
         
         for (var i = 0; i < getInventory().size(); i++) {
-            if (getInventory().get(i).getName().equals(n.toLowerCase())) {
+            if (getInventory().get(i).getName().equals(name.toLowerCase())) {
                 temp++;
             }
         }

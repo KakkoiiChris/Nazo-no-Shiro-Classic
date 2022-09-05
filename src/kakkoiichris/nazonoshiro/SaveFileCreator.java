@@ -29,12 +29,12 @@ public class SaveFileCreator {
     
     public void addData(List<CastleFloor> castle, Fighter[] guards, Self self, int row, int column, int floor, boolean yourTurn) {
         for (var castleFloor : castle) {
-            formatter.format("%s%s", castleFloor.getName(), "\n");
+            formatter.format("%s%n", castleFloor.getName());
         }
         
         for (var f = 0; f < castle.size(); f++) {
-            for (var r = 0; r < castle.get(f).getXSize(); r++) {
-                for (var c = 0; c < castle.get(f).getYSize(); c++) {
+            for (var r = 0; r < castle.get(f).getColumns(); r++) {
+                for (var c = 0; c < castle.get(f).getRows(); c++) {
                     formatter.format("#%s%s%s%s%n", f, r, c, castle.get(f).getRoom(r, c).getName());
                     formatter.format("%s,%s'%s%n", castle.get(f).getPuzzleType()[r][c], castle.get(f).getFloorPlan()[r][c].getKey(), castle.get(f).getFloorPlan()[r][c].getLock());
                     
@@ -91,13 +91,7 @@ public class SaveFileCreator {
             formatter.format("e%s:%d%n", self.getEffectives().get(i).getName(), self.getEffectives().get(i).getTimer());
         }
         
-        formatter.format("k");
-        
-        for (var i = 0; i < self.getKeys().size(); i++) {
-            formatter.format("%d,", self.getKeys().get(i));
-        }
-        
-        formatter.format("%n");
+        formatter.format("k%s%n", String.join(",", self.getKeys().stream().map(Object::toString).toList()));
         
         for (var guard : guards) {
             formatter.format("S%d%d%d:%s%nP%d,%d,%d,%d%n!%da%db%dc%dd%de%d%n*%da%db%d%n&%da%db%dc%dd%de%df%dg%d%n",

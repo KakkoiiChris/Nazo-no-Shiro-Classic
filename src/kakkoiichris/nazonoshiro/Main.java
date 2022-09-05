@@ -14,7 +14,6 @@ import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class Main {
@@ -26,7 +25,6 @@ public class Main {
     private static int rowLast = 1; //stores previous row for restart checkpoint
     private static int columnLast = 2; //stores previous column for restart checkpoint
     private static int floorLast = 0; //stores previous floor for restart checkpoint
-    private static int currentKey = 0; //used to count the number of keys you have
     
     private static boolean yourTurn = true; //determines who's attacking and who's defending in battle
     
@@ -47,7 +45,7 @@ public class Main {
         new Shogun(),
         new Imperial()
     };
-    private static final Self self = new Self();     //this fighter represents you
+    private static final Self self = new Self(); //this fighter represents you
     
     private static final List<Weapon> weapons = new ArrayList<>(); //stores all possible weapons
     private static final List<CastleFloor> floors = new ArrayList<>();
@@ -64,6 +62,51 @@ public class Main {
             
             while (choice.equals("inventory")) {
                 explore(floors.get(floor).getRoom(row, column));
+            }
+        }
+    }
+    
+    private static void mainMenu() {
+        var lines = Resources.getLines("mainMenu1");
+        lines.forEach(System.out::println);
+        
+        System.out.println();
+        
+        lines = Resources.getLines("splashText");
+        System.out.println(Util.getRandom(lines).toUpperCase());
+        
+        lines = Resources.getLines("mainMenu2");
+        lines.forEach(System.out::println);
+        
+        System.out.println();
+        
+        var inMenu = true;
+        
+        while (inMenu) {
+            System.out.print(" > ");
+            
+            var first = input.nextLine();
+            
+            if (first.equals("1") || first.startsWith("New")) {
+                setUpNew();
+                
+                inMenu = false;
+            }
+            else if (first.equals("2") || first.startsWith("Load")) {
+                setUpLoad();
+                
+                inMenu = false;
+            }
+            else if (first.equals("3") || first.equals("Options")) {
+                options();
+            }
+            else if (first.equals("4") || first.equals("Credits")) {
+                credits();
+            }
+            else {
+                System.out.println("Thanks for playing!");
+                
+                System.exit(0);
             }
         }
     }
@@ -89,8 +132,8 @@ public class Main {
         for (var castleFloor : floors) {
             castleFloor.setUpNew();
             
-            for (var r = 0; r < castleFloor.getXSize(); r++) {
-                for (var c = 0; c < castleFloor.getYSize(); c++) {
+            for (var r = 0; r < castleFloor.getColumns(); r++) {
+                for (var c = 0; c < castleFloor.getRows(); c++) {
                     castleFloor.getRoom(r, c).setRoom();
                 }
             }
@@ -203,51 +246,6 @@ public class Main {
         }
     }
     
-    private static void mainMenu() {
-        var lines = Resources.getLines("mainMenu1");
-        lines.forEach(System.out::println);
-        
-        System.out.println();
-        
-        lines = Resources.getLines("splashText");
-        System.out.println(Util.getRandom(lines).toUpperCase());
-        
-        lines = Resources.getLines("mainMenu2");
-        lines.forEach(System.out::println);
-        
-        System.out.println();
-        
-        var inMenu = true;
-        
-        while (inMenu) {
-            System.out.print(" > ");
-            
-            var first = input.nextLine();
-            
-            if (first.equals("1") || first.startsWith("New")) {
-                setUpNew();
-                
-                inMenu = false;
-            }
-            else if (first.equals("2") || first.startsWith("Load")) {
-                setUpLoad();
-                
-                inMenu = false;
-            }
-            else if (first.equals("3") || first.equals("Options")) {
-                options();
-            }
-            else if (first.equals("4") || first.equals("Credits")) {
-                credits();
-            }
-            else {
-                System.out.println("Thanks for playing!");
-                
-                System.exit(0);
-            }
-        }
-    }
-    
     private static void options() {
         aaa.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         aaa.setSize(300, 200);
@@ -275,43 +273,43 @@ public class Main {
             System.out.println(lines.get(i));
         }
         
-        delay(12);
+        pause(12);
         
         for (; i < 11; i++) {
             System.out.println(lines.get(i));
         }
         
-        delay(15);
+        pause(15);
         
         for (; i < 14; i++) {
             System.out.println(lines.get(i));
         }
         
-        delay(6);
+        pause(6);
         
         for (; i < 16; i++) {
             System.out.println(lines.get(i));
         }
         
-        delay(2);
+        pause(2);
         
         for (; i < 22; i++) {
             System.out.println(lines.get(i));
         }
         
-        delay(7);
+        pause(7);
         
         for (; i < 24; i++) {
             System.out.println(lines.get(i));
         }
         
-        delay(4);
+        pause(4);
         
         for (; i < 27; i++) {
             System.out.println(lines.get(i));
         }
         
-        delay(6);
+        pause(6);
         
         System.out.println();
         
@@ -342,19 +340,19 @@ public class Main {
             System.out.println(lines.get(i));
         }
         
-        delay(6);
+        pause(6);
         
         for (; i < 4; i++) {
             System.out.println(lines.get(i));
         }
         
-        delay(2);
+        pause(2);
         
         for (; i < 8; i++) {
             System.out.println(lines.get(i));
         }
         
-        delay(3);
+        pause(3);
         
         for (; i < 16; i++) {
             System.out.println(lines.get(i));
@@ -379,25 +377,25 @@ public class Main {
         System.out.printf("%s%s%s%n", lines.get(23), gen.toUpperCase(), lines.get(24));
         System.out.println(lines.get(25));
         
-        delay(8);
+        pause(8);
         
         for (i = 26; i < 28; i++) {
             System.out.println(lines.get(i));
         }
         
-        delay(2);
+        pause(2);
         
         for (; i < 33; i++) {
             System.out.println(lines.get(i));
         }
         
-        delay(11);
+        pause(11);
         
         for (; i < 35; i++) {
             System.out.println(lines.get(i));
         }
         
-        delay(3);
+        pause(3);
         
         System.out.println();
     }
@@ -405,8 +403,8 @@ public class Main {
     private static void explore(Room room) throws IOException {
         System.out.printf("%s%n%n", room);
         
-        var timing = alreadyVisited(row, column) ? "then" : "first";
-    
+        var timing = alreadyVisited() ? "then" : "first";
+        
         var fileName = "%s%d-%d-%d".formatted(timing, row, column, floor);
         
         var description = Resources.getLines(fileName);
@@ -533,7 +531,7 @@ public class Main {
                 for (var i = 0; i < (int) (Math.random() * 5) + 3; i++) {
                     System.out.print(".");
                     
-                    delay(1);
+                    pause(1);
                 }
                 
                 System.out.println("\nSaved.\n");
@@ -550,7 +548,7 @@ public class Main {
                 for (var i = 0; i < (int) (Math.random() * 5) + 3; i++) {
                     System.out.print(".");
                     
-                    delay(1);
+                    pause(1);
                 }
                 
                 System.out.println("\nSaved.\nThanks for playing.");
@@ -649,7 +647,7 @@ public class Main {
                     System.out.println("You died.\n");
                 }
                 
-                delay(2);
+                pause(2);
             }
         }
     }
@@ -687,35 +685,35 @@ public class Main {
         }
     }
     
-    private static void delay(int secs) {
-        //try {
-            //TODO: Reenable pausing: Thread.sleep(secs * 1000L);
-        //}
-        //catch (InterruptedException e) {
-        //    throw new RuntimeException(e);
-        //}
+    private static void pause(int seconds) {
+        try {
+            Thread.sleep(seconds * 1000L * 0); //TODO: Reenable pausing
+        }
+        catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
     
     private static void move(String dir) {
         switch (dir) {
-            case "north" -> row = north();
+            case "north" -> row = goNorth();
             
-            case "south" -> row = south();
+            case "south" -> row = goSouth();
             
-            case "east" -> column = east();
+            case "east" -> column = goEast();
             
-            case "west" -> column = west();
+            case "west" -> column = goWest();
             
-            case "up" -> floor = up();
+            case "up" -> floor = goUp();
             
-            case "down" -> floor = down();
+            case "down" -> floor = goDown();
         }
     }
     
     private static void distributeAllItems() {
         for (var castleFloor : floors) {
-            for (var r = 0; r < castleFloor.getXSize(); r++) {
-                for (var c = 0; c < castleFloor.getYSize(); c++) {
+            for (var r = 0; r < castleFloor.getColumns(); r++) {
+                for (var c = 0; c < castleFloor.getRows(); c++) {
                     for (var i = 0; i < (int) (Math.random() * 5) + 500; i++) {
                         castleFloor.getRoom(r, c).addToRoom(new Coin());
                     }
@@ -839,36 +837,20 @@ public class Main {
     }
     
     private static void storeState() {
-        self.storeState();
-        
         rowLast = row;
         columnLast = column;
         floorLast = floor;
         ranLast = ran;
         
-        for (var i = 0; i < self.getKeys1().size(); i++) {
-            self.getKeys1().remove(i--);
-        }
-        
-        for (var i = 0; i < self.getKeys().size(); i++) {
-            self.getKeys1().add(self.getKeys().get(i));
-        }
-        
-        for (var i = 0; i < self.getInventory1().size(); i++) {
-            self.getInventory1().remove(i--);
-        }
-        
-        for (var i = 0; i < self.getInventory().size(); i++) {
-            self.getInventory1().add(self.getInventory().get(i));
-        }
+        self.storeState();
         
         for (var guard : guards) {
             guard.storeState();
         }
         
         for (var castleFloor : floors) {
-            for (var i = 0; i < castleFloor.getXSize(); i++) {
-                for (var j = 0; j < castleFloor.getYSize(); j++) {
+            for (var i = 0; i < castleFloor.getColumns(); i++) {
+                for (var j = 0; j < castleFloor.getRows(); j++) {
                     castleFloor.getPuzzles()[i][j].storeState();
                     castleFloor.getRoom(i, j).storeState();
                 }
@@ -877,38 +859,20 @@ public class Main {
     }
     
     private static void resetState() {
-        self.resetState();
-        
         row = rowLast;
         column = columnLast;
         floor = floorLast;
         ran = ranLast;
         
-        for (var i = 0; i < self.getKeys1().size(); i++) {
-            if (self.getKeys().get(i) == null) {
-                self.getKeys().add(self.getKeys1().get(i));
-            }
-            else if (!Objects.equals(self.getKeys().get(i), self.getKeys1().get(i))) {
-                self.getKeys().add(i, self.getKeys1().get(i));
-            }
-        }
-        
-        for (var i = 0; i < self.getInventory1().size(); i++) {
-            if (self.getInventory().get(i) == null) {
-                self.getInventory().add(self.getInventory1().get(i));
-            }
-            else if (self.getInventory().get(i) != self.getInventory1().get(i)) {
-                self.getInventory().add(i, self.getInventory1().get(i));
-            }
-        }
+        self.resetState();
         
         for (var guard : guards) {
             guard.resetState();
         }
         
         for (var castleFloor : floors) {
-            for (var i = 0; i < castleFloor.getXSize(); i++) {
-                for (var j = 0; j < castleFloor.getYSize(); j++) {
+            for (var i = 0; i < castleFloor.getColumns(); i++) {
+                for (var j = 0; j < castleFloor.getRows(); j++) {
                     castleFloor.getPuzzles()[i][j].resetState();
                     castleFloor.getRoom(i, j).resetState();
                 }
@@ -941,15 +905,23 @@ public class Main {
     }
     
     private static boolean southernMost() {
-        return row == 3;
+        return row == floors.get(floor).getRows() - 1;
     }
     
     private static boolean easternMost() {
-        return column == 4;
+        return column == floors.get(floor).getColumns() - 1;
     }
     
     private static boolean westernMost() {
         return column == 0;
+    }
+    
+    private static boolean upperMost() {
+        return floor == floors.size() - 1;
+    }
+    
+    private static boolean lowerMost() {
+        return floor == 0;
     }
     
     private static boolean isExploreOption(String choice) {
@@ -967,163 +939,103 @@ public class Main {
             choice.equals("r") || choice.equals("f");
     }
     
-    private static boolean alreadyVisited(int row, int column) {
+    private static boolean alreadyVisited(int row, int column, int floor) {
         return floors.get(floor).getRoom(row, column).getKey() == 99;
     }
     
-    private static int north() {
-        currentKey = 0;
-        
-        for (var i = 0; i < self.getKeys().size(); i++) {
-            if (hasWall('N') || northernMost()) {
-                if (column == 4 && alreadyVisited(2, 4)) {
-                    endGame();
-                }
-                
-                System.out.println("A wall blocks your path.\n");
-                
-                break;
+    private static boolean alreadyVisited() {
+        return floors.get(floor).getRoom(row, column).getKey() == 99;
+    }
+    
+    private static int goNorth() {
+        if (hasWall('N') || northernMost()) {
+            if (column == 4 && alreadyVisited(2, 4, 0)) {
+                endGame();
             }
-            else if (alreadyVisited(row - 1, column)) {
-                row--;
-                
-                break;
-            }
-            else if (self.getKeys().get(i).equals(floors.get(floor).getRoom(row - 1, column).getLock())) {
-                System.out.println("The door is unlocked.\n");
-                
-                row--;
-                
-                break;
-            }
-            else {
-                currentKey++;
-                
-                if (currentKey == self.getKeys().size()) {
-                    System.out.println("None of the keys you have fit that lock.\n");
-                    
-                    break;
-                }
-            }
+            
+            System.out.println("A wall blocks your path.\n");
+            
+            return row;
         }
+        
+        if (self.hasKey(floors.get(floor).getRoom(row - 1, column).getLock())) {
+            if (!alreadyVisited(row - 1, column, floor)) {
+                System.out.println("The door is unlocked.\n");
+            }
+            
+            return row - 1;
+        }
+        
+        System.out.println("None of the keys you have fit that lock.\n");
         
         return row;
     }
     
-    private static int south() {
-        currentKey = 0;
-        
-        for (var i = 0; i < self.getKeys().size(); i++) {
-            if (hasWall('S') || southernMost()) {
-                System.out.println("A wall blocks your path.\n");
-                
-                break;
-            }
-            else if (alreadyVisited(row + 1, column)) {
-                row++;
-                
-                break;
-            }
-            else if (self.getKeys().get(i).equals(floors.get(floor).getRoom(row + 1, column).getLock())) {
-                System.out.println("The door is unlocked.\n");
-                
-                row++;
-                
-                break;
-            }
-            else {
-                currentKey++;
-                
-                if (currentKey == self.getKeys().size()) {
-                    System.out.println("None of the keys you have fit that lock.\n");
-                    
-                    break;
-                }
-            }
+    private static int goSouth() {
+        if (hasWall('S') || southernMost()) {
+            System.out.println("A wall blocks your path.\n");
+            
+            return row;
         }
+        
+        if (self.hasKey(floors.get(floor).getRoom(row + 1, column).getLock())) {
+            if (!alreadyVisited(row + 1, column, floor)) {
+                System.out.println("The door is unlocked.\n");
+            }
+            
+            return row + 1;
+        }
+        
+        System.out.println("None of the keys you have fit that lock.\n");
         
         return row;
     }
     
-    private static int east() {
-        currentKey = 0;
-        
-        for (var i = 0; i < self.getKeys().size(); i++) {
-            if (hasWall('E') || easternMost()) {
-                System.out.println("A wall blocks your path.\n");
-                
-                break;
-            }
-            else if (alreadyVisited(row, column + 1)) {
-                column++;
-                
-                break;
-            }
-            else if (self.getKeys().get(i).equals(floors.get(floor).getRoom(row, column + 1).getLock())) {
-                System.out.println("The door is unlocked.\n");
-                
-                column++;
-                
-                break;
-            }
-            else {
-                currentKey++;
-                
-                if (currentKey == self.getKeys().size()) {
-                    System.out.println("None of the keys you have fit that lock.\n");
-                    
-                    break;
-                }
-            }
+    private static int goEast() {
+        if (hasWall('E') || easternMost()) {
+            System.out.println("A wall blocks your path.\n");
+            
+            return column;
         }
+        
+        if (self.hasKey(floors.get(floor).getRoom(row, column + 1).getLock())) {
+            if (!alreadyVisited(row, column + 1, floor)) {
+                System.out.println("The door is unlocked.\n");
+            }
+            
+            return column + 1;
+        }
+        
+        System.out.println("None of the keys you have fit that lock.\n");
         
         return column;
     }
     
-    private static int west() {
-        currentKey = 0;
-        
-        for (var i = 0; i < self.getKeys().size(); i++) {
-            if (hasWall('W') || westernMost()) {
-                System.out.println("A wall blocks your path.\n");
-                
-                break;
-            }
-            else if (alreadyVisited(row, column - 1)) {
-                column--;
-                
-                break;
-            }
-            else if (self.getKeys().get(i).equals(floors.get(floor).getRoom(row, column - 1).getLock())) {
-                System.out.println("The door is unlocked.\n");
-                
-                column--;
-                
-                break;
-            }
-            else {
-                currentKey++;
-                
-                if (currentKey == self.getKeys().size()) {
-                    System.out.println("None of the keys you have fit that lock.\n");
-                    
-                    break;
-                }
-            }
+    private static int goWest() {
+        if (hasWall('W') || westernMost()) {
+            System.out.println("A wall blocks your path.\n");
+            
+            return column;
         }
+        
+        if (self.hasKey(floors.get(floor).getRoom(row, column - 1).getLock())) {
+            if (!alreadyVisited(row, column - 1, floor)) {
+                System.out.println("The door is unlocked.\n");
+            }
+            
+            return column - 1;
+        }
+        
+        System.out.println("None of the keys you have fit that lock.\n");
         
         return column;
     }
     
-    private static int up() {
-        floor++;
-        
-        return floor;
+    private static int goUp() {
+        return floor + 1;
     }
     
-    private static int down() {
-        floor--;
-        
-        return floor;
+    private static int goDown() {
+        return floor - 1;
     }
 }

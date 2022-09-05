@@ -29,11 +29,11 @@ public abstract class CastleFloor {
         return getFloorPlan()[r][c];
     }
     
-    public int getXSize() {
+    public int getColumns() {
         return xSize;
     }
     
-    public int getYSize() {
+    public int getRows() {
         return ySize;
     }
     

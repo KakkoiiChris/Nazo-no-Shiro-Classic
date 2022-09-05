@@ -108,8 +108,8 @@ public abstract class Enemy extends Fighter {
         
         var done = false;
         
-        for (var j = 0; j < useable.size(); j++) {
-            switch (useable.get(i).getName()) {
+        for (var j = 0; j < usable.size(); j++) {
+            switch (usable.get(i).getName()) {
                 case "Blind" -> a++;
                 
                 case "Brace" -> b++;
@@ -133,10 +133,10 @@ public abstract class Enemy extends Fighter {
         if (getEffectives().size() > 0) {
             for (var j = 0; j < getEffectives().size(); j++) {
                 if (getEffectives().get(j).getName().equals("Corrupt") && health <= 10) {
-                    var index = search("Pure", useable);
+                    var index = search("Pure", usable);
                     
                     if (index >= 0) {
-                        useable.remove(index);
+                        usable.remove(index);
                     }
                     else {
                         System.err.println("NO!!!!!");
@@ -162,9 +162,9 @@ public abstract class Enemy extends Fighter {
                 
                 switch (rand) {
                     case 1 -> {
-                        for (var k = 0; k < useable.size(); k++) {
-                            if (useable.get(k).getName().equals("Ultra")) {
-                                getEffectives().add(useable.remove(k));
+                        for (var k = 0; k < usable.size(); k++) {
+                            if (usable.get(k).getName().equals("Ultra")) {
+                                getEffectives().add(usable.remove(k));
                                 
                                 done = true;
                                 
@@ -174,11 +174,11 @@ public abstract class Enemy extends Fighter {
                     }
                     
                     case 2 -> {
-                        for (var k = 0; k < useable.size(); k++) {
-                            if (useable.get(k).getName().equals("Brace")) {
+                        for (var k = 0; k < usable.size(); k++) {
+                            if (usable.get(k).getName().equals("Brace")) {
                                 getEffectives().add(new Brace());
                                 
-                                useable.remove(k);
+                                usable.remove(k);
                                 
                                 done = true;
                                 
@@ -188,11 +188,11 @@ public abstract class Enemy extends Fighter {
                     }
                     
                     case 3 -> {
-                        for (var k = 0; k < useable.size(); k++) {
-                            if (useable.get(k).getName().equals("Velocity")) {
+                        for (var k = 0; k < usable.size(); k++) {
+                            if (usable.get(k).getName().equals("Velocity")) {
                                 getEffectives().add(new Velocity());
                                 
-                                useable.remove(k);
+                                usable.remove(k);
                                 
                                 done = true;
                                 
@@ -208,11 +208,11 @@ public abstract class Enemy extends Fighter {
                 
                 switch (rand) {
                     case 1 -> {
-                        for (var k = 0; k < useable.size(); k++) {
-                            if (useable.get(k).getName().equals("Sub")) {
+                        for (var k = 0; k < usable.size(); k++) {
+                            if (usable.get(k).getName().equals("Sub")) {
                                 getEffectives().add(new Sub());
                                 
-                                useable.remove(k);
+                                usable.remove(k);
                                 
                                 done = true;
                                 
@@ -222,11 +222,11 @@ public abstract class Enemy extends Fighter {
                     }
                     
                     case 2 -> {
-                        for (var k = 0; k < useable.size(); k++) {
-                            if (useable.get(k).getName().equals("Intimidate")) {
+                        for (var k = 0; k < usable.size(); k++) {
+                            if (usable.get(k).getName().equals("Intimidate")) {
                                 getEffectives().add(new Intimidate());
                                 
-                                useable.remove(k);
+                                usable.remove(k);
                                 
                                 done = true;
                                 
@@ -236,11 +236,11 @@ public abstract class Enemy extends Fighter {
                     }
                     
                     case 3 -> {
-                        for (var k = 0; k < useable.size(); k++) {
-                            if (useable.get(k).getName().equals("Blind")) {
+                        for (var k = 0; k < usable.size(); k++) {
+                            if (usable.get(k).getName().equals("Blind")) {
                                 getEffectives().add(new Blind());
                                 
-                                useable.remove(k);
+                                usable.remove(k);
                                 
                                 done = true;
                                 
