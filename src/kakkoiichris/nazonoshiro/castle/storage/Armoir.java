@@ -2,6 +2,7 @@
 package kakkoiichris.nazonoshiro.castle.storage;
 
 import kakkoiichris.nazonoshiro.fighter.Self;
+import kakkoiichris.nazonoshiro.item.weapon.Katana;
 
 public class Armoir extends Storage {
     public Armoir(int x, int y) {
@@ -22,7 +23,7 @@ public class Armoir extends Storage {
         
         System.out.println();
         
-        if (decision.equals("use katana") && self.hasItem("katana")) {
+        if (decision.equals("use katana") && self.hasItem(Katana.class)) {
             rummage(self);
         }
     }

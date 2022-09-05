@@ -1,10 +1,7 @@
 // Christian Alexander, 5/12/11, Pd. 6
 package kakkoiichris.nazonoshiro;
 
-import kakkoiichris.nazonoshiro.castle.CastleFloor;
-import kakkoiichris.nazonoshiro.castle.OriginalCastle;
-import kakkoiichris.nazonoshiro.castle.Room;
-import kakkoiichris.nazonoshiro.castle.Wall;
+import kakkoiichris.nazonoshiro.castle.*;
 import kakkoiichris.nazonoshiro.fighter.*;
 import kakkoiichris.nazonoshiro.item.Coin;
 import kakkoiichris.nazonoshiro.item.HealthPack;
@@ -27,6 +24,8 @@ public class Main {
     private static int floorLast = 0; //stores previous floor for restart checkpoint
     
     private static boolean yourTurn = true; //determines who's attacking and who's defending in battle
+    
+    private static Direction lastDirection;
     
     private static final SaveFileCreator saver = new SaveFileCreator();
     
@@ -403,7 +402,9 @@ public class Main {
     private static void explore(Room room) throws IOException {
         System.out.printf("%s%n%n", room);
         
-        var timing = alreadyVisited() ? "then" : "first";
+        var timing = room.isVisited() ? "then" : "first";
+        
+        room.setVisited();
         
         var fileName = "%s%d-%d-%d".formatted(timing, row, column, floor);
         
@@ -484,43 +485,47 @@ public class Main {
             else if (choice.startsWith("go")) {
                 storeState();
                 
-                var temp = choice.substring(choice.indexOf(" ") + 1);
+                var direction = choice.substring(choice.indexOf(" ") + 1);
                 
-                move(temp);
+                if (Direction.isValid(direction)) {
+                    move(Direction.valueOf(direction.toUpperCase()));
+                }
+                else {
+                    System.out.printf("'%s' is not a valid direction.", direction);
+                }
             }
             else if (choice.equals("w")) {
                 storeState();
                 
-                move("north");
+                move(Direction.NORTH);
             }
             else if (choice.equals("a")) {
                 storeState();
                 
-                move("west");
+                move(Direction.WEST);
             }
             else if (choice.equals("s")) {
                 storeState();
                 
-                move("south");
+                move(Direction.SOUTH);
             }
             else if (choice.equals("d")) {
                 storeState();
                 
-                move("east");
+                move(Direction.EAST);
             }
-            else if (choice.equals("room")) {
+            else if (choice.equals("r")) {
                 storeState();
                 
-                move("up");
+                move(Direction.UP);
             }
             else if (choice.equals("f")) {
                 storeState();
                 
-                move("down");
+                move(Direction.DOWN);
             }
             else if (choice.equals("save")) {
                 saver.openFile();
-                
                 
                 System.out.print("Saving");
                 
@@ -640,7 +645,7 @@ public class Main {
                 if (ran) {
                     var temp = action.substring(action.indexOf(" ") + 1);
                     
-                    run(enemy, temp);
+                    run(enemy);
                 }
                 
                 if (self.isDead()) {
@@ -652,7 +657,7 @@ public class Main {
         }
     }
     
-    private static void run(Fighter enemy, String dir) throws IOException {
+    private static void run(Fighter enemy) throws IOException {
         //used in run method
         double speedDiff = ((double) self.getSpeed() / enemy.getSpeed()) * 50;
         
@@ -661,7 +666,7 @@ public class Main {
         var tempRow = row;
         var tempColumn = column;
         
-        move(dir);
+        move(lastDirection.getInverse());
         
         if (row == tempRow && column == tempColumn) {
             System.out.println("You've been cornered.\n");
@@ -694,19 +699,29 @@ public class Main {
         }
     }
     
-    private static void move(String dir) {
-        switch (dir) {
-            case "north" -> row = goNorth();
+    private static void move(Direction direction) {
+        lastDirection = direction;
+        
+        var floorLast = floor;
+        var rowLast = row;
+        var columnLast = column;
+        
+        switch (direction) {
+            case UP -> floor = goUp();
             
-            case "south" -> row = goSouth();
+            case DOWN -> floor = goDown();
             
-            case "east" -> column = goEast();
+            case NORTH -> row = goNorth();
             
-            case "west" -> column = goWest();
+            case SOUTH -> row = goSouth();
             
-            case "up" -> floor = goUp();
+            case EAST -> column = goEast();
             
-            case "down" -> floor = goDown();
+            case WEST -> column = goWest();
+        }
+        
+        if (floor == floorLast && row == rowLast && column == columnLast) {
+            lastDirection = Direction.NONE;
         }
     }
     
@@ -939,17 +954,13 @@ public class Main {
             choice.equals("r") || choice.equals("f");
     }
     
-    private static boolean alreadyVisited(int row, int column, int floor) {
-        return floors.get(floor).getRoom(row, column).getKey() == 99;
-    }
-    
-    private static boolean alreadyVisited() {
-        return floors.get(floor).getRoom(row, column).getKey() == 99;
+    private static boolean hasVisited(int row, int column, int floor) {
+        return floors.get(floor).getRoom(row, column).isVisited();
     }
     
     private static int goNorth() {
         if (hasWall('N') || northernMost()) {
-            if (column == 4 && alreadyVisited(2, 4, 0)) {
+            if (column == 4 && hasVisited(2, 4, 0)) {
                 endGame();
             }
             
@@ -959,7 +970,7 @@ public class Main {
         }
         
         if (self.hasKey(floors.get(floor).getRoom(row - 1, column).getLock())) {
-            if (!alreadyVisited(row - 1, column, floor)) {
+            if (!hasVisited(row - 1, column, floor)) {
                 System.out.println("The door is unlocked.\n");
             }
             
@@ -979,7 +990,7 @@ public class Main {
         }
         
         if (self.hasKey(floors.get(floor).getRoom(row + 1, column).getLock())) {
-            if (!alreadyVisited(row + 1, column, floor)) {
+            if (!hasVisited(row + 1, column, floor)) {
                 System.out.println("The door is unlocked.\n");
             }
             
@@ -999,7 +1010,7 @@ public class Main {
         }
         
         if (self.hasKey(floors.get(floor).getRoom(row, column + 1).getLock())) {
-            if (!alreadyVisited(row, column + 1, floor)) {
+            if (!hasVisited(row, column + 1, floor)) {
                 System.out.println("The door is unlocked.\n");
             }
             
@@ -1019,7 +1030,7 @@ public class Main {
         }
         
         if (self.hasKey(floors.get(floor).getRoom(row, column - 1).getLock())) {
-            if (!alreadyVisited(row, column - 1, floor)) {
+            if (!hasVisited(row, column - 1, floor)) {
                 System.out.println("The door is unlocked.\n");
             }
             

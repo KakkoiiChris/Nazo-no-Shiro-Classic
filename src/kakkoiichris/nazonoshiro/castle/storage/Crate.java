@@ -2,9 +2,7 @@
 package kakkoiichris.nazonoshiro.castle.storage;
 
 import kakkoiichris.nazonoshiro.fighter.Self;
-import kakkoiichris.nazonoshiro.item.Item;
-
-import java.util.List;
+import kakkoiichris.nazonoshiro.item.weapon.Tanto;
 
 public class Crate extends Storage {
     public Crate(int x, int y) {
@@ -25,7 +23,7 @@ public class Crate extends Storage {
         
         System.out.println();
         
-        if (decision.equals("use tanto") && self.hasItem("tanto")) {
+        if (decision.equals("use tanto") && self.hasItem(Tanto.class)) {
             rummage(self);
         }
     }

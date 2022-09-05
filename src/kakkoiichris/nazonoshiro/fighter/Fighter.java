@@ -85,13 +85,8 @@ public abstract class Fighter {
         return health <= 0;
     }
 
-    public boolean hasItem(String a) {
-        for (var item : inventory) {
-            if (item.getName().equalsIgnoreCase(a)) {
-                return true;
-            }
-        }
-        return false;
+    public <T extends Item> boolean hasItem(Class<T> clazz) {
+        return inventory.stream().anyMatch(clazz::isInstance);
     }
 
     public void filter() {

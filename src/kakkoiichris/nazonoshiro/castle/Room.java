@@ -19,6 +19,8 @@ public class Room {
     protected List<Item> items = new ArrayList<>();
     private final boolean hasStairs;
     
+    private boolean visited = false, visitedLast = false;
+    
     public Room(String name, int puzzle, int key, int lock, int foe, boolean hasStairs) {
         this.name = name;
         this.puzzle = puzzle;
@@ -36,8 +38,18 @@ public class Room {
         this.hasStairs = hasStairs;
     }
     
+    public boolean isVisited() {
+        return visited;
+    }
+    
+    public void setVisited() {
+        visited = true;
+    }
+    
     public void storeState() {
         keyLast = key;
+        
+        visitedLast = visited;
         
         for (var i = 0; i < getWalls().size(); i++) {
             getWalls().get(i).getStorage().storeState();
