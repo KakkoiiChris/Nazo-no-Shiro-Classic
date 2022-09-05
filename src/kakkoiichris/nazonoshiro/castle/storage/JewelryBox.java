@@ -4,8 +4,8 @@ package kakkoiichris.nazonoshiro.castle.storage;
 import kakkoiichris.nazonoshiro.fighter.Self;
 
 public class JewelryBox extends Storage {
-    public JewelryBox(int x, int y) {
-        super("Jewelry Box", x, y);
+    public JewelryBox() {
+        super("Jewelry Box");
     }
     
     @Override

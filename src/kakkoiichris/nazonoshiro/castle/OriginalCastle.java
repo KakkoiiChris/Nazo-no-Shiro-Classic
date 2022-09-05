@@ -13,14 +13,14 @@ public class OriginalCastle extends CastleFloor {
     public void setUpNew() {
         for (var r = 0; r < 4; r++) {
             for (var c = 0; c < 5; c++) {
-                getPuzzleType()[r][c] = (int) (Math.random() * 3) + 1;
+                getPuzzleType()[r][c] = (int) (Math.random() * 3);
                 
                 switch (getPuzzleType()[r][c]) {
-                    case 1 -> getPuzzles()[r][c] = new Oboeru();
+                    case 0 -> getPuzzles()[r][c] = new Oboeru();
                     
-                    case 2 -> getPuzzles()[r][c] = new Seihoukei();
+                    case 1 -> getPuzzles()[r][c] = new Seihoukei();
                     
-                    case 3 -> getPuzzles()[r][c] = new Kurobune();
+                    case 2 -> getPuzzles()[r][c] = new Kurobune();
                 }
             }
         }
@@ -54,46 +54,46 @@ public class OriginalCastle extends CastleFloor {
         getFloorPlan()[2][4] = new Room("Secret Treasure Room", 4, 20, 19, 3, false);
         getFloorPlan()[3][4] = new Room("Secret Chamber F", getPuzzleType()[3][4], 19, 18, 99, false);
         
-        getFloorPlan()[0][0].setWall(0, 0, 'N');
-        getFloorPlan()[0][0].setWall(0, 0, 'W');
-        getFloorPlan()[0][0].setWall(0, 0, 'S');
-        getFloorPlan()[0][1].setWall(0, 1, 'N');
-        getFloorPlan()[0][1].setWall(0, 1, 'S');
-        getFloorPlan()[0][2].setWall(0, 2, 'N');
-        getFloorPlan()[0][3].setWall(0, 3, 'N');
-        getFloorPlan()[0][3].setWall(0, 3, 'E');
-        getFloorPlan()[0][3].setWall(0, 3, 'S');
-        getFloorPlan()[0][4].setWall(0, 4, 'E');
-        getFloorPlan()[0][4].setWall(0, 4, 'W');
-        getFloorPlan()[1][0].setWall(1, 0, 'N');
-        getFloorPlan()[1][0].setWall(1, 0, 'W');
-        getFloorPlan()[1][1].setWall(1, 1, 'N');
-        getFloorPlan()[1][1].setWall(1, 1, 'S');
-        getFloorPlan()[1][3].setWall(1, 3, 'N');
-        getFloorPlan()[1][3].setWall(1, 3, 'S');
-        getFloorPlan()[1][4].setWall(1, 4, 'E');
-        getFloorPlan()[1][4].setWall(1, 4, 'S');
-        getFloorPlan()[2][0].setWall(2, 0, 'E');
-        getFloorPlan()[2][0].setWall(2, 0, 'W');
-        getFloorPlan()[2][1].setWall(2, 1, 'N');
-        getFloorPlan()[2][1].setWall(2, 1, 'S');
-        getFloorPlan()[2][1].setWall(2, 1, 'W');
-        getFloorPlan()[2][2].setWall(2, 2, 'S');
-        getFloorPlan()[2][3].setWall(2, 3, 'N');
-        getFloorPlan()[2][3].setWall(2, 3, 'E');
-        getFloorPlan()[2][3].setWall(2, 3, 'S');
-        getFloorPlan()[2][4].setWall(2, 4, 'N');
-        getFloorPlan()[2][4].setWall(2, 4, 'E');
-        getFloorPlan()[2][4].setWall(2, 4, 'W');
-        getFloorPlan()[3][0].setWall(3, 0, 'W');
-        getFloorPlan()[3][0].setWall(3, 0, 'S');
-        getFloorPlan()[3][1].setWall(3, 1, 'N');
-        getFloorPlan()[3][1].setWall(3, 1, 'S');
-        getFloorPlan()[3][2].setWall(3, 2, 'N');
-        getFloorPlan()[3][2].setWall(3, 2, 'S');
-        getFloorPlan()[3][3].setWall(3, 3, 'N');
-        getFloorPlan()[3][3].setWall(3, 3, 'S');
-        getFloorPlan()[3][4].setWall(3, 4, 'E');
-        getFloorPlan()[3][4].setWall(3, 4, 'S');
+        getFloorPlan()[0][0].setWall(Direction.NORTH, new Wall(Direction.NORTH));
+        getFloorPlan()[0][0].setWall(Direction.WEST, new Wall(Direction.WEST));
+        getFloorPlan()[0][0].setWall(Direction.SOUTH, new Wall(Direction.SOUTH));
+        getFloorPlan()[0][1].setWall(Direction.NORTH, new Wall(Direction.NORTH));
+        getFloorPlan()[0][1].setWall(Direction.SOUTH, new Wall(Direction.SOUTH));
+        getFloorPlan()[0][2].setWall(Direction.NORTH, new Wall(Direction.NORTH));
+        getFloorPlan()[0][3].setWall(Direction.NORTH, new Wall(Direction.NORTH));
+        getFloorPlan()[0][3].setWall(Direction.EAST, new Wall(Direction.EAST));
+        getFloorPlan()[0][3].setWall(Direction.SOUTH, new Wall(Direction.SOUTH));
+        getFloorPlan()[0][4].setWall(Direction.EAST, new Wall(Direction.EAST));
+        getFloorPlan()[0][4].setWall(Direction.WEST, new Wall(Direction.WEST));
+        getFloorPlan()[1][0].setWall(Direction.NORTH, new Wall(Direction.NORTH));
+        getFloorPlan()[1][0].setWall(Direction.WEST, new Wall(Direction.WEST));
+        getFloorPlan()[1][1].setWall(Direction.NORTH, new Wall(Direction.NORTH));
+        getFloorPlan()[1][1].setWall(Direction.SOUTH, new Wall(Direction.SOUTH));
+        getFloorPlan()[1][3].setWall(Direction.NORTH, new Wall(Direction.NORTH));
+        getFloorPlan()[1][3].setWall(Direction.SOUTH, new Wall(Direction.SOUTH));
+        getFloorPlan()[1][4].setWall(Direction.EAST, new Wall(Direction.EAST));
+        getFloorPlan()[1][4].setWall(Direction.SOUTH, new Wall(Direction.SOUTH));
+        getFloorPlan()[2][0].setWall(Direction.EAST, new Wall(Direction.EAST));
+        getFloorPlan()[2][0].setWall(Direction.WEST, new Wall(Direction.WEST));
+        getFloorPlan()[2][1].setWall(Direction.NORTH, new Wall(Direction.NORTH));
+        getFloorPlan()[2][1].setWall(Direction.SOUTH, new Wall(Direction.SOUTH));
+        getFloorPlan()[2][1].setWall(Direction.WEST, new Wall(Direction.WEST));
+        getFloorPlan()[2][2].setWall(Direction.SOUTH, new Wall(Direction.SOUTH));
+        getFloorPlan()[2][3].setWall(Direction.NORTH, new Wall(Direction.NORTH));
+        getFloorPlan()[2][3].setWall(Direction.EAST, new Wall(Direction.EAST));
+        getFloorPlan()[2][3].setWall(Direction.SOUTH, new Wall(Direction.SOUTH));
+        getFloorPlan()[2][4].setWall(Direction.NORTH, new Wall(Direction.NORTH));
+        getFloorPlan()[2][4].setWall(Direction.EAST, new Wall(Direction.EAST));
+        getFloorPlan()[2][4].setWall(Direction.WEST, new Wall(Direction.WEST));
+        getFloorPlan()[3][0].setWall(Direction.WEST, new Wall(Direction.WEST));
+        getFloorPlan()[3][0].setWall(Direction.SOUTH, new Wall(Direction.SOUTH));
+        getFloorPlan()[3][1].setWall(Direction.NORTH, new Wall(Direction.NORTH));
+        getFloorPlan()[3][1].setWall(Direction.SOUTH, new Wall(Direction.SOUTH));
+        getFloorPlan()[3][2].setWall(Direction.NORTH, new Wall(Direction.NORTH));
+        getFloorPlan()[3][2].setWall(Direction.SOUTH, new Wall(Direction.SOUTH));
+        getFloorPlan()[3][3].setWall(Direction.NORTH, new Wall(Direction.NORTH));
+        getFloorPlan()[3][3].setWall(Direction.SOUTH, new Wall(Direction.SOUTH));
+        getFloorPlan()[3][4].setWall(Direction.EAST, new Wall(Direction.EAST));
+        getFloorPlan()[3][4].setWall(Direction.SOUTH, new Wall(Direction.SOUTH));
     }
 }

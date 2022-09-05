@@ -14,16 +14,13 @@ public abstract class Storage {
     protected String decision = "";
     protected String pick = "";
     protected Scanner input = new Scanner(System.in);
-    protected int x, y;
     protected List<Item> stored = new ArrayList<>();
     protected List<Item> storedLast = new ArrayList<>();
     protected List<Kasugi> contained = new ArrayList<>();
     protected List<Kasugi> containedLast = new ArrayList<>();
     
-    public Storage(String name, int x, int y) {
+    public Storage(String name) {
         this.name = name;
-        this.x = x;
-        this.y = y;
     }
     
     public String getName() {
@@ -105,7 +102,7 @@ public abstract class Storage {
         if (c > 0) {
             var plural = (c > 1) ? "s" : "";
             
-            System.out.printf("-%d Coin%s%n", c, plural);
+            System.out.printf("-%d coin%s%n", c, plural);
         }
         
         if (h > 0) {
@@ -158,7 +155,7 @@ public abstract class Storage {
                     System.out.println("Taken\n");
                 }
                 
-                case "take Coin" -> {
+                case "take coin" -> {
                     for (var i = 0; i < stored.size(); i++) {
                         if ((stored.get(i).getName()).equals("coin")) {
                             self.getInventory().add(stored.remove(i--));

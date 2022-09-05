@@ -4,8 +4,8 @@ package kakkoiichris.nazonoshiro.castle.storage;
 import kakkoiichris.nazonoshiro.fighter.Self;
 
 public class Dresser extends Storage {
-    public Dresser(int x, int y) {
-        super("Dresser", x, y);
+    public Dresser() {
+        super("Dresser");
     }
     
     @Override

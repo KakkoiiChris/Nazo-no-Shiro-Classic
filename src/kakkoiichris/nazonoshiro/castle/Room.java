@@ -1,13 +1,15 @@
 //Christian Alexander, 5/12/11, Pd. 6
 package kakkoiichris.nazonoshiro.castle;
 
+import kakkoiichris.nazonoshiro.Resettable;
 import kakkoiichris.nazonoshiro.fighter.Self;
 import kakkoiichris.nazonoshiro.item.Item;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class Room {
+public class Room implements Resettable {
     private final String name;
     private final int puzzle;
     private int key;
@@ -15,8 +17,7 @@ public class Room {
     private int keyLast;
     private int lockLast;
     private int foe;
-    private List<Wall> walls = new ArrayList<>();
-    protected List<Item> items = new ArrayList<>();
+    private final Map<Direction, Wall> walls = new HashMap<>();
     private final boolean hasStairs;
     
     private boolean visited = false, visitedLast = false;
@@ -46,70 +47,46 @@ public class Room {
         visited = true;
     }
     
+    @Override
     public void storeState() {
         keyLast = key;
         
         visitedLast = visited;
         
-        for (var i = 0; i < getWalls().size(); i++) {
-            getWalls().get(i).getStorage().storeState();
-        }
+        walls.values().forEach(Wall::storeState);
     }
     
+    @Override
     public void resetState() {
         key = keyLast;
         
-        for (var i = 0; i < getWalls().size(); i++) {
-            getWalls().get(i).getStorage().resetState();
-        }
+        visited = visitedLast;
+        
+        walls.values().forEach(Wall::resetState);
     }
     
     public int getFoe() {
         return foe;
     }
     
-    public void setRoom() {
-        if (getWalls().size() > 0) {
-            var d = items.size() / getWalls().size();
-            
-            for (var i = 0; i < getWalls().size(); i++) {
-                for (var j = 0; j < d; j++) {
-                    var random = (int) (Math.random() * items.size());
-                    
-                    getWalls().get(i).getStorage().add(items.remove(random));
-                }
-            }
-        }
+    public int size() {
+        return walls.size();
     }
     
-    public void findWall(int n, int s, int e, int w) {
-        for (var k = 0; k < getWalls().size(); k++) {
-            switch (getWalls().get(k).getSide()) {
-                case 'n' -> n++;
-                
-                case 's' -> s++;
-                
-                case 'e' -> e++;
-                
-                case 'w' -> w++;
-            }
-        }
+    public Wall getWall(Direction direction) {
+        return walls.get(direction);
     }
     
-    public void addToRoom(Item item) {
-        items.add(item);
+    public void setWall(Direction direction, Wall wall) {
+        walls.put(direction, wall);
     }
     
-    public int getSize() {
-        return getWalls().size();
+    public boolean hasWall(Direction direction) {
+        return walls.containsKey(direction);
     }
     
-    public Wall getWall(int i) {
-        return getWalls().get(i);
-    }
-    
-    public void setWall(int r, int c, char w) {
-        getWalls().add(new Wall(r, c, w));
+    public Map<Direction, Wall> getWalls() {
+        return walls;
     }
     
     public String getName() {
@@ -136,37 +113,31 @@ public class Room {
         return name;
     }
     
-    public void look(Self self, char dir) {
-        if (getWalls().size() > 0) {
-            for (var i = 0; i < getWalls().size(); i++) {
-                if (getWalls().get(i).getSide() == dir) {
-                    getWalls().get(i).getStorage().open(self);
-                }
-                else {
-                    System.out.println("Just a door. Nothing else.");
-                }
-            }
-        }
-        else {
+    public void look(Direction direction, Self self) {
+        if (walls.isEmpty()) {
             System.out.println("There's nothing there.");
+            
+            return;
         }
+        
+        if (hasWall(direction)) {
+            var wall = getWall(direction);
+            
+            wall.getStorage().open(self);
+            
+            return;
+        }
+        
+        System.out.println("Just a door. Nothing else.");
     }
     
-    public void redistribute() {
-        for (var i = 0; i < this.getSize(); i++) {
-            for (var j = 0; j < items.size() / this.getSize(); j++) {
-                this.getWall(i).getStorage().add(items.get((int) (Math.random() * items.size())));
-                
-                items.remove(j--);
+    public void distributeItems(List<Item> items) {
+        for (var wall : walls.values()) {
+            if (items.isEmpty()) {
+                return;
             }
+            
+            wall.getStorage().add(items.remove(0));
         }
-    }
-    
-    public List<Wall> getWalls() {
-        return walls;
-    }
-    
-    public void setWalls(List<Wall> walls) {
-        this.walls = walls;
     }
 }

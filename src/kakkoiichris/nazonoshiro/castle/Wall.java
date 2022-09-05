@@ -1,65 +1,52 @@
 //Christian Alexander, 6/22/11, Period 6
 package kakkoiichris.nazonoshiro.castle;
 
+import kakkoiichris.nazonoshiro.Util;
 import kakkoiichris.nazonoshiro.castle.storage.*;
 
 public class Wall {
-    private final int x;
-    private final int y;
-    private final Storage[] storage = new Storage[1];
-    private final char Direction;
+    private final Direction direction;
     
-    public Wall(int x, int y, char d) {
-        this.x = x;
-        this.y = y;
-        Direction = d;
-        setStorage(this.x, this.y);
+    private final Storage storage;
+    
+    public Wall(Direction direction) {
+        this.direction = direction;
+        
+        var number = Util.random.nextInt(5);
+        
+        storage = switch (number) {
+            case 0 -> new Armoir();
+            
+            case 1 -> new Crate();
+            
+            case 2 -> new Dresser();
+            
+            case 3 -> new Desk();
+            
+            case 4 -> new JewelryBox();
+            
+            default -> throw new IllegalStateException("Unexpected value: " + number);
+        };
     }
     
-    public Wall(int x, int y, char d, String n) {
-        this(x, y, d);
-        setStorage(this.x, this.y, n);
+    public Wall(Direction direction, Storage storage) {
+        this.direction = direction;
+        this.storage = storage;
+    }
+    
+    public Direction getDirection() {
+        return direction;
     }
     
     public Storage getStorage() {
-        return storage[0];
+        return storage;
     }
     
-    public char getSide() {
-        return Direction;
+    public void storeState() {
+        storage.storeState();
     }
     
-    public static int randomize() {
-        return (int) (Math.random() * 5) + 1;
-    }
-    
-    public void setStorage(int r, int c) {
-        var temp = randomize();
-    
-        switch (temp) {
-            case 1 -> storage[0] = new Armoir(r, c);
-            
-            case 2 -> storage[0] = new Crate(r, c);
-            
-            case 3 -> storage[0] = new Dresser(r, c);
-            
-            case 4 -> storage[0] = new Desk(r, c);
-            
-            case 5 -> storage[0] = new JewelryBox(r, c);
-        }
-    }
-    
-    public void setStorage(int r, int c, String n) {
-        switch (n) {
-            case "Armoir" -> storage[0] = new Armoir(r, c);
-            
-            case "Crate" -> storage[0] = new Crate(r, c);
-            
-            case "Dresser" -> storage[0] = new Dresser(r, c);
-            
-            case "Desk" -> storage[0] = new Desk(r, c);
-            
-            case "Jewelry Box" -> storage[0] = new JewelryBox(r, c);
-        }
+    public void resetState() {
+        storage.resetState();
     }
 }

@@ -38,27 +38,27 @@ public class SaveFileCreator {
                     formatter.format("#%s%s%s%s%n", f, r, c, castle.get(f).getRoom(r, c).getName());
                     formatter.format("%s,%s'%s%n", castle.get(f).getPuzzleType()[r][c], castle.get(f).getFloorPlan()[r][c].getKey(), castle.get(f).getFloorPlan()[r][c].getLock());
                     
-                    for (var w = 0; w < castle.get(f).getRoom(r, c).getSize(); w++) {
+                    for (var wall : castle.get(f).getRoom(r, c).getWalls().values()) {
                         formatter.format("|%s:%s%n%sa%sb%sc%sd%se%s%n*%sa%sb%s%n&%sa%sb%sc%sd%se%sf%sg%s%n",
-                            castle.get(f).getRoom(r, c).getWall(w).getSide(),
-                            castle.get(f).getRoom(r, c).getWall(w).getStorage().getName(),
-                            castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("Tanto"),
-                            castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("Wakizashi"),
-                            castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("Katana"),
-                            castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("Bo Staff"),
-                            castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("Shuriken"),
-                            castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("Nunchaku"),
-                            castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("Herb"),
-                            castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("Bushel"),
-                            castle.get(f).getRoom(r, c).getWall(w).getStorage().getCount("Coin"),
-                            castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("Pure"),
-                            castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("Corrupt"),
-                            castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("Ultra"),
-                            castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("Brace"),
-                            castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("Velocity"),
-                            castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("Sub"),
-                            castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("Intimidate"),
-                            castle.get(f).getRoom(r, c).getWall(w).getStorage().getCountB("Blind")
+                            wall.getDirection(),
+                            wall.getStorage().getName(),
+                            wall.getStorage().getCount("Tanto"),
+                            wall.getStorage().getCount("Wakizashi"),
+                            wall.getStorage().getCount("Katana"),
+                            wall.getStorage().getCount("Bo Staff"),
+                            wall.getStorage().getCount("Shuriken"),
+                            wall.getStorage().getCount("Nunchaku"),
+                            wall.getStorage().getCount("Herb"),
+                            wall.getStorage().getCount("Bushel"),
+                            wall.getStorage().getCount("Coin"),
+                            wall.getStorage().getCountB("Pure"),
+                            wall.getStorage().getCountB("Corrupt"),
+                            wall.getStorage().getCountB("Ultra"),
+                            wall.getStorage().getCountB("Brace"),
+                            wall.getStorage().getCountB("Velocity"),
+                            wall.getStorage().getCountB("Sub"),
+                            wall.getStorage().getCountB("Intimidate"),
+                            wall.getStorage().getCountB("Blind")
                         );
                     }
                 }

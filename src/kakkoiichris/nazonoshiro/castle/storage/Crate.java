@@ -5,8 +5,8 @@ import kakkoiichris.nazonoshiro.fighter.Self;
 import kakkoiichris.nazonoshiro.item.weapon.Tanto;
 
 public class Crate extends Storage {
-    public Crate(int x, int y) {
-        super("Crate", x, y);
+    public Crate() {
+        super("Crate");
     }
     
     @Override

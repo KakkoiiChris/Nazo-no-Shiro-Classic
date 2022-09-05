@@ -5,8 +5,8 @@ import kakkoiichris.nazonoshiro.fighter.Self;
 import kakkoiichris.nazonoshiro.item.weapon.Katana;
 
 public class Armoir extends Storage {
-    public Armoir(int x, int y) {
-        super("Armoir", x, y);
+    public Armoir() {
+        super("Armoir");
     }
     
     @Override

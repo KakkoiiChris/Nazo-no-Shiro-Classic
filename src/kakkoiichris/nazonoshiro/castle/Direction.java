@@ -58,4 +58,9 @@ public enum Direction {
     public static boolean isValid(String direction) {
         return Arrays.stream(values()).anyMatch(d -> d.name().equals(direction.toUpperCase()));
     }
+    
+    @Override
+    public String toString() {
+        return name().toLowerCase();
+    }
 }
