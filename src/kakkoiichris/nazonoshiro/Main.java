@@ -13,6 +13,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class Main {
     private static final OptionsMenu aaa = new OptionsMenu();
@@ -290,10 +291,6 @@ public class Main {
     }
     
     private static void introduction() {
-        System.out.println("                        [Nazo No Shiro]");
-        System.out.println("                    [XXXXX{================>");
-        System.out.println();
-        
         var lines = Resources.getLines("introA");
         
         var i = 0;
@@ -441,7 +438,7 @@ public class Main {
             
             var fileName = "%s%d-%d-%d".formatted(timing, row, column, floor);
             
-            var description = Resources.getLines(fileName);
+            var description = Resources.tryGetLines(fileName).orElse(List.of("Default room text."));
             
             description.forEach(System.out::println);
             
@@ -449,147 +446,155 @@ public class Main {
                 System.out.printf("There is a %s to the %s.%n", wall.getStorage().getName(), wall.getDirection());
             }
             
-            var foeIndex = room.getFoe();
+            System.out.print(" > ");
             
-            if (room.getPuzzle() == 4 && guards[foeIndex].getHealth() > 0) {
-                fight(guards[foeIndex]);
+            var choice = input.nextLine().toLowerCase();
+            
+            System.out.println();
+            
+            var matcher = Pattern.compile("play( puzzle)?|solve( puzzle)?").matcher(choice);
+            
+            if (matcher.find() && !floors.get(floor).getPuzzles()[row][column].isWon()) {
+                floors.get(floor).playPuzzle(row, column);
                 
-                if (guards[foeIndex].getHealth() <= 0) {
-                    System.out.println("You were victorious!");
-                    System.out.println();
-                    
-                    guards[foeIndex].dropItem(self);
-                    
-                    self.getKeys().add(room.getKey());
-                    
-                    room.setKey(99);
-                    
-                    storeState();
+                continue;
+            }
+            
+            matcher = Pattern.compile("((play |show )inventory)|e").matcher(choice);
+            
+            if (matcher.find()) {
+                showInventory();
+                
+                continue;
+            }
+    
+            matcher = Pattern.compile("search (\\w+)").matcher(choice);
+            
+            if (matcher.find()) {
+                var storageName = matcher.group(1);
+                var direction = Direction.NONE;
+                
+                for (var wall : room.getWalls().values()) {
+                    if (wall.getStorage().getName().toLowerCase().equals(storageName)) {
+                        direction = wall.getDirection();
+                    }
+                }
+                
+                room.look(direction, self);
+                
+                continue;
+            }
+    
+            matcher = Pattern.compile("go (\\w+)").matcher(choice);
+            
+            if (matcher.find()) {
+                storeState();
+                
+                var direction = matcher.group(1);
+                
+                if (Direction.isValid(direction)) {
+                    move(Direction.valueOf(direction.toUpperCase()));
                 }
                 else {
-                    System.out.println("You lost.");
-                    
-                    resetState();
+                    System.out.printf("'%s' is not a valid direction.", direction);
                 }
+                
+                continue;
             }
-            else {
-                System.out.print(" > ");
+            
+            if (choice.equals("w")) {
+                storeState();
                 
-                var choice = input.nextLine().toLowerCase();
+                move(Direction.NORTH);
                 
-                System.out.println();
-                
-                if (choice.equals("play puzzle") || choice.equals("play") || choice.equals("solve puzzle") || choice.equals("solve") && !floors.get(floor).getPuzzles()[row][column].isWon()) {
-                    floors.get(floor).playPuzzle(row, column);
-                }
-                else if (choice.equals("show inventory") || choice.equals("inventory") || choice.equals("view inventory") || choice.equals("e")) {
-                    showInventory();
-                }
-                else if (choice.startsWith("search")) {
-                    var storageName = choice.substring(choice.indexOf(" ") + 1);
-                    var direction = Direction.NONE;
-                    
-                    for (var wall : room.getWalls().values()) {
-                        if (wall.getStorage().getName().toLowerCase().equals(storageName)) {
-                            direction = wall.getDirection();
-                        }
-                    }
-                    
-                    room.look(direction, self);
-                }
-                else if (choice.startsWith("go")) {
-                    storeState();
-                    
-                    var direction = choice.substring(choice.indexOf(" ") + 1);
-                    
-                    if (Direction.isValid(direction)) {
-                        move(Direction.valueOf(direction.toUpperCase()));
-                    }
-                    else {
-                        System.out.printf("'%s' is not a valid direction.", direction);
-                    }
-                }
-                else if (choice.equals("w")) {
-                    storeState();
-                    
-                    move(Direction.NORTH);
-                }
-                else if (choice.equals("a")) {
-                    storeState();
-                    
-                    move(Direction.WEST);
-                }
-                else if (choice.equals("s")) {
-                    storeState();
-                    
-                    move(Direction.SOUTH);
-                }
-                else if (choice.equals("d")) {
-                    storeState();
-                    
-                    move(Direction.EAST);
-                }
-                else if (choice.equals("r")) {
-                    storeState();
-                    
-                    move(Direction.UP);
-                }
-                else if (choice.equals("f")) {
-                    storeState();
-                    
-                    move(Direction.DOWN);
-                }
-                else if (choice.equals("save")) {
-                    saver.openFile();
-                    
-                    System.out.print("Saving");
-                    
-                    saver.addData(floors, guards, self, row, column, floor, yourTurn);
-                    
-                    saver.closeFile();
-                    
-                    for (var i = 0; i < (int) (Math.random() * 5) + 3; i++) {
-                        System.out.print(".");
-                        
-                        Util.pause(1);
-                    }
-                    
-                    System.out.println("\nSaved.\n");
-                }
-                else if (choice.equals("snq")) {
-                    saver.openFile();
-                    
-                    System.out.print("Saving");
-                    
-                    saver.addData(floors, guards, self, row, column, floor, yourTurn);
-                    
-                    saver.closeFile();
-                    
-                    for (var i = 0; i < (int) (Math.random() * 5) + 3; i++) {
-                        System.out.print(".");
-                        
-                        Util.pause(1);
-                    }
-                    
-                    System.out.println("\nSaved.\nThanks for playing.");
-                    
-                    break;
-                }
-                else if (choice.equals("quit")) {
-                    break;
-                }
-                else {
-                    System.out.printf("\nI don't recognize the phrase '%s'.%n%n > ", choice);
-                }
-                
-                if (choice.equals("play puzzle") || choice.equals("play") || choice.equals("solve puzzle") || choice.equals("solve") || choice.equals("skip") && floors.get(floor).getRoom(row, column).getKey() != 99) {
-                    self.getKeys().add(room.getKey());
-                    
-                    room.setKey(99);
-                    
-                    storeState();
-                }
+                continue;
             }
+            
+            if (choice.equals("a")) {
+                storeState();
+                
+                move(Direction.WEST);
+                
+                continue;
+            }
+            
+            if (choice.equals("s")) {
+                storeState();
+                
+                move(Direction.SOUTH);
+                
+                continue;
+            }
+            
+            if (choice.equals("d")) {
+                storeState();
+                
+                move(Direction.EAST);
+                
+                continue;
+            }
+            
+            if (choice.equals("r")) {
+                storeState();
+                
+                move(Direction.UP);
+                
+                continue;
+            }
+            
+            if (choice.equals("f")) {
+                storeState();
+                
+                move(Direction.DOWN);
+                
+                continue;
+            }
+            
+            if (choice.equals("save")) {
+                saver.openFile();
+                
+                System.out.print("Saving");
+                
+                saver.addData(floors, guards, self, row, column, floor, yourTurn);
+                
+                saver.closeFile();
+                
+                for (var i = 0; i < (int) (Math.random() * 5) + 3; i++) {
+                    System.out.print(".");
+                    
+                    Util.pause(1);
+                }
+                
+                System.out.println("\nSaved.\n");
+                
+                continue;
+            }
+            
+            if (choice.equals("snq")) {
+                saver.openFile();
+                
+                System.out.print("Saving");
+                
+                saver.addData(floors, guards, self, row, column, floor, yourTurn);
+                
+                saver.closeFile();
+                
+                for (var i = 0; i < (int) (Math.random() * 5) + 3; i++) {
+                    System.out.print(".");
+                    
+                    Util.pause(1);
+                }
+                
+                System.out.println("\nSaved.\nThanks for playing.");
+                
+                break;
+            }
+            
+            if (choice.equals("quit")) {
+                break;
+            }
+            
+            System.out.printf("\nI don't recognize the phrase '%s'.%n%n > ", choice);
         }
     }
     
@@ -634,22 +639,17 @@ public class Main {
                     
                     System.out.println();
                     
-                    while (!action.equals("attack") && !action.equals("a") && !action.equals("run") && !action.equals("r") && !action.equals("use") && !action.equals("e")) {
-                        System.out.print("What?\n(Attack/Use/Run)\n\n> ");
-                        
-                        action = input.next().toLowerCase();
-                        
-                        System.out.println();
-                    }
-                    
-                    if (action.equals("attack") || action.equals("a")) {
+                    if (action.matches("a(ttack)?")) {
                         self.attack(enemy, directHit, indirectHit, missHit);
                     }
-                    else if (action.equals("use") || action.equals("e")) {
+                    else if (action.matches("(us)?e")) {
                         self.use(enemy);
                     }
-                    else {
+                    else if (action.matches("run|r")) {
                         ran = true;
+                    }
+                    else {
+                        System.out.println("Can't do that...");
                     }
                 }
                 else {

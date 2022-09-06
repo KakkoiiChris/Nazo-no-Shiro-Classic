@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class Resources {
     private static final Path TXT;
@@ -32,6 +33,17 @@ public class Resources {
         }
     }
     
+    public static Optional<String> tryGetString(String fileName) {
+        var path = TXT.resolve("%s.txt".formatted(fileName));
+        
+        try {
+            return Optional.of(Files.readString(path));
+        }
+        catch (IOException e) {
+            return Optional.empty();
+        }
+    }
+    
     public static List<String> getLines(String fileName) {
         var path = TXT.resolve("%s.txt".formatted(fileName));
         
@@ -40,6 +52,17 @@ public class Resources {
         }
         catch (IOException e) {
             throw new RuntimeException("Could not find file '%s'!".formatted(fileName));
+        }
+    }
+    
+    public static Optional<List<String>> tryGetLines(String fileName) {
+        var path = TXT.resolve("%s.txt".formatted(fileName));
+        
+        try {
+            return Optional.of(Files.readAllLines(path));
+        }
+        catch (IOException e) {
+            return Optional.empty();
         }
     }
 }
