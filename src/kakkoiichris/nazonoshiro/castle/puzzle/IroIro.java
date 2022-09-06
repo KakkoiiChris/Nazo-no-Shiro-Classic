@@ -23,35 +23,29 @@ public class IroIro extends Puzzle {
         super("IroIro");
     }
     
-    public void play() {
+    @Override
+    public boolean play() {
         var again = "y";
         
-        while (again.equals("y") || again.equals("Y")) {
-            System.out.println("  <[IROIRO]>\n");
-            
-            setUp(guide);
-            
-            show(board);
-            
-            System.out.print(" > ");
-            
-            var temp = input.next();
-            
-            System.out.println();
-            
-            if (l > 0) {
-                System.out.println("Try again? y/n");
-                
-                again = input.next();
-                
-                l = 0;
-            }
-            else {
-                victory();
-                
-                again = "n";
-            }
+        System.out.println("  <[IROIRO]>\n");
+        
+        setUp(guide);
+        
+        show(board);
+        
+        System.out.print(" > ");
+        
+        var temp = input.next();
+        
+        System.out.println();
+        
+        if (l > 0) {
+            return false;
         }
+        
+        victory();
+        
+        return true;
     }
     
     public void show(char[][] guide) {

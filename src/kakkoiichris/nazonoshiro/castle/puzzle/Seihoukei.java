@@ -411,15 +411,15 @@ public class Seihoukei extends Puzzle {
         return true;
     }
     
-    public void play() {
+    @Override
+    public boolean play() {
         System.out.println("<[Seihoukei]>\n");
         
         setUp();
         setKey();
         
         System.out.println("Solve for this pattern:\n");
-
-label:
+        
         while (!win()) {
             System.out.println("  [Solution]");
             
@@ -491,13 +491,12 @@ label:
                 }
                 
                 default -> {
-                    System.out.println("Goodbye.");
-                    
-                    break label;
                 }
             }
         }
         
         victory();
+        
+        return true;
     }
 }

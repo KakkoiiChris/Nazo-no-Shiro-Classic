@@ -1,13 +1,26 @@
 //Christian Alexander, 5/12/11, Pd. 6
 package kakkoiichris.nazonoshiro.castle.puzzle;
 
-public abstract class Puzzle {
+import kakkoiichris.nazonoshiro.Resettable;
+import kakkoiichris.nazonoshiro.Util;
+
+public abstract class Puzzle implements Resettable {
     private final String name;
     
     protected boolean won = false, wonLast = false;
     
     public Puzzle(String name) {
         this.name = name;
+    }
+    
+    public static Puzzle random() {
+        return switch (Util.random.nextInt(3)) {
+            case 0 -> new Kurobune();
+            
+            case 1 -> new Oboeru();
+            
+            default -> new Seihoukei();
+        };
     }
     
     public boolean isWon() {
@@ -18,25 +31,19 @@ public abstract class Puzzle {
         return name;
     }
     
+    @Override
     public void storeState() {
         wonLast = won;
     }
     
+    @Override
     public void resetState() {
         won = wonLast;
     }
     
     public void victory() {
-        System.out.println("""
-            You won!
-            
-            You have earned a key.
-            
-            Now to figure out which door it unlocks...
-            """.stripIndent());
-        
         won = true;
     }
     
-    public abstract void play();
+    public abstract boolean play();
 }

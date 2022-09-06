@@ -56,12 +56,15 @@ public class Oboeru extends Puzzle {
         board[r2][c2] = key[r2][c2];
     }
     
-    public void play() {
+    @Override
+    public boolean play() {
         setUp();
         
         showBoard();
-    
+        
         var count = 0;
+        
+        var tries = 0;
         
         while (count < 15) {
             System.out.println("   0   1   2   3   4   5");
@@ -106,16 +109,26 @@ public class Oboeru extends Puzzle {
                 System.out.println("That's a match.");
                 
                 count++;
+                
+                tries = 0;
             }
             else {
                 System.out.println("Not a match.");
                 
                 reset(r1, c1, r2, c2);
+                
+                tries++;
             }
             
             System.out.println();
+            
+            if (tries == 3) {
+                return false;
+            }
         }
         
         victory();
+        
+        return true;
     }
 }

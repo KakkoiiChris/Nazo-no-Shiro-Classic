@@ -1,71 +1,51 @@
 //Christian Alexander, 10/06/2011, Period 8
 package kakkoiichris.nazonoshiro.castle;
 
-import kakkoiichris.nazonoshiro.castle.puzzle.Puzzle;
+import kakkoiichris.nazonoshiro.castle.room.Room;
 
 public abstract class CastleFloor {
-    protected final int xSize, ySize;
     protected final String name;
+    protected final int rows, columns;
     
-    private Room[][] floorPlan;
-    private Puzzle[][] puzzles; //2-D int array to store puzzle types
-    private int[][] puzzleType;
+    protected Room[][] rooms;
     
-    public CastleFloor(int xSize, int ySize, String name) {
-        this.xSize = xSize;
-        this.ySize = ySize;
+    public CastleFloor(String name, int rows, int columns) {
         this.name = name;
+        this.rows = rows;
+        this.columns = columns;
         
-        floorPlan = new Room[xSize][ySize];
-        puzzles = new Puzzle[xSize][ySize];
-        puzzleType = new int[xSize][ySize];
-    }
-    
-    public abstract void setUpNew();
-    
-    public abstract void setUpLoad();
-    
-    public Room getRoom(int r, int c) {
-        return getFloorPlan()[r][c];
-    }
-    
-    public int getColumns() {
-        return xSize;
-    }
-    
-    public int getRows() {
-        return ySize;
+        rooms = new Room[rows][columns];
     }
     
     public String getName() {
         return name;
     }
     
-    public void playPuzzle(int r, int c) {
-        getPuzzles()[r][c].play();
+    public int getColumns() {
+        return rows;
     }
     
-    public int[][] getPuzzleType() {
-        return puzzleType;
+    public int getRows() {
+        return columns;
     }
     
-    public void setPuzzleType(int[][] puzzleType) {
-        this.puzzleType = puzzleType;
+    public Room[][] getRooms() {
+        return rooms;
     }
     
-    public Room[][] getFloorPlan() {
-        return floorPlan;
+    public void setRooms(Room[][] rooms) {
+        this.rooms = rooms;
     }
     
-    public void setFloorPlan(Room[][] floorPlan) {
-        this.floorPlan = floorPlan;
+    public Room getRoom(int r, int c) {
+        return rooms[r][c];
     }
     
-    public Puzzle[][] getPuzzles() {
-        return puzzles;
+    public void setRoom(int r, int c, Room room) {
+        rooms[r][c] = room;
     }
     
-    public void setPuzzles(Puzzle[][] puzzles) {
-        this.puzzles = puzzles;
-    }
+    public abstract void setUpNew();
+    
+    public abstract void setUpLoad();
 }

@@ -1,7 +1,9 @@
 //Christian Alexander, 5/12/11, Pd. 6
-package kakkoiichris.nazonoshiro.castle;
+package kakkoiichris.nazonoshiro.castle.room;
 
 import kakkoiichris.nazonoshiro.Resettable;
+import kakkoiichris.nazonoshiro.castle.Direction;
+import kakkoiichris.nazonoshiro.castle.Wall;
 import kakkoiichris.nazonoshiro.fighter.Self;
 import kakkoiichris.nazonoshiro.item.Item;
 
@@ -11,66 +13,35 @@ import java.util.Map;
 
 public class Room implements Resettable {
     private final String name;
-    private final int puzzle;
-    private int key;
+    
     private final int lock;
-    private int keyLast;
-    private int lockLast;
-    private int foe;
+    private final int key;
+    
     private final Map<Direction, Wall> walls = new HashMap<>();
-    private final boolean hasStairs;
     
-    private boolean visited = false, visitedLast = false;
+    private boolean visited = false;
+    private boolean visitedLast = false;
     
-    public Room(String name, int puzzle, int key, int lock, int foe, boolean hasStairs) {
+    private boolean locked;
+    private boolean lockedLast;
+    
+    public Room(String name, int key, int lock, boolean locked) {
         this.name = name;
-        this.puzzle = puzzle;
         this.key = key;
         this.lock = lock;
-        this.foe = foe;
-        this.hasStairs = hasStairs;
+        this.locked=lockedLast=locked;
     }
     
-    public Room(String name, int puzzle, int key, int lock, boolean hasStairs) {
-        this.name = name;
-        this.puzzle = puzzle;
-        this.key = key;
-        this.lock = lock;
-        this.hasStairs = hasStairs;
+    public String getName() {
+        return name;
     }
     
-    public boolean isVisited() {
-        return visited;
+    public int getKey() {
+        return key;
     }
     
-    public void setVisited() {
-        visited = true;
-    }
-    
-    @Override
-    public void storeState() {
-        keyLast = key;
-        
-        visitedLast = visited;
-        
-        walls.values().forEach(Wall::storeState);
-    }
-    
-    @Override
-    public void resetState() {
-        key = keyLast;
-        
-        visited = visitedLast;
-        
-        walls.values().forEach(Wall::resetState);
-    }
-    
-    public int getFoe() {
-        return foe;
-    }
-    
-    public int size() {
-        return walls.size();
+    public int getLock() {
+        return lock;
     }
     
     public Wall getWall(Direction direction) {
@@ -89,28 +60,42 @@ public class Room implements Resettable {
         return walls;
     }
     
-    public String getName() {
-        return name;
+    public int size() {
+        return walls.size();
     }
     
-    public int getPuzzle() {
-        return puzzle;
+    public boolean isVisited() {
+        return visited;
     }
     
-    public int getKey() {
-        return key;
+    public void setVisited() {
+        visited = true;
     }
     
-    public void setKey(int a) {
-        key = a;
+    public boolean isLocked() {
+        return locked;
     }
     
-    public int getLock() {
-        return lock;
+    public void unlock() {
+        this.locked = false;
     }
     
-    public String toString() {
-        return name;
+    @Override
+    public void storeState() {
+        visitedLast = visited;
+        
+        lockedLast = locked;
+        
+        walls.values().forEach(Wall::storeState);
+    }
+    
+    @Override
+    public void resetState() {
+        visited = visitedLast;
+        
+        locked = lockedLast;
+        
+        walls.values().forEach(Wall::resetState);
     }
     
     public void look(Direction direction, Self self) {
@@ -139,5 +124,9 @@ public class Room implements Resettable {
             
             wall.getStorage().add(items.remove(0));
         }
+    }
+    
+    public String toString() {
+        return name;
     }
 }

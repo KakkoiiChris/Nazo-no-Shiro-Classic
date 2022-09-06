@@ -36,8 +36,10 @@ public class SaveFileCreator {
             for (var r = 0; r < castle.get(f).getColumns(); r++) {
                 for (var c = 0; c < castle.get(f).getRows(); c++) {
                     formatter.format("#%s%s%s%s%n", f, r, c, castle.get(f).getRoom(r, c).getName());
-                    formatter.format("%s,%s'%s%n", castle.get(f).getPuzzleType()[r][c], castle.get(f).getFloorPlan()[r][c].getKey(), castle.get(f).getFloorPlan()[r][c].getLock());
-                    
+                    //formatter.format("%s,%s'%s%n", castle.get(f).getPuzzleType()[r][c], castle.get(f).getRooms()[r][c].getKey(), castle.get(f).getRooms()[r][c].getLock());
+                    formatter.format("%s,%s'%s%n", /*HERE*/0, castle.get(f).getRooms()[r][c].getKey(), castle.get(f).getRooms()[r][c].getLock());
+    
+    
                     for (var wall : castle.get(f).getRoom(r, c).getWalls().values()) {
                         formatter.format("|%s:%s%n%sa%sb%sc%sd%se%s%n*%sa%sb%s%n&%sa%sb%sc%sd%se%sf%sg%s%n",
                             wall.getDirection(),

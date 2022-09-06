@@ -1,7 +1,13 @@
 // Christian Alexander, 5/12/11, Pd. 6
 package kakkoiichris.nazonoshiro;
 
-import kakkoiichris.nazonoshiro.castle.*;
+import kakkoiichris.nazonoshiro.castle.CastleFloor;
+import kakkoiichris.nazonoshiro.castle.Direction;
+import kakkoiichris.nazonoshiro.castle.OriginalCastle;
+import kakkoiichris.nazonoshiro.castle.Wall;
+import kakkoiichris.nazonoshiro.castle.room.EnemyRoom;
+import kakkoiichris.nazonoshiro.castle.room.PuzzleRoom;
+import kakkoiichris.nazonoshiro.castle.room.Room;
 import kakkoiichris.nazonoshiro.castle.storage.*;
 import kakkoiichris.nazonoshiro.fighter.*;
 import kakkoiichris.nazonoshiro.item.Coin;
@@ -180,17 +186,17 @@ public class Main {
             var r = (int) (lines.get(data).charAt(index + 2)) - 48;
             var c = (int) (lines.get(data).charAt(index + 3)) - 48;
             
-            var room = floors.get(f).getFloorPlan()[r][c];
+            var room = floors.get(f).getRooms()[r][c];
             
             var name = lines.get(data).substring(index + 4);
             
             data++;
             
-            var p = Integer.parseInt(lines.get(data).substring(0, lines.get(data).indexOf(",")));
+            //var p = Integer.parseInt(lines.get(data).substring(0, lines.get(data).indexOf(",")));
             var k = Integer.parseInt(lines.get(data).substring(lines.get(data).indexOf(",") + 1, lines.get(data).indexOf("'")));
             var l = Integer.parseInt(lines.get(data).substring(lines.get(data).indexOf("'") + 1));
             
-            floors.get(f).getFloorPlan()[r][c] = new Room(name, p, k, l, false);
+            floors.get(f).getRooms()[r][c] = new Room(name, k, l, false);
             
             data++;
             
@@ -432,6 +438,12 @@ public class Main {
             
             System.out.printf("%s%n%n", room);
             
+            if (room instanceof EnemyRoom e && !e.getEnemy().isDead()) {
+                fight(e.getEnemy());
+                
+                continue;
+            }
+            
             var timing = room.isVisited() ? "then" : "first";
             
             room.setVisited();
@@ -454,8 +466,24 @@ public class Main {
             
             var matcher = Pattern.compile("play( puzzle)?|solve( puzzle)?").matcher(choice);
             
-            if (matcher.find() && !floors.get(floor).getPuzzles()[row][column].isWon()) {
-                floors.get(floor).playPuzzle(row, column);
+            if (matcher.find() && floors.get(floor).getRoom(row, column) instanceof PuzzleRoom p && !p.getPuzzle().isWon()) {
+                if (p.getPuzzle().play()) {
+                    System.out.println("""
+                        You won!
+                        
+                        You have earned a key.
+                        
+                        Now to figure out which door it unlocks...
+                        """.stripIndent());
+                    
+                    self.addKey(p.getKey());
+                }
+                else {
+                    System.out.println("""
+                        The puzzle clicks and whirs away,
+                        and just like that, the puzzle is
+                        reset. Better luck next time...""");
+                }
                 
                 continue;
             }
@@ -467,7 +495,7 @@ public class Main {
                 
                 continue;
             }
-    
+            
             matcher = Pattern.compile("search (\\w+)").matcher(choice);
             
             if (matcher.find()) {
@@ -484,7 +512,7 @@ public class Main {
                 
                 continue;
             }
-    
+            
             matcher = Pattern.compile("go (\\w+)").matcher(choice);
             
             if (matcher.find()) {
@@ -498,6 +526,12 @@ public class Main {
                 else {
                     System.out.printf("'%s' is not a valid direction.", direction);
                 }
+                
+                continue;
+            }
+            
+            if (choice.equals("skip")) {
+                self.addKey(room.getKey());
                 
                 continue;
             }
@@ -598,7 +632,7 @@ public class Main {
         }
     }
     
-    private static void fight(Fighter enemy) {
+    private static boolean fight(Enemy enemy) {
         var directHit = Resources.getLines("directHit");
         
         var indirectHit = Resources.getLines("indirectHit");
@@ -646,7 +680,7 @@ public class Main {
                         self.use(enemy);
                     }
                     else if (action.matches("run|r")) {
-                        ran = true;
+                        ran = run(enemy);
                     }
                     else {
                         System.out.println("Can't do that...");
@@ -665,47 +699,51 @@ public class Main {
                 yourTurn = !yourTurn;
                 
                 if (ran) {
-                    run(enemy);
+                    return false;
                 }
                 
                 if (self.isDead()) {
                     System.out.println("You died.\n");
+                    
+                    return false;
                 }
                 
                 Util.pause(2);
             }
         }
+        
+        return true;
     }
     
-    private static void run(Fighter enemy) {
+    private static boolean run(Fighter enemy) {
         //used in run method
         double speedDiff = ((double) self.getSpeed() / enemy.getSpeed()) * 50;
         
         var runChance = Math.random() * 100;
         
-        var tempRow = row;
-        var tempColumn = column;
+        var lastRow = row;
+        var lastColumn = column;
         
         move(lastDirection.getInverse());
         
-        if (row == tempRow && column == tempColumn) {
+        if (row == lastRow && column == lastColumn) {
             System.out.println("You've been cornered.\n");
             
-            ran = false;
+            return false;
         }
-        else if (speedDiff > runChance) {
+        
+        if (speedDiff > runChance) {
             System.out.println("You made a clean getaway.\n");
             
-            ran = true;
+            return true;
         }
-        else {
-            System.out.println("You've been cut off.\n");
-            
-            row = tempRow;
-            column = tempColumn;
-            
-            ran = false;
-        }
+        
+        System.out.println("You've been cut off.\n");
+        
+        row = lastRow;
+        column = lastColumn;
+        
+        return false;
     }
     
     private static void move(Direction direction) {
@@ -861,7 +899,7 @@ public class Main {
     private static void distributeItems(List<Item> items) {
         while (!items.isEmpty()) {
             for (var floor : floors) {
-                for (var row : floor.getFloorPlan()) {
+                for (var row : floor.getRooms()) {
                     for (var room : row) {
                         room.distributeItems(items);
                     }
@@ -989,7 +1027,6 @@ public class Main {
         for (var castleFloor : floors) {
             for (var i = 0; i < castleFloor.getColumns(); i++) {
                 for (var j = 0; j < castleFloor.getRows(); j++) {
-                    castleFloor.getPuzzles()[i][j].storeState();
                     castleFloor.getRoom(i, j).storeState();
                 }
             }
@@ -1011,7 +1048,6 @@ public class Main {
         for (var castleFloor : floors) {
             for (var i = 0; i < castleFloor.getColumns(); i++) {
                 for (var j = 0; j < castleFloor.getRows(); j++) {
-                    castleFloor.getPuzzles()[i][j].resetState();
                     castleFloor.getRoom(i, j).resetState();
                 }
             }

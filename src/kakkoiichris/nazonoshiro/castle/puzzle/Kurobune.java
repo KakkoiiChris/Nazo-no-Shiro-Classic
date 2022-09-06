@@ -8,103 +8,85 @@ public class Kurobune extends Puzzle {
         super("Kurobune");
     }
     
-    public void play() {
+    @Override
+    public boolean play() {
         var input = new Scanner(System.in);
         
-        var again = "y";
+        System.out.println("  <[KUROBUNE]>\n");
         
-        var l = 0;
-    
-        while (again.equals("y") || again.equals("Y")) {
-            System.out.println("  <[KUROBUNE]>\n");
-            
-            var torpedoes = 20;
-            
-            var hits = 0;
-            
-            var board = new char[8][8];
-            
-            for (var r = 0; r < 8; r++) {
-                for (var c = 0; c < 8; c++) {
-                    board[r][c] = '~';
-                }
+        var torpedoes = 20;
+        
+        var hits = 0;
+        
+        var board = new char[8][8];
+        
+        for (var r = 0; r < 8; r++) {
+            for (var c = 0; c < 8; c++) {
+                board[r][c] = '~';
             }
+        }
+        
+        setUp(board);
+        
+        while (torpedoes > 0 && hits < 4) {
+            show(board);
             
-            setUp(board);
+            System.out.print("\nRow: ");
             
-            while (torpedoes > 0 && hits < 4) {
-                show(board);
+            var row = input.nextInt();
+            
+            System.out.print("\nColumn: ");
+            
+            var column = input.nextInt();
+            
+            while (row > 7 || row < 0 || column > 7 || column < 0) {
+                System.out.println("That's out of your range. Enter again.\nRow: ");
                 
-                System.out.print("\nRow: ");
-                
-                var row = input.nextInt();
+                row = input.nextInt();
                 
                 System.out.print("\nColumn: ");
                 
-                var column = input.nextInt();
-                
-                while (row > 7 || row < 0 || column > 7 || column < 0) {
-                    System.out.println("That's out of your range. Enter again.\nRow: ");
-                    
-                    row = input.nextInt();
-                    
-                    System.out.print("\nColumn: ");
-                    
-                    column = input.nextInt();
-                }
-                
-                System.out.println();
-    
-                switch (board[row][column]) {
-                    case 'S' -> {
-                        board[row][column] = '!';
-                        hits++;
-                        torpedoes--;
-                        System.out.println("That's a hit!\n");
-                    }
-                
-                    case '~' -> {
-                        board[row][column] = 'm';
-                        torpedoes--;
-                        System.out.println("That's a miss.\n");
-                    }
-                
-                    default -> System.out.println("You already hit that spot. Fire again.\n");
-                }
-                
-                if (hits < 4 && torpedoes > 0) {
-                    if (torpedoes == 1) {
-                        System.out.println("You have 1 torpedo left.");
-                    }
-                    else {
-                        System.out.printf("You have %d torpedoes left.%n", torpedoes);
-                    }
-                    
-                    System.out.println();
-                }
-            }
-            
-            if (hits != 4) {
-                System.out.println("You lose.");
-                
-                l++;
-            }
-            
-            if (l > 0) {
-                System.out.println("Try again? y/n");
-                
-                again = input.next();
-                
-                l = 0;
-            }
-            else {
-                victory();
-                
-                again = "n";
+                column = input.nextInt();
             }
             
             System.out.println();
+            
+            switch (board[row][column]) {
+                case 'S' -> {
+                    board[row][column] = '!';
+                    hits++;
+                    torpedoes--;
+                    System.out.println("That's a hit!\n");
+                }
+                
+                case '~' -> {
+                    board[row][column] = 'm';
+                    torpedoes--;
+                    System.out.println("That's a miss.\n");
+                }
+                
+                default -> System.out.println("You already hit that spot. Fire again.\n");
+            }
+            
+            if (hits < 4 && torpedoes > 0) {
+                if (torpedoes == 1) {
+                    System.out.println("You have 1 torpedo left.");
+                }
+                else {
+                    System.out.printf("You have %d torpedoes left.%n", torpedoes);
+                }
+                
+                System.out.println();
+            }
         }
+        
+        if (hits != 4) {
+            return false;
+        }
+        
+        victory();
+        
+        return true;
     }
     
     public void show(char[][] board) {
