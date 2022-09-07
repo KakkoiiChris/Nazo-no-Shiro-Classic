@@ -2,8 +2,8 @@ by the head.
 by the torso.
 by the legs.
 by the arms.
-against their speed.
-against their strength.
+against thier speed.
+against thier strength.
 completely.
 at all.
 .

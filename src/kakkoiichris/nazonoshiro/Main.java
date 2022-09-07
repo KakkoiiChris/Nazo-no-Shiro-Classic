@@ -62,46 +62,50 @@ public class Main {
     }
     
     private static void mainMenu() {
-        var lines = Resources.getLines("mainMenu1");
-        lines.forEach(System.out::println);
+        var fileName = (Math.random() > 0.001) ? "title" : "tlite";
         
-        System.out.println();
+        var title = Resources.getString(fileName);
+        var splash = Util.getRandom(Resources.getLines("splashText"));
         
-        lines = Resources.getLines("splashText");
-        System.out.println(Util.getRandom(lines).toUpperCase());
-        
-        lines = Resources.getLines("mainMenu2");
-        lines.forEach(System.out::println);
-        
-        System.out.println();
+        System.out.printf(title, splash);
         
         var inMenu = true;
         
         while (inMenu) {
-            System.out.print(" > ");
+            System.out.print("""
+                1) New Game
+                2) Load Game
+                3) Options
+                4) Credits
+                5) Quit
+                
+                >\040""".stripIndent());
             
-            var first = input.nextLine();
+            var first = input.nextLine().trim().toLowerCase();
             
-            if (first.equals("1") || first.startsWith("New")) {
+            if (first.matches("1|(new(\s+game)?)")) {
                 setUpNew();
                 
                 inMenu = false;
             }
-            else if (first.equals("2") || first.startsWith("Load")) {
+            else if (first.matches("2|(load(\s+game)?)")) {
                 setUpLoad();
                 
                 inMenu = false;
             }
-            else if (first.equals("3") || first.equals("Options")) {
+            else if (first.matches("3|options")) {
                 options();
             }
-            else if (first.equals("4") || first.equals("Credits")) {
+            else if (first.matches("4|credits")) {
                 credits();
             }
-            else {
+            else if (first.matches("5|credits")) {
                 System.out.println("Thanks for playing!");
                 
                 System.exit(0);
+            }
+            else {
+                System.out.println("I don't know how to do that...\n");
             }
         }
     }
