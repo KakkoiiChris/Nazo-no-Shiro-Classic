@@ -28,7 +28,7 @@ public class Util {
     
     public static void pause(int seconds) {
         try {
-            Thread.sleep(seconds * 2L); //TODO: Reenable pausing
+            Thread.sleep(seconds * 2L); //TODO: Re-enable pausing
         }
         catch (InterruptedException e) {
             throw new RuntimeException(e);

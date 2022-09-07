@@ -16,7 +16,6 @@ import kakkoiichris.nazonoshiro.item.Item;
 import kakkoiichris.nazonoshiro.item.weapon.*;
 
 import javax.swing.*;
-import javax.swing.plaf.multi.MultiToolTipUI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -142,7 +141,7 @@ public class Main {
         for (var k = 0; k < Util.random.nextInt(100); k++) {
             items.add(new HealthPack("bushel", 5));
         }
-    
+        
         Util.shuffle(items);
         
         distributeItems(items);
@@ -241,35 +240,35 @@ public class Main {
                 var count = Integer.parseInt(lines.get(data).substring(lines.get(data).indexOf('!') + 1, lines.get(data).indexOf('a')));
                 
                 for (var u = 0; u < count; u++) {
-                    room.getWalls().get(0).getStorage().add(new Tanto());
+                    room.getWalls().get(Direction.NONE).getStorage().add(new Tanto());
                 }
                 
                 count = Integer.parseInt(lines.get(data).substring(lines.get(data).indexOf('a') + 1, lines.get(data).indexOf('b')));
                 
                 for (var v = 0; v < count; v++) {
-                    room.getWalls().get(0).getStorage().add(new Wakizashi());
+                    room.getWalls().get(Direction.NONE).getStorage().add(new Wakizashi());
                 }
                 
                 count = Integer.parseInt(lines.get(data).substring(lines.get(data).indexOf('b') + 1, lines.get(data).indexOf('c')));
                 
                 for (var w = 0; w < count; w++) {
-                    room.getWalls().get(0).getStorage().add(new Katana());
+                    room.getWalls().get(Direction.NONE).getStorage().add(new Katana());
                 }
                 
                 count = Integer.parseInt(lines.get(data).substring(lines.get(data).indexOf('c') + 1, lines.get(data).indexOf('d')));
                 
                 for (var x = 0; x < count; x++) {
-                    room.getWalls().get(0).getStorage().add(new Bo());
+                    room.getWalls().get(Direction.NONE).getStorage().add(new Bo());
                 }
                 
                 count = Integer.parseInt(lines.get(data).substring(lines.get(data).indexOf('d') + 1, lines.get(data).indexOf('e')));
                 
                 for (var y = 0; y < count; y++) {
-                    room.getWalls().get(0).getStorage().add(new Shuriken());
+                    room.getWalls().get(Direction.NONE).getStorage().add(new Shuriken());
                 }
                 
                 for (var z = 0; z < Integer.parseInt(lines.get(data).substring(lines.get(data).indexOf('e') + 1)); z++) {
-                    room.getWalls().get(0).getStorage().add(new Nunchaku());
+                    room.getWalls().get(Direction.NONE).getStorage().add(new Nunchaku());
                 }
                 
                 data++;
@@ -277,19 +276,19 @@ public class Main {
                 count = Integer.parseInt(lines.get(data).substring(lines.get(data).indexOf('*') + 1, lines.get(data).indexOf('a')));
                 
                 for (var x = 0; x < count; x++) {
-                    room.getWalls().get(0).getStorage().add(new HealthPack("Herb", 3));
+                    room.getWalls().get(Direction.NONE).getStorage().add(new HealthPack("Herb", 3));
                 }
                 
                 count = Integer.parseInt(lines.get(data).substring(lines.get(data).indexOf('a') + 1, lines.get(data).indexOf('b')));
                 
                 for (var y = 0; y < count; y++) {
-                    room.getWalls().get(0).getStorage().add(new HealthPack("Bushel", 5));
+                    room.getWalls().get(Direction.NONE).getStorage().add(new HealthPack("Bushel", 5));
                 }
                 
                 count = Integer.parseInt(lines.get(data).substring(lines.get(data).indexOf('b') + 1));
                 
                 for (var z = 0; z < count; z++) {
-                    room.getWalls().get(0).getStorage().add(new Coin());
+                    room.getWalls().get(Direction.NONE).getStorage().add(new Coin());
                 }
                 
                 data += 2;
@@ -454,7 +453,30 @@ public class Main {
             System.out.printf("%s%n%n", room);
             
             if (room instanceof EnemyRoom e && !e.getEnemy().isDead()) {
-                fight(e.getEnemy());
+                if (fight(e.getEnemy())) {
+                    var drop = e.getEnemy().getDrop();
+                    
+                    if (drop == null) {
+                        drop = new Coin();
+                    }
+                    
+                    System.out.println("""
+                        The %s dropped something...
+                        
+                        It's a %s!
+                        
+                        They also dropped a key. Now to
+                        find which door it unlocks...
+                        """.formatted(e.getEnemy(), drop).stripIndent());
+                }
+                else if (ran) {
+                    System.out.println("That was a close one...");
+                }
+                else {
+                    System.out.println("You died...");
+                    
+                    resetState();
+                }
                 
                 continue;
             }
@@ -883,11 +905,43 @@ public class Main {
     }
     
     private static int goUp() {
-        return floor + 1;
+        if (hasWall(Direction.UP) || upperMost()) {
+            System.out.println("The ceiling blocks your path.\n");
+            
+            return floor;
+        }
+        
+        if (self.hasKey(floors.get(floor + 1).getRoom(row, column).getLock())) {
+            if (!hasVisited(row, column, floor + 1)) {
+                System.out.println("The hatch is unlocked.\n");
+            }
+            
+            return floor + 1;
+        }
+        
+        System.out.println("None of the keys you have fit that lock.\n");
+        
+        return floor;
     }
     
     private static int goDown() {
-        return floor - 1;
+        if (hasWall(Direction.DOWN) || lowerMost()) {
+            System.out.println("The floor blocks your path.\n");
+            
+            return floor;
+        }
+        
+        if (self.hasKey(floors.get(floor - 1).getRoom(row, column).getLock())) {
+            if (!hasVisited(row, column, floor - 1)) {
+                System.out.println("The hatch is unlocked.\n");
+            }
+            
+            return floor - 1;
+        }
+        
+        System.out.println("None of the keys you have fit that lock.\n");
+        
+        return floor;
     }
     
     private static void showInventory() {

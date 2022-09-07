@@ -28,7 +28,7 @@ public class Self extends Fighter {
     public void storeState() {
         attackLast = attack;
         defenseLast = defense;
-        speedlast = speed;
+        speedLast = speed;
         healthLast = health;
         xLast = x;
         yLast = y;
@@ -38,7 +38,7 @@ public class Self extends Fighter {
     public void resetState() {
         attack = attackLast;
         defense = defenseLast;
-        speed = speedlast;
+        speed = speedLast;
         health = healthLast;
         x = xLast;
         y = yLast;
