@@ -16,6 +16,7 @@ import kakkoiichris.nazonoshiro.item.Item;
 import kakkoiichris.nazonoshiro.item.weapon.*;
 
 import javax.swing.*;
+import javax.swing.plaf.multi.MultiToolTipUI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -141,6 +142,8 @@ public class Main {
         for (var k = 0; k < Util.random.nextInt(100); k++) {
             items.add(new HealthPack("bushel", 5));
         }
+    
+        Util.shuffle(items);
         
         distributeItems(items);
         
@@ -160,6 +163,18 @@ public class Main {
         }
         
         introduction();
+    }
+    
+    private static void distributeItems(List<Item> items) {
+        while (!items.isEmpty()) {
+            for (var floor : floors) {
+                for (var row : floor.getRooms()) {
+                    for (var room : row) {
+                        room.distributeItems(items);
+                    }
+                }
+            }
+        }
     }
     
     private static void setUpLoad() {
@@ -193,10 +208,10 @@ public class Main {
             data++;
             
             //var p = Integer.parseInt(lines.get(data).substring(0, lines.get(data).indexOf(",")));
-            var k = Integer.parseInt(lines.get(data).substring(lines.get(data).indexOf(",") + 1, lines.get(data).indexOf("'")));
-            var l = Integer.parseInt(lines.get(data).substring(lines.get(data).indexOf("'") + 1));
+            var key = Integer.parseInt(lines.get(data).substring(lines.get(data).indexOf(",") + 1, lines.get(data).indexOf("'")));
+            var lock = Integer.parseInt(lines.get(data).substring(lines.get(data).indexOf("'") + 1));
             
-            floors.get(f).getRooms()[r][c] = new Room(name, k, l, false);
+            floors.get(f).getRooms()[r][c] = new Room(name, key, lock, false);
             
             data++;
             
@@ -634,90 +649,69 @@ public class Main {
     
     private static boolean fight(Enemy enemy) {
         var directHit = Resources.getLines("directHit");
-        
         var indirectHit = Resources.getLines("indirectHit");
-        
         var missHit = Resources.getLines("missHit");
-        
         var directBlock = Resources.getLines("directBlock");
-        
         var indirectBlock = Resources.getLines("indirectBlock");
-        
         var missBlock = Resources.getLines("missBlock");
         
-        while (!self.isDead() && !enemy.isDead()) {
-            if (enemy.getName().equals("Imperial Guard")) {
-                System.out.printf("An %s stands before you.%n", enemy);
-            }
-            else {
-                System.out.printf("A %s stands before you.%n", enemy);
-            }
+        System.out.printf("The %s stands before you.%n%n", enemy);
+        
+        yourTurn = Math.random() >= 0.5;
+        
+        ran = false;
+        
+        while (!self.isDead() && !enemy.isDead() && !ran) {
+            self.showHP();
+            enemy.showHP();
             
-            System.out.println();
-            
-            yourTurn = Math.random() >= 0.5;
-            
-            ran = false;
-            
-            while (enemy.getHealth() > 0 && self.getHealth() > 0 && !ran) {
-                self.showHP();
-                enemy.showHP();
+            if (yourTurn) {
+                self.allAffect();
+                self.filter();
                 
-                if (yourTurn) {
-                    self.allAffect();
-                    self.filter();
-                    
-                    System.out.print("(Attack/Use/Run)\n\n> ");
-                    
-                    var action = input.next().toLowerCase();
-                    
-                    System.out.println();
-                    
-                    if (action.matches("a(ttack)?")) {
-                        self.attack(enemy, directHit, indirectHit, missHit);
-                    }
-                    else if (action.matches("(us)?e")) {
-                        self.use(enemy);
-                    }
-                    else if (action.matches("run|r")) {
-                        ran = run(enemy);
-                    }
-                    else {
-                        System.out.println("Can't do that...");
-                    }
+                System.out.print("(Attack/Use/Run)\n\n> ");
+                
+                var action = input.nextLine().toLowerCase();
+                
+                System.out.println();
+                
+                if (action.matches("a(ttack)?")) {
+                    self.attack(enemy, directHit, indirectHit, missHit);
+                }
+                else if (action.matches("u(se)?")) {
+                    self.use(enemy);
+                }
+                else if (action.matches("r(un)?")) {
+                    ran = run(enemy);
                 }
                 else {
-                    input.nextLine();
+                    System.out.println("Can't do that...");
                     
-                    enemy.use(self);
-                    enemy.allAffect();
-                    enemy.filter();
-                    
-                    enemy.attack(self, directBlock, indirectBlock, missBlock);
+                    continue;
                 }
-                
-                yourTurn = !yourTurn;
-                
-                if (ran) {
-                    return false;
-                }
-                
-                if (self.isDead()) {
-                    System.out.println("You died.\n");
-                    
-                    return false;
-                }
-                
-                Util.pause(2);
             }
+            else {
+                enemy.use(self);
+                enemy.allAffect();
+                enemy.filter();
+                
+                enemy.attack(self, directBlock, indirectBlock, missBlock);
+            }
+            
+            yourTurn = !yourTurn;
+            
+            if (ran || self.isDead()) {
+                return false;
+            }
+            
+            Util.pause(2);
         }
         
         return true;
     }
     
     private static boolean run(Fighter enemy) {
-        //used in run method
-        double speedDiff = ((double) self.getSpeed() / enemy.getSpeed()) * 50;
+        var speedDiff = ((double) self.getSpeed() / enemy.getSpeed()) * 50;
         
         var runChance = Math.random() * 100;
         
@@ -894,18 +888,6 @@ public class Main {
     
     private static int goDown() {
         return floor - 1;
-    }
-    
-    private static void distributeItems(List<Item> items) {
-        while (!items.isEmpty()) {
-            for (var floor : floors) {
-                for (var row : floor.getRooms()) {
-                    for (var room : row) {
-                        room.distributeItems(items);
-                    }
-                }
-            }
-        }
     }
     
     private static void showInventory() {
