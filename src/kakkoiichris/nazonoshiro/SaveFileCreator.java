@@ -93,7 +93,7 @@ public class SaveFileCreator {
             formatter.format("e%s:%d%n", self.getEffectives().get(i).getName(), self.getEffectives().get(i).getTimer());
         }
         
-        formatter.format("k%s%n", String.join(",", self.getKeys().stream().map(Object::toString).toList()));
+        formatter.format("k%d%n", self.getKey());
         
         for (var guard : guards) {
             formatter.format("S%d%d%d:%s%nP%d,%d,%d,%d%n!%da%db%dc%dd%de%d%n*%da%db%d%n&%da%db%dc%dd%de%df%dg%d%n",

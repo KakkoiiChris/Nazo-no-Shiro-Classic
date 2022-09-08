@@ -22,26 +22,26 @@ public class OriginalCastle extends CastleFloor {
     }
     
     public void setUpCommon() {
-        setRoom(0, 0, new PuzzleRoom("North: Annex C", 11, 10, true));
-        setRoom(1, 0, new EnemyRoom("West: Annex A", 4, 3, true, new Ninja()));
-        setRoom(2, 0, new PuzzleRoom("Secret Chamber A", 14, 13, true));
-        setRoom(3, 0, new PuzzleRoom("Secret Chamber B", 15, 14, true));
-        setRoom(0, 1, new PuzzleRoom("North: Annex A", 5, 4, true));
-        setRoom(1, 1, new PuzzleRoom("West Wing", 3, 2, true));
-        setRoom(2, 1, new PuzzleRoom("South: Annex A", 9, 8, true));
-        setRoom(3, 1, new PuzzleRoom("Secret Chamber C", 16, 15, true));
-        setRoom(0, 2, new PuzzleRoom("North Wing", 2, 1, true));
-        setRoom(1, 2, new PuzzleRoom("Central Hall", 1, 0, false));
-        setRoom(2, 2, new PuzzleRoom("South Wing", 7, 6, true));
-        setRoom(3, 2, new PuzzleRoom("Secret Chamber D", 17, 16, true));
-        setRoom(0, 3, new EnemyRoom("North: Annex B", 8, 7, true, new Samurai()));
-        setRoom(1, 3, new PuzzleRoom("East Wing", 6, 5, true));
-        setRoom(2, 3, new EnemyRoom("South: Annex B", 12, 11, true, new Shogun()));
-        setRoom(3, 3, new PuzzleRoom("Secret Chamber E", 18, 17, true));
-        setRoom(0, 4, new PuzzleRoom("Foyer", 13, 12, true));
-        setRoom(1, 4, new PuzzleRoom("East: Annex A", 10, 9, true));
-        setRoom(2, 4, new EnemyRoom("Secret Treasure Room", 20, 19, true, new Daimyo()));
-        setRoom(3, 4, new PuzzleRoom("Secret Chamber F", 19, 18, true));
+        setRoom(0, 0, new PuzzleRoom("North: Annex C",       11, 10, false));
+        setRoom(1, 0, new EnemyRoom ("West: Annex A",         4,  3, false, new Ninja()));
+        setRoom(2, 0, new PuzzleRoom("Secret Chamber A",     14, 13, false));
+        setRoom(3, 0, new PuzzleRoom("Secret Chamber B",     15, 14, false));
+        setRoom(0, 1, new PuzzleRoom("North: Annex A",        5,  4, false));
+        setRoom(1, 1, new PuzzleRoom("West Wing",             3,  2, false));
+        setRoom(2, 1, new PuzzleRoom("South: Annex A",        9,  8, false));
+        setRoom(3, 1, new PuzzleRoom("Secret Chamber C",     16, 15, false));
+        setRoom(0, 2, new PuzzleRoom("North Wing",            2,  1, false));
+        setRoom(1, 2, new PuzzleRoom("Central Hall",          1,  0, false));
+        setRoom(2, 2, new PuzzleRoom("South Wing",            7,  6, false));
+        setRoom(3, 2, new PuzzleRoom("Secret Chamber D",     17, 16, false));
+        setRoom(0, 3, new EnemyRoom ("North: Annex B",        8,  7, false, new Samurai()));
+        setRoom(1, 3, new PuzzleRoom("East Wing",             6,  5, false));
+        setRoom(2, 3, new EnemyRoom ("South: Annex B",       12, 11, false, new Shogun()));
+        setRoom(3, 3, new PuzzleRoom("Secret Chamber E",     18, 17, false));
+        setRoom(0, 4, new PuzzleRoom("Foyer",                13, 12, false));
+        setRoom(1, 4, new PuzzleRoom("East: Annex A",        10,  9, false));
+        setRoom(2, 4, new EnemyRoom ("Secret Treasure Room", 20, 19, false, new Daimyo()));
+        setRoom(3, 4, new PuzzleRoom("Secret Chamber F",     19, 18, false));
         
         getRoom(0, 0).setWall(Direction.NORTH, new Wall(Direction.NORTH));
         getRoom(0, 0).setWall(Direction.WEST, new Wall(Direction.WEST));

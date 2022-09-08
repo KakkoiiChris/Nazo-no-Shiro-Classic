@@ -150,7 +150,6 @@ public class Main {
         
         distributeItems(items);
         
-        self.getKeys().add(0);
         self.getInventory().add(new Katana());
         self.getInventory().add(new Tanto());
         
@@ -472,6 +471,8 @@ public class Main {
                         They also dropped a key. Now to
                         find which door it unlocks...
                         """.formatted(e.getEnemy(), drop).stripIndent());
+                    
+                    self.setKey(room.getKey());
                 }
                 else if (ran) {
                     System.out.println("That was a close one...");
@@ -517,7 +518,7 @@ public class Main {
                         Now to figure out which door it unlocks...
                         """.stripIndent());
                     
-                    self.addKey(p.getKey());
+                    self.setKey(p.getKey());
                 }
                 else {
                     System.out.println("""
@@ -572,7 +573,7 @@ public class Main {
             }
             
             if (choice.equals("skip")) {
-                self.addKey(room.getKey());
+                self.setKey(room.getKey());
                 
                 continue;
             }
@@ -835,7 +836,7 @@ public class Main {
             return row;
         }
         
-        if (self.hasKey(floors.get(floor).getRoom(row - 1, column).getLock())) {
+        if (self.getKey() >= floors.get(floor).getRoom(row - 1, column).getLock()) {
             if (!hasVisited(row - 1, column, floor)) {
                 System.out.println("The door is unlocked.\n");
             }
@@ -855,7 +856,7 @@ public class Main {
             return row;
         }
         
-        if (self.hasKey(floors.get(floor).getRoom(row + 1, column).getLock())) {
+        if (self.getKey() >= floors.get(floor).getRoom(row + 1, column).getLock()) {
             if (!hasVisited(row + 1, column, floor)) {
                 System.out.println("The door is unlocked.\n");
             }
@@ -875,7 +876,7 @@ public class Main {
             return column;
         }
         
-        if (self.hasKey(floors.get(floor).getRoom(row, column + 1).getLock())) {
+        if (self.getKey() >= floors.get(floor).getRoom(row, column + 1).getLock()) {
             if (!hasVisited(row, column + 1, floor)) {
                 System.out.println("The door is unlocked.\n");
             }
@@ -895,7 +896,7 @@ public class Main {
             return column;
         }
         
-        if (self.hasKey(floors.get(floor).getRoom(row, column - 1).getLock())) {
+        if (self.getKey() >= floors.get(floor).getRoom(row, column - 1).getLock()) {
             if (!hasVisited(row, column - 1, floor)) {
                 System.out.println("The door is unlocked.\n");
             }
@@ -915,7 +916,7 @@ public class Main {
             return floor;
         }
         
-        if (self.hasKey(floors.get(floor + 1).getRoom(row, column).getLock())) {
+        if (self.getKey() >= floors.get(floor + 1).getRoom(row, column).getLock()) {
             if (!hasVisited(row, column, floor + 1)) {
                 System.out.println("The hatch is unlocked.\n");
             }
@@ -935,7 +936,7 @@ public class Main {
             return floor;
         }
         
-        if (self.hasKey(floors.get(floor - 1).getRoom(row, column).getLock())) {
+        if (self.getKey() >= floors.get(floor - 1).getRoom(row, column).getLock()) {
             if (!hasVisited(row, column, floor - 1)) {
                 System.out.println("The hatch is unlocked.\n");
             }

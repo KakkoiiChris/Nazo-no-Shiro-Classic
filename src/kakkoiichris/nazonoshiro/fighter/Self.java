@@ -3,15 +3,13 @@ package kakkoiichris.nazonoshiro.fighter;
 
 import kakkoiichris.nazonoshiro.Util;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class Self extends Fighter {
     private String gender = "", birthday = "";
     
-    private Set<Integer> keys = new HashSet<>();   //stores all the keys you pick up
-    private Set<Integer> keysLast = new HashSet<>();
+    private int key = 0;   //stores all the keys you pick up
+    private int keyLast = 0;
     
     public Self(String name, String gender, String birthday) {
         super(name, (int) (Math.random() * 5) + 3, (int) (Math.random() * 5) + 3, (int) (Math.random() * 5) + 3, 50);
@@ -52,28 +50,20 @@ public class Self extends Fighter {
         return birthday;
     }
     
-    public Set<Integer> getKeys() {
-        return keys;
+    public int getKey() {
+        return key;
     }
     
-    public void setKeys(Set<Integer> keys) {
-        this.keys = keys;
+    public void setKey(int key) {
+        this.key = key;
     }
     
-    public Set<Integer> getKeysLast() {
-        return keysLast;
+    public int getKeyLast() {
+        return keyLast;
     }
     
-    public void setKeysLast(Set<Integer> keysLast) {
-        this.keysLast = keysLast;
-    }
-    
-    public void addKey(int key) {
-        keys.add(key);
-    }
-    
-    public boolean hasKey(int lock) {
-        return keys.stream().anyMatch(key -> key == lock);
+    public void setKeyLast(int keyLast) {
+        this.keyLast = keyLast;
     }
     
     @Override
