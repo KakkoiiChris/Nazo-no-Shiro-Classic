@@ -1,29 +1,22 @@
 // Christian Alexander, 5/12/11, Pd. 6
 package kakkoiichris.nazonoshiro;
 
-import kakkoiichris.nazonoshiro.castle.CastleFloor;
+import kakkoiichris.nazonoshiro.castle.Castle;
 import kakkoiichris.nazonoshiro.castle.Direction;
-import kakkoiichris.nazonoshiro.castle.OriginalCastle;
-import kakkoiichris.nazonoshiro.castle.Wall;
 import kakkoiichris.nazonoshiro.castle.room.EnemyRoom;
 import kakkoiichris.nazonoshiro.castle.room.PuzzleRoom;
-import kakkoiichris.nazonoshiro.castle.room.Room;
-import kakkoiichris.nazonoshiro.castle.storage.*;
 import kakkoiichris.nazonoshiro.fighter.*;
 import kakkoiichris.nazonoshiro.item.Coin;
 import kakkoiichris.nazonoshiro.item.HealthPack;
 import kakkoiichris.nazonoshiro.item.Item;
 import kakkoiichris.nazonoshiro.item.weapon.*;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class Main {
-    private static final OptionsMenu aaa = new OptionsMenu();
-    
     private static int row = 1; //the row you are located in
     private static int column = 2; //the column you are located in
     private static int floor = 0; //the floor you are located in
@@ -51,7 +44,8 @@ public class Main {
     private static final Self self = new Self(); //this fighter represents you
     
     private static final List<Weapon> weapons = new ArrayList<>(); //stores all possible weapons
-    private static final List<CastleFloor> floors = new ArrayList<>();
+    
+    private static Castle castle;
     
     public static void main(String[] argv) {
         mainMenu();
@@ -111,26 +105,19 @@ public class Main {
     }
     
     private static void setUpNew() {
-        floors.clear();
-        
         System.out.print("Map Name > ");
         
         var mapName = input.nextLine();
         
         System.out.println();
         
-        switch (mapName) {
-            case "Original Castle", "" -> floors.add(new OriginalCastle());
+        castle = switch (mapName) {
+            case "Original Castle", "" -> new Castle("original");
             
-            case "Double Classic" -> {
-                floors.add(new OriginalCastle());
-                floors.add(new OriginalCastle());
+            default -> {
+                throw new RuntimeException("NO CASTLE");
             }
-        }
-        
-        for (var castleFloor : floors) {
-            castleFloor.setUpNew();
-        }
+        };
         
         var items = new ArrayList<Item>();
         
@@ -169,13 +156,7 @@ public class Main {
     
     private static void distributeItems(List<Item> items) {
         while (!items.isEmpty()) {
-            for (var floor : floors) {
-                for (var row : floor.getRooms()) {
-                    for (var room : row) {
-                        room.distributeItems(items);
-                    }
-                }
-            }
+            castle.distributeItems(items);
         }
     }
     
@@ -185,124 +166,9 @@ public class Main {
         var fileName = input.nextLine();
         
         var lines = Resources.getLines(fileName);
-        
-        var data = 0;
-        
-        while (!lines.get(data).startsWith("#")) {
-            if (lines.get(data).equals("Original Castle")) {
-                floors.add(new OriginalCastle());
-            }
-            
-            data++;
-        }
-        
-        while (!lines.get(data).startsWith("S")) {
-            var index = lines.get(data).indexOf("#");
-            
-            var f = (int) (lines.get(data).charAt(index + 1)) - 48;
-            var r = (int) (lines.get(data).charAt(index + 2)) - 48;
-            var c = (int) (lines.get(data).charAt(index + 3)) - 48;
-            
-            var room = floors.get(f).getRooms()[r][c];
-            
-            var name = lines.get(data).substring(index + 4);
-            
-            data++;
-            
-            //var p = Integer.parseInt(lines.get(data).substring(0, lines.get(data).indexOf(",")));
-            var key = Integer.parseInt(lines.get(data).substring(lines.get(data).indexOf(",") + 1, lines.get(data).indexOf("'")));
-            var lock = Integer.parseInt(lines.get(data).substring(lines.get(data).indexOf("'") + 1));
-            
-            floors.get(f).getRooms()[r][c] = new Room(name, key, lock, false);
-            
-            data++;
-            
-            while (!lines.get(data).startsWith("#") && !lines.get(data).startsWith("S")) {
-                var direction = Direction.values()[Integer.parseInt(lines.get(data).substring(lines.get(data).indexOf('|'), lines.get(data).indexOf('|') + 1))];
-                
-                var storageName = lines.get(data).substring(lines.get(data).indexOf(':') + 1);
-                
-                var storage = switch (storageName) {
-                    case "Armoir" -> new Armoir();
-                    
-                    case "Crate" -> new Crate();
-                    
-                    case "Desk" -> new Desk();
-                    
-                    case "Dresser" -> new Dresser();
-                    
-                    case "Jewelry Box" -> new JewelryBox();
-                    
-                    default -> throw new RuntimeException("NO STORAGE");
-                };
-                
-                room.setWall(direction, new Wall(direction, storage));
-                
-                data++;
-                
-                var count = Integer.parseInt(lines.get(data).substring(lines.get(data).indexOf('!') + 1, lines.get(data).indexOf('a')));
-                
-                for (var u = 0; u < count; u++) {
-                    room.getWalls().get(Direction.NONE).getStorage().add(new Tanto());
-                }
-                
-                count = Integer.parseInt(lines.get(data).substring(lines.get(data).indexOf('a') + 1, lines.get(data).indexOf('b')));
-                
-                for (var v = 0; v < count; v++) {
-                    room.getWalls().get(Direction.NONE).getStorage().add(new Wakizashi());
-                }
-                
-                count = Integer.parseInt(lines.get(data).substring(lines.get(data).indexOf('b') + 1, lines.get(data).indexOf('c')));
-                
-                for (var w = 0; w < count; w++) {
-                    room.getWalls().get(Direction.NONE).getStorage().add(new Katana());
-                }
-                
-                count = Integer.parseInt(lines.get(data).substring(lines.get(data).indexOf('c') + 1, lines.get(data).indexOf('d')));
-                
-                for (var x = 0; x < count; x++) {
-                    room.getWalls().get(Direction.NONE).getStorage().add(new Bo());
-                }
-                
-                count = Integer.parseInt(lines.get(data).substring(lines.get(data).indexOf('d') + 1, lines.get(data).indexOf('e')));
-                
-                for (var y = 0; y < count; y++) {
-                    room.getWalls().get(Direction.NONE).getStorage().add(new Shuriken());
-                }
-                
-                for (var z = 0; z < Integer.parseInt(lines.get(data).substring(lines.get(data).indexOf('e') + 1)); z++) {
-                    room.getWalls().get(Direction.NONE).getStorage().add(new Nunchaku());
-                }
-                
-                data++;
-                
-                count = Integer.parseInt(lines.get(data).substring(lines.get(data).indexOf('*') + 1, lines.get(data).indexOf('a')));
-                
-                for (var x = 0; x < count; x++) {
-                    room.getWalls().get(Direction.NONE).getStorage().add(new HealthPack("Herb", 3));
-                }
-                
-                count = Integer.parseInt(lines.get(data).substring(lines.get(data).indexOf('a') + 1, lines.get(data).indexOf('b')));
-                
-                for (var y = 0; y < count; y++) {
-                    room.getWalls().get(Direction.NONE).getStorage().add(new HealthPack("Bushel", 5));
-                }
-                
-                count = Integer.parseInt(lines.get(data).substring(lines.get(data).indexOf('b') + 1));
-                
-                for (var z = 0; z < count; z++) {
-                    room.getWalls().get(Direction.NONE).getStorage().add(new Coin());
-                }
-                
-                data += 2;
-            }
-        }
     }
     
     private static void options() {
-        aaa.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        aaa.setSize(300, 200);
-        aaa.setVisible(true);
     }
     
     private static void credits() {
@@ -451,7 +317,7 @@ public class Main {
     
     private static void explore() {
         while (true) {
-            var room = floors.get(floor).getRoom(row, column);
+            var room = castle.get(floor, row, column);
             
             System.out.printf("%s%n%n", room);
             
@@ -508,7 +374,7 @@ public class Main {
             
             var matcher = Pattern.compile("play( puzzle)?|solve( puzzle)?").matcher(choice);
             
-            if (matcher.find() && floors.get(floor).getRoom(row, column) instanceof PuzzleRoom p && !p.getPuzzle().isWon()) {
+            if (matcher.find() && room instanceof PuzzleRoom p && !p.getPuzzle().isWon()) {
                 if (p.getPuzzle().play()) {
                     System.out.println("""
                         You won!
@@ -631,7 +497,7 @@ public class Main {
                 
                 System.out.print("Saving");
                 
-                saver.addData(floors, guards, self, row, column, floor, yourTurn);
+                //saver.addData(floors, guards, self, row, column, floor, yourTurn);
                 
                 saver.closeFile();
                 
@@ -651,7 +517,7 @@ public class Main {
                 
                 System.out.print("Saving");
                 
-                saver.addData(floors, guards, self, row, column, floor, yourTurn);
+                //saver.addData(floors, guards, self, row, column, floor, yourTurn);
                 
                 saver.closeFile();
                 
@@ -798,11 +664,11 @@ public class Main {
     }
     
     private static boolean southernMost() {
-        return row == floors.get(floor).getRows() - 1;
+        return row == castle.getRows() - 1;
     }
     
     private static boolean easternMost() {
-        return column == floors.get(floor).getColumns() - 1;
+        return column == castle.getColumns() - 1;
     }
     
     private static boolean westernMost() {
@@ -810,24 +676,24 @@ public class Main {
     }
     
     private static boolean upperMost() {
-        return floor == floors.size() - 1;
+        return floor == castle.getFloors() - 1;
     }
     
     private static boolean lowerMost() {
         return floor == 0;
     }
     
-    private static boolean hasVisited(int row, int column, int floor) {
-        return floors.get(floor).getRoom(row, column).isVisited();
+    private static boolean hasVisited(int floor, int row, int column) {
+        return castle.get(floor, row, column).isVisited();
     }
     
     private static boolean hasWall(Direction direction) {
-        return floors.get(floor).getRoom(row, column).hasWall(direction);
+        return castle.get(floor, row, column).hasWall(direction);
     }
     
     private static int goNorth() {
         if (hasWall(Direction.NORTH) || northernMost()) {
-            if (column == 4 && hasVisited(2, 4, 0)) {
+            if (column == 4 && hasVisited(0, 2, 4)) {
                 endGame();
             }
             
@@ -836,8 +702,8 @@ public class Main {
             return row;
         }
         
-        if (self.getKey() >= floors.get(floor).getRoom(row - 1, column).getLock()) {
-            if (!hasVisited(row - 1, column, floor)) {
+        if (self.getKey() >= castle.get(floor, row - 1, column).getLock()) {
+            if (!hasVisited(floor, row - 1, column)) {
                 System.out.println("The door is unlocked.\n");
             }
             
@@ -856,8 +722,8 @@ public class Main {
             return row;
         }
         
-        if (self.getKey() >= floors.get(floor).getRoom(row + 1, column).getLock()) {
-            if (!hasVisited(row + 1, column, floor)) {
+        if (self.getKey() >= castle.get(floor, row + 1, column).getLock()) {
+            if (!hasVisited(floor, row + 1, column)) {
                 System.out.println("The door is unlocked.\n");
             }
             
@@ -876,8 +742,8 @@ public class Main {
             return column;
         }
         
-        if (self.getKey() >= floors.get(floor).getRoom(row, column + 1).getLock()) {
-            if (!hasVisited(row, column + 1, floor)) {
+        if (self.getKey() >= castle.get(floor, row, column + 1).getLock()) {
+            if (!hasVisited(floor, row, column + 1)) {
                 System.out.println("The door is unlocked.\n");
             }
             
@@ -896,8 +762,8 @@ public class Main {
             return column;
         }
         
-        if (self.getKey() >= floors.get(floor).getRoom(row, column - 1).getLock()) {
-            if (!hasVisited(row, column - 1, floor)) {
+        if (self.getKey() >= castle.get(floor, row, column - 1).getLock()) {
+            if (!hasVisited(floor, row, column - 1)) {
                 System.out.println("The door is unlocked.\n");
             }
             
@@ -916,8 +782,8 @@ public class Main {
             return floor;
         }
         
-        if (self.getKey() >= floors.get(floor + 1).getRoom(row, column).getLock()) {
-            if (!hasVisited(row, column, floor + 1)) {
+        if (self.getKey() >= castle.get(floor + 1, row, column).getLock()) {
+            if (!hasVisited(floor + 1, row, column)) {
                 System.out.println("The hatch is unlocked.\n");
             }
             
@@ -936,8 +802,8 @@ public class Main {
             return floor;
         }
         
-        if (self.getKey() >= floors.get(floor - 1).getRoom(row, column).getLock()) {
-            if (!hasVisited(row, column, floor - 1)) {
+        if (self.getKey() >= castle.get(floor - 1, row, column).getLock()) {
+            if (!hasVisited(floor - 1, row, column)) {
                 System.out.println("The hatch is unlocked.\n");
             }
             
@@ -1065,13 +931,7 @@ public class Main {
             guard.storeState();
         }
         
-        for (var castleFloor : floors) {
-            for (var i = 0; i < castleFloor.getColumns(); i++) {
-                for (var j = 0; j < castleFloor.getRows(); j++) {
-                    castleFloor.getRoom(i, j).storeState();
-                }
-            }
-        }
+        castle.storeState();
     }
     
     private static void resetState() {
@@ -1086,13 +946,7 @@ public class Main {
             guard.resetState();
         }
         
-        for (var castleFloor : floors) {
-            for (var i = 0; i < castleFloor.getColumns(); i++) {
-                for (var j = 0; j < castleFloor.getRows(); j++) {
-                    castleFloor.getRoom(i, j).resetState();
-                }
-            }
-        }
+        castle.resetState();
     }
     
     private static void endGame() {

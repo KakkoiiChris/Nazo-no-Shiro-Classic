@@ -1,7 +1,7 @@
 //Christian Alexander, 10/06/2011, Period 8
 package kakkoiichris.nazonoshiro;
 
-import kakkoiichris.nazonoshiro.castle.CastleFloor;
+import kakkoiichris.nazonoshiro.castle.Castle;
 import kakkoiichris.nazonoshiro.fighter.Fighter;
 import kakkoiichris.nazonoshiro.fighter.Self;
 
@@ -27,8 +27,8 @@ public class SaveFileCreator {
         }
     }
     
-    public void addData(List<CastleFloor> castle, Fighter[] guards, Self self, int row, int column, int floor, boolean yourTurn) {
-        for (var castleFloor : castle) {
+    public void addData(Castle castle, Fighter[] guards, Self self, int row, int column, int floor, boolean yourTurn) {
+        /*for (var castleFloor : castle) {
             formatter.format("%s%n", castleFloor.getName());
         }
         
@@ -37,7 +37,7 @@ public class SaveFileCreator {
                 for (var c = 0; c < castle.get(f).getRows(); c++) {
                     formatter.format("#%s%s%s%s%n", f, r, c, castle.get(f).getRoom(r, c).getName());
                     //formatter.format("%s,%s'%s%n", castle.get(f).getPuzzleType()[r][c], castle.get(f).getRooms()[r][c].getKey(), castle.get(f).getRooms()[r][c].getLock());
-                    formatter.format("%s,%s'%s%n", /*HERE*/0, castle.get(f).getRooms()[r][c].getKey(), castle.get(f).getRooms()[r][c].getLock());
+                    formatter.format("%s,%s'%s%n", HERE0, castle.get(f).getRooms()[r][c].getKey(), castle.get(f).getRooms()[r][c].getLock());
     
     
                     for (var wall : castle.get(f).getRoom(r, c).getWalls().values()) {
@@ -124,6 +124,7 @@ public class SaveFileCreator {
                 }
             }
         }
+        */
     }
     
     public void closeFile() {

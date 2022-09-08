@@ -55,7 +55,7 @@ public class Self extends Fighter {
     }
     
     public void setKey(int key) {
-        this.key = key;
+        this.key = Math.max(this.key, key);
     }
     
     public int getKeyLast() {

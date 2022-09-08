@@ -32,17 +32,17 @@ public enum Direction {
         }
     },
     
-    SOUTH {
-        @Override
-        public Direction getInverse() {
-            return NORTH;
-        }
-    },
-    
     EAST {
         @Override
         public Direction getInverse() {
             return WEST;
+        }
+    },
+    
+    SOUTH {
+        @Override
+        public Direction getInverse() {
+            return NORTH;
         }
     },
     
