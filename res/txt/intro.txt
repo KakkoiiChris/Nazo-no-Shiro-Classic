@@ -1,0 +1,83 @@
+                        [Nazo No Shiro]
+                    [XXXXX{================>
+
+	You wake up... slowly... your vision is blurred, and your
+cheek is moist. You can't discern anything, but the cold, 
+harsh floor greets your hands as you try to stand upright.
+As your vision grows clearer, the harder it is to take in 
+your surroundings.
+@pause 12
+	
+	It's a fairly large room: stone on all the walls, and 
+plank wood on the floor and ceiling. The room is barely lit 
+by the dim light of oriental-style lanterns. Each wall sports
+a wooden door emblazoned with brass dragons, as well as 
+posters with strange characters on them.
+@pause 15
+
+	You think to yourself, "Where am I?". You Reach into your
+pocket for clues, and pull out a ticket.
+@pause 6
+
+One look and it hits you.....
+@pause 2
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[Salesperson]: Alright, here's your ticket. Please place 
+               this sticker around the handle of your 
+               suitcase, and we'll handle it for you.
+@pause 7
+					
+        [You]: Ok... *rustle* ...here...thank you sir!
+@pause 4
+		  
+[Salesperson]: Ok, now... *rip!* ... if you could just write
+               your name, gender, and date of birth here... 
+@pause 6
+
+@input name X:
+
+@input dob DOB:
+
+@input gender M/F/O:
+
+[Salesperson]: Alright, {name}! You're all set. Please make
+               your way to gate 25C, and enjoy your flight!
+@pause 6
+
+        [You]: Thank You.
+@pause 2
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+	You take yet another look at it...
+@pause 3
+
+  ________________________
+ /     /\\  |\\    /\\   |25C|
+|     /--\\ | \\| /--\\  |___|
+|   ALL NIPPON AIRWAYS    |
+|________________________/
+|One-Way to:             \\
+) Narita-Shinagawa, Japan |
+|                         |
+|X {name}...      |
+|--------- --  ---- ------|
+|DoB: {dob}|
+|                        _|
+|(M/F): {gender}               | /
+/_______^^______________|/
+@pause 8
+
+"I'm in Japan....."
+@pause 2
+
+	Suddenly, the center of the floor shoots up rapidly. And
+for a moment, the sounds come from beyond the walls. After some
+hesitation, you look down at the pedestal that just revealed
+itself. It seems to be some sort of puzzle.
+@pause 11
+
+	".....you gotta be kidding."
+@pause 3

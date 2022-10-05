@@ -13,7 +13,6 @@ import kakkoiichris.nazonoshiro.item.weapon.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class Main {
@@ -31,8 +30,6 @@ public class Main {
     private static final SaveFileCreator saver = new SaveFileCreator();
     
     private static boolean ran = false, ranLast = false; //keeps track of if you run from a fight
-    
-    private static final Scanner input = new Scanner(System.in);
     
     private static final Enemy[] guards = { //collection of all enemies
         new Ninja(),
@@ -75,7 +72,7 @@ public class Main {
                 
                 >\040""".stripIndent());
             
-            var first = input.nextLine().trim().toLowerCase();
+            var first = Util.input.nextLine().trim().toLowerCase();
             
             if (first.matches("1|(new(\s+game)?)")) {
                 setUpNew();
@@ -107,16 +104,14 @@ public class Main {
     private static void setUpNew() {
         System.out.print("Map Name > ");
         
-        var mapName = input.nextLine();
+        var mapName = Util.input.nextLine();
         
         System.out.println();
         
         castle = switch (mapName) {
             case "Original Castle", "" -> new Castle("original");
             
-            default -> {
-                throw new RuntimeException("NO CASTLE");
-            }
+            default -> throw new RuntimeException("NO CASTLE");
         };
         
         var items = new ArrayList<Item>();
@@ -163,7 +158,7 @@ public class Main {
     private static void setUpLoad() {
         System.out.print("File Name > ");
         
-        var fileName = input.nextLine();
+        var fileName = Util.input.nextLine();
         
         var lines = Resources.getLines(fileName);
     }
@@ -180,139 +175,11 @@ public class Main {
     }
     
     private static void introduction() {
-        var lines = Resources.getLines("introA");
+        var source = Resources.getLines("intro");
         
-        var i = 0;
+        var script = new Script(source);
         
-        for (; i < 5; i++) {
-            System.out.println(lines.get(i));
-        }
-        
-        Util.pause(12);
-        
-        for (; i < 11; i++) {
-            System.out.println(lines.get(i));
-        }
-        
-        Util.pause(15);
-        
-        for (; i < 14; i++) {
-            System.out.println(lines.get(i));
-        }
-        
-        Util.pause(6);
-        
-        for (; i < 16; i++) {
-            System.out.println(lines.get(i));
-        }
-        
-        Util.pause(2);
-        
-        for (; i < 22; i++) {
-            System.out.println(lines.get(i));
-        }
-        
-        Util.pause(7);
-        
-        for (; i < 24; i++) {
-            System.out.println(lines.get(i));
-        }
-        
-        Util.pause(4);
-        
-        for (; i < 27; i++) {
-            System.out.println(lines.get(i));
-        }
-        
-        Util.pause(6);
-        
-        System.out.println();
-        
-        System.out.print("X ");
-        var n = input.nextLine();
-        System.out.println();
-        
-        self.setName(n);
-        
-        System.out.print("DoB(MM/DD/YYYY): ");
-        var DoB = input.nextLine();
-        System.out.println();
-        
-        System.out.print("(M/F): ");
-        var gen = input.nextLine().toLowerCase();
-        System.out.println();
-        
-        if (gen.startsWith("m")) {
-            System.out.print("[Salesperson]: Alright, sir! ");
-        }
-        else {
-            System.out.print("[Salesperson]: Alright, ma'am! ");
-        }
-        
-        lines = Resources.getLines("introB");
-        
-        for (i = 0; i < 2; i++) {
-            System.out.println(lines.get(i));
-        }
-        
-        Util.pause(6);
-        
-        for (; i < 4; i++) {
-            System.out.println(lines.get(i));
-        }
-        
-        Util.pause(2);
-        
-        for (; i < 8; i++) {
-            System.out.println(lines.get(i));
-        }
-        
-        Util.pause(3);
-        
-        for (; i < 16; i++) {
-            System.out.println(lines.get(i));
-        }
-        
-        if (self.getName().length() < 15) {
-            var namePadding = (15 - self.getName().length()) - 1;
-            
-            System.out.printf("%s%s", lines.get(17), self.getName().toUpperCase());
-            
-            System.out.print(" ".repeat(namePadding));
-            
-            System.out.println("         |");
-        }
-        else {
-            System.out.printf("%s%s%s%n", lines.get(17), self.getName().substring(0, 14).toUpperCase(), lines.get(18));
-        }
-        
-        System.out.println(lines.get(19));
-        System.out.printf("%s%s%s%n", lines.get(20), DoB, lines.get(21));
-        System.out.println(lines.get(22));
-        System.out.printf("%s%s%s%n", lines.get(23), gen.toUpperCase(), lines.get(24));
-        System.out.println(lines.get(25));
-        
-        Util.pause(8);
-        
-        for (i = 26; i < 28; i++) {
-            System.out.println(lines.get(i));
-        }
-        
-        Util.pause(2);
-        
-        for (; i < 33; i++) {
-            System.out.println(lines.get(i));
-        }
-        
-        Util.pause(11);
-        
-        for (; i < 35; i++) {
-            System.out.println(lines.get(i));
-        }
-        
-        Util.pause(3);
-        
-        System.out.println();
+        var vars = script.run();
     }
     
     private static void explore() {
@@ -368,7 +235,7 @@ public class Main {
             
             System.out.print(" > ");
             
-            var choice = input.nextLine().toLowerCase();
+            var choice = Util.input.nextLine().toLowerCase();
             
             System.out.println();
             
@@ -564,7 +431,7 @@ public class Main {
                 
                 System.out.print("(Attack/Use/Run)\n\n> ");
                 
-                var action = input.nextLine().toLowerCase();
+                var action = Util.input.nextLine().toLowerCase();
                 
                 System.out.println();
                 
@@ -869,7 +736,7 @@ public class Main {
             
             System.out.print(" > ");
             
-            selection = input.nextLine().toLowerCase();
+            selection = Util.input.nextLine().toLowerCase();
             
             if (selection.startsWith("use")) {
                 selection = selection.substring(selection.indexOf(" ") + 1);
@@ -895,7 +762,7 @@ public class Main {
                 
                 System.out.print("\n > ");
                 
-                selection = input.nextLine().toLowerCase();
+                selection = Util.input.nextLine().toLowerCase();
                 
                 System.out.println();
             }
