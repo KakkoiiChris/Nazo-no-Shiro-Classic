@@ -2,7 +2,7 @@ package kakkoiichris.nazonoshiro.castle;
 
 import java.util.Arrays;
 
-// Christian Alexander, 9/4/2022package kakkoiichris.nazonoshiro.castle;
+// Christian Alexander, 9/4/2022
 public enum Direction {
     NONE {
         @Override

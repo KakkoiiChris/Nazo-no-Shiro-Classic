@@ -51,7 +51,9 @@ public class Script {
                 }
             }
             else {
-                var output = line.replaceAll("\\\\", "\n").replaceAll("\n\n", "\\");
+                var output = line
+                    .replace("\\", "\n")
+                    .replace("\n\n", "\\");
                 
                 var pattern = Pattern.compile("\\{(\\w+)}");
                 

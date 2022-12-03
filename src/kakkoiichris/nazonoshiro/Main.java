@@ -23,8 +23,6 @@ public class Main {
     private static int columnLast = 2; //stores previous column for restart checkpoint
     private static int floorLast = 0; //stores previous floor for restart checkpoint
     
-    private static boolean yourTurn = true; //determines who's attacking and who's defending in battle
-    
     private static Direction lastDirection = Direction.NONE;
     
     private static final SaveFileCreator saver = new SaveFileCreator();
@@ -416,8 +414,9 @@ public class Main {
         var missBlock = Resources.getLines("missBlock");
         
         System.out.printf("The %s stands before you.%n%n", enemy);
-        
-        yourTurn = Math.random() >= 0.5;
+    
+        //determines who's attacking and who's defending in battle
+        boolean yourTurn = Math.random() >= 0.5;
         
         ran = false;
         

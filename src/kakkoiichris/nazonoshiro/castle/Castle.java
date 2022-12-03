@@ -9,7 +9,7 @@ import kakkoiichris.nazonoshiro.item.Item;
 import java.util.ArrayList;
 import java.util.List;
 
-// Christian Alexander, 9/8/2022package kakkoiichris.nazonoshiro.castle;
+// Christian Alexander, 9/8/2022
 public class Castle implements Resettable {
     protected String name;
     protected int floors, rows, columns;
@@ -19,7 +19,7 @@ public class Castle implements Resettable {
         var lines = Resources.getLines(fileName);
         
         for (var line : lines) {
-            var tokens = new ArrayList<String>(List.of(line.split(",")));
+            var tokens = new ArrayList<>(List.of(line.split(",")));
             
             var header = tokens.remove(0);
             
