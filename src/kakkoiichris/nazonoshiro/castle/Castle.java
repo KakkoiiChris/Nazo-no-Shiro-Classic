@@ -12,7 +12,7 @@ import java.util.List;
 // Christian Alexander, 9/8/2022
 public class Castle implements Resettable {
     protected String name;
-    protected int floors, rows, columns;
+    
     protected Room[][][] rooms;
     
     public Castle(String fileName) {
@@ -25,9 +25,10 @@ public class Castle implements Resettable {
             
             switch (header) {
                 case "C" -> {
-                    floors = Integer.parseInt(tokens.get(0));
-                    rows = Integer.parseInt(tokens.get(1));
-                    columns = Integer.parseInt(tokens.get(2));
+                    var floors = Integer.parseInt(tokens.get(0));
+                    var rows = Integer.parseInt(tokens.get(1));
+                    var columns = Integer.parseInt(tokens.get(2));
+                    
                     name = tokens.get(3);
                     
                     rooms = new Room[floors][rows][columns];
@@ -42,6 +43,8 @@ public class Castle implements Resettable {
                     var lock = Integer.parseInt(tokens.get(5));
                     var locked = Boolean.parseBoolean(tokens.get(6));
                     
+                    assert rooms != null;
+                    
                     rooms[floor][row][column] = new PuzzleRoom(name, key, lock, locked);
                 }
                 
@@ -49,6 +52,8 @@ public class Castle implements Resettable {
                     var floor = Integer.parseInt(tokens.get(0));
                     var row = Integer.parseInt(tokens.get(1));
                     var column = Integer.parseInt(tokens.get(2));
+                    
+                    assert rooms != null;
                     
                     var room = rooms[floor][row][column];
                     
@@ -69,15 +74,15 @@ public class Castle implements Resettable {
     }
     
     public int getFloors() {
-        return floors;
+        return rooms.length;
     }
     
     public int getRows() {
-        return rows;
+        return rooms[0].length;
     }
     
     public int getColumns() {
-        return columns;
+        return rooms[0][0].length;
     }
     
     public void distributeItems(List<Item> items) {

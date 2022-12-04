@@ -4,7 +4,7 @@ package kakkoiichris.nazonoshiro.fighter;
 import kakkoiichris.nazonoshiro.Util;
 import kakkoiichris.nazonoshiro.item.Item;
 import kakkoiichris.nazonoshiro.item.kasugi.*;
-import kakkoiichris.nazonoshiro.item.weapon.Weapon;
+import kakkoiichris.nazonoshiro.item.Weapon;
 
 import java.lang.Override;
 import java.util.List;

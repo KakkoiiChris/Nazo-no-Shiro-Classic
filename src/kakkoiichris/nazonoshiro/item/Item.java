@@ -3,27 +3,14 @@ package kakkoiichris.nazonoshiro.item;
 
 import kakkoiichris.nazonoshiro.fighter.Fighter;
 
-public abstract class Item {
-    protected String name;
-    protected int value;
+public interface Item {
+    int getValue();
     
-    public Item(String name, int value) {
-        this.name = name;
-        this.value = value;
-    }
+    String getName();
     
-    public String getName() {
-        return name.toLowerCase();
-    }
+    String getDescription();
     
-    public int getValue() {
-        return value;
-    }
+    boolean pickUp(Fighter self);
     
-    public abstract void pickUp(Fighter self);
-    
-    public abstract void use(Fighter self);
-    
-    @Override
-    public abstract String toString();
+    boolean use(Fighter self);
 }

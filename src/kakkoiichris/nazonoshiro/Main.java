@@ -9,7 +9,7 @@ import kakkoiichris.nazonoshiro.fighter.*;
 import kakkoiichris.nazonoshiro.item.Coin;
 import kakkoiichris.nazonoshiro.item.HealthPack;
 import kakkoiichris.nazonoshiro.item.Item;
-import kakkoiichris.nazonoshiro.item.weapon.*;
+import kakkoiichris.nazonoshiro.item.Weapon;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,11 +36,11 @@ public class Main {
         new Shogun(),
         new Imperial()
     };
-    private static final Self self = new Self(); //this fighter represents you
     
     private static final List<Weapon> weapons = new ArrayList<>(); //stores all possible weapons
     
     private static Castle castle;
+    private static Self self = new Self(); //this fighter represents you
     
     public static void main(String[] argv) {
         mainMenu();
@@ -88,7 +88,7 @@ public class Main {
             else if (first.matches("4|credits")) {
                 credits();
             }
-            else if (first.matches("5|credits")) {
+            else if (first.matches("5|quit")) {
                 System.out.println("Thanks for playing!");
                 
                 System.exit(0);
@@ -115,30 +115,25 @@ public class Main {
         var items = new ArrayList<Item>();
         
         for (var i = 0; i < Util.random.nextInt(1_000); i++) {
-            items.add(new Coin());
+            items.add(Coin.random());
         }
         
         for (var j = 0; j < Util.random.nextInt(250); j++) {
-            items.add(new HealthPack("herb", 3));
+            items.add(HealthPack.HERB);
         }
         
         for (var k = 0; k < Util.random.nextInt(100); k++) {
-            items.add(new HealthPack("bushel", 5));
+            items.add(HealthPack.BUSHEL);
         }
         
         Util.shuffle(items);
         
         distributeItems(items);
         
-        self.getInventory().add(new Katana());
-        self.getInventory().add(new Tanto());
+        self.getInventory().add(Weapon.KATANA);
+        self.getInventory().add(Weapon.TANTO);
         
-        weapons.add(new Bo());
-        weapons.add(new Nunchaku());
-        weapons.add(new Shuriken());
-        weapons.add(new Tanto());
-        weapons.add(new Wakizashi());
-        weapons.add(new Katana());
+        weapons.addAll(List.of(Weapon.values()));
         
         for (var guard : guards) {
             guard.setDrop(self, weapons);
@@ -178,6 +173,8 @@ public class Main {
         var script = new Script(source);
         
         var vars = script.run();
+        
+        self = new Self();
     }
     
     private static void explore() {
@@ -191,7 +188,7 @@ public class Main {
                     var drop = e.getEnemy().getDrop();
                     
                     if (drop == null) {
-                        drop = new Coin();
+                        drop = Coin.random();
                     }
                     
                     System.out.println("""
@@ -414,7 +411,7 @@ public class Main {
         var missBlock = Resources.getLines("missBlock");
         
         System.out.printf("The %s stands before you.%n%n", enemy);
-    
+        
         //determines who's attacking and who's defending in battle
         boolean yourTurn = Math.random() >= 0.5;
         
