@@ -1,88 +1,89 @@
 //Christian Alexander, 5/12/11, Pd. 6
 package kakkoiichris.nazonoshiro.fighter;
 
+import kakkoiichris.nazonoshiro.ResetGroup;
+import kakkoiichris.nazonoshiro.ResetList;
+import kakkoiichris.nazonoshiro.ResetValue;
+import kakkoiichris.nazonoshiro.Resettable;
 import kakkoiichris.nazonoshiro.item.Item;
 import kakkoiichris.nazonoshiro.item.kasugi.Kasugi;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
-public abstract class Fighter {
-    private String name;
-    protected int attack,
-        defense,
-        speed,
-        health,
-        x,
-        y,
-        attackLast,
-        defenseLast,
-        speedLast,
-        healthLast,
-        xLast,
-        yLast;
+public abstract class Fighter implements Resettable {
+    protected final String name;
     
-    protected Scanner input = new Scanner(System.in);
-    private List<Kasugi> effectives = new ArrayList<>();
-    protected List<Kasugi> usable = new ArrayList<>();
-    private List<Item> inventory = new ArrayList<>();
-    private List<Item> inventoryLast = new ArrayList<>();
+    protected final ResetValue<Integer> attack, defense, speed, health;
+    
+    protected final ResetList<Kasugi> effectives = new ResetList<>();
+    protected final ResetList<Kasugi> usable = new ResetList<>();
+    protected final ResetList<Item> inventory = new ResetList<>();
+    
+    protected final ResetGroup resetGroup;
     
     public Fighter(String name, int attack, int defense, int speed, int health) {
         this.name = name;
-        this.attack = attack;
-        this.defense = defense;
-        this.speed = speed;
-        this.health = health;
+        
+        this.attack = new ResetValue<>(attack);
+        this.defense = new ResetValue<>(defense);
+        this.speed = new ResetValue<>(speed);
+        this.health = new ResetValue<>(health);
+        
+        resetGroup = ResetGroup.of(this.attack, this.defense, this.speed, this.health, effectives, usable, inventory);
     }
     
     public String getName() {
         return name;
     }
     
-    public void setName(String name) {
-        this.name = name;
-    }
-    
     public int getAttack() {
-        return attack;
+        return attack.get();
     }
     
-    public void setAttack(int n) {
-        attack += n;
+    public void setAttack(int value) {
+        attack.set(value);
     }
     
     public int getDefense() {
-        return defense;
+        return defense.get();
     }
     
-    public void setDefense(int n) {
-        defense = n;
+    public void setDefense(int value) {
+        defense.set(value);
     }
     
     public int getSpeed() {
-        return speed;
+        return speed.get();
     }
     
-    public void setSpeed(int n) {
-        speed = n;
+    public void setSpeed(int value) {
+        speed.set(value);
     }
     
     public int getHealth() {
-        return health;
+        return health.get();
     }
     
-    public void setHealth(int a) {
-        health = health - a;
+    public void setHealth(int value) {
+        health.set(value);
     }
     
     public void heal(int value) {
-        health += value;
+        health.set(health.get() + value);
     }
     
     public boolean isDead() {
-        return health <= 0;
+        return health.get() <= 0;
+    }
+    
+    @Override
+    public void storeState() {
+        resetGroup.storeState();
+    }
+    
+    @Override
+    public void resetState() {
+        resetGroup.resetState();
     }
     
     public <T extends Item> boolean hasItem(Class<T> clazz) {
@@ -108,12 +109,13 @@ public abstract class Fighter {
     }
     
     public void showHP() {
-        System.out.print(name + ": " + health + " [");
-        for (var i = 0; i < health; i++) {
+        System.out.printf("%s %s [", name, health);
+        
+        for (var i = 0; i < health.get(); i++) {
             System.out.print("=");
         }
-        System.out.println("]");
-        System.out.println();
+        
+        System.out.println("]\n");
     }
     
     public int getCount(String name) {
@@ -148,31 +150,12 @@ public abstract class Fighter {
     
     public abstract void use(Fighter enemy);
     
-    public abstract void storeState();
-    
-    public abstract void resetState();
-    
-    public List<Kasugi> getEffectives() {
+    public ResetList<Kasugi> getEffectives() {
         return effectives;
     }
     
-    public void setEffectives(List<Kasugi> effectives) {
-        this.effectives = effectives;
-    }
     
-    public List<Item> getInventory() {
+    public ResetList<Item> getInventory() {
         return inventory;
-    }
-    
-    public void setInventory(List<Item> inventory) {
-        this.inventory = inventory;
-    }
-    
-    public List<Item> getInventoryLast() {
-        return inventoryLast;
-    }
-    
-    public void setInventoryLast(List<Item> inventoryLast) {
-        this.inventoryLast = inventoryLast;
     }
 }

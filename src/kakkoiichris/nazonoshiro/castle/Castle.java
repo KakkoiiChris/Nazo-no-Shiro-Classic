@@ -11,29 +11,29 @@ import java.util.List;
 
 // Christian Alexander, 9/8/2022
 public class Castle implements Resettable {
-    protected String name;
+    protected final String name;
     
-    protected Room[][][] rooms;
+    protected final Room[][][] rooms;
     
     public Castle(String fileName) {
         var lines = Resources.getLines(fileName);
         
+        var header = parseCSV(lines.remove(0));
+        
+        var floors = Integer.parseInt(header.get(0));
+        var rows = Integer.parseInt(header.get(1));
+        var columns = Integer.parseInt(header.get(2));
+        
+        name = header.get(3);
+        
+        rooms = new Room[floors][rows][columns];
+        
         for (var line : lines) {
-            var tokens = new ArrayList<>(List.of(line.split(",")));
+            var tokens = parseCSV(line);
             
-            var header = tokens.remove(0);
+            var label = tokens.remove(0);
             
-            switch (header) {
-                case "C" -> {
-                    var floors = Integer.parseInt(tokens.get(0));
-                    var rows = Integer.parseInt(tokens.get(1));
-                    var columns = Integer.parseInt(tokens.get(2));
-                    
-                    name = tokens.get(3);
-                    
-                    rooms = new Room[floors][rows][columns];
-                }
-                
+            switch (label) {
                 case "R" -> {
                     var floor = Integer.parseInt(tokens.get(0));
                     var row = Integer.parseInt(tokens.get(1));
@@ -43,8 +43,6 @@ public class Castle implements Resettable {
                     var lock = Integer.parseInt(tokens.get(5));
                     var locked = Boolean.parseBoolean(tokens.get(6));
                     
-                    assert rooms != null;
-                    
                     rooms[floor][row][column] = new PuzzleRoom(name, key, lock, locked);
                 }
                 
@@ -52,8 +50,6 @@ public class Castle implements Resettable {
                     var floor = Integer.parseInt(tokens.get(0));
                     var row = Integer.parseInt(tokens.get(1));
                     var column = Integer.parseInt(tokens.get(2));
-                    
-                    assert rooms != null;
                     
                     var room = rooms[floor][row][column];
                     
@@ -67,6 +63,10 @@ public class Castle implements Resettable {
                 }
             }
         }
+    }
+    
+    private List<String> parseCSV(String line) {
+        return new ArrayList<>(List.of(line.split(",")));
     }
     
     public Room get(int floor, int row, int column) {

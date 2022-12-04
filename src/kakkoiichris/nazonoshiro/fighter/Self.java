@@ -1,69 +1,43 @@
 //Christian Alexander, 5/12/11, Pd. 6
 package kakkoiichris.nazonoshiro.fighter;
 
+import kakkoiichris.nazonoshiro.ResetValue;
 import kakkoiichris.nazonoshiro.Util;
 
 import java.util.List;
 
 public class Self extends Fighter {
-    private String gender = "", birthday = "";
+    private String birthday = "", gender = "";
     
-    private int key = 0;   //stores all the keys you pick up
-    private int keyLast = 0;
+    private final ResetValue<Integer> key = new ResetValue<>(0);   //stores all the keys you pick up
     
-    public Self(String name, String gender, String birthday) {
+    public Self(String name, String birthday, String gender) {
         super(name, (int) (Math.random() * 5) + 3, (int) (Math.random() * 5) + 3, (int) (Math.random() * 5) + 3, 50);
         
-        this.gender = gender;
         this.birthday = birthday;
+        this.gender = gender;
+        
+        resetGroup.add(key);
     }
     
     public Self() {
         super("Self", (int) (Math.random() * 5) + 3, (int) (Math.random() * 5) + 3, (int) (Math.random() * 5) + 3, 50);
     }
     
-    @Override
-    public void storeState() {
-        attackLast = attack;
-        defenseLast = defense;
-        speedLast = speed;
-        healthLast = health;
-        xLast = x;
-        yLast = y;
-    }
-    
-    @Override
-    public void resetState() {
-        attack = attackLast;
-        defense = defenseLast;
-        speed = speedLast;
-        health = healthLast;
-        x = xLast;
-        y = yLast;
+    public String getBirthday() {
+        return birthday;
     }
     
     public String getGender() {
         return gender;
     }
     
-    public String getBirthday() {
-        return birthday;
-    }
-    
     public int getKey() {
-        return key;
+        return key.get();
     }
     
-    public void setKey(int key) {
-        this.key = Math.max(this.key, key);
-    }
-    
-    public int getKeyLast() {
-        return keyLast;
-    }
-    
-    public void setKeyLast(int keyLast) {
-        this.keyLast = keyLast;
+    public void setKey(int value) {
+        this.key.set(Math.max(this.key.get(), value));
     }
     
     @Override
@@ -190,14 +164,14 @@ public class Self extends Fighter {
         while (!done) {
             System.out.print("> ");
             
-            var temp = input.next();
+            var temp = Util.input.next();
             
             System.out.println("\n");
             
             while (!temp.equals("Blind") && !temp.equals("Brace") && !temp.equals("Burn") && !temp.equals("Corrupt") && !temp.equals("Fixer") && !temp.equals("Pure") && !temp.equals("Ultra") && !temp.equals("Velocity") && !temp.equals("Volatile")) {
                 System.out.print("What?\n> ");
                 
-                temp = input.nextLine();
+                temp = Util.input.nextLine();
                 
                 System.out.println("\n");
             }

@@ -1,39 +1,38 @@
 //Christian Alexander, 1/1/11, Pd. 6
 package kakkoiichris.nazonoshiro.fighter;
 
+import kakkoiichris.nazonoshiro.ResetValue;
 import kakkoiichris.nazonoshiro.Util;
 import kakkoiichris.nazonoshiro.item.Item;
-import kakkoiichris.nazonoshiro.item.kasugi.*;
 import kakkoiichris.nazonoshiro.item.Weapon;
+import kakkoiichris.nazonoshiro.item.kasugi.*;
 
 import java.lang.Override;
 import java.util.List;
 
 public abstract class Enemy extends Fighter {
-    private Item droppable, droppableLast;
+    private final ResetValue<Item> droppable;
     
     public Enemy(String name, int attack, int defense, int speed, int health) {
         super(name, attack, defense, speed, health);
+        
+        droppable = new ResetValue<>(null);
+        
+        resetGroup.add(droppable);
     }
     
     public void setDrop(Fighter self, List<Weapon> weapons) {
-        int wCount = 10 - self.getAttack();
+        var wCount = 10 - self.getAttack();
         
         if (Math.random() > 0.5 && wCount > 0) {
-            int temp = (int) (Math.random() * weapons.size());
+            var temp = (int) (Math.random() * weapons.size());
             
-            droppable = weapons.get(temp);
+            droppable.set(weapons.get(temp));
         }
     }
     
     public Item getDrop() {
-        return droppable;
-    }
-    
-    public void storeState() {
-    }
-    
-    public void resetState() {
+        return droppable.get();
     }
     
     public void dropItem(Fighter self) {
@@ -132,7 +131,7 @@ public abstract class Enemy extends Fighter {
         
         if (getEffectives().size() > 0) {
             for (var j = 0; j < getEffectives().size(); j++) {
-                if (getEffectives().get(j).getName().equals("Corrupt") && health <= 10) {
+                if (getEffectives().get(j).getName().equals("Corrupt") && health.get() <= 10) {
                     var index = search("Pure", usable);
                     
                     if (index >= 0) {

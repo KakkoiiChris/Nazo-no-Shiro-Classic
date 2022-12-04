@@ -1,6 +1,7 @@
 //Christian Alexander, 6/21/11, Pd. 6
 package kakkoiichris.nazonoshiro.castle.storage;
 
+import kakkoiichris.nazonoshiro.Resettable;
 import kakkoiichris.nazonoshiro.fighter.Self;
 import kakkoiichris.nazonoshiro.item.Item;
 import kakkoiichris.nazonoshiro.item.kasugi.Kasugi;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public abstract class Storage {
+public abstract class Storage implements Resettable {
     private final String name;
     protected String decision = "";
     protected String pick = "";
@@ -31,12 +32,14 @@ public abstract class Storage {
         return stored.isEmpty();
     }
     
+    @Override
     public void storeState() {
         storedLast.clear();
         
         storedLast.addAll(stored);
     }
     
+    @Override
     public void resetState() {
         stored.clear();
         

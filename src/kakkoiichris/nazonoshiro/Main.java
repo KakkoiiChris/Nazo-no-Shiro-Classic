@@ -16,12 +16,9 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class Main {
-    private static int row = 1; //the row you are located in
-    private static int column = 2; //the column you are located in
-    private static int floor = 0; //the floor you are located in
-    private static int rowLast = 1; //stores previous row for restart checkpoint
-    private static int columnLast = 2; //stores previous column for restart checkpoint
-    private static int floorLast = 0; //stores previous floor for restart checkpoint
+    private static final ResetValue<Integer> row = new ResetValue<>(1); //the row you are located in
+    private static final ResetValue<Integer> column = new ResetValue<>(2); //the column you are located in
+    private static final ResetValue<Integer> floor = new ResetValue<>(0); //the floor you are located in
     
     private static Direction lastDirection = Direction.NONE;
     
@@ -149,11 +146,6 @@ public class Main {
     }
     
     private static void setUpLoad() {
-        System.out.print("File Name > ");
-        
-        var fileName = Util.input.nextLine();
-        
-        var lines = Resources.getLines(fileName);
     }
     
     private static void options() {
@@ -174,12 +166,16 @@ public class Main {
         
         var vars = script.run();
         
-        self = new Self();
+        var name = vars.get("name");
+        var birthday = vars.get("birthday");
+        var gender = vars.get("gender");
+        
+        self = new Self(name, birthday, gender);
     }
     
     private static void explore() {
         while (true) {
-            var room = castle.get(floor, row, column);
+            var room = castle.get(floor.get(), row.get(), column.get());
             
             System.out.printf("%s%n%n", room);
             
@@ -218,7 +214,7 @@ public class Main {
             
             room.setVisited();
             
-            var fileName = "%s%d-%d-%d".formatted(timing, row, column, floor);
+            var fileName = "%s%d-%d-%d".formatted(timing, row.get(), column.get(), floor.get());
             
             var description = Resources.tryGetLines(fileName).orElse(List.of("Default room text."));
             
@@ -258,7 +254,7 @@ public class Main {
                 continue;
             }
             
-            matcher = Pattern.compile("((play |show )inventory)|e").matcher(choice);
+            matcher = Pattern.compile("((play|show)\\s+inventory)|e").matcher(choice);
             
             if (matcher.find()) {
                 showInventory();
@@ -471,12 +467,12 @@ public class Main {
         
         var runChance = Math.random() * 100;
         
-        var lastRow = row;
-        var lastColumn = column;
+        row.storeState();
+        column.storeState();
         
         move(lastDirection.getInverse());
         
-        if (row == lastRow && column == lastColumn) {
+        if (!row.hasChanged() && !column.hasChanged()) {
             System.out.println("You've been cornered.\n");
             
             return false;
@@ -490,8 +486,8 @@ public class Main {
         
         System.out.println("You've been cut off.\n");
         
-        row = lastRow;
-        column = lastColumn;
+        row.resetState();
+        column.resetState();
         
         return false;
     }
@@ -499,51 +495,46 @@ public class Main {
     private static void move(Direction direction) {
         lastDirection = direction;
         
-        var floorLast = floor;
-        var rowLast = row;
-        var columnLast = column;
+        floor.storeState();
+        row.storeState();
+        column.storeState();
         
         switch (direction) {
-            case UP -> floor = goUp();
-            
-            case DOWN -> floor = goDown();
-            
-            case NORTH -> row = goNorth();
-            
-            case SOUTH -> row = goSouth();
-            
-            case EAST -> column = goEast();
-            
-            case WEST -> column = goWest();
+            case UP -> goUp();
+            case DOWN -> goDown();
+            case NORTH -> goNorth();
+            case SOUTH -> goSouth();
+            case EAST -> goEast();
+            case WEST -> goWest();
         }
         
-        if (floor == floorLast && row == rowLast && column == columnLast) {
+        if (!(floor.hasChanged() || row.hasChanged() || column.hasChanged())) {
             lastDirection = Direction.NONE;
         }
     }
     
     private static boolean northernMost() {
-        return row == 0;
+        return row.get() == 0;
     }
     
     private static boolean southernMost() {
-        return row == castle.getRows() - 1;
+        return row.get() == castle.getRows() - 1;
     }
     
     private static boolean easternMost() {
-        return column == castle.getColumns() - 1;
+        return column.get() == castle.getColumns() - 1;
     }
     
     private static boolean westernMost() {
-        return column == 0;
+        return column.get() == 0;
     }
     
     private static boolean upperMost() {
-        return floor == castle.getFloors() - 1;
+        return floor.get() == castle.getFloors() - 1;
     }
     
     private static boolean lowerMost() {
-        return floor == 0;
+        return floor.get() == 0;
     }
     
     private static boolean hasVisited(int floor, int row, int column) {
@@ -551,131 +542,155 @@ public class Main {
     }
     
     private static boolean hasWall(Direction direction) {
-        return castle.get(floor, row, column).hasWall(direction);
+        return castle.get(floor.get(), row.get(), column.get()).hasWall(direction);
     }
     
-    private static int goNorth() {
+    private static void goNorth() {
+        var f = floor.get();
+        var r = row.get();
+        var c = column.get();
+        
         if (hasWall(Direction.NORTH) || northernMost()) {
-            if (column == 4 && hasVisited(0, 2, 4)) {
+            if (c == 4 && hasVisited(0, 2, 4)) {
                 endGame();
             }
             
             System.out.println("A wall blocks your path.\n");
             
-            return row;
+            return;
         }
         
-        if (self.getKey() >= castle.get(floor, row - 1, column).getLock()) {
-            if (!hasVisited(floor, row - 1, column)) {
+        if (self.getKey() >= castle.get(f, r - 1, c).getLock()) {
+            if (!hasVisited(f, r - 1, c)) {
                 System.out.println("The door is unlocked.\n");
             }
             
-            return row - 1;
+            row.set(r - 1);
+            
+            return;
         }
         
         System.out.println("None of the keys you have fit that lock.\n");
-        
-        return row;
     }
     
-    private static int goSouth() {
+    private static void goSouth() {
+        var f = floor.get();
+        var r = row.get();
+        var c = column.get();
+        
         if (hasWall(Direction.SOUTH) || southernMost()) {
             System.out.println("A wall blocks your path.\n");
             
-            return row;
+            return;
         }
         
-        if (self.getKey() >= castle.get(floor, row + 1, column).getLock()) {
-            if (!hasVisited(floor, row + 1, column)) {
+        if (self.getKey() >= castle.get(f, r + 1, c).getLock()) {
+            if (!hasVisited(f, r + 1, c)) {
                 System.out.println("The door is unlocked.\n");
             }
             
-            return row + 1;
+            row.set(r + 1);
+            
+            return;
         }
         
         System.out.println("None of the keys you have fit that lock.\n");
-        
-        return row;
     }
     
-    private static int goEast() {
+    private static void goEast() {
+        var f = floor.get();
+        var r = row.get();
+        var c = column.get();
+        
         if (hasWall(Direction.EAST) || easternMost()) {
             System.out.println("A wall blocks your path.\n");
             
-            return column;
+            return;
         }
         
-        if (self.getKey() >= castle.get(floor, row, column + 1).getLock()) {
-            if (!hasVisited(floor, row, column + 1)) {
+        if (self.getKey() >= castle.get(f, r, c + 1).getLock()) {
+            if (!hasVisited(f, r, c + 1)) {
                 System.out.println("The door is unlocked.\n");
             }
             
-            return column + 1;
+            column.set(c + 1);
+            
+            return;
         }
         
         System.out.println("None of the keys you have fit that lock.\n");
-        
-        return column;
     }
     
-    private static int goWest() {
+    private static void goWest() {
+        var f = floor.get();
+        var r = row.get();
+        var c = column.get();
+        
         if (hasWall(Direction.WEST) || westernMost()) {
             System.out.println("A wall blocks your path.\n");
             
-            return column;
+            return;
         }
         
-        if (self.getKey() >= castle.get(floor, row, column - 1).getLock()) {
-            if (!hasVisited(floor, row, column - 1)) {
+        if (self.getKey() >= castle.get(f, r, c - 1).getLock()) {
+            if (!hasVisited(f, r, c - 1)) {
                 System.out.println("The door is unlocked.\n");
             }
             
-            return column - 1;
+            column.set(c - 1);
+            
+            return;
         }
         
         System.out.println("None of the keys you have fit that lock.\n");
-        
-        return column;
     }
     
-    private static int goUp() {
+    private static void goUp() {
+        var f = floor.get();
+        var r = row.get();
+        var c = column.get();
+        
         if (hasWall(Direction.UP) || upperMost()) {
             System.out.println("The ceiling blocks your path.\n");
             
-            return floor;
+            return;
         }
         
-        if (self.getKey() >= castle.get(floor + 1, row, column).getLock()) {
-            if (!hasVisited(floor + 1, row, column)) {
+        if (self.getKey() >= castle.get(f + 1, r, c).getLock()) {
+            if (!hasVisited(f + 1, r, c)) {
                 System.out.println("The hatch is unlocked.\n");
             }
             
-            return floor + 1;
+            floor.set(f + 1);
+            
+            return;
         }
         
         System.out.println("None of the keys you have fit that lock.\n");
-        
-        return floor;
     }
     
-    private static int goDown() {
+    private static void goDown() {
+        var f = floor.get();
+        var r = row.get();
+        var c = column.get();
+        
         if (hasWall(Direction.DOWN) || lowerMost()) {
             System.out.println("The floor blocks your path.\n");
             
-            return floor;
+            return;
         }
         
-        if (self.getKey() >= castle.get(floor - 1, row, column).getLock()) {
-            if (!hasVisited(floor - 1, row, column)) {
+        if (self.getKey() >= castle.get(f - 1, r, c).getLock()) {
+            if (!hasVisited(f - 1, r, c)) {
                 System.out.println("The hatch is unlocked.\n");
             }
             
-            return floor - 1;
+            floor.set(f - 1);
+            
+            return;
         }
         
         System.out.println("None of the keys you have fit that lock.\n");
-        
-        return floor;
     }
     
     private static void showInventory() {
@@ -783,9 +798,9 @@ public class Main {
     }
     
     private static void storeState() {
-        rowLast = row;
-        columnLast = column;
-        floorLast = floor;
+        floor.storeState();
+        row.storeState();
+        column.storeState();
         ranLast = ran;
         
         self.storeState();
@@ -798,9 +813,9 @@ public class Main {
     }
     
     private static void resetState() {
-        row = rowLast;
-        column = columnLast;
-        floor = floorLast;
+        floor.resetState();
+        row.resetState();
+        column.resetState();
         ran = ranLast;
         
         self.resetState();

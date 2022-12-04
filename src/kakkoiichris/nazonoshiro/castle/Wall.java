@@ -1,10 +1,11 @@
 //Christian Alexander, 6/22/11, Period 6
 package kakkoiichris.nazonoshiro.castle;
 
+import kakkoiichris.nazonoshiro.Resettable;
 import kakkoiichris.nazonoshiro.Util;
 import kakkoiichris.nazonoshiro.castle.storage.*;
 
-public class Wall {
+public class Wall implements Resettable {
     private final Direction direction;
     
     private final Storage storage;
@@ -42,10 +43,12 @@ public class Wall {
         return storage;
     }
     
+    @Override
     public void storeState() {
         storage.storeState();
     }
     
+    @Override
     public void resetState() {
         storage.resetState();
     }

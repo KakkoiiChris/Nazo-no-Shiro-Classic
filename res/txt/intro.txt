@@ -38,7 +38,7 @@ One look and it hits you.....
 
 @input name X:
 
-@input dob DOB:
+@input birthday DOB:
 
 @input gender M/F/O:
 
@@ -64,7 +64,7 @@ One look and it hits you.....
 |                         |
 |X {name}...      |
 |--------- --  ---- ------|
-|DoB: {dob}|
+|DoB: {birthday}|
 |                        _|
 |(M/F): {gender}               | /
 /_______^^______________|/
