@@ -2,7 +2,6 @@
 package kakkoiichris.nazonoshiro.item;
 
 import kakkoiichris.nazonoshiro.fighter.Fighter;
-import kakkoiichris.nazonoshiro.item.Item;
 
 public enum Weapon implements Item {
     BO_STAFF(0, "Bo Staff", "") {

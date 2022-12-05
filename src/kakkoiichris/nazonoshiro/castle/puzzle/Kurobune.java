@@ -1,6 +1,8 @@
 //Christian Alexander, 5/12/11, Pd. 6
 package kakkoiichris.nazonoshiro.castle.puzzle;
 
+import kakkoiichris.nazonoshiro.Util;
+
 import java.util.Scanner;
 
 public class Kurobune extends Puzzle {
@@ -10,8 +12,6 @@ public class Kurobune extends Puzzle {
     
     @Override
     public boolean play() {
-        var input = new Scanner(System.in);
-        
         System.out.println("  <[KUROBUNE]>\n");
         
         var torpedoes = 20;
@@ -33,20 +33,20 @@ public class Kurobune extends Puzzle {
             
             System.out.print("\nRow: ");
             
-            var row = input.nextInt();
+            var row = Util.input.nextInt();
             
             System.out.print("\nColumn: ");
             
-            var column = input.nextInt();
+            var column = Util.input.nextInt();
             
             while (row > 7 || row < 0 || column > 7 || column < 0) {
                 System.out.println("That's out of your range. Enter again.\nRow: ");
                 
-                row = input.nextInt();
+                row = Util.input.nextInt();
                 
                 System.out.print("\nColumn: ");
                 
-                column = input.nextInt();
+                column = Util.input.nextInt();
             }
             
             System.out.println();

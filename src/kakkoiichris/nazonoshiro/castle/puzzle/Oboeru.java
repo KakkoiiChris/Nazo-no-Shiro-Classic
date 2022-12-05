@@ -1,13 +1,13 @@
 //Christian Alexander, 5/12/11, Pd. 6
 package kakkoiichris.nazonoshiro.castle.puzzle;
 
+import kakkoiichris.nazonoshiro.Util;
+
 import java.util.Scanner;
 
 public class Oboeru extends Puzzle {
     private final char[][] board = new char[5][6];
     private final char[][] key = new char[5][6];
-    
-    private final Scanner input = new Scanner(System.in);
     
     public Oboeru() {
         super("Oboeru");
@@ -81,11 +81,11 @@ public class Oboeru extends Puzzle {
             
             System.out.println("Flip two cards:\nRow 1:");
             
-            var r1 = input.nextInt();
+            var r1 = Util.input.nextInt();
             
             System.out.print("\nColumn 1:");
             
-            var c1 = input.nextInt();
+            var c1 = Util.input.nextInt();
             
             board[r1][c1] = '~';
             
@@ -93,11 +93,11 @@ public class Oboeru extends Puzzle {
             
             System.out.print("\nRow 2:");
             
-            var r2 = input.nextInt();
+            var r2 = Util.input.nextInt();
             
             System.out.print("\nColumn 2:");
             
-            var c2 = input.nextInt();
+            var c2 = Util.input.nextInt();
             
             board[r2][c2] = '~';
             

@@ -1,24 +1,18 @@
 //Christian Alexander, 6/21/11, Pd. 6
 package kakkoiichris.nazonoshiro.castle.storage;
 
+import kakkoiichris.nazonoshiro.ResetList;
 import kakkoiichris.nazonoshiro.Resettable;
+import kakkoiichris.nazonoshiro.Util;
 import kakkoiichris.nazonoshiro.fighter.Self;
 import kakkoiichris.nazonoshiro.item.Item;
 import kakkoiichris.nazonoshiro.item.kasugi.Kasugi;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
 public abstract class Storage implements Resettable {
     private final String name;
-    protected String decision = "";
-    protected String pick = "";
-    protected Scanner input = new Scanner(System.in);
-    protected List<Item> stored = new ArrayList<>();
-    protected List<Item> storedLast = new ArrayList<>();
-    protected List<Kasugi> contained = new ArrayList<>();
-    protected List<Kasugi> containedLast = new ArrayList<>();
+    
+    protected ResetList<Item> items = new ResetList<>();
+    protected ResetList<Kasugi> kasugis = new ResetList<>();
     
     public Storage(String name) {
         this.name = name;
@@ -29,49 +23,47 @@ public abstract class Storage implements Resettable {
     }
     
     public boolean isEmpty() {
-        return stored.isEmpty();
+        return items.isEmpty();
     }
     
     @Override
     public void storeState() {
-        storedLast.clear();
-        
-        storedLast.addAll(stored);
+        items.storeState();
+        kasugis.storeState();
     }
     
     @Override
     public void resetState() {
-        stored.clear();
-        
-        stored.addAll(storedLast);
+        items.resetState();
+        kasugis.resetState();
     }
     
     public void add(Item item) {
-        stored.add(item);
+        items.add(item);
     }
     
-    public int getCount(String n) {
-        var temp = 0;
+    public int getItemCount(String name) {
+        var index = 0;
         
-        for (var item : stored) {
-            if (item.getName().equals(n.toLowerCase())) {
-                temp++;
+        for (var item : items) {
+            if (item.getName().equals(name.toLowerCase())) {
+                index++;
             }
         }
         
-        return temp;
+        return index;
     }
     
-    public int getCountB(String n) {
-        var temp = 0;
+    public int getKasugiCount(String name) {
+        var index = 0;
         
-        for (var kasugi : contained) {
-            if (kasugi.getName().equals(n)) {
-                temp++;
+        for (var kasugi : kasugis) {
+            if (kasugi.getName().equals(name)) {
+                index++;
             }
         }
         
-        return temp;
+        return index;
     }
     
     public void rummage(Self self) {
@@ -82,7 +74,7 @@ public abstract class Storage implements Resettable {
         var b = 0;
         var c = 0;
         
-        for (var item : stored) {
+        for (var item : items) {
             switch (item.getName()) {
                 case "metal" -> m++;
                 
@@ -122,16 +114,16 @@ public abstract class Storage implements Resettable {
         
         System.out.print(">");
         
-        pick = input.nextLine().toLowerCase();
+        var pick = Util.input.nextLine().toLowerCase();
         
         System.out.println();
         
         while (!pick.equals("close armoir")) {
             switch (pick) {
                 case "take metal plate" -> {
-                    for (var i = 0; i < stored.size(); i++) {
-                        if ((stored.get(i).getName()).equals("metal")) {
-                            self.getInventory().add(stored.remove(i--));
+                    for (var i = 0; i < items.size(); i++) {
+                        if ((items.get(i).getName()).equals("metal")) {
+                            self.getInventory().add(items.remove(i--));
                         }
                     }
                     
@@ -139,9 +131,9 @@ public abstract class Storage implements Resettable {
                 }
                 
                 case "take herb bushel" -> {
-                    for (var i = 0; i < stored.size(); i++) {
-                        if ((stored.get(i).getName()).equals("herb bushel")) {
-                            self.getInventory().add(stored.remove(i--));
+                    for (var i = 0; i < items.size(); i++) {
+                        if ((items.get(i).getName()).equals("herb bushel")) {
+                            self.getInventory().add(items.remove(i--));
                         }
                     }
                     
@@ -149,9 +141,9 @@ public abstract class Storage implements Resettable {
                 }
                 
                 case "take herb" -> {
-                    for (var i = 0; i < stored.size(); i++) {
-                        if ((stored.get(i).getName()).equals("herb")) {
-                            self.getInventory().add(stored.remove(i--));
+                    for (var i = 0; i < items.size(); i++) {
+                        if ((items.get(i).getName()).equals("herb")) {
+                            self.getInventory().add(items.remove(i--));
                         }
                     }
                     
@@ -159,9 +151,9 @@ public abstract class Storage implements Resettable {
                 }
                 
                 case "take coin" -> {
-                    for (var i = 0; i < stored.size(); i++) {
-                        if ((stored.get(i).getName()).equals("coin")) {
-                            self.getInventory().add(stored.remove(i--));
+                    for (var i = 0; i < items.size(); i++) {
+                        if ((items.get(i).getName()).equals("coin")) {
+                            self.getInventory().add(items.remove(i--));
                         }
                     }
                     
@@ -171,7 +163,7 @@ public abstract class Storage implements Resettable {
             
             System.out.print(">");
             
-            pick = input.nextLine().toLowerCase();
+            pick = Util.input.nextLine().toLowerCase();
             
             System.out.println();
         }

@@ -1,13 +1,14 @@
 //Christian Alexander, 5/12/11, Pd. 6
 package kakkoiichris.nazonoshiro.castle.puzzle;
 
+import kakkoiichris.nazonoshiro.ResetValue;
 import kakkoiichris.nazonoshiro.Resettable;
 import kakkoiichris.nazonoshiro.Util;
 
 public abstract class Puzzle implements Resettable {
     private final String name;
     
-    protected boolean won = false, wonLast = false;
+    protected ResetValue<Boolean> won = new ResetValue<>(false);
     
     public Puzzle(String name) {
         this.name = name;
@@ -24,7 +25,7 @@ public abstract class Puzzle implements Resettable {
     }
     
     public boolean isWon() {
-        return won;
+        return won.get();
     }
     
     public String getName() {
@@ -33,16 +34,16 @@ public abstract class Puzzle implements Resettable {
     
     @Override
     public void storeState() {
-        wonLast = won;
+        won.storeState();
     }
     
     @Override
     public void resetState() {
-        won = wonLast;
+        won.resetState();
     }
     
     public void victory() {
-        won = true;
+        won.set(true);
     }
     
     public abstract boolean play();

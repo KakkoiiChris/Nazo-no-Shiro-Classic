@@ -6,7 +6,6 @@ import kakkoiichris.nazonoshiro.fighter.Fighter;
 import kakkoiichris.nazonoshiro.fighter.Self;
 
 import java.util.Formatter;
-import java.util.List;
 import java.util.Scanner;
 
 public class SaveFileCreator {

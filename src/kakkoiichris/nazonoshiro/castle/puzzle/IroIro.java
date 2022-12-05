@@ -1,13 +1,13 @@
 //Christian Alexander, 8/8/11, Pd. 6
 package kakkoiichris.nazonoshiro.castle.puzzle;
 
+import kakkoiichris.nazonoshiro.Util;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class IroIro extends Puzzle {
-    private final Scanner input = new Scanner(System.in);
-    
     private final char[][] board = new char[4][4];
     private final char[][] guide = new char[4][4];
     
@@ -35,7 +35,7 @@ public class IroIro extends Puzzle {
         
         System.out.print(" > ");
         
-        var temp = input.next();
+        var temp = Util.input.next();
         
         System.out.println();
         

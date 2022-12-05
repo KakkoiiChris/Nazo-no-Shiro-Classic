@@ -1,6 +1,7 @@
 //Christian Alexander, 6/21/11, Pd. 6
 package kakkoiichris.nazonoshiro.castle.storage;
 
+import kakkoiichris.nazonoshiro.Util;
 import kakkoiichris.nazonoshiro.fighter.Self;
 import kakkoiichris.nazonoshiro.item.Weapon;
 
@@ -19,7 +20,7 @@ public class Crate extends Storage {
             
             >\040""".stripIndent());
         
-        decision = input.nextLine().toLowerCase();
+        var decision = Util.input.nextLine().toLowerCase();
         
         System.out.println();
         

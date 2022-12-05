@@ -1,13 +1,13 @@
 //Christian Alexander, 5/12/11, Pd. 6
 package kakkoiichris.nazonoshiro.castle.puzzle;
 
+import kakkoiichris.nazonoshiro.Util;
+
 import java.util.Scanner;
 
 public class Seihoukei extends Puzzle {
     private final char[][] board = new char[6][6];
     private final char[][] key = new char[6][6];
-    
-    private final Scanner input = new Scanner(System.in);
     
     public Seihoukei() {
         super("Seihoukei");
@@ -431,18 +431,18 @@ public class Seihoukei extends Puzzle {
             
             System.out.println("\nMovement:\n(Up/ Down/ Left/ Right)");
             
-            var choice = input.next().toLowerCase();
+            var choice = Util.input.next().toLowerCase();
             
             switch (choice) {
                 case "up" -> {
                     System.out.print("Column: ");
                     
-                    var t = input.nextInt();
+                    var t = Util.input.nextInt();
                     
                     while (t > 5 || t < 0) {
                         System.out.print("Invalid: enter again\nColumn: ");
                         
-                        t = input.nextInt();
+                        t = Util.input.nextInt();
                     }
                     
                     shiftUp(t);
@@ -451,12 +451,12 @@ public class Seihoukei extends Puzzle {
                 case "down" -> {
                     System.out.print("Column: ");
                     
-                    var t = input.nextInt();
+                    var t = Util.input.nextInt();
                     
                     while (t > 5 || t < 0) {
                         System.out.print("Invalid: enter again\nColumn: ");
                         
-                        t = input.nextInt();
+                        t = Util.input.nextInt();
                     }
                     
                     shiftDown(t);
@@ -465,12 +465,12 @@ public class Seihoukei extends Puzzle {
                 case "left" -> {
                     System.out.print("Row: ");
                     
-                    var t = input.nextInt();
+                    var t = Util.input.nextInt();
                     
                     while (t > 5 || t < 0) {
                         System.out.print("Invalid: enter again\nRow: ");
                         
-                        t = input.nextInt();
+                        t = Util.input.nextInt();
                     }
                     
                     shiftLeft(t);
@@ -479,12 +479,12 @@ public class Seihoukei extends Puzzle {
                 case "right" -> {
                     System.out.print("Row: ");
                     
-                    var t = input.nextInt();
+                    var t = Util.input.nextInt();
                     
                     while (t > 5 || t < 0) {
                         System.out.print("Invalid: enter again\nRow: ");
                         
-                        t = input.nextInt();
+                        t = Util.input.nextInt();
                     }
                     
                     shiftRight(t);
