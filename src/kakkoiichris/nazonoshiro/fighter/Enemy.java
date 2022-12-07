@@ -1,6 +1,7 @@
 //Christian Alexander, 1/1/11, Pd. 6
 package kakkoiichris.nazonoshiro.fighter;
 
+import kakkoiichris.nazonoshiro.Console;
 import kakkoiichris.nazonoshiro.ResetValue;
 import kakkoiichris.nazonoshiro.Util;
 import kakkoiichris.nazonoshiro.item.Item;
@@ -35,16 +36,16 @@ public abstract class Enemy extends Fighter {
         return droppable.get();
     }
     
-    public void dropItem(Fighter self) {
-        System.out.printf("The %s dropped something. You pick it up.%n", this);
+    public void dropItem(Self self) {
+        Console.writeLine("The %s dropped something. You pick it up.", this);
         
         try {
-            this.getDrop().pickUp(self);
+            getDrop().pickUp(self);
             
-            System.out.printf("It's a %s!%n", this.getDrop());
+            Console.writeLine("It's a %s!", getDrop());
         }
         catch (NullPointerException e) {
-            System.out.println("It's just a null. Nothing worth while.");
+            Console.writeLine("It's just a null. Nothing worth while.");
         }
     }
     
@@ -84,22 +85,22 @@ public abstract class Enemy extends Fighter {
         if (attack + (attack - defense) < 0) {
             var message = Util.getRandom(miss);
             
-            System.out.println(message.substring(message.indexOf('@') + 1, message.indexOf('#')) + enemy + message.substring(message.indexOf('$') + 1, message.indexOf('%')));
+            Console.writeLine(message.substring(message.indexOf('@') + 1, message.indexOf('#')) + enemy + message.substring(message.indexOf('$') + 1, message.indexOf('%')));
         }
         else if (attack + (attack - defense) < aMax) {
             var message = Util.getRandom(indirect);
             
-            System.out.println(message.substring(message.indexOf('@') + 1, message.indexOf('#')) + enemy + message.substring(message.indexOf('$') + 1, message.indexOf('%')));
+            Console.writeLine(message.substring(message.indexOf('@') + 1, message.indexOf('#')) + enemy + message.substring(message.indexOf('$') + 1, message.indexOf('%')));
         }
         else {
             var message = Util.getRandom(direct);
             
-            System.out.println(message.substring(message.indexOf('@') + 1, message.indexOf('#')) + enemy + message.substring(message.indexOf('$') + 1, message.indexOf('%')));
+            Console.writeLine(message.substring(message.indexOf('@') + 1, message.indexOf('#')) + enemy + message.substring(message.indexOf('$') + 1, message.indexOf('%')));
         }
         
         enemy.setHealth(attack + (attack - defense));
         
-        System.out.println();
+        Console.newLine();
     }
     
     public void use(Fighter self) {
@@ -138,7 +139,7 @@ public abstract class Enemy extends Fighter {
                         usable.remove(index);
                     }
                     else {
-                        System.err.println("NO!!!!!");
+                        Console.writeLine("NO!!!!!");
                     }
                     
                     index = search("Corrupt", getEffectives());
@@ -147,10 +148,10 @@ public abstract class Enemy extends Fighter {
                         getEffectives().remove(index);
                     }
                     else {
-                        System.err.println("NO!!!!!");
+                        Console.writeLine("NO!!!!!");
                     }
                     
-                    System.out.println("They've been purified.\n");
+                    Console.writeLine("They've been purified.\n");
                     
                     done = true;
                 }

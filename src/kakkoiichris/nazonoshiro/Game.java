@@ -33,12 +33,12 @@ public class Game {
     
     private ResetGroup resetGroup;
     
-    public void playNewGame() {
-        System.out.print("Map Name > ");
+    public void newGame() {
+        Console.write("Map Name > ");
         
-        var mapName = Util.input.nextLine();
+        var mapName = Console.readLine();
         
-        System.out.println();
+        Console.newLine();
         
         castle = switch (mapName) {
             case "Original Castle", "" -> new Castle("original");
@@ -94,11 +94,14 @@ public class Game {
         self = new Self(name, birthday, gender);
     }
     
+    public void loadGame() {
+    }
+    
     private void explore() {
         while (true) {
             var room = castle.get(floor.get(), row.get(), column.get());
             
-            System.out.printf("%s%n%n", room);
+            Console.writeLine("%s%n", room);
             
             if (room instanceof EnemyRoom e && !e.getEnemy().isDead()) {
                 if (fight(e.getEnemy())) {
@@ -108,22 +111,22 @@ public class Game {
                         drop = Coin.random();
                     }
                     
-                    System.out.println("""
+                    Console.writeLine("""
                         The %s dropped something...
                         
                         It's a %s!
                         
                         They also dropped a key. Now to
                         find which door it unlocks...
-                        """.formatted(e.getEnemy(), drop).stripIndent());
+                        """.stripIndent(), e.getEnemy(), drop);
                     
                     self.setKey(room.getKey());
                 }
                 else if (ran.get()) {
-                    System.out.println("That was a close one...");
+                    Console.writeLine("That was a close one...");
                 }
                 else {
-                    System.out.println("You died...");
+                    Console.writeLine("You died...");
                     
                     resetState();
                 }
@@ -139,23 +142,23 @@ public class Game {
             
             var description = Resources.tryGetLines(fileName).orElse(List.of("Default room text."));
             
-            description.forEach(System.out::println);
+            description.forEach(Console::writeLine);
             
             for (var wall : room.getWalls().values()) {
-                System.out.printf("There is a %s to the %s.%n", wall.getStorage().getName(), wall.getDirection());
+                Console.writeLine("There is a %s to the %s.", wall.getStorage().getName(), wall.getDirection());
             }
             
-            System.out.print(" > ");
+            Console.write(" > ");
             
-            var choice = Util.input.nextLine().toLowerCase();
+            var choice = Console.readLine().toLowerCase();
             
-            System.out.println();
+            Console.newLine();
             
             var matcher = Pattern.compile("play( puzzle)?|solve( puzzle)?").matcher(choice);
             
             if (matcher.find() && room instanceof PuzzleRoom p && !p.getPuzzle().isWon()) {
                 if (p.getPuzzle().play()) {
-                    System.out.println("""
+                    Console.writeLine("""
                         You won!
                         
                         You have earned a key.
@@ -166,7 +169,7 @@ public class Game {
                     self.setKey(p.getKey());
                 }
                 else {
-                    System.out.println("""
+                    Console.writeLine("""
                         The puzzle clicks and whirs away,
                         and just like that, the puzzle is
                         reset. Better luck next time...""");
@@ -211,7 +214,7 @@ public class Game {
                     move(Direction.valueOf(direction.toUpperCase()));
                 }
                 else {
-                    System.out.printf("'%s' is not a valid direction.", direction);
+                    Console.write("'%s' is not a valid direction.", direction);
                 }
                 
                 continue;
@@ -274,19 +277,19 @@ public class Game {
             if (choice.equals("save")) {
                 saver.openFile();
                 
-                System.out.print("Saving");
+                Console.write("Saving");
                 
                 //saver.addData(floors, guards, self, row, column, floor, yourTurn);
                 
                 saver.closeFile();
                 
                 for (var i = 0; i < (int) (Math.random() * 5) + 3; i++) {
-                    System.out.print(".");
+                    Console.write(".");
                     
-                    Util.pause(1);
+                    Console.pause(1);
                 }
                 
-                System.out.println("\nSaved.\n");
+                Console.writeLine("\nSaved.\n");
                 
                 continue;
             }
@@ -294,19 +297,19 @@ public class Game {
             if (choice.equals("snq")) {
                 saver.openFile();
                 
-                System.out.print("Saving");
+                Console.write("Saving");
                 
                 //saver.addData(floors, guards, self, row, column, floor, yourTurn);
                 
                 saver.closeFile();
                 
                 for (var i = 0; i < (int) (Math.random() * 5) + 3; i++) {
-                    System.out.print(".");
+                    Console.write(".");
                     
-                    Util.pause(1);
+                    Console.pause(1);
                 }
                 
-                System.out.println("\nSaved.\nThanks for playing.");
+                Console.writeLine("\nSaved.\nThanks for playing.");
                 
                 break;
             }
@@ -315,7 +318,7 @@ public class Game {
                 break;
             }
             
-            System.out.printf("\nI don't recognize the phrase '%s'.%n%n > ", choice);
+            Console.write("\nYou don't know how to '%s'.%n%n > ", choice);
         }
     }
     
@@ -327,10 +330,10 @@ public class Game {
         var indirectBlock = Resources.getLines("indirectBlock");
         var missBlock = Resources.getLines("missBlock");
         
-        System.out.printf("The %s stands before you.%n%n", enemy);
+        Console.writeLine("The %s stands before you.%n", enemy);
         
         //determines who's attacking and who's defending in battle
-        boolean yourTurn = Math.random() >= 0.5;
+        var yourTurn = Math.random() >= 0.5;
         
         ran.set(false);
         
@@ -342,11 +345,11 @@ public class Game {
                 self.allAffect();
                 self.filter();
                 
-                System.out.print("(Attack/Use/Run)\n\n> ");
+                Console.write("(Attack/Use/Run)\n\n> ");
                 
-                var action = Util.input.nextLine().toLowerCase();
+                var action = Console.readLine().toLowerCase();
                 
-                System.out.println();
+                Console.newLine();
                 
                 if (action.matches("a(ttack)?")) {
                     self.attack(enemy, directHit, indirectHit, missHit);
@@ -358,7 +361,7 @@ public class Game {
                     ran.set(run(enemy));
                 }
                 else {
-                    System.out.println("Can't do that...");
+                    Console.writeLine("Can't do that...");
                     
                     continue;
                 }
@@ -377,7 +380,7 @@ public class Game {
                 return false;
             }
             
-            Util.pause(2);
+            Console.pause(2);
         }
         
         return true;
@@ -394,18 +397,18 @@ public class Game {
         move(lastDirection.getInverse());
         
         if (!row.hasChanged() && !column.hasChanged()) {
-            System.out.println("You've been cornered.\n");
+            Console.writeLine("You've been cornered.\n");
             
             return false;
         }
         
         if (speedDiff > runChance) {
-            System.out.println("You made a clean getaway.\n");
+            Console.writeLine("You made a clean getaway.\n");
             
             return true;
         }
         
-        System.out.println("You've been cut off.\n");
+        Console.writeLine("You've been cut off.\n");
         
         row.resetState();
         column.resetState();
@@ -476,14 +479,14 @@ public class Game {
                 endGame();
             }
             
-            System.out.println("A wall blocks your path.\n");
+            Console.writeLine("A wall blocks your path.\n");
             
             return;
         }
         
         if (self.getKey() >= castle.get(f, r - 1, c).getLock()) {
             if (!hasVisited(f, r - 1, c)) {
-                System.out.println("The door is unlocked.\n");
+                Console.writeLine("The door is unlocked.\n");
             }
             
             row.set(r - 1);
@@ -491,7 +494,7 @@ public class Game {
             return;
         }
         
-        System.out.println("None of the keys you have fit that lock.\n");
+        Console.writeLine("None of the keys you have fit that lock.\n");
     }
     
     private void goSouth() {
@@ -500,14 +503,14 @@ public class Game {
         var c = column.get();
         
         if (hasWall(Direction.SOUTH) || southernMost()) {
-            System.out.println("A wall blocks your path.\n");
+            Console.writeLine("A wall blocks your path.\n");
             
             return;
         }
         
         if (self.getKey() >= castle.get(f, r + 1, c).getLock()) {
             if (!hasVisited(f, r + 1, c)) {
-                System.out.println("The door is unlocked.\n");
+                Console.writeLine("The door is unlocked.\n");
             }
             
             row.set(r + 1);
@@ -515,7 +518,7 @@ public class Game {
             return;
         }
         
-        System.out.println("None of the keys you have fit that lock.\n");
+        Console.writeLine("None of the keys you have fit that lock.\n");
     }
     
     private void goEast() {
@@ -524,14 +527,14 @@ public class Game {
         var c = column.get();
         
         if (hasWall(Direction.EAST) || easternMost()) {
-            System.out.println("A wall blocks your path.\n");
+            Console.writeLine("A wall blocks your path.\n");
             
             return;
         }
         
         if (self.getKey() >= castle.get(f, r, c + 1).getLock()) {
             if (!hasVisited(f, r, c + 1)) {
-                System.out.println("The door is unlocked.\n");
+                Console.writeLine("The door is unlocked.\n");
             }
             
             column.set(c + 1);
@@ -539,7 +542,7 @@ public class Game {
             return;
         }
         
-        System.out.println("None of the keys you have fit that lock.\n");
+        Console.writeLine("None of the keys you have fit that lock.\n");
     }
     
     private void goWest() {
@@ -548,14 +551,14 @@ public class Game {
         var c = column.get();
         
         if (hasWall(Direction.WEST) || westernMost()) {
-            System.out.println("A wall blocks your path.\n");
+            Console.writeLine("A wall blocks your path.\n");
             
             return;
         }
         
         if (self.getKey() >= castle.get(f, r, c - 1).getLock()) {
             if (!hasVisited(f, r, c - 1)) {
-                System.out.println("The door is unlocked.\n");
+                Console.writeLine("The door is unlocked.\n");
             }
             
             column.set(c - 1);
@@ -563,7 +566,7 @@ public class Game {
             return;
         }
         
-        System.out.println("None of the keys you have fit that lock.\n");
+        Console.writeLine("None of the keys you have fit that lock.\n");
     }
     
     private void goUp() {
@@ -572,14 +575,14 @@ public class Game {
         var c = column.get();
         
         if (hasWall(Direction.UP) || upperMost()) {
-            System.out.println("The ceiling blocks your path.\n");
+            Console.writeLine("The ceiling blocks your path.\n");
             
             return;
         }
         
         if (self.getKey() >= castle.get(f + 1, r, c).getLock()) {
             if (!hasVisited(f + 1, r, c)) {
-                System.out.println("The hatch is unlocked.\n");
+                Console.writeLine("The hatch is unlocked.\n");
             }
             
             floor.set(f + 1);
@@ -587,7 +590,7 @@ public class Game {
             return;
         }
         
-        System.out.println("None of the keys you have fit that lock.\n");
+        Console.writeLine("None of the keys you have fit that lock.\n");
     }
     
     private void goDown() {
@@ -596,14 +599,14 @@ public class Game {
         var c = column.get();
         
         if (hasWall(Direction.DOWN) || lowerMost()) {
-            System.out.println("The floor blocks your path.\n");
+            Console.writeLine("The floor blocks your path.\n");
             
             return;
         }
         
         if (self.getKey() >= castle.get(f - 1, r, c).getLock()) {
             if (!hasVisited(f - 1, r, c)) {
-                System.out.println("The hatch is unlocked.\n");
+                Console.writeLine("The hatch is unlocked.\n");
             }
             
             floor.set(f - 1);
@@ -611,7 +614,7 @@ public class Game {
             return;
         }
         
-        System.out.println("None of the keys you have fit that lock.\n");
+        Console.writeLine("None of the keys you have fit that lock.\n");
     }
     
     private void showInventory() {
@@ -634,7 +637,7 @@ public class Game {
         var selection = "";
         
         while (!selection.equals("close") && !selection.equals("e")) {
-            System.out.println("""
+            Console.writeLine("""
                 [Inventory]
                 
                 Independent Items
@@ -642,61 +645,61 @@ public class Game {
                 """.stripIndent());
             
             if (w > 0) {
-                System.out.printf("Weapons: [%d]%n%n", w);
+                Console.writeLine("Weapons: [%d]%n", w);
             }
             
             if (c > 0) {
-                System.out.printf("Yen: [%d]%n%n", c);
+                Console.writeLine("Yen: [%d]%n", c);
             }
             
-            System.out.println("""
+            Console.writeLine("""
                 Usable Items
                 -------------
                 """.stripIndent());
             
             if (n > 0) {
-                System.out.printf("Notes: [%d]%n%n", n);
+                Console.writeLine("Notes: [%d]%n", n);
             }
             
             if (h > 0) {
-                System.out.printf("Herbs: [%d]%n%n", h);
+                Console.writeLine("Herbs: [%d]%n", h);
             }
             
             if (b > 0) {
-                System.out.printf("(Herb) Bushels: [%d]%n%n", b);
+                Console.writeLine("(Herb) Bushels: [%d]%n", b);
             }
             
-            System.out.print(" > ");
+            Console.write(" > ");
             
-            selection = Util.input.nextLine().toLowerCase();
+            selection = Console.readLine().toLowerCase();
             
             if (selection.startsWith("use")) {
                 selection = selection.substring(selection.indexOf(" ") + 1);
             }
             
-            System.out.println();
+            Console.newLine();
             
             while (!selection.equals("note") && !selection.equals("herb") && !selection.equals("bushel") && !selection.equals("close") && !selection.equals("e")) {
                 if (selection.equals("weapon")) {
-                    System.out.println("You cannot use this now.");
+                    Console.writeLine("You cannot use this now.");
                 }
                 else if (selection.equals("coin")) {
                     if (c == 0) {
-                        System.out.println("Even if you had one, you still couldn't use it.");
+                        Console.writeLine("Even if you had one, you still couldn't use it.");
                     }
                     else {
-                        System.out.println("You can't use this.");
+                        Console.writeLine("You can't use this.");
                     }
                 }
                 else {
-                    System.out.println("You don't have any " + selection + "s to use.");
+                    Console.writeLine("You don't have any " + selection + "s to use.");
                 }
                 
-                System.out.print("\n > ");
+                Console.write("\n > ");
                 
-                selection = Util.input.nextLine().toLowerCase();
+                selection = Console.readLine().toLowerCase();
                 
-                System.out.println();
+                Console.newLine();
             }
             
             for (var i = 0; i < self.getInventory().size(); i++) {
@@ -729,8 +732,8 @@ public class Game {
     private void endGame() {
         var text = Resources.getLines("endGame");
         
-        text.forEach(System.out::println);
+        text.forEach(Console::writeLine);
         
-        System.out.println();
+        Console.newLine();
     }
 }

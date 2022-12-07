@@ -1,6 +1,7 @@
 //Christian Alexander, 9/13/2011
 package kakkoiichris.nazonoshiro.item.kasugi;
 
+import kakkoiichris.nazonoshiro.Console;
 import kakkoiichris.nazonoshiro.fighter.Enemy;
 import kakkoiichris.nazonoshiro.fighter.Fighter;
 
@@ -14,7 +15,7 @@ public class Pure extends Kasugi {
     @java.lang.Override
     public void affect(Fighter fighter) {
         var pronoun = (fighter instanceof Enemy) ? "They" : "You";
-    
-        System.out.printf("%s used an antidote!%n%n", pronoun);
+        
+        Console.writeLine("%s used an antidote!%n", pronoun);
     }
 }

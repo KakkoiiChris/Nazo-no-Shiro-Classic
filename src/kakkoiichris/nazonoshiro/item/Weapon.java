@@ -1,13 +1,14 @@
 //Christian Alexander, 5/12/11, Pd. 6
 package kakkoiichris.nazonoshiro.item;
 
+import kakkoiichris.nazonoshiro.Console;
 import kakkoiichris.nazonoshiro.fighter.Fighter;
 
 public enum Weapon implements Item {
     BO_STAFF(0, "Bo Staff", "") {
         @Override
         public void show() {
-            System.out.println("""
+            Console.writeLine("""
                 ========XXXXXX========
                        Bo Staff""".stripIndent());
         }
@@ -15,7 +16,7 @@ public enum Weapon implements Item {
     KATANA(0, "Bo Staff", "") {
         @Override
         public void show() {
-            System.out.println("""
+            Console.writeLine("""
                 [XXXXX{================>
                          Katana""".stripIndent());
         }
@@ -23,7 +24,7 @@ public enum Weapon implements Item {
     NUNCHAKU(0, "Bo Staff", "") {
         @Override
         public void show() {
-            System.out.println("""
+            Console.writeLine("""
                 |XXXX|O-oooooo-O|XXXX|
                        Nunchaku""".stripIndent());
         }
@@ -31,7 +32,7 @@ public enum Weapon implements Item {
     SHURIKEN(0, "Bo Staff", "") {
         @Override
         public void show() {
-            System.out.println("""
+            Console.writeLine("""
                     O-]==>
                 Shuriken Knife""".stripIndent());
         }
@@ -39,7 +40,7 @@ public enum Weapon implements Item {
     TANTO(0, "Bo Staff", "") {
         @Override
         public void show() {
-            System.out.println("""
+            Console.writeLine("""
                 [XXX{========>
                     Tanto""".stripIndent());
         }
@@ -47,7 +48,7 @@ public enum Weapon implements Item {
     WAKIZASHI(0, "Bo Staff", "") {
         @Override
         public void show() {
-            System.out.println("""
+            Console.writeLine("""
                 [XXXX{============>
                      Wakizashi""".stripIndent());
         }
@@ -80,12 +81,14 @@ public enum Weapon implements Item {
     @Override
     public boolean pickUp(Fighter self) {
         self.setAttack(1);
+        
         return true;
     }
     
     @Override
     public boolean use(Fighter self) {
-        System.out.println("You cannot use this.");
+        Console.writeLine("You cannot use this.");
+        
         return false;
     }
     

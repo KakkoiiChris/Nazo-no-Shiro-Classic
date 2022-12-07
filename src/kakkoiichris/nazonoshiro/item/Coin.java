@@ -1,6 +1,7 @@
 //Christian Alexander, 6/14/11, Pd. 6
 package kakkoiichris.nazonoshiro.item;
 
+import kakkoiichris.nazonoshiro.Console;
 import kakkoiichris.nazonoshiro.fighter.Fighter;
 
 public enum Coin implements Item {
@@ -53,14 +54,14 @@ public enum Coin implements Item {
     
     @Override
     public boolean pickUp(Fighter self) {
-        System.out.println("The coin rings out as you scrape it up.");
+        Console.writeLine("The coin rings out as you scrape it up.");
         
         return true;
     }
     
     @Override
     public boolean use(Fighter self) {
-        System.out.println("You cannot use this.");
+        Console.writeLine("You cannot use this.");
         
         return false;
     }

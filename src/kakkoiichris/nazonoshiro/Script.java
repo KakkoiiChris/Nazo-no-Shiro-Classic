@@ -34,7 +34,7 @@ public class Script {
                             case 0 -> {
                             }
                             
-                            case 1 -> Util.pause(Integer.parseInt(args.get(0)));
+                            case 1 -> Console.pause(Integer.parseInt(args.get(0)));
                         }
                     }
                     
@@ -42,9 +42,9 @@ public class Script {
                         var key = args.get(0);
                         var prompt = args.get(1);
                         
-                        System.out.printf("%s ", prompt);
+                        Console.write("%s ", prompt);
                         
-                        var value = Util.input.nextLine();
+                        var value = Console.readLine();
                         
                         vars.put(key, value);
                     }
@@ -68,10 +68,10 @@ public class Script {
                 }
                 
                 if (newline) {
-                    System.out.println(output);
+                    Console.writeLine(output);
                 }
                 else {
-                    System.out.print(output);
+                    Console.write(output);
                 }
             }
         }

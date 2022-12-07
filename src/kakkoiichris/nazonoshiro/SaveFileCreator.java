@@ -5,25 +5,25 @@ import kakkoiichris.nazonoshiro.castle.Castle;
 import kakkoiichris.nazonoshiro.fighter.Fighter;
 import kakkoiichris.nazonoshiro.fighter.Self;
 
+import java.io.FileNotFoundException;
 import java.util.Formatter;
-import java.util.Scanner;
 
 public class SaveFileCreator {
     private Formatter formatter;
     
     public void openFile() {
-        try (var input = new Scanner(System.in)) {
-            System.out.print("File Name > ");
-            
-            var fileName = input.nextLine();
-            
+        Console.write("File Name > ");
+        
+        var fileName = Console.readLine();
+        
+        try {
             formatter = new Formatter("%s.txt".formatted(fileName));
-            
-            System.out.println();
         }
-        catch (Exception e) {
-            System.err.println("FILE SAVE ERROR");
+        catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
         }
+        
+        Console.newLine();
     }
     
     public void addData(Castle castle, Fighter[] guards, Self self, int row, int column, int floor, boolean yourTurn) {

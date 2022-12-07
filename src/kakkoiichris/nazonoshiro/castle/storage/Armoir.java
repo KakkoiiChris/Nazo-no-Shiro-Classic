@@ -1,7 +1,7 @@
 //Christian Alexander, 6/21/11, Pd. 6
 package kakkoiichris.nazonoshiro.castle.storage;
 
-import kakkoiichris.nazonoshiro.Util;
+import kakkoiichris.nazonoshiro.Console;
 import kakkoiichris.nazonoshiro.fighter.Self;
 import kakkoiichris.nazonoshiro.item.Weapon;
 
@@ -12,7 +12,7 @@ public class Armoir extends Storage {
     
     @Override
     public void open(Self self) {
-        System.out.println("""
+        Console.writeLine("""
             A thick rope holds the two doors closed.
             The ends of the rope are melted together.
             A sharp, powerful weapon could be used to
@@ -20,9 +20,9 @@ public class Armoir extends Storage {
             
             >\040""".stripIndent());
         
-        var decision = Util.input.nextLine().toLowerCase();
+        var decision = Console.readLine().toLowerCase();
         
-        System.out.println();
+        Console.newLine();
         
         if (decision.equals("use katana") && self.hasItem(Weapon.KATANA.getClass())) {
             rummage(self);

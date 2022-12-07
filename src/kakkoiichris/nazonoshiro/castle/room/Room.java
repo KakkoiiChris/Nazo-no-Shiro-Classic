@@ -1,6 +1,7 @@
 //Christian Alexander, 5/12/11, Pd. 6
 package kakkoiichris.nazonoshiro.castle.room;
 
+import kakkoiichris.nazonoshiro.Console;
 import kakkoiichris.nazonoshiro.ResetGroup;
 import kakkoiichris.nazonoshiro.ResetValue;
 import kakkoiichris.nazonoshiro.Resettable;
@@ -21,9 +22,9 @@ public class Room implements Resettable {
     
     private final Map<Direction, Wall> walls = new HashMap<>();
     
-    private ResetValue<Boolean> visited = new ResetValue<>(false);
+    private final ResetValue<Boolean> visited = new ResetValue<>(false);
     
-    private ResetValue<Boolean> locked;
+    private final ResetValue<Boolean> locked;
     
     protected final ResetGroup resetGroup;
     
@@ -98,7 +99,7 @@ public class Room implements Resettable {
     
     public void look(Direction direction, Self self) {
         if (walls.isEmpty()) {
-            System.out.println("There's nothing there.");
+            Console.writeLine("There's nothing there.");
             
             return;
         }
@@ -111,7 +112,7 @@ public class Room implements Resettable {
             return;
         }
         
-        System.out.println("Just a door. Nothing else.");
+        Console.writeLine("Just a door. Nothing else.");
     }
     
     public void distributeItems(List<Item> items) {

@@ -1,6 +1,7 @@
 //Christian Alexander, 9/27/2011
 package kakkoiichris.nazonoshiro.item.kasugi;
 
+import kakkoiichris.nazonoshiro.Console;
 import kakkoiichris.nazonoshiro.fighter.Enemy;
 import kakkoiichris.nazonoshiro.fighter.Fighter;
 
@@ -14,12 +15,12 @@ public class Sub extends Kasugi {
         if (timer != 0) {
             var pronoun = (fighter instanceof Enemy) ? "Their" : "Your";
             
-            System.out.printf("%s power's been dulled!%n%n", pronoun);
+            Console.writeLine("%s power's been dulled!%n", pronoun);
             
             fighter.setAttack(fighter.getAttack() - 3);
         }
         else {
-            System.out.println("Sub has worn off.");
+            Console.writeLine("Sub has worn off.");
         }
         
         timer--;

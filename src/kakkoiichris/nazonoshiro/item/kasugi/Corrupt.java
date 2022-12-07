@@ -1,6 +1,7 @@
 //Christian Alexander, 9/13/2011
 package kakkoiichris.nazonoshiro.item.kasugi;
 
+import kakkoiichris.nazonoshiro.Console;
 import kakkoiichris.nazonoshiro.fighter.Enemy;
 import kakkoiichris.nazonoshiro.fighter.Fighter;
 
@@ -13,7 +14,7 @@ public class Corrupt extends Kasugi {
     public void affect(Fighter fighter) {
         var pronoun = (fighter instanceof Enemy) ? "They" : "You";
         
-        System.out.printf("%s've been poisoned!%n%n", pronoun);
+        Console.writeLine("%s've been poisoned!%n", pronoun);
         
         fighter.setHealth(1);
     }

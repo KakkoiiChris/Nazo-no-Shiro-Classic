@@ -1,6 +1,7 @@
 //Christian Alexander, 5/12/11, Pd. 6
 package kakkoiichris.nazonoshiro.fighter;
 
+import kakkoiichris.nazonoshiro.Console;
 import kakkoiichris.nazonoshiro.ResetValue;
 import kakkoiichris.nazonoshiro.Util;
 
@@ -76,22 +77,22 @@ public class Self extends Fighter {
         if (attack + (attack - defense) < 0) {
             var message = Util.getRandom(miss);
             
-            System.out.println(message.substring(message.indexOf('@') + 1, message.indexOf('#')) + enemy + message.substring(message.indexOf('$') + 1, message.indexOf('%')));
+            Console.writeLine(message.substring(message.indexOf('@') + 1, message.indexOf('#')) + enemy + message.substring(message.indexOf('$') + 1, message.indexOf('%')));
         }
         else if (attack + (attack - defense) < aMax) {
             var message = Util.getRandom(indirect);
             
-            System.out.println(message.substring(message.indexOf('@') + 1, message.indexOf('#')) + enemy + message.substring(message.indexOf('$') + 1, message.indexOf('%')));
+            Console.writeLine(message.substring(message.indexOf('@') + 1, message.indexOf('#')) + enemy + message.substring(message.indexOf('$') + 1, message.indexOf('%')));
         }
         else {
             var message = Util.getRandom(direct);
             
-            System.out.println(message.substring(message.indexOf('@') + 1, message.indexOf('#')) + enemy + message.substring(message.indexOf('$') + 1, message.indexOf('%')));
+            Console.writeLine(message.substring(message.indexOf('@') + 1, message.indexOf('#')) + enemy + message.substring(message.indexOf('$') + 1, message.indexOf('%')));
         }
         
         enemy.setHealth(attack + (attack - defense));
         
-        System.out.println();
+        Console.newLine();
     }
     
     public void use(Fighter enemy) {
@@ -99,7 +100,7 @@ public class Self extends Fighter {
         
         var done = false;
         
-        System.out.println("Kasugi:");
+        Console.writeLine("Kasugi:");
         
         for (var j = 0; j < usable.size(); j++) {
             switch (usable.get(i).getName()) {
@@ -124,56 +125,56 @@ public class Self extends Fighter {
         }
         
         if (a > 0) {
-            System.out.printf("Blind: [%d]%n", a);
+            Console.writeLine("Blind: [%d]", a);
         }
         
         if (b > 0) {
-            System.out.printf("Brace: [%d]%n", b);
+            Console.writeLine("Brace: [%d]", b);
         }
         
         if (c > 0) {
-            System.out.printf("Burn: [%d]%n", c);
+            Console.writeLine("Burn: [%d]", c);
         }
         
         if (d > 0) {
-            System.out.printf("Corrupt: [%d]%n", d);
+            Console.writeLine("Corrupt: [%d]", d);
         }
         
         if (e > 0) {
-            System.out.printf("Fixer: [%d]%n", e);
+            Console.writeLine("Fixer: [%d]", e);
         }
         
         if (f > 0) {
-            System.out.printf("Pure: [%d]%n", f);
+            Console.writeLine("Pure: [%d]", f);
         }
         
         if (g > 0) {
-            System.out.printf("Ultra: [%d]%n", g);
+            Console.writeLine("Ultra: [%d]", g);
         }
         
         if (h > 0) {
-            System.out.printf("Velocity: [%d]%n", h);
+            Console.writeLine("Velocity: [%d]", h);
         }
         
         if (i > 0) {
-            System.out.printf("Volatile: [%d]%n", i);
+            Console.writeLine("Volatile: [%d]", i);
         }
         
-        System.out.println();
+        Console.newLine();
         
         while (!done) {
-            System.out.print("> ");
+            Console.write("> ");
             
-            var temp = Util.input.next();
+            var temp = Console.read();
             
-            System.out.println("\n");
+            Console.writeLine("\n");
             
             while (!temp.equals("Blind") && !temp.equals("Brace") && !temp.equals("Burn") && !temp.equals("Corrupt") && !temp.equals("Fixer") && !temp.equals("Pure") && !temp.equals("Ultra") && !temp.equals("Velocity") && !temp.equals("Volatile")) {
-                System.out.print("What?\n> ");
+                Console.write("What?\n> ");
                 
-                temp = Util.input.nextLine();
+                temp = Console.readLine();
                 
-                System.out.println("\n");
+                Console.writeLine("\n");
             }
             
             var k = 0;
@@ -196,7 +197,7 @@ public class Self extends Fighter {
             }
             
             if (k == usable.size() && !done) {
-                System.out.printf("You don't have any %ss to use.\n%n", temp);
+                Console.writeLine("You don't have any %ss to use.\n", temp);
             }
         }
     }

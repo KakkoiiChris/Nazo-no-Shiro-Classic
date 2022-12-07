@@ -6,6 +6,8 @@ public class Main {
     
     public static void main(String[] args) {
         mainMenu();
+        
+        Console.close();
     }
     
     private static void mainMenu() {
@@ -17,21 +19,21 @@ public class Main {
             var title = Resources.getString(fileName);
             var splash = Util.getRandom(Resources.getLines("splashText"));
             
-            System.out.printf(title, splash);
+            Console.writeLine(title, splash);
             
             var inMenu = true;
             
             while (inMenu) {
-                System.out.println("""
+                Console.writeLine("""
                     1) New Game
                     2) Load Game
                     3) Options
                     4) Credits
                     5) Quit""".stripIndent());
                 
-                System.out.print("> ");
+                Console.write("> ");
                 
-                var action = Util.input.nextLine().trim().toLowerCase();
+                var action = Console.readLine().trim().toLowerCase();
                 
                 if (action.matches("1|(new(\s+game)?)")) {
                     setUpNew();
@@ -53,7 +55,7 @@ public class Main {
                     playing = inMenu = false;
                 }
                 else {
-                    System.out.printf("I don't know how to '%s'...%n%n", action);
+                    Console.writeLine("I don't know how to '%s'...%n", action);
                 }
             }
         }
@@ -62,11 +64,14 @@ public class Main {
     private static void setUpNew() {
         game = new Game();
         
-        game.playNewGame();
+        game.newGame();
     }
     
     
     private static void setUpLoad() {
+        game = new Game();
+        
+        game.loadGame();
     }
     
     private static void options() {
@@ -75,8 +80,8 @@ public class Main {
     private static void credits() {
         var lines = Resources.getLines("credits");
         
-        lines.forEach(System.out::println);
+        lines.forEach(Console::writeLine);
         
-        System.out.println();
+        Console.newLine();
     }
 }

@@ -1,6 +1,7 @@
 //Christian Alexander, 9/13/2011
 package kakkoiichris.nazonoshiro.item.kasugi;
 
+import kakkoiichris.nazonoshiro.Console;
 import kakkoiichris.nazonoshiro.fighter.Enemy;
 import kakkoiichris.nazonoshiro.fighter.Fighter;
 
@@ -13,13 +14,13 @@ public class Brace extends Kasugi {
     public void affect(Fighter fighter) {
         if (timer != 0) {
             var pronoun = (fighter instanceof Enemy) ? "They" : "You";
-    
-            System.out.printf("%s've braced for impact!%n%n", pronoun);
+            
+            Console.writeLine("%s've braced for impact!%n", pronoun);
             
             fighter.setDefense(fighter.getDefense() - 3);
         }
         else {
-            System.out.println("Brace has worn off.\n");
+            Console.writeLine("Brace has worn off.\n");
         }
         
         timer--;

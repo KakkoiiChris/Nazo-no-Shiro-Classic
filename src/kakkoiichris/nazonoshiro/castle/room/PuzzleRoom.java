@@ -18,7 +18,7 @@ public class PuzzleRoom extends Room {
         super(name, key, lock, locked);
         
         puzzle = Puzzle.random();
-    
+        
         resetGroup.add(puzzle);
     }
     

@@ -1,6 +1,7 @@
 //Christian Alexander, 9/13/2011
 package kakkoiichris.nazonoshiro.item.kasugi;
 
+import kakkoiichris.nazonoshiro.Console;
 import kakkoiichris.nazonoshiro.fighter.Enemy;
 import kakkoiichris.nazonoshiro.fighter.Fighter;
 
@@ -14,12 +15,12 @@ public class Blind extends Kasugi {
         if (timer != 0) {
             var pronoun = (fighter instanceof Enemy) ? "They" : "You";
             
-            System.out.printf("%s've been blinded!%n%n", pronoun);
+            Console.writeLine("%s've been blinded!%n", pronoun);
             
             fighter.setSpeed(fighter.getSpeed() - 3);
         }
         else {
-            System.out.println("Blind has worn off.\n");
+            Console.writeLine("Blind has worn off.\n");
             
             fighter.setSpeed(fighter.getSpeed() + 3);
         }

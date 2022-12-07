@@ -1,10 +1,7 @@
 //Christian Alexander, 5/12/11, Pd. 6
 package kakkoiichris.nazonoshiro.fighter;
 
-import kakkoiichris.nazonoshiro.ResetGroup;
-import kakkoiichris.nazonoshiro.ResetList;
-import kakkoiichris.nazonoshiro.ResetValue;
-import kakkoiichris.nazonoshiro.Resettable;
+import kakkoiichris.nazonoshiro.*;
 import kakkoiichris.nazonoshiro.item.Item;
 import kakkoiichris.nazonoshiro.item.kasugi.Kasugi;
 
@@ -109,13 +106,13 @@ public abstract class Fighter implements Resettable {
     }
     
     public void showHP() {
-        System.out.printf("%s %s [", name, health);
+        Console.write("%s %s [", name, health);
         
         for (var i = 0; i < health.get(); i++) {
-            System.out.print("=");
+            Console.write("=");
         }
         
-        System.out.println("]\n");
+        Console.writeLine("]\n");
     }
     
     public int getCount(String name) {

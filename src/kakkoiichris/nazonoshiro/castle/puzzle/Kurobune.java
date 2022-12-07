@@ -1,9 +1,7 @@
 //Christian Alexander, 5/12/11, Pd. 6
 package kakkoiichris.nazonoshiro.castle.puzzle;
 
-import kakkoiichris.nazonoshiro.Util;
-
-import java.util.Scanner;
+import kakkoiichris.nazonoshiro.Console;
 
 public class Kurobune extends Puzzle {
     public Kurobune() {
@@ -12,7 +10,7 @@ public class Kurobune extends Puzzle {
     
     @Override
     public boolean play() {
-        System.out.println("  <[KUROBUNE]>\n");
+        Console.writeLine("  <[KUROBUNE]>\n");
         
         var torpedoes = 20;
         
@@ -31,52 +29,52 @@ public class Kurobune extends Puzzle {
         while (torpedoes > 0 && hits < 4) {
             show(board);
             
-            System.out.print("\nRow: ");
+            Console.write("\nRow: ");
             
-            var row = Util.input.nextInt();
+            var row = Console.readInt();
             
-            System.out.print("\nColumn: ");
+            Console.write("\nColumn: ");
             
-            var column = Util.input.nextInt();
+            var column = Console.readInt();
             
             while (row > 7 || row < 0 || column > 7 || column < 0) {
-                System.out.println("That's out of your range. Enter again.\nRow: ");
+                Console.writeLine("That's out of your range. Enter again.\nRow: ");
                 
-                row = Util.input.nextInt();
+                row = Console.readInt();
                 
-                System.out.print("\nColumn: ");
+                Console.write("\nColumn: ");
                 
-                column = Util.input.nextInt();
+                column = Console.readInt();
             }
             
-            System.out.println();
+            Console.newLine();
             
             switch (board[row][column]) {
                 case 'S' -> {
                     board[row][column] = '!';
                     hits++;
                     torpedoes--;
-                    System.out.println("That's a hit!\n");
+                    Console.writeLine("That's a hit!\n");
                 }
                 
                 case '~' -> {
                     board[row][column] = 'm';
                     torpedoes--;
-                    System.out.println("That's a miss.\n");
+                    Console.writeLine("That's a miss.\n");
                 }
                 
-                default -> System.out.println("You already hit that spot. Fire again.\n");
+                default -> Console.writeLine("You already hit that spot. Fire again.\n");
             }
             
             if (hits < 4 && torpedoes > 0) {
                 if (torpedoes == 1) {
-                    System.out.println("You have 1 torpedo left.");
+                    Console.writeLine("You have 1 torpedo left.");
                 }
                 else {
-                    System.out.printf("You have %d torpedoes left.%n", torpedoes);
+                    Console.writeLine("You have %d torpedoes left.", torpedoes);
                 }
                 
-                System.out.println();
+                Console.newLine();
             }
         }
         
@@ -90,21 +88,21 @@ public class Kurobune extends Puzzle {
     }
     
     public void show(char[][] board) {
-        System.out.println("   0 1 2 3 4 5 6 7\n");
+        Console.writeLine("   0 1 2 3 4 5 6 7\n");
         
         for (var r = 0; r < 8; r++) {
-            System.out.printf("%d  ", r);
+            Console.write("%d  ", r);
             
             for (var c = 0; c < 8; c++) {
                 if (board[r][c] == 'S') {
-                    System.out.print("~ ");
+                    Console.write("~ ");
                 }
                 else {
-                    System.out.print(board[r][c] + " ");
+                    Console.write(board[r][c] + " ");
                 }
             }
             
-            System.out.println();
+            Console.newLine();
         }
     }
     

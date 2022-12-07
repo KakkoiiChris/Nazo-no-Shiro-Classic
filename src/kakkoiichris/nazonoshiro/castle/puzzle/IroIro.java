@@ -1,17 +1,14 @@
 //Christian Alexander, 8/8/11, Pd. 6
 package kakkoiichris.nazonoshiro.castle.puzzle;
 
-import kakkoiichris.nazonoshiro.Util;
+import kakkoiichris.nazonoshiro.Console;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class IroIro extends Puzzle {
     private final char[][] board = new char[4][4];
     private final char[][] guide = new char[4][4];
-    
-    private int l = 0;
     
     private final List<Character> colors = new ArrayList<>();
     private final List<Character> level1 = new ArrayList<>();
@@ -25,24 +22,19 @@ public class IroIro extends Puzzle {
     
     @Override
     public boolean play() {
-        var again = "y";
+    
+        Console.writeLine("  <[IROIRO]>\n");
         
-        System.out.println("  <[IROIRO]>\n");
-        
-        setUp(guide);
+        setUp();
         
         show(board);
         
-        System.out.print(" > ");
+        Console.write(" > ");
         
-        var temp = Util.input.next();
+        var temp = Console.read();
         
-        System.out.println();
-        
-        if (l > 0) {
-            return false;
-        }
-        
+        Console.newLine();
+    
         victory();
         
         return true;
@@ -51,14 +43,14 @@ public class IroIro extends Puzzle {
     public void show(char[][] guide) {
         for (var r = 0; r < 4; r++) {
             for (var c = 0; c < 4; c++) {
-                System.out.printf("%s ", guide[r][c]);
+                Console.write("%s ", guide[r][c]);
             }
             
-            System.out.println();
+            Console.newLine();
         }
     }
     
-    public void setUp(char[][] board) {
+    public void setUp() {
         colors.add('R');
         colors.add('Y');
         colors.add('G');

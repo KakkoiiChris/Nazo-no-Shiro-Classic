@@ -1,6 +1,7 @@
 //Christian Alexander, 6/21/11, Pd. 6
 package kakkoiichris.nazonoshiro.castle.storage;
 
+import kakkoiichris.nazonoshiro.Console;
 import kakkoiichris.nazonoshiro.fighter.Self;
 
 public class JewelryBox extends Storage {
@@ -10,7 +11,7 @@ public class JewelryBox extends Storage {
     
     @Override
     public void open(Self self) {
-        System.out.println("""
+        Console.writeLine("""
             An ornate and surprisingly big jewelry box
             sits upon a small table. There may be useful
             Items amongst the gemstones.""".stripIndent());

@@ -1,9 +1,7 @@
 //Christian Alexander, 5/12/11, Pd. 6
 package kakkoiichris.nazonoshiro.castle.puzzle;
 
-import kakkoiichris.nazonoshiro.Util;
-
-import java.util.Scanner;
+import kakkoiichris.nazonoshiro.Console;
 
 public class Seihoukei extends Puzzle {
     private final char[][] board = new char[6][6];
@@ -80,16 +78,16 @@ public class Seihoukei extends Puzzle {
     }
     
     public void show(char[][] board) {
-        System.out.println("  0 1 2 3 4 5");
+        Console.writeLine("  0 1 2 3 4 5");
         
         for (var r = 0; r < board.length; r++) {
-            System.out.printf("%d ", r);
+            Console.write("%d ", r);
             
             for (var c = 0; c < board.length; c++) {
-                System.out.printf("%s ", board[r][c]);
+                Console.write("%s ", board[r][c]);
             }
             
-            System.out.println();
+            Console.newLine();
         }
     }
     
@@ -413,85 +411,84 @@ public class Seihoukei extends Puzzle {
     
     @Override
     public boolean play() {
-        System.out.println("<[Seihoukei]>\n");
+        Console.writeLine("<[Seihoukei]>\n");
         
         setUp();
         setKey();
         
-        System.out.println("Solve for this pattern:\n");
+        Console.writeLine("Solve for this pattern:\n");
         
         while (!win()) {
-            System.out.println("  [Solution]");
+            Console.writeLine("  [Solution]");
             
             show(key);
             
-            System.out.println();
+            Console.newLine();
             
             show(board);
             
-            System.out.println("\nMovement:\n(Up/ Down/ Left/ Right)");
+            Console.writeLine("\nMovement:\n(Up/ Down/ Left/ Right)");
             
-            var choice = Util.input.next().toLowerCase();
+            var choice = Console.readLine().toLowerCase();
             
             switch (choice) {
                 case "up" -> {
-                    System.out.print("Column: ");
+                    Console.write("Column: ");
                     
-                    var t = Util.input.nextInt();
+                    var t = Console.readInt();
                     
                     while (t > 5 || t < 0) {
-                        System.out.print("Invalid: enter again\nColumn: ");
+                        Console.write("Invalid: enter again\nColumn: ");
                         
-                        t = Util.input.nextInt();
+                        t = Console.readInt();
                     }
                     
                     shiftUp(t);
                 }
                 
                 case "down" -> {
-                    System.out.print("Column: ");
+                    Console.write("Column: ");
                     
-                    var t = Util.input.nextInt();
+                    var t = Console.readInt();
                     
                     while (t > 5 || t < 0) {
-                        System.out.print("Invalid: enter again\nColumn: ");
+                        Console.write("Invalid: enter again\nColumn: ");
                         
-                        t = Util.input.nextInt();
+                        t = Console.readInt();
                     }
                     
                     shiftDown(t);
                 }
                 
                 case "left" -> {
-                    System.out.print("Row: ");
+                    Console.write("Row: ");
                     
-                    var t = Util.input.nextInt();
+                    var t = Console.readInt();
                     
                     while (t > 5 || t < 0) {
-                        System.out.print("Invalid: enter again\nRow: ");
+                        Console.write("Invalid: enter again\nRow: ");
                         
-                        t = Util.input.nextInt();
+                        t = Console.readInt();
                     }
                     
                     shiftLeft(t);
                 }
                 
                 case "right" -> {
-                    System.out.print("Row: ");
+                    Console.write("Row: ");
                     
-                    var t = Util.input.nextInt();
+                    var t = Console.readInt();
                     
                     while (t > 5 || t < 0) {
-                        System.out.print("Invalid: enter again\nRow: ");
+                        Console.write("Invalid: enter again\nRow: ");
                         
-                        t = Util.input.nextInt();
+                        t = Console.readInt();
                     }
                     
                     shiftRight(t);
                 }
                 
-                default -> {
-                }
+                default -> Console.writeLine("'%s' is not a valid direction!", choice);
             }
         }
         

@@ -1,6 +1,8 @@
 //Christian Alexander, 9/27/2011
 package kakkoiichris.nazonoshiro.item.kasugi;
 
+import kakkoiichris.nazonoshiro.Console;
+import kakkoiichris.nazonoshiro.fighter.Enemy;
 import kakkoiichris.nazonoshiro.fighter.Fighter;
 
 public class Intimidate extends Kasugi {
@@ -10,18 +12,17 @@ public class Intimidate extends Kasugi {
     
     @java.lang.Override
     public void affect(Fighter fighter) {
+        var pronoun = (fighter instanceof Enemy) ? "Their" : "Your";
+        
         if (timer != 0) {
-            if (fighter.getName().equals("Ninja") || fighter.getName().equals("Shogun") || fighter.getName().equals("Samurai") || fighter.getName().equals("Daimyo") || fighter.getName().equals("Imperial Guard"))
-                System.out.print("They");
-            else
-                System.out.print("You");
-            System.out.println("'ve been intimidated!");
-            System.out.println();
+            Console.writeLine("%s've been intimidated!%n", pronoun);
+            
             fighter.setDefense(fighter.getDefense() - 3);
+            
+            timer--;
         }
         else {
-            System.out.println("Intimidate has worn off.");
+            Console.writeLine("Intimidate has worn off.");
         }
-        timer--;
     }
 }

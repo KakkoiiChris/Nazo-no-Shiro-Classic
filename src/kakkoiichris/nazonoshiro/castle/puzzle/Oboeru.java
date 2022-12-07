@@ -1,9 +1,7 @@
 //Christian Alexander, 5/12/11, Pd. 6
 package kakkoiichris.nazonoshiro.castle.puzzle;
 
-import kakkoiichris.nazonoshiro.Util;
-
-import java.util.Scanner;
+import kakkoiichris.nazonoshiro.Console;
 
 public class Oboeru extends Puzzle {
     private final char[][] board = new char[5][6];
@@ -38,16 +36,16 @@ public class Oboeru extends Puzzle {
     }
     
     public void showBoard() {
-        System.out.println("   0   1   2   3   4   5");
+        Console.writeLine("   0   1   2   3   4   5");
         
         for (var r = 0; r < 5; r++) {
-            System.out.printf("%d ", r);
+            Console.write("%d ", r);
             
             for (var c = 0; c < 6; c++) {
-                System.out.printf("[%s] ", board[r][c]);
+                Console.write("[%s] ", board[r][c]);
             }
             
-            System.out.println();
+            Console.newLine();
         }
     }
     
@@ -67,60 +65,60 @@ public class Oboeru extends Puzzle {
         var tries = 0;
         
         while (count < 15) {
-            System.out.println("   0   1   2   3   4   5");
+            Console.writeLine("   0   1   2   3   4   5");
             
             for (var r = 0; r < 5; r++) {
-                System.out.printf("%d ", r);
+                Console.write("%d ", r);
                 
                 for (var c = 0; c < 6; c++) {
-                    System.out.printf("[%s] ", key[r][c]);
+                    Console.write("[%s] ", key[r][c]);
                 }
                 
-                System.out.println();
+                Console.newLine();
             }
             
-            System.out.println("Flip two cards:\nRow 1:");
+            Console.writeLine("Flip two cards:\nRow 1:");
             
-            var r1 = Util.input.nextInt();
+            var r1 = Console.readInt();
             
-            System.out.print("\nColumn 1:");
+            Console.write("\nColumn 1:");
             
-            var c1 = Util.input.nextInt();
+            var c1 = Console.readInt();
             
             board[r1][c1] = '~';
             
             showBoard();
             
-            System.out.print("\nRow 2:");
+            Console.write("\nRow 2:");
             
-            var r2 = Util.input.nextInt();
+            var r2 = Console.readInt();
             
-            System.out.print("\nColumn 2:");
+            Console.write("\nColumn 2:");
             
-            var c2 = Util.input.nextInt();
+            var c2 = Console.readInt();
             
             board[r2][c2] = '~';
             
-            System.out.println();
+            Console.newLine();
             
             showBoard();
             
             if (key[r1][c1] == key[r2][c2]) {
-                System.out.println("That's a match.");
+                Console.writeLine("That's a match.");
                 
                 count++;
                 
                 tries = 0;
             }
             else {
-                System.out.println("Not a match.");
+                Console.writeLine("Not a match.");
                 
                 reset(r1, c1, r2, c2);
                 
                 tries++;
             }
             
-            System.out.println();
+            Console.newLine();
             
             if (tries == 3) {
                 return false;

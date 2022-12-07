@@ -1,9 +1,9 @@
 //Christian Alexander, 6/21/11, Pd. 6
 package kakkoiichris.nazonoshiro.castle.storage;
 
+import kakkoiichris.nazonoshiro.Console;
 import kakkoiichris.nazonoshiro.ResetList;
 import kakkoiichris.nazonoshiro.Resettable;
-import kakkoiichris.nazonoshiro.Util;
 import kakkoiichris.nazonoshiro.fighter.Self;
 import kakkoiichris.nazonoshiro.item.Item;
 import kakkoiichris.nazonoshiro.item.kasugi.Kasugi;
@@ -67,7 +67,7 @@ public abstract class Storage implements Resettable {
     }
     
     public void rummage(Self self) {
-        System.out.println("It opened.\n");
+        Console.writeLine("It opened.\n");
         
         var m = 0;
         var h = 0;
@@ -86,37 +86,37 @@ public abstract class Storage implements Resettable {
             }
         }
         
-        System.out.println("The Armoir contains:\n");
+        Console.writeLine("The Armoir contains:\n");
         
         if (m > 0) {
             var plural = (m > 1) ? "s" : "";
             
-            System.out.printf("-%d metal plate%s%n", m, plural);
+            Console.writeLine("-%d metal plate%s", m, plural);
         }
         
         if (c > 0) {
             var plural = (c > 1) ? "s" : "";
             
-            System.out.printf("-%d coin%s%n", c, plural);
+            Console.writeLine("-%d coin%s", c, plural);
         }
         
         if (h > 0) {
             var plural = (h > 1) ? "s" : "";
             
-            System.out.printf("-%d herb%s%n", h, plural);
+            Console.writeLine("-%d herb%s", h, plural);
         }
         
         if (b > 0) {
             var plural = (b > 1) ? "s" : "";
             
-            System.out.printf("-%d herb bushel%s%n", b, plural);
+            Console.writeLine("-%d herb bushel%s", b, plural);
         }
         
-        System.out.print(">");
+        Console.write(">");
         
-        var pick = Util.input.nextLine().toLowerCase();
+        var pick = Console.readLine().toLowerCase();
         
-        System.out.println();
+        Console.newLine();
         
         while (!pick.equals("close armoir")) {
             switch (pick) {
@@ -127,7 +127,7 @@ public abstract class Storage implements Resettable {
                         }
                     }
                     
-                    System.out.println("Taken\n");
+                    Console.writeLine("Taken\n");
                 }
                 
                 case "take herb bushel" -> {
@@ -137,7 +137,7 @@ public abstract class Storage implements Resettable {
                         }
                     }
                     
-                    System.out.println("Taken\n");
+                    Console.writeLine("Taken\n");
                 }
                 
                 case "take herb" -> {
@@ -147,7 +147,7 @@ public abstract class Storage implements Resettable {
                         }
                     }
                     
-                    System.out.println("Taken\n");
+                    Console.writeLine("Taken\n");
                 }
                 
                 case "take coin" -> {
@@ -157,15 +157,15 @@ public abstract class Storage implements Resettable {
                         }
                     }
                     
-                    System.out.println("Taken\n");
+                    Console.writeLine("Taken\n");
                 }
             }
             
-            System.out.print(">");
+            Console.write(">");
             
-            pick = Util.input.nextLine().toLowerCase();
+            pick = Console.readLine().toLowerCase();
             
-            System.out.println();
+            Console.newLine();
         }
     }
     
