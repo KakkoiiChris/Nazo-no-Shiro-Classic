@@ -34,7 +34,7 @@ public record Token(Location location, Type type) {
             }
         }
         
-        record Boolean(boolean value) implements Type {
+        record Literal(Object value) implements Type {
             @Override
             public java.lang.String toString(){
                 return "Boolean: %s".formatted(value);
@@ -48,17 +48,10 @@ public record Token(Location location, Type type) {
             }
         }
         
-        record String(String value) implements Type {
+        record String(java.lang.String value) implements Type {
             @Override
             public java.lang.String toString(){
                 return "String: %s".formatted(value);
-            }
-        }
-        
-        class Null implements Type {
-            @Override
-            public java.lang.String toString(){
-                return "null";
             }
         }
     }
