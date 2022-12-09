@@ -24,7 +24,7 @@ public class Game {
     
     private Direction lastDirection = Direction.NONE;
     
-    private final SaveFileCreator saver = new SaveFileCreator();
+    //private final SaveFileCreator saver = new SaveFileCreator();
     
     private final ResetValue<Boolean> ran = new ResetValue<>(false); //keeps track of if you run from a fight
     
@@ -275,13 +275,13 @@ public class Game {
             }
             
             if (choice.equals("save")) {
-                saver.openFile();
+                //saver.openFile();
                 
                 Console.write("Saving");
                 
                 //saver.addData(floors, guards, self, row, column, floor, yourTurn);
                 
-                saver.closeFile();
+                //saver.closeFile();
                 
                 for (var i = 0; i < (int) (Math.random() * 5) + 3; i++) {
                     Console.write(".");
@@ -295,13 +295,13 @@ public class Game {
             }
             
             if (choice.equals("snq")) {
-                saver.openFile();
+                //saver.openFile();
                 
                 Console.write("Saving");
                 
                 //saver.addData(floors, guards, self, row, column, floor, yourTurn);
                 
-                saver.closeFile();
+                //saver.closeFile();
                 
                 for (var i = 0; i < (int) (Math.random() * 5) + 3; i++) {
                     Console.write(".");
