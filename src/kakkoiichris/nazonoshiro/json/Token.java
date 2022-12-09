@@ -3,56 +3,45 @@ package kakkoiichris.nazonoshiro.json;
 
 import java.util.StringJoiner;
 
-public record Token(Location location, Type type) {
-    @Override
-    public String toString() {
-        return new StringJoiner(", ", Token.class.getSimpleName() + "[", "]")
-            .add("location=" + location)
-            .add("type=" + type)
-            .toString();
+public record Token(Location location, Type type, Object value) {
+    public Token(Location location, Type type) {
+        this(location, type, null);
     }
     
-    public interface Type {
-        enum Symbol implements Type {
-            LEFT_BRACE('{'),
-            RIGHT_BRACE('}'),
-            LEFT_SQUARE('['),
-            RIGHT_SQUARE(']'),
-            COMMA(','),
-            COLON(':'),
-            END_OF_FILE('0');
-            
-            private final char rep;
-            
-            Symbol(char rep) {
-                this.rep = rep;
-            }
-            
-            @Override
-            public java.lang.String toString() {
-                return java.lang.String.valueOf(rep);
-            }
+    @Override
+    public String toString() {
+        var joiner = new StringJoiner(", ", Token.class.getSimpleName() + "[", "]")
+            .add("location=" + location)
+            .add("type=" + type);
+        
+        if (value != null) {
+            joiner.add("type=" + type);
         }
         
-        record Literal(Object value) implements Type {
-            @Override
-            public java.lang.String toString(){
-                return "Boolean: %s".formatted(value);
-            }
+        return joiner.toString();
+    }
+    
+    public enum Type {
+        LITERAL("ABC"),
+        NUMBER("123"),
+        STRING("\"S\""),
+        LEFT_BRACE("{"),
+        RIGHT_BRACE("}"),
+        LEFT_SQUARE("["),
+        RIGHT_SQUARE("]"),
+        COMMA(","),
+        COLON(":"),
+        END_OF_FILE("0");
+        
+        private final String rep;
+        
+        Type(String rep) {
+            this.rep = rep;
         }
         
-        record Number(double value) implements Type {
-            @Override
-            public java.lang.String toString(){
-                return "Number: %s".formatted(value);
-            }
-        }
-        
-        record String(java.lang.String value) implements Type {
-            @Override
-            public java.lang.String toString(){
-                return "String: %s".formatted(value);
-            }
+        @Override
+        public java.lang.String toString() {
+            return rep;
         }
     }
 }

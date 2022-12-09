@@ -52,7 +52,7 @@ public class Lexer implements Iterator<Token> {
             return symbol();
         }
         
-        return new Token(here(), Token.Type.Symbol.END_OF_FILE);
+        return new Token(here(), Token.Type.END_OF_FILE);
     }
     
     private Location here() {
@@ -122,7 +122,7 @@ public class Lexer implements Iterator<Token> {
         
         var value = Optional.ofNullable(LITERALS.get(builder.toString())).orElseThrow();
         
-        return new Token(location, new Token.Type.Literal(value));
+        return new Token(location, Token.Type.LITERAL, value);
     }
     
     private Token number() {
@@ -153,7 +153,7 @@ public class Lexer implements Iterator<Token> {
         
         var value = Double.parseDouble(builder.toString());
         
-        return new Token(location, new Token.Type.Number(value));
+        return new Token(location, Token.Type.NUMBER,value);
     }
     
     private Token string() {
@@ -168,31 +168,31 @@ public class Lexer implements Iterator<Token> {
         }
         while (!skip('"'));
         
-        return new Token(location, new Token.Type.String(builder.toString()));
+        return new Token(location, Token.Type.STRING, builder.toString());
     }
     
     private Token symbol() {
         var location = here();
         
-        Token.Type.Symbol symbol = null;
+        Token.Type symbol;
         
-        if (match('{')) {
-            symbol = Token.Type.Symbol.LEFT_BRACE;
+        if (skip('{')) {
+            symbol = Token.Type.LEFT_BRACE;
         }
-        else if (match('}')) {
-            symbol = Token.Type.Symbol.RIGHT_BRACE;
+        else if (skip('}')) {
+            symbol = Token.Type.RIGHT_BRACE;
         }
-        else if (match('[')) {
-            symbol = Token.Type.Symbol.LEFT_SQUARE;
+        else if (skip('[')) {
+            symbol = Token.Type.LEFT_SQUARE;
         }
-        else if (match(']')) {
-            symbol = Token.Type.Symbol.RIGHT_SQUARE;
+        else if (skip(']')) {
+            symbol = Token.Type.RIGHT_SQUARE;
         }
-        else if (match(',')) {
-            symbol = Token.Type.Symbol.COMMA;
+        else if (skip(',')) {
+            symbol = Token.Type.COMMA;
         }
-        else if (match(':')) {
-            symbol = Token.Type.Symbol.COLON;
+        else if (skip(':')) {
+            symbol = Token.Type.COLON;
         }
         else {
             throw new RuntimeException();
