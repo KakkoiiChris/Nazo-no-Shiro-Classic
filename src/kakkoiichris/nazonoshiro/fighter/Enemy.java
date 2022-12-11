@@ -132,7 +132,7 @@ public abstract class Enemy extends Fighter {
         
         if (getEffectives().size() > 0) {
             for (var j = 0; j < getEffectives().size(); j++) {
-                if (getEffectives().get(j).getName().equals("Corrupt") && health.get() <= 10) {
+                if (getEffectives().get(j).getName().equals("Corrupt") && getHealth() <= 10) {
                     var index = search("Pure", usable);
                     
                     if (index >= 0) {
