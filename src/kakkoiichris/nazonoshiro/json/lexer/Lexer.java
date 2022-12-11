@@ -1,5 +1,7 @@
 // Christian Alexander, 12/7/2022
-package kakkoiichris.nazonoshiro.json;
+package kakkoiichris.nazonoshiro.json.lexer;
+
+import kakkoiichris.nazonoshiro.json.JsonNull;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -12,7 +14,7 @@ public class Lexer implements Iterator<Token> {
     private static final Map<String, Object> LITERALS = Map.of(
         "true", true,
         "false", false,
-        "null", Null.get()
+        "null", JsonNull.get()
     );
     
     private final String source;

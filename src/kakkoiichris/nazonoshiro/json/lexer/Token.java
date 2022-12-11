@@ -1,5 +1,5 @@
 // Christian Alexander, 12/7/2022
-package kakkoiichris.nazonoshiro.json;
+package kakkoiichris.nazonoshiro.json.lexer;
 
 import java.util.StringJoiner;
 

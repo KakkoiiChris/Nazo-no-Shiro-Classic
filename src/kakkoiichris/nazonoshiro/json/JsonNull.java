@@ -1,18 +1,18 @@
 // Christian Alexander, 12/7/2022
 package kakkoiichris.nazonoshiro.json;
 
-public class Null {
-    private static Null instance;
+public class JsonNull {
+    private static JsonNull instance;
     
-    public static Null get() {
+    public static JsonNull get() {
         if (instance == null) {
-            instance = new Null();
+            instance = new JsonNull();
         }
         
         return instance;
     }
     
-    private Null() {
+    private JsonNull() {
     }
     
     @Override

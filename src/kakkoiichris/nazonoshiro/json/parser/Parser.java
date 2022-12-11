@@ -1,5 +1,9 @@
 // Christian Alexander, 12/7/2022
-package kakkoiichris.nazonoshiro.json;
+package kakkoiichris.nazonoshiro.json.parser;
+
+import kakkoiichris.nazonoshiro.json.lexer.Lexer;
+import kakkoiichris.nazonoshiro.json.lexer.Location;
+import kakkoiichris.nazonoshiro.json.lexer.Token;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,7 +49,7 @@ public class Parser {
         }
     }
     
-    public Node.Object parse() {
+    public Object parse() {
         return object();
     }
     
@@ -61,11 +65,11 @@ public class Parser {
         if (match(Token.Type.LITERAL)) {
             return literal();
         }
-    
+        
         if (match(Token.Type.NUMBER)) {
             return number();
         }
-    
+        
         if (match(Token.Type.STRING)) {
             return string();
         }
@@ -73,7 +77,7 @@ public class Parser {
         throw new RuntimeException();
     }
     
-    private Node.Object object() {
+    private Object object() {
         var location = here();
         
         var members = new HashMap<String, Node>();
@@ -83,71 +87,71 @@ public class Parser {
         if (!skip(Token.Type.RIGHT_BRACE)) {
             do {
                 var key = token;
-    
+                
                 mustSkip(Token.Type.STRING);
-    
+                
                 mustSkip(Token.Type.COLON);
-    
+                
                 var value = node();
-    
+                
                 members.put((String) key.value(), value);
             }
-            while(skip(Token.Type.COMMA));
+            while (skip(Token.Type.COMMA));
             
             mustSkip(Token.Type.RIGHT_BRACE);
         }
         
-        return new Node.Object(location, members);
+        return new Object(location, members);
     }
     
-    private Node.Array array() {
+    private Array array() {
         var location = here();
-    
+        
         var elements = new ArrayList<Node>();
-    
+        
         mustSkip(Token.Type.LEFT_SQUARE);
-    
+        
         if (!skip(Token.Type.RIGHT_SQUARE)) {
             do {
                 var element = node();
-            
+                
                 elements.add(element);
             }
-            while(skip(Token.Type.COMMA));
+            while (skip(Token.Type.COMMA));
             
             mustSkip(Token.Type.RIGHT_SQUARE);
         }
-    
-        return new Node.Array(location, elements);
+        
+        return new Array(location, elements);
     }
     
-    private Node.Value literal() {
+    private Value literal() {
         var location = here();
         
         var value = token;
         
         mustSkip(Token.Type.LITERAL);
         
-        return new Node.Value(location, value.value());
+        return new Value(location, value.value());
     }
     
-    private Node.Value number() {
+    private Value number() {
         var location = here();
-    
+        
         var value = token;
-    
+        
         mustSkip(Token.Type.NUMBER);
-    
-        return new Node.Value(location, value.value());
+        
+        return new Value(location, value.value());
     }
     
-    private Node.Value string() {
+    private Value string() {
         var location = here();
-    
+        
         var value = token;
-    
+        
         mustSkip(Token.Type.STRING);
-    
-        return new Node.Value(location, value.value());
+        
+        return new Value(location, value.value());
     }
 }
