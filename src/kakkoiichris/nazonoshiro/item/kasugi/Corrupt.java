@@ -7,7 +7,12 @@ import kakkoiichris.nazonoshiro.fighter.Fighter;
 
 public class Corrupt extends Kasugi {
     public Corrupt() {
-        super("Corrupt", 1, 99, false);
+        super("Corrupt", "", 1, 99, false);
+    }
+    
+    @java.lang.Override
+    public boolean use(Fighter self) {
+        return true;
     }
     
     @java.lang.Override

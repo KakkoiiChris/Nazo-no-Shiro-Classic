@@ -15,9 +15,9 @@ public abstract class Fighter implements Resettable {
     
     protected final Stat attack, defense, speed, health;
     
-    protected final ResetList<Kasugi> effectives = new ResetList<>();
-    protected final ResetList<Kasugi> usable = new ResetList<>();
     protected final ResetList<Item> inventory = new ResetList<>();
+    
+    protected final ResetList<Kasugi> effectives = new ResetList<>();
     
     protected final ResetGroup resetGroup;
     
@@ -29,7 +29,7 @@ public abstract class Fighter implements Resettable {
         this.speed = new Stat("Speed", 0, speed);
         this.health = new Stat("Health", 0, health);
         
-        resetGroup = ResetGroup.of(this.attack, this.defense, this.speed, this.health, effectives, usable, inventory);
+        resetGroup = ResetGroup.of(this.attack, this.defense, this.speed, this.health, inventory, effectives);
     }
     
     public String getName() {
@@ -92,6 +92,18 @@ public abstract class Fighter implements Resettable {
         return getHealth() <= 0;
     }
     
+    public ResetList<Item> getInventory() {
+        return inventory;
+    }
+    
+    public ResetList<Kasugi> getEffectives() {
+        return effectives;
+    }
+    
+    public void add(Item item) {
+        inventory.add(item);
+    }
+    
     @Override
     public void storeState() {
         resetGroup.storeState();
@@ -135,43 +147,18 @@ public abstract class Fighter implements Resettable {
     }
     
     public int getCount(String name) {
-        var temp = 0;
+        var count = 0;
         
-        for (var i = 0; i < getInventory().size(); i++) {
-            if (getInventory().get(i).getName().equals(name.toLowerCase())) {
-                temp++;
+        for (var item:inventory) {
+            if (item.getName().equals(name.toLowerCase())) {
+                count++;
             }
         }
         
-        return temp;
+        return count;
     }
     
-    public int getCountB(String name) {
-        var temp = 0;
-        
-        for (var kasugi : usable) {
-            if (kasugi.getName().equals(name.toLowerCase())) {
-                temp++;
-            }
-        }
-        
-        return temp;
-    }
+    public abstract void attack(Fighter opponent, List<String> direct, List<String> indirect, List<String> miss);
     
-    public void addKasugi(Kasugi kasugi) {
-        usable.add(kasugi);
-    }
-    
-    public abstract void attack(Fighter enemy, List<String> direct, List<String> indirect, List<String> miss);
-    
-    public abstract void use(Fighter enemy);
-    
-    public ResetList<Kasugi> getEffectives() {
-        return effectives;
-    }
-    
-    
-    public ResetList<Item> getInventory() {
-        return inventory;
-    }
+    public abstract void use(Fighter opponent);
 }

@@ -3,6 +3,7 @@ package kakkoiichris.nazonoshiro.item;
 
 import kakkoiichris.nazonoshiro.Console;
 import kakkoiichris.nazonoshiro.fighter.Fighter;
+import kakkoiichris.nazonoshiro.fighter.Self;
 
 public enum Weapon implements Item {
     BO_STAFF(0, "Bo Staff", "") {
@@ -79,7 +80,7 @@ public enum Weapon implements Item {
     }
     
     @Override
-    public boolean pickUp(Fighter self) {
+    public boolean pickUp(Self self) {
         self.setAttack(1);
         
         return true;

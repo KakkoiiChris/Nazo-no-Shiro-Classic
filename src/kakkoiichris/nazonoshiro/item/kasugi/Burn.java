@@ -7,7 +7,12 @@ import kakkoiichris.nazonoshiro.fighter.Fighter;
 
 public class Burn extends Kasugi {
     public Burn() {
-        super("Burn", 3, -1, true);
+        super("Burn", "", 3, -1, true);
+    }
+    
+    @java.lang.Override
+    public boolean use(Fighter self) {
+        return true;
     }
     
     @java.lang.Override
@@ -17,7 +22,7 @@ public class Burn extends Kasugi {
         if (timer != 0) {
             Console.writeLine("%s shield's been degraded!%n", pronoun);
             
-            fighter.setSpeed(fighter.getSpeed() - magnitude);
+            fighter.setSpeed(fighter.getSpeed() - value);
         }
         else {
             Console.writeLine("%s poison's been cured!%n", pronoun);

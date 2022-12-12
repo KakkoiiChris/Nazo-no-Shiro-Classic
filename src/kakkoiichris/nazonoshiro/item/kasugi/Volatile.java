@@ -5,7 +5,12 @@ import kakkoiichris.nazonoshiro.fighter.Fighter;
 
 public class Volatile extends Kasugi {
     public Volatile() {
-        super("Volatile", 3, 0, true);
+        super("Volatile", "", 3, 0, true);
+    }
+    
+    @java.lang.Override
+    public boolean use(Fighter self) {
+        return true;
     }
     
     @java.lang.Override

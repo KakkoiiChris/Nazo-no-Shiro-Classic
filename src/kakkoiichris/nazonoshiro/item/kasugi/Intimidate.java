@@ -7,7 +7,12 @@ import kakkoiichris.nazonoshiro.fighter.Fighter;
 
 public class Intimidate extends Kasugi {
     public Intimidate() {
-        super("Intimidate", 3, 3, false);
+        super("Intimidate", "", 3, 3, false);
+    }
+    
+    @java.lang.Override
+    public boolean use(Fighter self) {
+        return true;
     }
     
     @java.lang.Override

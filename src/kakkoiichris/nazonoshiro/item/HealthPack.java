@@ -2,6 +2,7 @@
 package kakkoiichris.nazonoshiro.item;
 
 import kakkoiichris.nazonoshiro.fighter.Fighter;
+import kakkoiichris.nazonoshiro.fighter.Self;
 
 public enum HealthPack implements Item {
     HERB(3, "Herb", "A tiny leaf."),
@@ -33,7 +34,7 @@ public enum HealthPack implements Item {
     }
     
     @Override
-    public boolean pickUp(Fighter self) {
+    public boolean pickUp(Self self) {
         return true;
     }
     

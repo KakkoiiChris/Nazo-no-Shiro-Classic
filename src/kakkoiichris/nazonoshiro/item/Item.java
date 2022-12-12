@@ -2,6 +2,7 @@
 package kakkoiichris.nazonoshiro.item;
 
 import kakkoiichris.nazonoshiro.fighter.Fighter;
+import kakkoiichris.nazonoshiro.fighter.Self;
 
 public interface Item {
     int getValue();
@@ -10,7 +11,7 @@ public interface Item {
     
     String getDescription();
     
-    boolean pickUp(Fighter self);
+    boolean pickUp(Self self);
     
     boolean use(Fighter self);
 }

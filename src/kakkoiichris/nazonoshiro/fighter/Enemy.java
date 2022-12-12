@@ -6,10 +6,11 @@ import kakkoiichris.nazonoshiro.ResetValue;
 import kakkoiichris.nazonoshiro.Util;
 import kakkoiichris.nazonoshiro.item.Item;
 import kakkoiichris.nazonoshiro.item.Weapon;
-import kakkoiichris.nazonoshiro.item.kasugi.*;
+import kakkoiichris.nazonoshiro.item.kasugi.Corrupt;
+import kakkoiichris.nazonoshiro.item.kasugi.Kasugi;
 
-import java.lang.Override;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public abstract class Enemy extends Fighter {
     private final ResetValue<Item> droppable;
@@ -40,7 +41,11 @@ public abstract class Enemy extends Fighter {
         Console.writeLine("The %s dropped something. You pick it up.", this);
         
         try {
-            getDrop().pickUp(self);
+            var drop = getDrop();
+            
+            if (drop.pickUp(self)) {
+                self.add(drop);
+            }
             
             Console.writeLine("It's a %s!", getDrop());
         }
@@ -50,7 +55,7 @@ public abstract class Enemy extends Fighter {
     }
     
     @Override
-    public void attack(Fighter enemy, List<String> direct, List<String> indirect, List<String> miss) {
+    public void attack(Fighter opponent, List<String> direct, List<String> indirect, List<String> miss) {
         int aMax, aMin, dMax, dMin;
         
         if (getAttack() == 1) {
@@ -66,11 +71,11 @@ public abstract class Enemy extends Fighter {
             aMin = 5;
         }
         
-        if (enemy.getDefense() == 1) {
+        if (opponent.getDefense() == 1) {
             dMax = 6;
             dMin = 1;
         }
-        else if (enemy.getDefense() == 2) {
+        else if (opponent.getDefense() == 2) {
             dMax = 8;
             dMin = 3;
         }
@@ -85,185 +90,39 @@ public abstract class Enemy extends Fighter {
         if (attack + (attack - defense) < 0) {
             var message = Util.getRandom(miss);
             
-            Console.writeLine(message.substring(message.indexOf('@') + 1, message.indexOf('#')) + enemy + message.substring(message.indexOf('$') + 1, message.indexOf('%')));
+            Console.writeLine(message.substring(message.indexOf('@') + 1, message.indexOf('#')) + opponent + message.substring(message.indexOf('$') + 1, message.indexOf('%')));
         }
         else if (attack + (attack - defense) < aMax) {
             var message = Util.getRandom(indirect);
             
-            Console.writeLine(message.substring(message.indexOf('@') + 1, message.indexOf('#')) + enemy + message.substring(message.indexOf('$') + 1, message.indexOf('%')));
+            Console.writeLine(message.substring(message.indexOf('@') + 1, message.indexOf('#')) + opponent + message.substring(message.indexOf('$') + 1, message.indexOf('%')));
         }
         else {
             var message = Util.getRandom(direct);
             
-            Console.writeLine(message.substring(message.indexOf('@') + 1, message.indexOf('#')) + enemy + message.substring(message.indexOf('$') + 1, message.indexOf('%')));
+            Console.writeLine(message.substring(message.indexOf('@') + 1, message.indexOf('#')) + opponent + message.substring(message.indexOf('$') + 1, message.indexOf('%')));
         }
         
-        enemy.setHealth(attack + (attack - defense));
+        opponent.setHealth(attack + (attack - defense));
         
         Console.newLine();
     }
     
-    public void use(Fighter self) {
-        int a = 0, b = 0, c = 0, d = 0, e = 0, f = 0, g = 0, h = 0, i = 0;
+    public void use(Fighter opponent) {
+        var kasugi = inventory
+            .stream()
+            .filter(item -> item instanceof Kasugi)
+            .map(Kasugi.class::cast)
+            .collect(Collectors.groupingBy(Kasugi::getName));
         
-        var done = false;
-        
-        for (var j = 0; j < usable.size(); j++) {
-            switch (usable.get(i).getName()) {
-                case "Blind" -> a++;
+        if (!effectives.isEmpty()) {
+            if (effectives.stream().anyMatch(k -> k instanceof Corrupt) && !kasugi.get("Pure").isEmpty() && getHealth() <= 10) {
+                var used = kasugi.get("Pure").get(0);
                 
-                case "Brace" -> b++;
+                inventory.remove(used);
                 
-                case "Burn" -> c++;
-                
-                case "Corrupt" -> d++;
-                
-                case "Fixer" -> e++;
-                
-                case "Pure" -> f++;
-                
-                case "Ultra" -> g++;
-                
-                case "Velocity" -> h++;
-                
-                default -> i++;
+                Console.writeLine("They've been purified.\n");
             }
         }
-        
-        if (getEffectives().size() > 0) {
-            for (var j = 0; j < getEffectives().size(); j++) {
-                if (getEffectives().get(j).getName().equals("Corrupt") && getHealth() <= 10) {
-                    var index = search("Pure", usable);
-                    
-                    if (index >= 0) {
-                        usable.remove(index);
-                    }
-                    else {
-                        Console.writeLine("NO!!!!!");
-                    }
-                    
-                    index = search("Corrupt", getEffectives());
-                    
-                    if (index >= 0) {
-                        getEffectives().remove(index);
-                    }
-                    else {
-                        Console.writeLine("NO!!!!!");
-                    }
-                    
-                    Console.writeLine("They've been purified.\n");
-                    
-                    done = true;
-                }
-            }
-            
-            if (!done) {
-                var rand = (int) (Math.random() * 3) + 1;
-                
-                switch (rand) {
-                    case 1 -> {
-                        for (var k = 0; k < usable.size(); k++) {
-                            if (usable.get(k).getName().equals("Ultra")) {
-                                getEffectives().add(usable.remove(k));
-                                
-                                done = true;
-                                
-                                break;
-                            }
-                        }
-                    }
-                    
-                    case 2 -> {
-                        for (var k = 0; k < usable.size(); k++) {
-                            if (usable.get(k).getName().equals("Brace")) {
-                                getEffectives().add(new Brace());
-                                
-                                usable.remove(k);
-                                
-                                done = true;
-                                
-                                break;
-                            }
-                        }
-                    }
-                    
-                    case 3 -> {
-                        for (var k = 0; k < usable.size(); k++) {
-                            if (usable.get(k).getName().equals("Velocity")) {
-                                getEffectives().add(new Velocity());
-                                
-                                usable.remove(k);
-                                
-                                done = true;
-                                
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-            
-            if (!done) {
-                var rand = (int) (Math.random() * 3) + 1;
-                
-                switch (rand) {
-                    case 1 -> {
-                        for (var k = 0; k < usable.size(); k++) {
-                            if (usable.get(k).getName().equals("Sub")) {
-                                getEffectives().add(new Sub());
-                                
-                                usable.remove(k);
-                                
-                                done = true;
-                                
-                                break;
-                            }
-                        }
-                    }
-                    
-                    case 2 -> {
-                        for (var k = 0; k < usable.size(); k++) {
-                            if (usable.get(k).getName().equals("Intimidate")) {
-                                getEffectives().add(new Intimidate());
-                                
-                                usable.remove(k);
-                                
-                                done = true;
-                                
-                                break;
-                            }
-                        }
-                    }
-                    
-                    case 3 -> {
-                        for (var k = 0; k < usable.size(); k++) {
-                            if (usable.get(k).getName().equals("Blind")) {
-                                getEffectives().add(new Blind());
-                                
-                                usable.remove(k);
-                                
-                                done = true;
-                                
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-            
-            if (!done) {
-                done = true;
-            }
-        }
-    }
-    
-    public int search(String type, List<Kasugi> any) {
-        for (var k = 0; k < any.size(); k++) {
-            if (((any.get(k)).getName()).equals(type)) {
-                return k;
-            }
-        }
-        
-        return -5;
     }
 }

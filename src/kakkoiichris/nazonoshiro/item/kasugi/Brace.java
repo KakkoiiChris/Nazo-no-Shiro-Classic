@@ -7,7 +7,12 @@ import kakkoiichris.nazonoshiro.fighter.Fighter;
 
 public class Brace extends Kasugi {
     public Brace() {
-        super("Brace", 3, 3, true);
+        super("Brace", "",3, 3, true);
+    }
+    
+    @java.lang.Override
+    public boolean use(Fighter self) {
+        return true;
     }
     
     @java.lang.Override

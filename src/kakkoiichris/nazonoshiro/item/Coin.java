@@ -3,6 +3,7 @@ package kakkoiichris.nazonoshiro.item;
 
 import kakkoiichris.nazonoshiro.Console;
 import kakkoiichris.nazonoshiro.fighter.Fighter;
+import kakkoiichris.nazonoshiro.fighter.Self;
 
 public enum Coin implements Item {
     ONE_YEN(1, "One Yen Coin", """
@@ -53,7 +54,7 @@ public enum Coin implements Item {
     }
     
     @Override
-    public boolean pickUp(Fighter self) {
+    public boolean pickUp(Self self) {
         Console.writeLine("The coin rings out as you scrape it up.");
         
         return true;

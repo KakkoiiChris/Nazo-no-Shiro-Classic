@@ -7,9 +7,14 @@ import kakkoiichris.nazonoshiro.fighter.Fighter;
 
 public class Pure extends Kasugi {
     public Pure() {
-        super("Pure", 0, 0, true);
+        super("Pure", "", 0, 0, true);
         
         timer = 99;
+    }
+    
+    @java.lang.Override
+    public boolean use(Fighter self) {
+        return true;
     }
     
     @java.lang.Override

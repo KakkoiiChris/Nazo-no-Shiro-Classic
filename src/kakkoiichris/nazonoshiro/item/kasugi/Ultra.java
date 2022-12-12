@@ -7,7 +7,12 @@ import kakkoiichris.nazonoshiro.fighter.Fighter;
 
 public class Ultra extends Kasugi {
     public Ultra() {
-        super("Ultra", 3, 3, true);
+        super("Ultra", "", 3, 3, true);
+    }
+    
+    @java.lang.Override
+    public boolean use(Fighter self) {
+        return true;
     }
     
     @java.lang.Override

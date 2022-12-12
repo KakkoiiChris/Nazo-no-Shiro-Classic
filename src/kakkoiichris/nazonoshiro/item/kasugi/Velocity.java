@@ -7,7 +7,12 @@ import kakkoiichris.nazonoshiro.fighter.Fighter;
 
 public class Velocity extends Kasugi {
     public Velocity() {
-        super("Velocity", 3, 3, true);
+        super("Velocity", "", 3, 3, true);
+    }
+    
+    @java.lang.Override
+    public boolean use(Fighter self) {
+        return true;
     }
     
     @java.lang.Override

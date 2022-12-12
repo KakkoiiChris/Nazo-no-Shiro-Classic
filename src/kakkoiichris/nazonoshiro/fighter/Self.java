@@ -4,8 +4,10 @@ package kakkoiichris.nazonoshiro.fighter;
 import kakkoiichris.nazonoshiro.Console;
 import kakkoiichris.nazonoshiro.ResetValue;
 import kakkoiichris.nazonoshiro.Util;
+import kakkoiichris.nazonoshiro.item.kasugi.Kasugi;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Self extends Fighter {
     private String birthday = "", gender = "";
@@ -38,18 +40,18 @@ public class Self extends Fighter {
     }
     
     public void setKey(int value) {
-        this.key.set(Math.max(this.key.get(), value));
+        key.set(Math.max(key.get(), value));
     }
     
     @Override
-    public void attack(Fighter enemy, List<String> direct, List<String> indirect, List<String> miss) {
+    public void attack(Fighter opponent, List<String> direct, List<String> indirect, List<String> miss) {
         int aMax, aMin, dMax, dMin;
         
-        if (this.getAttack() == 1) {
+        if (getAttack() == 1) {
             aMax = 6;
             aMin = 1;
         }
-        else if (this.getAttack() == 2) {
+        else if (getAttack() == 2) {
             aMax = 8;
             aMin = 3;
         }
@@ -58,11 +60,11 @@ public class Self extends Fighter {
             aMin = 5;
         }
         
-        if (enemy.getDefense() == 1) {
+        if (opponent.getDefense() == 1) {
             dMax = 6;
             dMin = 1;
         }
-        else if (enemy.getDefense() == 2) {
+        else if (opponent.getDefense() == 2) {
             dMax = 8;
             dMin = 3;
         }
@@ -77,140 +79,70 @@ public class Self extends Fighter {
         if (attack + (attack - defense) < 0) {
             var message = Util.getRandom(miss);
             
-            Console.writeLine(message.substring(message.indexOf('@') + 1, message.indexOf('#')) + enemy + message.substring(message.indexOf('$') + 1, message.indexOf('%')));
+            Console.writeLine(message.substring(message.indexOf('@') + 1, message.indexOf('#')) + opponent + message.substring(message.indexOf('$') + 1, message.indexOf('%')));
         }
         else if (attack + (attack - defense) < aMax) {
             var message = Util.getRandom(indirect);
             
-            Console.writeLine(message.substring(message.indexOf('@') + 1, message.indexOf('#')) + enemy + message.substring(message.indexOf('$') + 1, message.indexOf('%')));
+            Console.writeLine(message.substring(message.indexOf('@') + 1, message.indexOf('#')) + opponent + message.substring(message.indexOf('$') + 1, message.indexOf('%')));
         }
         else {
             var message = Util.getRandom(direct);
             
-            Console.writeLine(message.substring(message.indexOf('@') + 1, message.indexOf('#')) + enemy + message.substring(message.indexOf('$') + 1, message.indexOf('%')));
+            Console.writeLine(message.substring(message.indexOf('@') + 1, message.indexOf('#')) + opponent + message.substring(message.indexOf('$') + 1, message.indexOf('%')));
         }
         
-        enemy.setHealth(attack + (attack - defense));
+        opponent.setHealth(attack + (attack - defense));
         
         Console.newLine();
     }
     
-    public void use(Fighter enemy) {
-        int a = 0, b = 0, c = 0, d = 0, e = 0, f = 0, g = 0, h = 0, i = 0;
+    public void use(Fighter opponent) {
+        var kasugi = inventory
+            .stream()
+            .filter(item -> item instanceof Kasugi)
+            .map(Kasugi.class::cast)
+            .collect(Collectors.groupingBy(Kasugi::getName));
         
-        var done = false;
+        if (kasugi.isEmpty()) {
+            Console.writeLine("You have no kasugi to use.%n");
+            
+            return;
+        }
         
         Console.writeLine("Kasugi:");
         
-        for (var j = 0; j < usable.size(); j++) {
-            switch (usable.get(i).getName()) {
-                case "Blind" -> a++;
-                
-                case "Brace" -> b++;
-                
-                case "Burn" -> c++;
-                
-                case "Corrupt" -> d++;
-                
-                case "Fixer" -> e++;
-                
-                case "Pure" -> f++;
-                
-                case "Ultra" -> g++;
-                
-                case "Velocity" -> h++;
-                
-                default -> i++;
-            }
-        }
-        
-        if (a > 0) {
-            Console.writeLine("Blind: [%d]", a);
-        }
-        
-        if (b > 0) {
-            Console.writeLine("Brace: [%d]", b);
-        }
-        
-        if (c > 0) {
-            Console.writeLine("Burn: [%d]", c);
-        }
-        
-        if (d > 0) {
-            Console.writeLine("Corrupt: [%d]", d);
-        }
-        
-        if (e > 0) {
-            Console.writeLine("Fixer: [%d]", e);
-        }
-        
-        if (f > 0) {
-            Console.writeLine("Pure: [%d]", f);
-        }
-        
-        if (g > 0) {
-            Console.writeLine("Ultra: [%d]", g);
-        }
-        
-        if (h > 0) {
-            Console.writeLine("Velocity: [%d]", h);
-        }
-        
-        if (i > 0) {
-            Console.writeLine("Volatile: [%d]", i);
+        for (var key : kasugi.keySet()) {
+            Console.writeLine("%s: [%d]", key, kasugi.get(key).size());
         }
         
         Console.newLine();
         
-        while (!done) {
+        while (true) {
             Console.write("> ");
             
-            var temp = Console.read();
+            var choice = Console.read();
             
             Console.writeLine("\n");
             
-            while (!temp.equals("Blind") && !temp.equals("Brace") && !temp.equals("Burn") && !temp.equals("Corrupt") && !temp.equals("Fixer") && !temp.equals("Pure") && !temp.equals("Ultra") && !temp.equals("Velocity") && !temp.equals("Volatile")) {
-                Console.write("What?\n> ");
+            if (!kasugi.containsKey(choice)) {
+                Console.writeLine("You have no %s's to use.%n", choice);
                 
-                temp = Console.readLine();
-                
-                Console.writeLine("\n");
+                continue;
             }
             
-            var k = 0;
+            var used = kasugi.get(choice).get(0);
             
-            for (var kasugi : usable) {
-                if (temp.equals(kasugi.getName())) {
-                    if (kasugi.isForYou()) {
-                        this.getEffectives().add(kasugi);
-                    }
-                    else {
-                        enemy.getEffectives().add(kasugi);
-                    }
-                    
-                    k = 0;
-                    done = true;
-                }
-                else {
-                    k++;
-                }
+            inventory.remove(used);
+            
+            if (used.isForYou()) {
+                getEffectives().add(used);
+            }
+            else {
+                opponent.getEffectives().add(used);
             }
             
-            if (k == usable.size() && !done) {
-                Console.writeLine("You don't have any %ss to use.\n", temp);
-            }
+            break;
         }
-    }
-    
-    public int getCount(String name) {
-        var temp = 0;
-        
-        for (var i = 0; i < getInventory().size(); i++) {
-            if (getInventory().get(i).getName().equals(name.toLowerCase())) {
-                temp++;
-            }
-        }
-        
-        return temp;
     }
 }

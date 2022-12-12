@@ -7,7 +7,12 @@ import kakkoiichris.nazonoshiro.fighter.Fighter;
 
 public class Blind extends Kasugi {
     public Blind() {
-        super("Blind", 3, 3, false);
+        super("Blind", "", 3, 3, false);
+    }
+    
+    @java.lang.Override
+    public boolean use(Fighter self) {
+        return true;
     }
     
     @java.lang.Override

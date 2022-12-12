@@ -7,7 +7,12 @@ import kakkoiichris.nazonoshiro.fighter.Fighter;
 
 public class Sub extends Kasugi {
     public Sub() {
-        super("Sub", 3, 3, false);
+        super("Sub", "", 3, 3, false);
+    }
+    
+    @java.lang.Override
+    public boolean use(Fighter self) {
+        return true;
     }
     
     @java.lang.Override
