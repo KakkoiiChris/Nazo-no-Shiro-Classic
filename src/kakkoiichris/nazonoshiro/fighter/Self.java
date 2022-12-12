@@ -119,8 +119,6 @@ public class Self extends Fighter {
         Console.newLine();
         
         while (true) {
-            Console.write("> ");
-            
             var choice = Console.read();
             
             Console.writeLine("\n");

@@ -53,14 +53,14 @@ public class Seihoukei extends Puzzle {
     
     public void setUp() {
         for (var r = 0; r < board.length; r++) {
-            for (var c = 0; c < board.length; c++) {
+            for (var c = 0; c < board[0].length; c++) {
                 board[r][c] = '~';
             }
         }
         
         for (int i = 0; i < 12; i++) {
-            var r = (int) (Math.random() * 6);
-            var c = (int) (Math.random() * 6);
+            var r = (int) (Math.random() * board.length);
+            var c = (int) (Math.random() * board[0].length);
             
             if (board[r][c] != '#') {
                 board[r][c] = '#';
@@ -71,7 +71,7 @@ public class Seihoukei extends Puzzle {
         }
         
         for (var r = 0; r < key.length; r++) {
-            for (var c = 0; c < key.length; c++) {
+            for (var c = 0; c < key[0].length; c++) {
                 key[r][c] = '~';
             }
         }
@@ -83,7 +83,7 @@ public class Seihoukei extends Puzzle {
         for (var r = 0; r < board.length; r++) {
             Console.write("%d ", r);
             
-            for (var c = 0; c < board.length; c++) {
+            for (var c = 0; c < board[0].length; c++) {
                 Console.write("%s ", board[r][c]);
             }
             
@@ -427,72 +427,76 @@ public class Seihoukei extends Puzzle {
             
             show(board);
             
-            Console.writeLine("\nMovement:\n(Up/ Down/ Left/ Right)");
+            Console.newLine();
             
-            var choice = Console.readLine().toLowerCase();
+            Console.setPrompt("Up / Down / Left / Right > ");
             
-            switch (choice) {
+            var direction = Console.readLine().trim().toLowerCase();
+            
+            switch (direction) {
                 case "up" -> {
-                    Console.write("Column: ");
+                    Console.setPrompt("Column > ");
                     
-                    var t = Console.readInt();
+                    var column = Console.readInt();
                     
-                    while (t > 5 || t < 0) {
+                    while (column < 0 || column > board[0].length ) {
                         Console.write("Invalid: enter again\nColumn: ");
                         
-                        t = Console.readInt();
+                        column = Console.readInt();
                     }
                     
-                    shiftUp(t);
+                    shiftUp(column);
                 }
                 
                 case "down" -> {
-                    Console.write("Column: ");
+                    Console.setPrompt("Column > ");
                     
-                    var t = Console.readInt();
-                    
-                    while (t > 5 || t < 0) {
+                    var column = Console.readInt();
+    
+                    while (column < 0 || column > board[0].length ) {
                         Console.write("Invalid: enter again\nColumn: ");
                         
-                        t = Console.readInt();
+                        column = Console.readInt();
                     }
                     
-                    shiftDown(t);
+                    shiftDown(column);
                 }
                 
                 case "left" -> {
-                    Console.write("Row: ");
+                    Console.setPrompt("Row > ");
                     
-                    var t = Console.readInt();
-                    
-                    while (t > 5 || t < 0) {
+                    var row = Console.readInt();
+    
+                    while (row < 0 || row > board.length ) {
                         Console.write("Invalid: enter again\nRow: ");
                         
-                        t = Console.readInt();
+                        row = Console.readInt();
                     }
                     
-                    shiftLeft(t);
+                    shiftLeft(row);
                 }
                 
                 case "right" -> {
-                    Console.write("Row: ");
+                    Console.setPrompt("Row > ");
                     
-                    var t = Console.readInt();
-                    
-                    while (t > 5 || t < 0) {
+                    var row = Console.readInt();
+    
+                    while (row < 0 || row > board.length ) {
                         Console.write("Invalid: enter again\nRow: ");
                         
-                        t = Console.readInt();
+                        row = Console.readInt();
                     }
                     
-                    shiftRight(t);
+                    shiftRight(row);
                 }
                 
-                default -> Console.writeLine("'%s' is not a valid direction!", choice);
+                default -> Console.writeLine("%s is not a valid direction!", direction);
             }
         }
         
         victory();
+        
+        Console.setPrompt("> ");
         
         return true;
     }

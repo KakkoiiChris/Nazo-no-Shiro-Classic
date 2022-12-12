@@ -26,7 +26,6 @@ public class Oboeru extends Puzzle {
                 
                 if (key[r][c] == '~') {
                     key[r][c] = letter;
-                    board[r][c] = letter;
                 }
                 else {
                     i--;
@@ -77,33 +76,59 @@ public class Oboeru extends Puzzle {
                 Console.newLine();
             }
             
-            Console.writeLine("Flip two cards:\nRow 1:");
+            Console.writeLine("Flip two cards:\n");
             
-            var r1 = Console.readInt();
+            Console.setPrompt("Row 1 > ");
             
-            Console.write("\nColumn 1:");
+            var row1 = Console.readInt();
+    
+            while (row1 < 0 || row1 > board.length) {
+                Console.writeLine("That's out of your range. Enter again.");
+    
+                row1 = Console.readInt();
+            }
             
-            var c1 = Console.readInt();
+            Console.setPrompt("Column 1 > ");
             
-            board[r1][c1] = '~';
+            var column1 = Console.readInt();
+    
+            while (column1 < 0 || column1 > board[0].length) {
+                Console.writeLine("That's out of your range. Enter again.");
+    
+                column1 = Console.readInt();
+            }
+            
+            board[row1][column1] = '~';
             
             showBoard();
             
-            Console.write("\nRow 2:");
+            Console.setPrompt("Row 2 > ");
             
-            var r2 = Console.readInt();
+            var row2 = Console.readInt();
+    
+            while (row2 < 0 || row2 > board.length) {
+                Console.writeLine("That's out of your range. Enter again.");
+    
+                row2 = Console.readInt();
+            }
             
-            Console.write("\nColumn 2:");
+            Console.setPrompt("Column 2 > ");
             
-            var c2 = Console.readInt();
+            var column2 = Console.readInt();
+    
+            while (column2 < 0 || column2 > board[0].length) {
+                Console.writeLine("That's out of your range. Enter again.");
+    
+                column2 = Console.readInt();
+            }
             
-            board[r2][c2] = '~';
+            board[row2][column2] = '~';
             
             Console.newLine();
             
             showBoard();
             
-            if (key[r1][c1] == key[r2][c2]) {
+            if (key[row1][column1] == key[row2][column2]) {
                 Console.writeLine("That's a match.");
                 
                 count++;
@@ -113,7 +138,7 @@ public class Oboeru extends Puzzle {
             else {
                 Console.writeLine("Not a match.");
                 
-                reset(r1, c1, r2, c2);
+                reset(row1, column1, row2, column2);
                 
                 tries++;
             }
@@ -126,6 +151,8 @@ public class Oboeru extends Puzzle {
         }
         
         victory();
+        
+        Console.setPrompt("> ");
         
         return true;
     }

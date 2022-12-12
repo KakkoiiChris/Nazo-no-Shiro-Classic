@@ -6,15 +6,31 @@ import java.util.Scanner;
 public class Console {
     private static final Scanner input = new Scanner(System.in);
     
+    private static String prompt = "> ";
+    
+    public static String getPrompt() {
+        return prompt;
+    }
+    
+    public static void setPrompt(String prompt) {
+        Console.prompt = prompt;
+    }
+    
     public static String read() {
+        System.out.print(prompt);
+        
         return input.next();
     }
     
     public static String readLine() {
+        System.out.print(prompt);
+        
         return input.nextLine();
     }
     
     public static int readInt() {
+        System.out.print(prompt);
+        
         return input.nextInt();
     }
     

@@ -84,7 +84,7 @@ public class Room implements Resettable {
     }
     
     public void unlock() {
-        this.locked.set(false);
+        locked.set(false);
     }
     
     @Override

@@ -29,8 +29,6 @@ public class IroIro extends Puzzle {
         
         show(board);
         
-        Console.write(" > ");
-        
         var temp = Console.read();
         
         Console.newLine();

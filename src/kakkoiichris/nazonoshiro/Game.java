@@ -154,7 +154,7 @@ public class Game {
             
             Console.newLine();
             
-            var matcher = Pattern.compile("play( puzzle)?|solve( puzzle)?").matcher(choice);
+            var matcher = Pattern.compile("(play|solve)( puzzle)?").matcher(choice);
             
             if (matcher.find() && room instanceof PuzzleRoom p && !p.getPuzzle().isWon()) {
                 if (p.getPuzzle().play()) {
@@ -178,7 +178,7 @@ public class Game {
                 continue;
             }
             
-            matcher = Pattern.compile("((play|show)\\s+inventory)|e").matcher(choice);
+            matcher = Pattern.compile("^(((play|show)\\s+inventory)|e)$").matcher(choice);
             
             if (matcher.find()) {
                 showInventory();

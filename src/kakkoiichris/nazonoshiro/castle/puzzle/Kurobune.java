@@ -29,20 +29,22 @@ public class Kurobune extends Puzzle {
         while (torpedoes > 0 && hits < 4) {
             show(board);
             
-            Console.write("\nRow: ");
+            Console.setPrompt("Row > ");
             
             var row = Console.readInt();
             
-            Console.write("\nColumn: ");
+            while (row < 0 || row > board.length) {
+                Console.writeLine("That's out of your range. Enter again.");
+                
+                row = Console.readInt();
+            }
+            
+            Console.setPrompt("Column > ");
             
             var column = Console.readInt();
             
-            while (row > 7 || row < 0 || column > 7 || column < 0) {
-                Console.writeLine("That's out of your range. Enter again.\nRow: ");
-                
-                row = Console.readInt();
-                
-                Console.write("\nColumn: ");
+            while (column < 0 || column > board[0].length) {
+                Console.writeLine("That's out of your range. Enter again.");
                 
                 column = Console.readInt();
             }
@@ -83,6 +85,8 @@ public class Kurobune extends Puzzle {
         }
         
         victory();
+        
+        Console.setPrompt("> ");
         
         return true;
     }

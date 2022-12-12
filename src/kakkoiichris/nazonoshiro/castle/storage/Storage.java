@@ -8,6 +8,8 @@ import kakkoiichris.nazonoshiro.fighter.Self;
 import kakkoiichris.nazonoshiro.item.Item;
 import kakkoiichris.nazonoshiro.item.kasugi.Kasugi;
 
+import java.util.stream.Collectors;
+
 public abstract class Storage implements Resettable {
     private final String name;
     
@@ -67,49 +69,16 @@ public abstract class Storage implements Resettable {
     }
     
     public void rummage(Self self) {
-        Console.writeLine("It opened.\n");
+        Console.writeLine("The %s opened.%n%nIt contains:%n", name);
+    
+        var allItems = items
+            .stream()
+            .collect(Collectors.groupingBy(Item::getName));
         
-        var m = 0;
-        var h = 0;
-        var b = 0;
-        var c = 0;
-        
-        for (var item : items) {
-            switch (item.getName()) {
-                case "metal" -> m++;
-                
-                case "coin" -> c++;
-                
-                case "herb" -> h++;
-                
-                case "bushel" -> b++;
-            }
-        }
-        
-        Console.writeLine("The Armoir contains:\n");
-        
-        if (m > 0) {
-            var plural = (m > 1) ? "s" : "";
+        for (var key:allItems.keySet()) {
+            var count = allItems.get(key).size();
             
-            Console.writeLine("-%d metal plate%s", m, plural);
-        }
-        
-        if (c > 0) {
-            var plural = (c > 1) ? "s" : "";
-            
-            Console.writeLine("-%d coin%s", c, plural);
-        }
-        
-        if (h > 0) {
-            var plural = (h > 1) ? "s" : "";
-            
-            Console.writeLine("-%d herb%s", h, plural);
-        }
-        
-        if (b > 0) {
-            var plural = (b > 1) ? "s" : "";
-            
-            Console.writeLine("-%d herb bushel%s", b, plural);
+            Console.writeLine("- %s (%d)", key, count);
         }
         
         Console.write(">");
