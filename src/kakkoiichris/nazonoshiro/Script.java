@@ -41,12 +41,15 @@ public class Script {
                     case "input" -> {
                         var key = args.get(0);
                         var prompt = args.get(1);
-                        
-                        Console.write("%s ", prompt);
+
+                        var promptLast = Console.getPrompt();
+                        Console.setPrompt(prompt);
                         
                         var value = Console.readLine();
                         
                         vars.put(key, value);
+
+                        Console.setPrompt(promptLast);
                     }
                 }
             }

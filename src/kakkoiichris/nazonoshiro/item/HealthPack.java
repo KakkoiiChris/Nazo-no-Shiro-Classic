@@ -5,8 +5,8 @@ import kakkoiichris.nazonoshiro.fighter.Fighter;
 import kakkoiichris.nazonoshiro.fighter.Self;
 
 public enum HealthPack implements Item {
-    HERB(3, "Herb", "A tiny leaf."),
-    BUSHEL(5, "Bushel", "Many tiny leaves.");
+    HERB(3, "Herb", "A tiny leaf with healing properties."),
+    BUSHEL(5, "Herb Bushel", "Many tiny leaves with healing properties.");
     
     private final int value;
     private final String name;

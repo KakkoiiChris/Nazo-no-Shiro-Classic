@@ -14,7 +14,7 @@ public enum Weapon implements Item {
                        Bo Staff""".stripIndent());
         }
     },
-    KATANA(0, "Bo Staff", "") {
+    KATANA(0, "Katana", "") {
         @Override
         public void show() {
             Console.writeLine("""
@@ -22,7 +22,7 @@ public enum Weapon implements Item {
                          Katana""".stripIndent());
         }
     },
-    NUNCHAKU(0, "Bo Staff", "") {
+    NUNCHAKU(0, "Nunchaku", "") {
         @Override
         public void show() {
             Console.writeLine("""
@@ -30,7 +30,7 @@ public enum Weapon implements Item {
                        Nunchaku""".stripIndent());
         }
     },
-    SHURIKEN(0, "Bo Staff", "") {
+    SHURIKEN(0, "Shuriken", "") {
         @Override
         public void show() {
             Console.writeLine("""
@@ -38,7 +38,7 @@ public enum Weapon implements Item {
                 Shuriken Knife""".stripIndent());
         }
     },
-    TANTO(0, "Bo Staff", "") {
+    TANTO(0, "Tanto", "") {
         @Override
         public void show() {
             Console.writeLine("""
@@ -46,7 +46,7 @@ public enum Weapon implements Item {
                     Tanto""".stripIndent());
         }
     },
-    WAKIZASHI(0, "Bo Staff", "") {
+    WAKIZASHI(0, "Wakizashi", "") {
         @Override
         public void show() {
             Console.writeLine("""

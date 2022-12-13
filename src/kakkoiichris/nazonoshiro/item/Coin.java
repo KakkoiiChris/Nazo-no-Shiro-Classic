@@ -5,6 +5,9 @@ import kakkoiichris.nazonoshiro.Console;
 import kakkoiichris.nazonoshiro.fighter.Fighter;
 import kakkoiichris.nazonoshiro.fighter.Self;
 
+import java.text.NumberFormat;
+import java.util.List;
+
 public enum Coin implements Item {
     ONE_YEN(1, "One Yen Coin", """
         A lightweight silver coin displaying a number '1', with a simple design."""),
@@ -37,7 +40,19 @@ public enum Coin implements Item {
     public static Coin random() {
         return values()[(int) (Math.random() * values().length)];
     }
-    
+
+    public static int getTotal(List<Coin> coins) {
+        return coins.stream().mapToInt(Coin::getValue).sum();
+    }
+
+    public static String getTotalString(List<Coin> coins) {
+        var format = NumberFormat.getInstance();
+
+        format.setGroupingUsed(true);
+
+        return "¥" + format.format(getTotal(coins));
+    }
+
     @Override
     public int getValue() {
         return value;
