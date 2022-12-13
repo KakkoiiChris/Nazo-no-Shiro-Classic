@@ -12,4 +12,3 @@
               Copyright (C) 2011-2022, KakkoiiChris
 
 %s
-

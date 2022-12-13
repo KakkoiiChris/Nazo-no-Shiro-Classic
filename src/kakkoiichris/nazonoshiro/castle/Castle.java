@@ -2,8 +2,9 @@ package kakkoiichris.nazonoshiro.castle;
 
 import kakkoiichris.nazonoshiro.Resettable;
 import kakkoiichris.nazonoshiro.Resources;
-import kakkoiichris.nazonoshiro.castle.room.PuzzleRoom;
+import kakkoiichris.nazonoshiro.castle.room.EnemyRoom;
 import kakkoiichris.nazonoshiro.castle.room.Room;
+import kakkoiichris.nazonoshiro.fighter.Ninja;
 import kakkoiichris.nazonoshiro.item.Item;
 
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class Castle implements Resettable {
                     var lock = Integer.parseInt(tokens.get(5));
                     var locked = Boolean.parseBoolean(tokens.get(6));
                     
-                    rooms[floor][row][column] = new PuzzleRoom(name, key, lock, locked);
+                    rooms[floor][row][column] = new EnemyRoom(name, key, lock, locked, new Ninja());
                 }
                 
                 case "W" -> {

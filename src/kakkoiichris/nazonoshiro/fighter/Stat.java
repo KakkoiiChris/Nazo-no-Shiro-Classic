@@ -52,6 +52,6 @@ public class Stat implements Resettable {
     
     @Override
     public String toString() {
-        return "%s (%f/%f/%f)".formatted(name, getMin(), getNow(), getMax());
+        return "%s (%f/%f/%f)".formatted(name, getMin().get(), getNow().get(), getMax().get());
     }
 }

@@ -137,19 +137,40 @@ public abstract class Fighter implements Resettable {
     }
     
     public void showHP() {
-        Console.write("%s %s [", name, health);
+        var blocks = " ▘▚▜█";
         
-        for (var i = 0; i < getHealth(); i++) {
-            Console.write("=");
+        var max = health.getMax().get().intValue();
+        var now = health.getNow().get().intValue();
+        
+        Console.write("%s (%03d / %03d) ║", name, now, max);
+        
+        var i = now;
+        
+        if (i > 0) {
+            while (i - 4 > 0) {
+                Console.write(blocks.charAt(4));
+                
+                i -= 4;
+            }
+            
+            Console.write(blocks.charAt(i));
         }
         
-        Console.writeLine("]\n");
+        i = max - now;
+        
+        while (i - 4 >= 0) {
+            Console.write(' ');
+            
+            i -= 4;
+        }
+        
+        Console.writeLine('║');
     }
     
     public int getCount(String name) {
         var count = 0;
         
-        for (var item:inventory) {
+        for (var item : inventory) {
             if (item.getName().equals(name.toLowerCase())) {
                 count++;
             }

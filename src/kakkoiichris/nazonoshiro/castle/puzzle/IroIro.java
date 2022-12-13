@@ -22,7 +22,7 @@ public class IroIro extends Puzzle {
     
     @Override
     public boolean play() {
-    
+        
         Console.writeLine("  <[IROIRO]>\n");
         
         setUp();
@@ -32,7 +32,7 @@ public class IroIro extends Puzzle {
         var temp = Console.read();
         
         Console.newLine();
-    
+        
         victory();
         
         return true;

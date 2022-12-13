@@ -81,20 +81,20 @@ public class Oboeru extends Puzzle {
             Console.setPrompt("Row 1 > ");
             
             var row1 = Console.readInt();
-    
+            
             while (row1 < 0 || row1 > board.length) {
                 Console.writeLine("That's out of your range. Enter again.");
-    
+                
                 row1 = Console.readInt();
             }
             
             Console.setPrompt("Column 1 > ");
             
             var column1 = Console.readInt();
-    
+            
             while (column1 < 0 || column1 > board[0].length) {
                 Console.writeLine("That's out of your range. Enter again.");
-    
+                
                 column1 = Console.readInt();
             }
             
@@ -105,20 +105,20 @@ public class Oboeru extends Puzzle {
             Console.setPrompt("Row 2 > ");
             
             var row2 = Console.readInt();
-    
+            
             while (row2 < 0 || row2 > board.length) {
                 Console.writeLine("That's out of your range. Enter again.");
-    
+                
                 row2 = Console.readInt();
             }
             
             Console.setPrompt("Column 2 > ");
             
             var column2 = Console.readInt();
-    
+            
             while (column2 < 0 || column2 > board[0].length) {
                 Console.writeLine("That's out of your range. Enter again.");
-    
+                
                 column2 = Console.readInt();
             }
             

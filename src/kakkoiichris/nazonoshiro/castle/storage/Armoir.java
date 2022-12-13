@@ -16,9 +16,10 @@ public class Armoir extends Storage {
             A thick rope holds the two doors closed.
             The ends of the rope are melted together.
             A sharp, powerful weapon could be used to
-            cut the rope apart.""".stripIndent());
+            cut the rope apart.
+            """.stripIndent());
         
-        Console.write("> ");
+        Console.setPrompt("> ");
         
         var decision = Console.readLine().toLowerCase();
         

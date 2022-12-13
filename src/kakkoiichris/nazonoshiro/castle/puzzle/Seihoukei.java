@@ -439,7 +439,7 @@ public class Seihoukei extends Puzzle {
                     
                     var column = Console.readInt();
                     
-                    while (column < 0 || column > board[0].length ) {
+                    while (column < 0 || column > board[0].length) {
                         Console.write("Invalid: enter again\nColumn: ");
                         
                         column = Console.readInt();
@@ -452,8 +452,8 @@ public class Seihoukei extends Puzzle {
                     Console.setPrompt("Column > ");
                     
                     var column = Console.readInt();
-    
-                    while (column < 0 || column > board[0].length ) {
+                    
+                    while (column < 0 || column > board[0].length) {
                         Console.write("Invalid: enter again\nColumn: ");
                         
                         column = Console.readInt();
@@ -466,8 +466,8 @@ public class Seihoukei extends Puzzle {
                     Console.setPrompt("Row > ");
                     
                     var row = Console.readInt();
-    
-                    while (row < 0 || row > board.length ) {
+                    
+                    while (row < 0 || row > board.length) {
                         Console.write("Invalid: enter again\nRow: ");
                         
                         row = Console.readInt();
@@ -480,8 +480,8 @@ public class Seihoukei extends Puzzle {
                     Console.setPrompt("Row > ");
                     
                     var row = Console.readInt();
-    
-                    while (row < 0 || row > board.length ) {
+                    
+                    while (row < 0 || row > board.length) {
                         Console.write("Invalid: enter again\nRow: ");
                         
                         row = Console.readInt();

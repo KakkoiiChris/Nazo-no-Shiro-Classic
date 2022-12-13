@@ -29,11 +29,14 @@ public class Main {
                     2) Load Game
                     3) Options
                     4) Credits
-                    5) Quit""".stripIndent());
+                    5) Quit
+                    """.stripIndent());
                 
-                Console.write("> ");
+                Console.setPrompt("> ");
                 
                 var action = Console.readLine().trim().toLowerCase();
+                
+                Console.newLine();
                 
                 if (action.matches("1|(new(\s+game)?)")) {
                     setUpNew();

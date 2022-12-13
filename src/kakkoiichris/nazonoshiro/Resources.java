@@ -36,8 +36,6 @@ public class Resources {
     public static Optional<String> tryGetString(String fileName) {
         var path = RESOURCES_PATH.resolve("%s.txt".formatted(fileName));
         
-        
-        
         try {
             return Optional.of(Files.readString(path));
         }

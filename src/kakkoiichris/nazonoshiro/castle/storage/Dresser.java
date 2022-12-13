@@ -14,7 +14,8 @@ public class Dresser extends Storage {
         Console.writeLine("""
             The dresser seems to contain but Royal
             Kimonos and Headdresses. Further inspection
-            reveals scattered Items on the bottom.""".stripIndent());
+            reveals scattered Items on the bottom.
+            """.stripIndent());
         
         rummage(self);
     }

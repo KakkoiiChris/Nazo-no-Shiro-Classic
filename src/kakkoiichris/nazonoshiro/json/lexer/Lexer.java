@@ -155,7 +155,7 @@ public class Lexer implements Iterator<Token> {
         
         var value = Double.parseDouble(builder.toString());
         
-        return new Token(location, Token.Type.NUMBER,value);
+        return new Token(location, Token.Type.NUMBER, value);
     }
     
     private Token string() {

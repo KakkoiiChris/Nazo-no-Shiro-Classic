@@ -14,7 +14,8 @@ public class JewelryBox extends Storage {
         Console.writeLine("""
             An ornate and surprisingly big jewelry box
             sits upon a small table. There may be useful
-            Items amongst the gemstones.""".stripIndent());
+            Items amongst the gemstones.
+            """.stripIndent());
         
         rummage(self);
     }

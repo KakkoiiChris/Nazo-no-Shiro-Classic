@@ -14,7 +14,8 @@ public class Desk extends Storage {
         Console.writeLine("""
             Despite the presence of a metal lock, the
             desk drawer seems to be propped open slightly.
-            Quite a lucky find.""".stripIndent());
+            Quite a lucky find.
+            """.stripIndent());
         
         rummage(self);
     }

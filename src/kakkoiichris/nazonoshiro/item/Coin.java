@@ -24,7 +24,7 @@ public enum Coin implements Item {
     HUNDRED_YEN(100, "One Hundred Yen Coin", """
         A silver coin displaying the number '100', with a simple design."""),
     
-    FIVE_HUNDRED_YEN(500, "Five Hundred Coin", """
+    FIVE_HUNDRED_YEN(500, "Five Hundred Yen Coin", """
         A heavy golden coin displaying the number '500', with a flower motif.""");
     
     private final int value;
@@ -40,19 +40,19 @@ public enum Coin implements Item {
     public static Coin random() {
         return values()[(int) (Math.random() * values().length)];
     }
-
+    
     public static int getTotal(List<Coin> coins) {
         return coins.stream().mapToInt(Coin::getValue).sum();
     }
-
+    
     public static String getTotalString(List<Coin> coins) {
         var format = NumberFormat.getInstance();
-
+        
         format.setGroupingUsed(true);
-
+        
         return "¥" + format.format(getTotal(coins));
     }
-
+    
     @Override
     public int getValue() {
         return value;

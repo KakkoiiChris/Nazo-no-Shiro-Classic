@@ -17,8 +17,9 @@ public class Crate extends Storage {
             There is a small opening in the lid.
             A short, thin object could be used to
             pry it open.
-            
-            >\040""".stripIndent());
+            """.stripIndent());
+        
+        Console.setPrompt("> ");
         
         var decision = Console.readLine().toLowerCase();
         

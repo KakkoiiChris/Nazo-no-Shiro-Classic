@@ -12,4 +12,3 @@
               Corypight (C) 2011-2022, KakioikChirs
 
 %s
-
