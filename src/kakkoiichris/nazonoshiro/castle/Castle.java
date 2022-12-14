@@ -3,6 +3,7 @@ package kakkoiichris.nazonoshiro.castle;
 import kakkoiichris.nazonoshiro.Resettable;
 import kakkoiichris.nazonoshiro.Resources;
 import kakkoiichris.nazonoshiro.castle.room.EnemyRoom;
+import kakkoiichris.nazonoshiro.castle.room.PuzzleRoom;
 import kakkoiichris.nazonoshiro.castle.room.Room;
 import kakkoiichris.nazonoshiro.fighter.Ninja;
 import kakkoiichris.nazonoshiro.item.Item;
@@ -64,6 +65,8 @@ public class Castle implements Resettable {
                 }
             }
         }
+        
+        //rooms[0][1][1] = new EnemyRoom("FIGHT!!!", 0, 0, false, new Ninja());
     }
     
     private List<String> parseCSV(String line) {

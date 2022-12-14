@@ -27,9 +27,10 @@ public class Main {
                 Console.writeLine("""
                     1) New Game
                     2) Load Game
-                    3) Options
-                    4) Credits
-                    5) Quit
+                    3) Continue
+                    4) Options
+                    5) Credits
+                    6) Quit
                     """.stripIndent());
                 
                 Console.setPrompt("> ");
@@ -38,43 +39,62 @@ public class Main {
                 
                 Console.newLine();
                 
-                if (action.matches("1|(new(\s+game)?)")) {
-                    setUpNew();
+                if (action.matches("1|(new(\\s+game)?)")) {
+                    newGame();
                     
                     inMenu = false;
                 }
-                else if (action.matches("2|(load(\s+game)?)")) {
-                    setUpLoad();
+                else if (action.matches("2|(load(\\s+game)?)")) {
+                    loadGame();
                     
                     inMenu = false;
                 }
-                else if (action.matches("3|options|settings")) {
+                else if (action.matches("3|(continue(\\s+game)?)")) {
+                    continueGame();
+    
+                    inMenu = false;
+                }
+                else if (action.matches("4|options|settings")) {
                     options();
                 }
-                else if (action.matches("4|credits")) {
+                else if (action.matches("5|credits")) {
                     credits();
                 }
-                else if (action.matches("5|quit")) {
+                else if (action.matches("6|quit(\\s+game)")) {
                     playing = inMenu = false;
                 }
                 else {
-                    Console.writeLine("I don't know how to '%s'...%n", action);
+                    Console.writeLine("You don't know how to '%s'...%n", action);
                 }
             }
         }
     }
     
-    private static void setUpNew() {
+    private static void newGame() {
         game = new Game();
         
         game.newGame();
+        
+        game.play();
     }
     
     
-    private static void setUpLoad() {
+    private static void loadGame() {
         game = new Game();
         
         game.loadGame();
+        
+        game.play();
+    }
+    
+    private static void continueGame() {
+        if (game == null){
+            Console.writeLine("There is no game to continue.\n");
+            
+            return;
+        }
+        
+        game.play();
     }
     
     private static void options() {

@@ -3,6 +3,6 @@ package kakkoiichris.nazonoshiro.fighter;
 
 public class Samurai extends Enemy {
     public Samurai() {
-        super("Samurai", 3, 1, 2, 25);
+        super("Samurai", 40, 25, 20, 60, 50, 100);
     }
 }

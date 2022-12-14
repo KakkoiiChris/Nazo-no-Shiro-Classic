@@ -3,6 +3,6 @@ package kakkoiichris.nazonoshiro.fighter;
 
 public class Daimyo extends Enemy {
     public Daimyo() {
-        super("Daimyo", 2, 2, 2, 30);
+        super("Daimyo", 40, 25, 20, 60, 50, 100);
     }
 }

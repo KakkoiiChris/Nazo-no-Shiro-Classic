@@ -73,8 +73,6 @@ public class Game {
         
         self.add(Weapon.KATANA);
         self.add(Weapon.TANTO);
-        
-        explore();
     }
     
     private void distributeItems(List<Item> items) {
@@ -102,21 +100,26 @@ public class Game {
     public void loadGame() {
     }
     
-    private void explore() {
+    public void play() {
+        exploring = true;
+        
         while (exploring) {
             var room = castle.get(floor.get(), row.get(), column.get());
             
             Console.writeLine("%s%n", room);
             
             if (room instanceof EnemyRoom e && !e.getEnemy().isDead()) {
-                if (fight(e.getEnemy())) {
-                    var drop = e.getEnemy().getDrop();
-                    
-                    if (drop == null) {
-                        drop = Coin.random();
-                    }
-                    
-                    Console.writeLine("""
+                var result = Fighter.fight(self, e.getEnemy());
+                
+                switch(result) {
+                    case WIN -> {
+                        var drop = e.getEnemy().getDrop();
+    
+                        if (drop == null) {
+                            drop = Coin.random();
+                        }
+    
+                        Console.writeLine("""
                         The %s dropped something...
                         
                         It's a %s!
@@ -124,28 +127,33 @@ public class Game {
                         They also dropped a key. Now to
                         find which door it unlocks...
                         """.stripIndent(), e.getEnemy(), drop);
-                    
-                    self.setKey(room.getKey());
-                }
-                else if (ran.get()) {
-                    Console.writeLine("That was a close one...");
-                }
-                else {
-                    Console.writeLine("You died...\n\nContinue?\n");
-                    
-                    resetState();
-                    
-                    Console.setPrompt("Y / N > ");
-                    
-                    var choice = "";
-                    
-                    do {
-                        choice = Console.readLine();
+    
+                        self.setKey(room.getKey());
                     }
-                    while (!choice.matches("[YyNn]"));
                     
-                    if (choice.equalsIgnoreCase("n")) {
-                        exploring = false;
+                    case RUN -> {
+                        ran.set(true);
+                        
+                        Console.writeLine("That was a close one...");
+                    }
+                    
+                    case LOSE -> {
+                        Console.writeLine("You died...\n\nContinue?\n");
+    
+                        resetState();
+    
+                        Console.setPrompt("Y / N > ");
+    
+                        var choice = "";
+    
+                        do {
+                            choice = Console.readLine();
+                        }
+                        while (!choice.matches("[YyNn]"));
+    
+                        if (choice.equalsIgnoreCase("n")) {
+                            exploring = false;
+                        }
                     }
                 }
                 
@@ -338,70 +346,6 @@ public class Game {
             
             Console.write("\nYou don't know how to '%s'.%n%n > ", choice);
         }
-    }
-    
-    private boolean fight(Enemy enemy) {
-        var directHit = Resources.getLines("directHit");
-        var indirectHit = Resources.getLines("indirectHit");
-        var missHit = Resources.getLines("missHit");
-        var directBlock = Resources.getLines("directBlock");
-        var indirectBlock = Resources.getLines("indirectBlock");
-        var missBlock = Resources.getLines("missBlock");
-        
-        Console.writeLine("The %s stands before you.%n", enemy);
-        
-        //determines who's attacking and who's defending in battle
-        var yourTurn = Math.random() >= 0.5;
-        
-        ran.set(false);
-        
-        while (!self.isDead() && !enemy.isDead() && !ran.get()) {
-            self.showHP();
-            enemy.showHP();
-            
-            if (yourTurn) {
-                self.allAffect();
-                self.filter();
-                
-                Console.setPrompt("Attack / Use / Run > ");
-                
-                var action = Console.readLine().toLowerCase();
-                
-                Console.newLine();
-                
-                if (action.matches("a(ttack)?")) {
-                    self.attack(enemy, directHit, indirectHit, missHit);
-                }
-                else if (action.matches("u(se)?")) {
-                    self.use(enemy);
-                }
-                else if (action.matches("r(un)?")) {
-                    ran.set(run(enemy));
-                }
-                else {
-                    Console.writeLine("Can't do that...");
-                    
-                    continue;
-                }
-            }
-            else {
-                enemy.use(self);
-                enemy.allAffect();
-                enemy.filter();
-                
-                enemy.attack(self, directBlock, indirectBlock, missBlock);
-            }
-            
-            yourTurn = !yourTurn;
-            
-            if (ran.get() || self.isDead()) {
-                return false;
-            }
-            
-            Console.pause(2);
-        }
-        
-        return true;
     }
     
     private boolean run(Fighter enemy) {

@@ -3,6 +3,6 @@ package kakkoiichris.nazonoshiro.fighter;
 
 public class Ninja extends Enemy {
     public Ninja() {
-        super("Ninja", 1, 2, 3, 25);
+        super("Ninja", 40, 25, 20, 60, 50, 100);
     }
 }

@@ -3,6 +3,7 @@ package kakkoiichris.nazonoshiro.fighter;
 
 import kakkoiichris.nazonoshiro.Console;
 import kakkoiichris.nazonoshiro.ResetValue;
+import kakkoiichris.nazonoshiro.Resources;
 import kakkoiichris.nazonoshiro.Util;
 import kakkoiichris.nazonoshiro.item.kasugi.Kasugi;
 
@@ -10,12 +11,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Self extends Fighter {
+    private static final List<String> direct = Resources.getLines("directHit");
+    private static final List<String> indirect = Resources.getLines("indirectHit");
+    private static final List<String> miss = Resources.getLines("missHit");
+    
     private String birthday = "", gender = "";
     
     private final ResetValue<Integer> key = new ResetValue<>(0);   //stores all the keys you pick up
     
     public Self(String name, String birthday, String gender) {
-        super(name, (int) (Math.random() * 5) + 3, (int) (Math.random() * 5) + 3, (int) (Math.random() * 5) + 3, 50);
+        super(name, 50, 50, 50, 50, 50, 50);
         
         this.birthday = birthday;
         this.gender = gender;
@@ -24,7 +29,7 @@ public class Self extends Fighter {
     }
     
     public Self() {
-        super("Self", (int) (Math.random() * 5) + 3, (int) (Math.random() * 5) + 3, (int) (Math.random() * 5) + 3, 50);
+        super("Self", 50, 50, 50, 50, 50, 50);
     }
     
     public String getBirthday() {
@@ -44,45 +49,20 @@ public class Self extends Fighter {
     }
     
     @Override
-    public void attack(Fighter opponent, List<String> direct, List<String> indirect, List<String> miss) {
-        int aMax, aMin, dMax, dMin;
+    public void attack(Fighter opponent) {
+        var sa = getAttack();
+        var sp = getPower();
+        var ss = getSpeed();
         
-        if (getAttack() == 1) {
-            aMax = 6;
-            aMin = 1;
-        }
-        else if (getAttack() == 2) {
-            aMax = 8;
-            aMin = 3;
-        }
-        else {
-            aMax = 10;
-            aMin = 5;
-        }
+        var ed = opponent.getDefense();
+        var es = opponent.getSpeed();
         
-        if (opponent.getDefense() == 1) {
-            dMax = 6;
-            dMin = 1;
-        }
-        else if (opponent.getDefense() == 2) {
-            dMax = 8;
-            dMin = 3;
-        }
-        else {
-            dMax = 10;
-            dMin = 5;
-        }
+        var damage = sa * 100 / (100 + ed);
+    
+        Console.writeLine("%s takes %02f damage!", opponent.name, damage);
         
-        var attack = (int) (Math.random() * (aMax - aMin)) + aMin;
-        var defense = (int) (Math.random() * (dMax - dMin)) + dMin;
-        
-        if (attack + (attack - defense) < 0) {
+        if (damage < 0) {
             var message = Util.getRandom(miss);
-            
-            Console.writeLine(message.substring(message.indexOf('@') + 1, message.indexOf('#')) + opponent + message.substring(message.indexOf('$') + 1, message.indexOf('%')));
-        }
-        else if (attack + (attack - defense) < aMax) {
-            var message = Util.getRandom(indirect);
             
             Console.writeLine(message.substring(message.indexOf('@') + 1, message.indexOf('#')) + opponent + message.substring(message.indexOf('$') + 1, message.indexOf('%')));
         }
@@ -92,7 +72,7 @@ public class Self extends Fighter {
             Console.writeLine(message.substring(message.indexOf('@') + 1, message.indexOf('#')) + opponent + message.substring(message.indexOf('$') + 1, message.indexOf('%')));
         }
         
-        opponent.setHealth(attack + (attack - defense));
+        opponent.setHealth(opponent.getHealth() - damage);
         
         Console.newLine();
     }
