@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Self extends Fighter {
-    private static final List<String> direct = Resources.getLines("directHit");
-    private static final List<String> indirect = Resources.getLines("indirectHit");
-    private static final List<String> miss = Resources.getLines("missHit");
+    private static final List<String> direct = Resources.getLines("directHit.txt");
+    private static final List<String> indirect = Resources.getLines("indirectHit.txt");
+    private static final List<String> miss = Resources.getLines("missHit.txt");
     
     private String birthday = "", gender = "";
     

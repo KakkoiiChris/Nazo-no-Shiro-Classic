@@ -17,6 +17,9 @@ import java.util.Map;
 public class Room implements Resettable {
     private final String name;
     
+    private final int floor;
+    private final int row;
+    private final int column;
     private final int lock;
     private final int key;
     
@@ -28,8 +31,11 @@ public class Room implements Resettable {
     
     protected final ResetGroup resetGroup;
     
-    public Room(String name, int key, int lock, boolean locked) {
+    public Room(String name, int floor, int row, int column, int key, int lock, boolean locked) {
         this.name = name;
+        this.floor = floor;
+        this.row = row;
+        this.column = column;
         this.key = key;
         this.lock = lock;
         this.locked = new ResetValue<>(locked);
@@ -39,6 +45,18 @@ public class Room implements Resettable {
     
     public String getName() {
         return name;
+    }
+    
+    public int getFloor() {
+        return floor;
+    }
+    
+    public int getRow() {
+        return row;
+    }
+    
+    public int getColumn() {
+        return column;
     }
     
     public int getKey() {

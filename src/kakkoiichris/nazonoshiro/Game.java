@@ -43,11 +43,7 @@ public class Game {
         
         Console.newLine();
         
-        castle = switch (mapName) {
-            case "Original Castle", "" -> new Castle("original");
-            
-            default -> throw new RuntimeException("NO CASTLE");
-        };
+        castle = Castle.load("%s.json".formatted(mapName));
         
         resetGroup = ResetGroup.of(floor, row, column, ran, castle);
         

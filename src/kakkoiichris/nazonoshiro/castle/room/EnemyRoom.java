@@ -11,8 +11,8 @@ public class EnemyRoom extends Room {
     
     private final ResetValue<Boolean> defeated = new ResetValue<>(false);
     
-    public EnemyRoom(String name, int key, int lock, boolean locked, Enemy enemy) {
-        super(name, key, lock, locked);
+    public EnemyRoom(String name, int floor, int row, int column, int key, int lock, boolean locked, Enemy enemy) {
+        super(name, floor, row, column, key, lock, locked);
         
         this.enemy = enemy;
         

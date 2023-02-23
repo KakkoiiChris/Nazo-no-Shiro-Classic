@@ -23,7 +23,7 @@ public class Resources {
     }
     
     public static String getString(String fileName) {
-        var path = RESOURCES_PATH.resolve("%s.txt".formatted(fileName));
+        var path = RESOURCES_PATH.resolve(fileName);
         
         try {
             return Files.readString(path);
@@ -34,7 +34,7 @@ public class Resources {
     }
     
     public static Optional<String> tryGetString(String fileName) {
-        var path = RESOURCES_PATH.resolve("%s.txt".formatted(fileName));
+        var path = RESOURCES_PATH.resolve(fileName);
         
         try {
             return Optional.of(Files.readString(path));
@@ -45,7 +45,7 @@ public class Resources {
     }
     
     public static List<String> getLines(String fileName) {
-        var path = RESOURCES_PATH.resolve("%s.txt".formatted(fileName));
+        var path = RESOURCES_PATH.resolve(fileName);
         
         try {
             return Files.readAllLines(path);
@@ -56,7 +56,7 @@ public class Resources {
     }
     
     public static Optional<List<String>> tryGetLines(String fileName) {
-        var path = RESOURCES_PATH.resolve("%s.txt".formatted(fileName));
+        var path = RESOURCES_PATH.resolve(fileName);
         
         try {
             return Optional.of(Files.readAllLines(path));

@@ -14,10 +14,10 @@ public class Main {
         var playing = true;
         
         while (playing) {
-            var fileName = (Math.random() > 0.001) ? "title" : "tlite";
+            var fileName = (Math.random() > 0.001) ? "title.txt" : "tlite.txt";
             
             var title = Resources.getString(fileName);
-            var splash = Util.getRandom(Resources.getLines("splashText"));
+            var splash = Util.getRandom(Resources.getLines("splashText.txt"));
             
             Console.writeLine(title, splash);
             
@@ -101,7 +101,7 @@ public class Main {
     }
     
     private static void credits() {
-        var lines = Resources.getLines("credits");
+        var lines = Resources.getLines("credits.txt");
         
         lines.forEach(Console::writeLine);
         
