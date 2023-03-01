@@ -1,4 +1,4 @@
-                        [Nazo No Shiro]
+                         Nazo No Shiro
                     [XXXXX{================>
 
 	You wake up... slowly... your vision is blurred, and your
@@ -19,21 +19,21 @@ posters with strange characters on them.
 pocket for clues, and pull out a ticket.
 @pause 6
 
-One look and it hits you.....
+    One look and it hits you.....
 @pause 2
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[Salesperson]: Alright, here's your ticket. Please place 
-               this sticker around the handle of your 
-               suitcase, and we'll handle it for you.
+Cashier: Alright, here's your ticket. Please place
+         this sticker around the handle of your
+         suitcase, and we'll handle it for you.
 @pause 7
 					
-        [You]: Ok... *rustle* ...here...thank you sir!
+    You: Ok... here you go.
 @pause 4
 		  
-[Salesperson]: Ok, now... *rip!* ... if you could just write
-               your name, gender, and date of birth here... 
+Cashier: Right, now if you could just write your name,
+         gender, and date of birth here...
 @pause 6
 
 @input name X:
@@ -42,11 +42,11 @@ One look and it hits you.....
 
 @input gender M/F/O:
 
-[Salesperson]: Alright, {name}! You're all set. Please make
-               your way to gate 25C, and enjoy your flight!
+Cashier: Alright, {name}! You're all set. Please make your
+         way to gate 25C, and I hope you enjoy your flight!
 @pause 6
 
-        [You]: Thank You.
+    You: Thank You.
 @pause 2
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -70,7 +70,7 @@ One look and it hits you.....
 /_______^^______________|/
 @pause 8
 
-"I'm in Japan....."
+    "I'm in Japan..."
 @pause 2
 
 	Suddenly, the center of the floor shoots up rapidly. And
@@ -79,5 +79,6 @@ hesitation, you look down at the pedestal that just revealed
 itself. It seems to be some sort of puzzle.
 @pause 11
 
-	".....you gotta be kidding."
+	"... you gotta be kidding."
+
 @pause 3

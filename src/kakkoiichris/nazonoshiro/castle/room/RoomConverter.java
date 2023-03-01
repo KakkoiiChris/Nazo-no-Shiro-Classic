@@ -35,6 +35,12 @@ public class RoomConverter implements JsonConverter<Room> {
             room.setWall(direction, new Wall(direction));
         }
         
+        if (object.members().containsKey("exit")) {
+            var directionOrdinal = object.get("exit").asNumber().orElseThrow().intValue();
+            
+            room.setExit(Direction.values()[directionOrdinal]);
+        }
+        
         return room;
     }
     

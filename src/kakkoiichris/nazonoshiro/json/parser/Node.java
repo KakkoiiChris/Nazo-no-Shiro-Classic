@@ -3,6 +3,7 @@ package kakkoiichris.nazonoshiro.json.parser;
 
 import kakkoiichris.nazonoshiro.json.lexer.Location;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,7 +60,13 @@ public sealed interface Node permits Array, Value, Object {
         var array = asArray();
         
         if (array.isPresent()) {
-            return Optional.of(array.flatMap(Node::asArray).stream().toList());
+            var list = new ArrayList<Array>();
+    
+            for (var node : array.get().elements()) {
+                list.add(node.asArray().orElseThrow());
+            }
+    
+            return Optional.of(list);
         }
         
         return Optional.empty();
@@ -69,7 +76,13 @@ public sealed interface Node permits Array, Value, Object {
         var array = asArray();
         
         if (array.isPresent()) {
-            return Optional.of(array.flatMap(Node::asObject).stream().toList());
+            var list = new ArrayList<Object>();
+            
+            for (var node : array.get().elements()) {
+                list.add(node.asObject().orElseThrow());
+            }
+            
+            return Optional.of(list);
         }
         
         return Optional.empty();

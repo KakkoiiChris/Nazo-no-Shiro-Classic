@@ -7,7 +7,7 @@
     { "name" : "North Annex A", "position" : [ 0, 0, 1 ], "key" : 5, "lock" : 4, "locked" : true, "walls" : [ 3, 5 ] },
     { "name" : "North Hall", "position" : [ 0, 0, 2 ], "key" : 2, "lock" : 1, "locked" : true, "walls" : [ 3 ] },
     { "name" : "North Annex B", "position" : [ 0, 0, 3 ], "key" : 8, "lock" : 7, "locked" : true, "walls" : [ 3, 4, 5 ] },
-    { "name" : "Foyer", "position" : [ 0, 0, 4 ], "key" : 13, "lock" : 12, "locked" : true, "walls" : [ 3, 4, 6 ] },
+    { "name" : "Foyer", "position" : [ 0, 0, 4 ], "key" : 13, "lock" : 12, "locked" : true, "walls" : [ 3, 4, 6 ], "exit": 3 },
     { "name" : "Dressing Room", "position" : [ 0, 1, 0 ], "key" : 4, "lock" : 3, "locked" : true, "walls" : [ 3, 6 ] },
     { "name" : "Royal Bedroom", "position" : [ 0, 1, 1 ], "key" : 3, "lock" : 2, "locked" : true, "walls" : [ 3, 5 ] },
     { "name" : "Center Hall", "position" : [ 0, 1, 2 ], "key" : 1, "lock" : 0, "locked" : false, "walls" : [ ] },

@@ -5,7 +5,6 @@ import kakkoiichris.nazonoshiro.castle.Castle;
 import kakkoiichris.nazonoshiro.castle.Direction;
 import kakkoiichris.nazonoshiro.castle.room.EnemyRoom;
 import kakkoiichris.nazonoshiro.castle.room.PuzzleRoom;
-import kakkoiichris.nazonoshiro.fighter.Enemy;
 import kakkoiichris.nazonoshiro.fighter.Fighter;
 import kakkoiichris.nazonoshiro.fighter.Self;
 import kakkoiichris.nazonoshiro.item.Coin;
@@ -25,8 +24,6 @@ public class Game {
     
     private Direction lastDirection = Direction.NONE;
     
-    //private final SaveFileCreator saver = new SaveFileCreator();
-    
     private final ResetValue<Boolean> ran = new ResetValue<>(false); //keeps track of if you run from a fight
     
     private Castle castle;
@@ -42,6 +39,8 @@ public class Game {
         var mapName = Console.readLine();
         
         Console.newLine();
+        
+        if (mapName.isEmpty()) mapName = "original";
         
         castle = Castle.load("%s.json".formatted(mapName));
         
@@ -78,7 +77,7 @@ public class Game {
     }
     
     private void introduction() {
-        var source = Resources.getLines("intro");
+        var source = Resources.getLines("intro.txt");
         
         var script = new Script(source);
         
@@ -102,28 +101,28 @@ public class Game {
         while (exploring) {
             var room = castle.get(floor.get(), row.get(), column.get());
             
-            Console.writeLine("%s%n", room);
+            Console.writeLine("[ %s ]%n", room);
             
             if (room instanceof EnemyRoom e && !e.getEnemy().isDead()) {
                 var result = Fighter.fight(self, e.getEnemy());
                 
-                switch(result) {
+                switch (result) {
                     case WIN -> {
                         var drop = e.getEnemy().getDrop();
-    
+                        
                         if (drop == null) {
                             drop = Coin.random();
                         }
-    
+                        
                         Console.writeLine("""
-                        The %s dropped something...
+                            The %s dropped something...
+                            
+                            It's a %s!
+                            
+                            They also dropped a key. Now to
+                            find which door it unlocks...
+                            """.stripIndent(), e.getEnemy(), drop);
                         
-                        It's a %s!
-                        
-                        They also dropped a key. Now to
-                        find which door it unlocks...
-                        """.stripIndent(), e.getEnemy(), drop);
-    
                         self.setKey(room.getKey());
                     }
                     
@@ -135,18 +134,18 @@ public class Game {
                     
                     case LOSE -> {
                         Console.writeLine("You died...\n\nContinue?\n");
-    
+                        
                         resetState();
-    
+                        
                         Console.setPrompt("Y / N > ");
-    
+                        
                         var choice = "";
-    
+                        
                         do {
                             choice = Console.readLine();
                         }
                         while (!choice.matches("[YyNn]"));
-    
+                        
                         if (choice.equalsIgnoreCase("n")) {
                             exploring = false;
                         }
@@ -156,15 +155,9 @@ public class Game {
                 continue;
             }
             
-            var timing = room.isVisited() ? "then" : "first";
+            Console.writeLine("%s%n", room.getDescription());
             
             room.setVisited();
-            
-            var fileName = "%s%d-%d-%d".formatted(timing, row.get(), column.get(), floor.get());
-            
-            var description = Resources.tryGetLines(fileName).orElse(List.of("Default room text."));
-            
-            description.forEach(Console::writeLine);
             
             for (var wall : room.getWalls().values()) {
                 Console.writeLine("There is a %s to the %s.", wall.getStorage().getName(), wall.getDirection());
@@ -243,7 +236,19 @@ public class Game {
             }
             
             if (choice.equals("skip")) {
-                self.setKey(room.getKey());
+                var key = room.getKey();
+                
+                Console.writeLine("Set player key to '%d'.%n", key);
+                
+                self.setKey(key);
+                
+                continue;
+            }
+            
+            if (choice.equals("cheat")) {
+                Console.writeLine("Set player key to '99'.\n");
+                
+                self.setKey(99);
                 
                 continue;
             }
@@ -340,7 +345,7 @@ public class Game {
                 break;
             }
             
-            Console.write("\nYou don't know how to '%s'.%n%n > ", choice);
+            Console.write("You don't know how to '%s'.%n%n", choice);
         }
     }
     
@@ -432,11 +437,13 @@ public class Game {
         var r = row.get();
         var c = column.get();
         
-        if (hasWall(Direction.NORTH) || northernMost()) {
-            if (c == 4 && hasVisited(0, 2, 4)) {
-                endGame();
-            }
+        if (castle.get(f, r, c).getExit() == Direction.NORTH) {
+            endGame();
             
+            return;
+        }
+        
+        if (hasWall(Direction.NORTH) || northernMost()) {
             Console.writeLine("A wall blocks your path.\n");
             
             return;
@@ -459,6 +466,12 @@ public class Game {
         var f = floor.get();
         var r = row.get();
         var c = column.get();
+        
+        if (castle.get(f, r, c).getExit() == Direction.SOUTH) {
+            endGame();
+            
+            return;
+        }
         
         if (hasWall(Direction.SOUTH) || southernMost()) {
             Console.writeLine("A wall blocks your path.\n");
@@ -484,6 +497,12 @@ public class Game {
         var r = row.get();
         var c = column.get();
         
+        if (castle.get(f, r, c).getExit() == Direction.EAST) {
+            endGame();
+            
+            return;
+        }
+        
         if (hasWall(Direction.EAST) || easternMost()) {
             Console.writeLine("A wall blocks your path.\n");
             
@@ -507,6 +526,12 @@ public class Game {
         var f = floor.get();
         var r = row.get();
         var c = column.get();
+        
+        if (castle.get(f, r, c).getExit() == Direction.WEST) {
+            endGame();
+            
+            return;
+        }
         
         if (hasWall(Direction.WEST) || westernMost()) {
             Console.writeLine("A wall blocks your path.\n");
@@ -532,6 +557,12 @@ public class Game {
         var r = row.get();
         var c = column.get();
         
+        if (castle.get(f, r, c).getExit() == Direction.UP) {
+            endGame();
+            
+            return;
+        }
+        
         if (hasWall(Direction.UP) || upperMost()) {
             Console.writeLine("The ceiling blocks your path.\n");
             
@@ -555,6 +586,12 @@ public class Game {
         var f = floor.get();
         var r = row.get();
         var c = column.get();
+        
+        if (castle.get(f, r, c).getExit() == Direction.DOWN) {
+            endGame();
+            
+            return;
+        }
         
         if (hasWall(Direction.DOWN) || lowerMost()) {
             Console.writeLine("The floor blocks your path.\n");
@@ -619,10 +656,12 @@ public class Game {
     }
     
     private void endGame() {
-        var text = Resources.getLines("endGame");
+        var text = Resources.getLines("endGame.txt");
         
         text.forEach(Console::writeLine);
         
         Console.newLine();
+        
+        exploring = false;
     }
 }

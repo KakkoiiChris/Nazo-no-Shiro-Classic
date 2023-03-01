@@ -1,10 +1,7 @@
 //Christian Alexander, 5/12/11, Pd. 6
 package kakkoiichris.nazonoshiro.castle.room;
 
-import kakkoiichris.nazonoshiro.Console;
-import kakkoiichris.nazonoshiro.ResetGroup;
-import kakkoiichris.nazonoshiro.ResetValue;
-import kakkoiichris.nazonoshiro.Resettable;
+import kakkoiichris.nazonoshiro.*;
 import kakkoiichris.nazonoshiro.castle.Direction;
 import kakkoiichris.nazonoshiro.castle.Wall;
 import kakkoiichris.nazonoshiro.fighter.Self;
@@ -25,11 +22,17 @@ public class Room implements Resettable {
     
     private final Map<Direction, Wall> walls = new HashMap<>();
     
+    private Direction exit = Direction.NONE;
+    
     private final ResetValue<Boolean> visited = new ResetValue<>(false);
     
     private final ResetValue<Boolean> locked;
     
     protected final ResetGroup resetGroup;
+    
+    private final String descriptionBefore;
+    
+    private final String descriptionAfter;
     
     public Room(String name, int floor, int row, int column, int key, int lock, boolean locked) {
         this.name = name;
@@ -41,6 +44,14 @@ public class Room implements Resettable {
         this.locked = new ResetValue<>(locked);
         
         resetGroup = ResetGroup.of(visited, this.locked);
+        
+        var fileName = "%s%d-%d-%d.txt".formatted("before", floor, row, column);
+        
+        descriptionBefore = Resources.tryGetString(fileName).orElse("Default room before text.");
+        
+        fileName = "%s%d-%d-%d.txt".formatted("after", floor, row, column);
+        
+        descriptionAfter = Resources.tryGetString(fileName).orElse("Default room after text.");
     }
     
     public String getName() {
@@ -85,6 +96,14 @@ public class Room implements Resettable {
         return walls;
     }
     
+    public Direction getExit() {
+        return exit;
+    }
+    
+    public void setExit(Direction exit) {
+        this.exit = exit;
+    }
+    
     public int size() {
         return walls.size();
     }
@@ -113,6 +132,10 @@ public class Room implements Resettable {
     @Override
     public void resetState() {
         resetGroup.resetState();
+    }
+    
+    public String getDescription() {
+        return visited.get() ? descriptionAfter : descriptionBefore;
     }
     
     public void look(Direction direction, Self self) {
