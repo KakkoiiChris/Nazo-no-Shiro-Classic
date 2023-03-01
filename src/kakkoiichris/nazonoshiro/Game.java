@@ -349,36 +349,6 @@ public class Game {
         }
     }
     
-    private boolean run(Fighter enemy) {
-        var speedDiff = (self.getSpeed() / enemy.getSpeed()) * 50;
-        
-        var runChance = Math.random() * 100;
-        
-        row.storeState();
-        column.storeState();
-        
-        move(lastDirection.getInverse());
-        
-        if (!row.hasChanged() && !column.hasChanged()) {
-            Console.writeLine("You've been cornered.\n");
-            
-            return false;
-        }
-        
-        if (speedDiff > runChance) {
-            Console.writeLine("You made a clean getaway.\n");
-            
-            return true;
-        }
-        
-        Console.writeLine("You've been cut off.\n");
-        
-        row.resetState();
-        column.resetState();
-        
-        return false;
-    }
-    
     private void move(Direction direction) {
         lastDirection = direction;
         
@@ -424,8 +394,8 @@ public class Game {
         return floor.get() == 0;
     }
     
-    private boolean hasVisited(int floor, int row, int column) {
-        return castle.get(floor, row, column).isVisited();
+    private boolean notVisited(int floor, int row, int column) {
+        return !castle.get(floor, row, column).isVisited();
     }
     
     private boolean hasWall(Direction direction) {
@@ -450,7 +420,7 @@ public class Game {
         }
         
         if (self.getKey() >= castle.get(f, r - 1, c).getLock()) {
-            if (!hasVisited(f, r - 1, c)) {
+            if (notVisited(f, r - 1, c)) {
                 Console.writeLine("The door is unlocked.\n");
             }
             
@@ -459,7 +429,7 @@ public class Game {
             return;
         }
         
-        Console.writeLine("None of the keys you have fit that lock.\n");
+        Console.writeLine("None of the keys you have fit this lock.\n");
     }
     
     private void goSouth() {
@@ -480,7 +450,7 @@ public class Game {
         }
         
         if (self.getKey() >= castle.get(f, r + 1, c).getLock()) {
-            if (!hasVisited(f, r + 1, c)) {
+            if (notVisited(f, r + 1, c)) {
                 Console.writeLine("The door is unlocked.\n");
             }
             
@@ -489,7 +459,7 @@ public class Game {
             return;
         }
         
-        Console.writeLine("None of the keys you have fit that lock.\n");
+        Console.writeLine("None of the keys you have fit this lock.\n");
     }
     
     private void goEast() {
@@ -510,7 +480,7 @@ public class Game {
         }
         
         if (self.getKey() >= castle.get(f, r, c + 1).getLock()) {
-            if (!hasVisited(f, r, c + 1)) {
+            if (notVisited(f, r, c + 1)) {
                 Console.writeLine("The door is unlocked.\n");
             }
             
@@ -519,7 +489,7 @@ public class Game {
             return;
         }
         
-        Console.writeLine("None of the keys you have fit that lock.\n");
+        Console.writeLine("None of the keys you have fit this lock.\n");
     }
     
     private void goWest() {
@@ -540,7 +510,7 @@ public class Game {
         }
         
         if (self.getKey() >= castle.get(f, r, c - 1).getLock()) {
-            if (!hasVisited(f, r, c - 1)) {
+            if (notVisited(f, r, c - 1)) {
                 Console.writeLine("The door is unlocked.\n");
             }
             
@@ -549,7 +519,7 @@ public class Game {
             return;
         }
         
-        Console.writeLine("None of the keys you have fit that lock.\n");
+        Console.writeLine("None of the keys you have fit this lock.\n");
     }
     
     private void goUp() {
@@ -570,7 +540,7 @@ public class Game {
         }
         
         if (self.getKey() >= castle.get(f + 1, r, c).getLock()) {
-            if (!hasVisited(f + 1, r, c)) {
+            if (notVisited(f + 1, r, c)) {
                 Console.writeLine("The hatch is unlocked.\n");
             }
             
@@ -579,7 +549,7 @@ public class Game {
             return;
         }
         
-        Console.writeLine("None of the keys you have fit that lock.\n");
+        Console.writeLine("None of the keys you have fit this lock.\n");
     }
     
     private void goDown() {
@@ -600,7 +570,7 @@ public class Game {
         }
         
         if (self.getKey() >= castle.get(f - 1, r, c).getLock()) {
-            if (!hasVisited(f - 1, r, c)) {
+            if (notVisited(f - 1, r, c)) {
                 Console.writeLine("The hatch is unlocked.\n");
             }
             
@@ -609,7 +579,7 @@ public class Game {
             return;
         }
         
-        Console.writeLine("None of the keys you have fit that lock.\n");
+        Console.writeLine("None of the keys you have fit this lock.\n");
     }
     
     private void showInventory() {

@@ -45,7 +45,26 @@ public abstract class Fighter implements Resettable {
                     self.use(enemy);
                 }
                 else if (action.matches("r(un)?")) {
-                    return FightResult.RUN;
+                    var speedDiff = (enemy.getSpeed() - self.getSpeed()) / self.getSpeed();
+                    
+                    if (speedDiff >= 1) {
+                        Console.writeLine("You've been cornered.\n");
+                    }
+                    else if (speedDiff >= 0) {
+                        if (Math.random() > speedDiff) {
+                            Console.writeLine("You barely scraped by.\n");
+                            
+                            return FightResult.RUN;
+                        }
+                        else {
+                            Console.writeLine("You've been cut off.\n");
+                        }
+                    }
+                    else {
+                        Console.writeLine("You made a clean getaway.\n");
+                        
+                        return FightResult.RUN;
+                    }
                 }
                 else {
                     Console.writeLine("Can't do that...");

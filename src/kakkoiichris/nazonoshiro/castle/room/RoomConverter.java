@@ -3,6 +3,7 @@ package kakkoiichris.nazonoshiro.castle.room;
 
 import kakkoiichris.nazonoshiro.castle.Direction;
 import kakkoiichris.nazonoshiro.castle.Wall;
+import kakkoiichris.nazonoshiro.fighter.Ninja;
 import kakkoiichris.nazonoshiro.json.JsonConverter;
 import kakkoiichris.nazonoshiro.json.parser.Object;
 
@@ -23,7 +24,7 @@ public class RoomConverter implements JsonConverter<Room> {
         
         var locked = object.get("locked").asBoolean().orElseThrow();
         
-        var room = new Room(name, floor, row, column, key, lock, locked);
+        var room = new EnemyRoom(name, floor, row, column, key, lock, locked, new Ninja());
         
         var wallList = object.get("walls").asArray().orElseThrow();
         

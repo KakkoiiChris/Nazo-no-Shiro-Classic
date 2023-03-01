@@ -60,18 +60,18 @@ public class Self extends Fighter {
         var damage = sa * 100 / (100 + ed);
     
         Console.writeLine("%s takes %02f damage!", opponent.name, damage);
+    
+        String message;
         
         if (damage < 0) {
-            var message = Util.getRandom(miss);
-            
-            Console.writeLine(message.substring(message.indexOf('@') + 1, message.indexOf('#')) + opponent + message.substring(message.indexOf('$') + 1, message.indexOf('%')));
+            message = Util.getRandom(miss);
         }
         else {
-            var message = Util.getRandom(direct);
-            
-            Console.writeLine(message.substring(message.indexOf('@') + 1, message.indexOf('#')) + opponent + message.substring(message.indexOf('$') + 1, message.indexOf('%')));
+            message = Util.getRandom(direct);
         }
         
+        Console.writeLine(message.substring(message.indexOf('@') + 1, message.indexOf('#')) + opponent + message.substring(message.indexOf('$') + 1, message.indexOf('%')));
+    
         opponent.setHealth(opponent.getHealth() - damage);
         
         Console.newLine();

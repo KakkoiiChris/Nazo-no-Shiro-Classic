@@ -13,9 +13,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class Enemy extends Fighter {
-    private static final List<String> direct = Resources.getLines("directBlock");
-    private static final List<String> indirect = Resources.getLines("indirectBlock");
-    private static final List<String> miss = Resources.getLines("missBlock");
+    private static final List<String> direct = Resources.getLines("directBlock.txt");
+    private static final List<String> indirect = Resources.getLines("indirectBlock.txt");
+    private static final List<String> miss = Resources.getLines("missBlock.txt");
     
     private final ResetValue<Item> droppable;
     
