@@ -1,15 +1,13 @@
 //Christian Alexander, 9/13/2011
-package kakkoiichris.nazonoshiro.item.kasugi;
+package kakkoiichris.nazonoshiro.item.kusuri;
 
 import kakkoiichris.nazonoshiro.Console;
 import kakkoiichris.nazonoshiro.fighter.Enemy;
 import kakkoiichris.nazonoshiro.fighter.Fighter;
 
-public class Pure extends Kasugi {
-    public Pure() {
-        super("Pure", "", 0, 0, true);
-        
-        timer = 99;
+public class Corrupt extends Kusuri {
+    public Corrupt() {
+        super("Corrupt", "", 1, 99, false);
     }
     
     @java.lang.Override
@@ -21,6 +19,8 @@ public class Pure extends Kasugi {
     public void affect(Fighter fighter) {
         var pronoun = (fighter instanceof Enemy) ? "They" : "You";
         
-        Console.writeLine("%s used an antidote!%n", pronoun);
+        Console.writeLine("%s've been poisoned!%n", pronoun);
+        
+        fighter.setHealth(1);
     }
 }

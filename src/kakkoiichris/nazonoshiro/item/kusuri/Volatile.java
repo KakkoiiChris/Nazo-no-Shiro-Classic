@@ -1,11 +1,11 @@
 //Christian Alexander, 9/13/2011
-package kakkoiichris.nazonoshiro.item.kasugi;
+package kakkoiichris.nazonoshiro.item.kusuri;
 
 import kakkoiichris.nazonoshiro.fighter.Fighter;
 
-public class Fixer extends Kasugi {
-    public Fixer() {
-        super("Kasugi", "", 0, 3, true);
+public class Volatile extends Kusuri {
+    public Volatile() {
+        super("Volatile", "", 3, 0, true);
     }
     
     @java.lang.Override

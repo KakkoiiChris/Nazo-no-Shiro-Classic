@@ -1,13 +1,13 @@
-//Christian Alexander, 9/27/2011
-package kakkoiichris.nazonoshiro.item.kasugi;
+//Christian Alexander, 9/13/2011
+package kakkoiichris.nazonoshiro.item.kusuri;
 
 import kakkoiichris.nazonoshiro.Console;
 import kakkoiichris.nazonoshiro.fighter.Enemy;
 import kakkoiichris.nazonoshiro.fighter.Fighter;
 
-public class Sub extends Kasugi {
-    public Sub() {
-        super("Sub", "", 3, 3, false);
+public class Velocity extends Kusuri {
+    public Velocity() {
+        super("Velocity", "", 3, 3, true);
     }
     
     @java.lang.Override
@@ -20,12 +20,12 @@ public class Sub extends Kasugi {
         if (timer != 0) {
             var pronoun = (fighter instanceof Enemy) ? "Their" : "Your";
             
-            Console.writeLine("%s power's been dulled!%n", pronoun);
+            Console.writeLine("%s reactions are much quicker!%n", pronoun);
             
-            fighter.setAttack(fighter.getAttack() - 3);
+            fighter.setSpeed(fighter.getSpeed() + 3);
         }
         else {
-            Console.writeLine("Sub has worn off.");
+            Console.writeLine("Velocity has worn off.");
         }
         
         timer--;

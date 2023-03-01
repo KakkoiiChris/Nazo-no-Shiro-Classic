@@ -5,7 +5,7 @@ import kakkoiichris.nazonoshiro.Console;
 import kakkoiichris.nazonoshiro.ResetValue;
 import kakkoiichris.nazonoshiro.Resources;
 import kakkoiichris.nazonoshiro.Util;
-import kakkoiichris.nazonoshiro.item.kasugi.Kasugi;
+import kakkoiichris.nazonoshiro.item.kusuri.Kusuri;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -80,9 +80,9 @@ public class Self extends Fighter {
     public void use(Fighter opponent) {
         var kasugi = inventory
             .stream()
-            .filter(item -> item instanceof Kasugi)
-            .map(Kasugi.class::cast)
-            .collect(Collectors.groupingBy(Kasugi::getName));
+            .filter(item -> item instanceof Kusuri)
+            .map(Kusuri.class::cast)
+            .collect(Collectors.groupingBy(Kusuri::getName));
         
         if (kasugi.isEmpty()) {
             Console.writeLine("You have no kasugi to use.%n");

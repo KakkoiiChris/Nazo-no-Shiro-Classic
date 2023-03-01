@@ -1,19 +1,19 @@
 //Christian Alexander, 9/13/2011
-package kakkoiichris.nazonoshiro.item.kasugi;
+package kakkoiichris.nazonoshiro.item.kusuri;
 
 import kakkoiichris.nazonoshiro.Console;
 import kakkoiichris.nazonoshiro.fighter.Fighter;
 import kakkoiichris.nazonoshiro.fighter.Self;
 import kakkoiichris.nazonoshiro.item.Item;
 
-public abstract class Kasugi implements Item {
+public abstract class Kusuri implements Item {
     protected String name, description;
     
     protected int value, duration, timer;
     
     protected boolean forYou;
     
-    public Kasugi(String name, String description, int value, int duration, boolean forYou) {
+    public Kusuri(String name, String description, int value, int duration, boolean forYou) {
         this.name = name;
         this.description = description;
         this.value = value;

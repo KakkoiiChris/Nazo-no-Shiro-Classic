@@ -7,7 +7,7 @@ import kakkoiichris.nazonoshiro.Resettable;
 import kakkoiichris.nazonoshiro.fighter.Self;
 import kakkoiichris.nazonoshiro.item.Coin;
 import kakkoiichris.nazonoshiro.item.Item;
-import kakkoiichris.nazonoshiro.item.kasugi.Kasugi;
+import kakkoiichris.nazonoshiro.item.kusuri.Kusuri;
 
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -16,7 +16,7 @@ public abstract class Storage implements Resettable {
     private final String name;
     
     protected ResetList<Item> items = new ResetList<>();
-    protected ResetList<Kasugi> kasugis = new ResetList<>();
+    protected ResetList<Kusuri> kusuris = new ResetList<>();
     
     public Storage(String name) {
         this.name = name;
@@ -33,13 +33,13 @@ public abstract class Storage implements Resettable {
     @Override
     public void storeState() {
         items.storeState();
-        kasugis.storeState();
+        kusuris.storeState();
     }
     
     @Override
     public void resetState() {
         items.resetState();
-        kasugis.resetState();
+        kusuris.resetState();
     }
     
     public void add(Item item) {
@@ -61,7 +61,7 @@ public abstract class Storage implements Resettable {
     public int getKasugiCount(String name) {
         var index = 0;
         
-        for (var kasugi : kasugis) {
+        for (var kasugi : kusuris) {
             if (kasugi.getName().equals(name)) {
                 index++;
             }

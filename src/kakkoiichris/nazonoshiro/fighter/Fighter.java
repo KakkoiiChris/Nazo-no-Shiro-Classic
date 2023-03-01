@@ -6,7 +6,7 @@ import kakkoiichris.nazonoshiro.ResetGroup;
 import kakkoiichris.nazonoshiro.ResetList;
 import kakkoiichris.nazonoshiro.Resettable;
 import kakkoiichris.nazonoshiro.item.Item;
-import kakkoiichris.nazonoshiro.item.kasugi.Kasugi;
+import kakkoiichris.nazonoshiro.item.kusuri.Kusuri;
 
 public abstract class Fighter implements Resettable {
     public enum FightResult {
@@ -81,7 +81,7 @@ public abstract class Fighter implements Resettable {
     
     protected final ResetList<Item> inventory = new ResetList<>();
     
-    protected final ResetList<Kasugi> effectives = new ResetList<>();
+    protected final ResetList<Kusuri> effectives = new ResetList<>();
     
     protected final ResetGroup resetGroup;
     
@@ -184,7 +184,6 @@ public abstract class Fighter implements Resettable {
         var max = health.getMax().get().intValue();
         var now = health.getNow().get().intValue();
         
-        
         Console.write("%s %s (%03d / %03d) ║", name, active ? "*" : " ", now, max);
         
         var i = now;
@@ -218,7 +217,7 @@ public abstract class Fighter implements Resettable {
         return inventory;
     }
     
-    public ResetList<Kasugi> getEffectives() {
+    public ResetList<Kusuri> getEffectives() {
         return effectives;
     }
     

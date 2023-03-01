@@ -1,11 +1,11 @@
 //Christian Alexander, 9/13/2011
-package kakkoiichris.nazonoshiro.item.kasugi;
+package kakkoiichris.nazonoshiro.item.kusuri;
 
 import kakkoiichris.nazonoshiro.Console;
 import kakkoiichris.nazonoshiro.fighter.Enemy;
 import kakkoiichris.nazonoshiro.fighter.Fighter;
 
-public class Burn extends Kasugi {
+public class Burn extends Kusuri {
     public Burn() {
         super("Burn", "", 3, -1, true);
     }

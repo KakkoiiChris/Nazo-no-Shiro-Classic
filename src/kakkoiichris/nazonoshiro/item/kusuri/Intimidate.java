@@ -1,13 +1,13 @@
-//Christian Alexander, 9/13/2011
-package kakkoiichris.nazonoshiro.item.kasugi;
+//Christian Alexander, 9/27/2011
+package kakkoiichris.nazonoshiro.item.kusuri;
 
 import kakkoiichris.nazonoshiro.Console;
 import kakkoiichris.nazonoshiro.fighter.Enemy;
 import kakkoiichris.nazonoshiro.fighter.Fighter;
 
-public class Brace extends Kasugi {
-    public Brace() {
-        super("Brace", "",3, 3, true);
+public class Intimidate extends Kusuri {
+    public Intimidate() {
+        super("Intimidate", "", 3, 3, false);
     }
     
     @java.lang.Override
@@ -17,17 +17,17 @@ public class Brace extends Kasugi {
     
     @java.lang.Override
     public void affect(Fighter fighter) {
+        var pronoun = (fighter instanceof Enemy) ? "Their" : "Your";
+        
         if (timer != 0) {
-            var pronoun = (fighter instanceof Enemy) ? "They" : "You";
-            
-            Console.writeLine("%s've braced for impact!%n", pronoun);
+            Console.writeLine("%s've been intimidated!%n", pronoun);
             
             fighter.setDefense(fighter.getDefense() - 3);
+            
+            timer--;
         }
         else {
-            Console.writeLine("Brace has worn off.\n");
+            Console.writeLine("Intimidate has worn off.");
         }
-        
-        timer--;
     }
 }

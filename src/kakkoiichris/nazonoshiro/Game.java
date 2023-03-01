@@ -1,4 +1,4 @@
-// Christian Alexander, 12/4/2022
+ // Christian Alexander, 12/4/2022
 package kakkoiichris.nazonoshiro;
 
 import kakkoiichris.nazonoshiro.castle.Castle;
@@ -117,7 +117,7 @@ public class Game {
                         Console.writeLine("""
                             The %s dropped something...
                             
-                            It's a %s!
+                            It's a(n) %s!
                             
                             They also dropped a key. Now to
                             find which door it unlocks...

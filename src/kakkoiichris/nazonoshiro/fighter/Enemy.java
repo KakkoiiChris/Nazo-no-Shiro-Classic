@@ -6,8 +6,8 @@ import kakkoiichris.nazonoshiro.ResetValue;
 import kakkoiichris.nazonoshiro.Resources;
 import kakkoiichris.nazonoshiro.Util;
 import kakkoiichris.nazonoshiro.item.Item;
-import kakkoiichris.nazonoshiro.item.kasugi.Corrupt;
-import kakkoiichris.nazonoshiro.item.kasugi.Kasugi;
+import kakkoiichris.nazonoshiro.item.kusuri.Corrupt;
+import kakkoiichris.nazonoshiro.item.kusuri.Kusuri;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -63,9 +63,9 @@ public abstract class Enemy extends Fighter {
     public void use(Fighter opponent) {
         var kasugi = inventory
             .stream()
-            .filter(item -> item instanceof Kasugi)
-            .map(Kasugi.class::cast)
-            .collect(Collectors.groupingBy(Kasugi::getName));
+            .filter(item -> item instanceof Kusuri)
+            .map(Kusuri.class::cast)
+            .collect(Collectors.groupingBy(Kusuri::getName));
         
         if (!effectives.isEmpty()) {
             if (effectives.stream().anyMatch(k -> k instanceof Corrupt) && !kasugi.get("Pure").isEmpty() && getHealth() <= 10) {
