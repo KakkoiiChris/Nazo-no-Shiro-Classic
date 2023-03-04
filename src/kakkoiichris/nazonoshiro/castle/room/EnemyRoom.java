@@ -22,4 +22,12 @@ public class EnemyRoom extends Room {
     public Enemy getEnemy() {
         return enemy;
     }
+    
+    public boolean isDefeated() {
+        return defeated.get();
+    }
+    
+    public void setDefeated() {
+        defeated.set(true);
+    }
 }

@@ -24,7 +24,7 @@ public class RoomConverter implements JsonConverter<Room> {
         
         var locked = object.get("locked").asBoolean().orElseThrow();
         
-        var room = new EnemyRoom(name, floor, row, column, key, lock, locked, new Ninja());
+        var room = new Room(name, floor, row, column, key, lock, locked);
         
         var wallList = object.get("walls").asArray().orElseThrow();
         

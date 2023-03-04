@@ -22,8 +22,6 @@ public class Game {
     private final ResetValue<Integer> row = new ResetValue<>(1); //the row you are located in
     private final ResetValue<Integer> column = new ResetValue<>(2); //the column you are located in
     
-    private Direction lastDirection = Direction.NONE;
-    
     private final ResetValue<Boolean> ran = new ResetValue<>(false); //keeps track of if you run from a fight
     
     private Castle castle;
@@ -48,15 +46,15 @@ public class Game {
         
         var items = new ArrayList<Item>();
         
-        for (var i = 0; i < Util.random.nextInt(500, 1_000); i++) {
+        for (var count = 0; count < Util.random.nextInt(500, 1_000); count++) {
             items.add(Coin.random());
         }
         
-        for (var j = 0; j < Util.random.nextInt(100, 250); j++) {
+        for (var count = 0; count < Util.random.nextInt(100, 250); count++) {
             items.add(HealthPack.HERB);
         }
         
-        for (var k = 0; k < Util.random.nextInt(50, 100); k++) {
+        for (var count = 0; count < Util.random.nextInt(50, 100); count++) {
             items.add(HealthPack.BUSHEL);
         }
         
@@ -103,11 +101,13 @@ public class Game {
             
             Console.writeLine("[ %s ]%n", room);
             
-            if (room instanceof EnemyRoom e && !e.getEnemy().isDead()) {
+            if (room instanceof EnemyRoom e && !e.isDefeated()) {
                 var result = Fighter.fight(self, e.getEnemy());
                 
                 switch (result) {
                     case WIN -> {
+                        e.setDefeated();
+                        
                         var drop = e.getEnemy().getDrop();
                         
                         if (drop == null) {
@@ -302,41 +302,13 @@ public class Game {
             }
             
             if (choice.equals("save")) {
-                //saver.openFile();
-                
                 Console.write("Saving");
-                
-                //saver.addData(floors, guards, self, row, column, floor, yourTurn);
-                
-                //saver.closeFile();
-                
-                for (var i = 0; i < (int) (Math.random() * 5) + 3; i++) {
-                    Console.write(".");
-                    
-                    Console.pause(1);
-                }
-                
-                Console.writeLine("\nSaved.\n");
                 
                 continue;
             }
             
             if (choice.equals("snq")) {
-                //saver.openFile();
-                
                 Console.write("Saving");
-                
-                //saver.addData(floors, guards, self, row, column, floor, yourTurn);
-                
-                //saver.closeFile();
-                
-                for (var i = 0; i < (int) (Math.random() * 5) + 3; i++) {
-                    Console.write(".");
-                    
-                    Console.pause(1);
-                }
-                
-                Console.writeLine("\nSaved.\nThanks for playing.");
                 
                 break;
             }
@@ -350,48 +322,11 @@ public class Game {
     }
     
     private void move(Direction direction) {
-        lastDirection = direction;
-        
         floor.storeState();
         row.storeState();
         column.storeState();
         
-        switch (direction) {
-            case UP -> goUp();
-            case DOWN -> goDown();
-            case NORTH -> goNorth();
-            case SOUTH -> goSouth();
-            case EAST -> goEast();
-            case WEST -> goWest();
-        }
-        
-        if (!(floor.hasChanged() || row.hasChanged() || column.hasChanged())) {
-            lastDirection = Direction.NONE;
-        }
-    }
-    
-    private boolean northernMost() {
-        return row.get() == 0;
-    }
-    
-    private boolean southernMost() {
-        return row.get() == castle.getRows() - 1;
-    }
-    
-    private boolean easternMost() {
-        return column.get() == castle.getColumns() - 1;
-    }
-    
-    private boolean westernMost() {
-        return column.get() == 0;
-    }
-    
-    private boolean upperMost() {
-        return floor.get() == castle.getFloors() - 1;
-    }
-    
-    private boolean lowerMost() {
-        return floor.get() == 0;
+        go(direction);
     }
     
     private boolean notVisited(int floor, int row, int column) {
@@ -402,191 +337,47 @@ public class Game {
         return castle.get(floor.get(), row.get(), column.get()).hasWall(direction);
     }
     
-    private void goNorth() {
+    private void go(Direction direction) {
         var f = floor.get();
         var r = row.get();
         var c = column.get();
-        
-        if (castle.get(f, r, c).getExit() == Direction.NORTH) {
+    
+        if (castle.get(f, r, c).getExit() == direction) {
             endGame();
-            
+        
             return;
         }
-        
-        if (hasWall(Direction.NORTH) || northernMost()) {
+    
+        if (hasWall(direction)) {
             Console.writeLine("A wall blocks your path.\n");
-            
+        
             return;
         }
         
-        if (self.getKey() >= castle.get(f, r - 1, c).getLock()) {
-            if (notVisited(f, r - 1, c)) {
+        f += direction.getDeltaFloor();
+        r += direction.getDeltaRow();
+        c += direction.getDeltaColumn();
+        
+        if (self.getKey() >= castle.get(f, r, c).getLock()) {
+            if (notVisited(f, r, c)) {
                 Console.writeLine("The door is unlocked.\n");
             }
-            
-            row.set(r - 1);
+        
+            floor.set(f);
+            row.set(r);
+            column.set(c);
             
             return;
         }
-        
-        Console.writeLine("None of the keys you have fit this lock.\n");
-    }
     
-    private void goSouth() {
-        var f = floor.get();
-        var r = row.get();
-        var c = column.get();
-        
-        if (castle.get(f, r, c).getExit() == Direction.SOUTH) {
-            endGame();
-            
-            return;
-        }
-        
-        if (hasWall(Direction.SOUTH) || southernMost()) {
-            Console.writeLine("A wall blocks your path.\n");
-            
-            return;
-        }
-        
-        if (self.getKey() >= castle.get(f, r + 1, c).getLock()) {
-            if (notVisited(f, r + 1, c)) {
-                Console.writeLine("The door is unlocked.\n");
-            }
-            
-            row.set(r + 1);
-            
-            return;
-        }
-        
-        Console.writeLine("None of the keys you have fit this lock.\n");
-    }
-    
-    private void goEast() {
-        var f = floor.get();
-        var r = row.get();
-        var c = column.get();
-        
-        if (castle.get(f, r, c).getExit() == Direction.EAST) {
-            endGame();
-            
-            return;
-        }
-        
-        if (hasWall(Direction.EAST) || easternMost()) {
-            Console.writeLine("A wall blocks your path.\n");
-            
-            return;
-        }
-        
-        if (self.getKey() >= castle.get(f, r, c + 1).getLock()) {
-            if (notVisited(f, r, c + 1)) {
-                Console.writeLine("The door is unlocked.\n");
-            }
-            
-            column.set(c + 1);
-            
-            return;
-        }
-        
-        Console.writeLine("None of the keys you have fit this lock.\n");
-    }
-    
-    private void goWest() {
-        var f = floor.get();
-        var r = row.get();
-        var c = column.get();
-        
-        if (castle.get(f, r, c).getExit() == Direction.WEST) {
-            endGame();
-            
-            return;
-        }
-        
-        if (hasWall(Direction.WEST) || westernMost()) {
-            Console.writeLine("A wall blocks your path.\n");
-            
-            return;
-        }
-        
-        if (self.getKey() >= castle.get(f, r, c - 1).getLock()) {
-            if (notVisited(f, r, c - 1)) {
-                Console.writeLine("The door is unlocked.\n");
-            }
-            
-            column.set(c - 1);
-            
-            return;
-        }
-        
-        Console.writeLine("None of the keys you have fit this lock.\n");
-    }
-    
-    private void goUp() {
-        var f = floor.get();
-        var r = row.get();
-        var c = column.get();
-        
-        if (castle.get(f, r, c).getExit() == Direction.UP) {
-            endGame();
-            
-            return;
-        }
-        
-        if (hasWall(Direction.UP) || upperMost()) {
-            Console.writeLine("The ceiling blocks your path.\n");
-            
-            return;
-        }
-        
-        if (self.getKey() >= castle.get(f + 1, r, c).getLock()) {
-            if (notVisited(f + 1, r, c)) {
-                Console.writeLine("The hatch is unlocked.\n");
-            }
-            
-            floor.set(f + 1);
-            
-            return;
-        }
-        
-        Console.writeLine("None of the keys you have fit this lock.\n");
-    }
-    
-    private void goDown() {
-        var f = floor.get();
-        var r = row.get();
-        var c = column.get();
-        
-        if (castle.get(f, r, c).getExit() == Direction.DOWN) {
-            endGame();
-            
-            return;
-        }
-        
-        if (hasWall(Direction.DOWN) || lowerMost()) {
-            Console.writeLine("The floor blocks your path.\n");
-            
-            return;
-        }
-        
-        if (self.getKey() >= castle.get(f - 1, r, c).getLock()) {
-            if (notVisited(f - 1, r, c)) {
-                Console.writeLine("The hatch is unlocked.\n");
-            }
-            
-            floor.set(f - 1);
-            
-            return;
-        }
-        
         Console.writeLine("None of the keys you have fit this lock.\n");
     }
     
     private void showInventory() {
         var action = "";
         
-        while (!action.equals("close") && !action.equals("e")) {
-            Console.writeLine("[Inventory]");
+        while (!action.matches("(clos)?e")) {
+            Console.writeLine("[ Inventory ]");
             
             var coins = self.getInventory()
                 .stream()

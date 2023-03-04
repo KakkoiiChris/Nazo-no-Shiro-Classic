@@ -4,54 +4,76 @@ import java.util.Arrays;
 
 // Christian Alexander, 9/4/2022
 public enum Direction {
-    NONE {
+    NONE(0, 0, 0) {
         @Override
         public Direction getInverse() {
             return NONE;
         }
     },
     
-    UP {
+    UP(1, 0, 0) {
         @Override
         public Direction getInverse() {
             return DOWN;
         }
     },
     
-    DOWN {
+    DOWN(-1, 0, 0) {
         @Override
         public Direction getInverse() {
             return UP;
         }
     },
     
-    NORTH {
+    NORTH(0, -1, 0) {
         @Override
         public Direction getInverse() {
             return SOUTH;
         }
     },
     
-    EAST {
+    EAST(0, 0, 1) {
         @Override
         public Direction getInverse() {
             return WEST;
         }
     },
     
-    SOUTH {
+    SOUTH(0, 1, 0) {
         @Override
         public Direction getInverse() {
             return NORTH;
         }
     },
     
-    WEST {
+    WEST(0, 0, -1) {
         @Override
         public Direction getInverse() {
             return EAST;
         }
     };
+    
+    private final int deltaFloor;
+    private final int deltaRow;
+    private final int deltaColumn;
+    
+    Direction(int deltaFloor, int deltaRow, int deltaColumn) {
+        this.deltaFloor = deltaFloor;
+        this.deltaRow = deltaRow;
+        this.deltaColumn = deltaColumn;
+    }
+    
+    public int getDeltaFloor() {
+        return deltaFloor;
+    }
+    
+    public int getDeltaRow() {
+        return deltaRow;
+    }
+    
+    public int getDeltaColumn() {
+        return deltaColumn;
+    }
     
     public abstract Direction getInverse();
     

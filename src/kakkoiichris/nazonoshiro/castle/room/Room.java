@@ -158,9 +158,7 @@ public class Room implements Resettable {
     
     public void distributeItems(List<Item> items) {
         for (var wall : walls.values()) {
-            if (items.isEmpty()) {
-                return;
-            }
+            if (items.isEmpty()) return;
             
             wall.getStorage().add(items.remove(0));
         }
