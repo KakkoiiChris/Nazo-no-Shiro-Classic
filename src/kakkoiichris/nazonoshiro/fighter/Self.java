@@ -59,18 +59,15 @@ public class Self extends Fighter {
         
         var damage = sa * 100 / (100 + ed);
     
-        Console.writeLine("%s takes %02f damage!", opponent.name, damage);
+        Console.writeLine("%s takes %02f damage!%n", opponent.name, damage);
     
-        String message;
+        var list = (damage < 0) ? miss : direct;
+    
+        var message = Util.getRandom(list);
+    
+        Console.writeLine(message, opponent.name);
         
-        if (damage < 0) {
-            message = Util.getRandom(miss);
-        }
-        else {
-            message = Util.getRandom(direct);
-        }
-        
-        Console.writeLine(message.substring(message.indexOf('@') + 1, message.indexOf('#')) + opponent + message.substring(message.indexOf('$') + 1, message.indexOf('%')));
+        Console.newLine();
     
         opponent.setHealth(opponent.getHealth() - damage);
         
@@ -85,12 +82,12 @@ public class Self extends Fighter {
             .collect(Collectors.groupingBy(Kusuri::getName));
         
         if (kasugi.isEmpty()) {
-            Console.writeLine("You have no kasugi to use.%n");
+            Console.writeLine("You have no kusuri to use.%n");
             
             return;
         }
         
-        Console.writeLine("Kasugi:");
+        Console.writeLine("Kusuri:");
         
         for (var key : kasugi.keySet()) {
             Console.writeLine("%s: [%d]", key, kasugi.get(key).size());

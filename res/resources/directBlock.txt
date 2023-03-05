@@ -1,7 +1,7 @@
-@You safely blocked the # $'s attack.%
-@You swiftly dodged the # $.%
-@The # $ completely missed you.%
-@You overwhelmed the # $.%
-@Your shield served you well against the # $.%
-@You rendered the # $'s attack futile.%
-@The # $ had no opening.%
+You safely blocked the %s's attack.
+You swiftly dodged the %s.
+The %s completely missed you.
+You overwhelmed the %s.
+Your shield served you well against the %s.
+You rendered the %s's attack futile.
+The %s had no opening.

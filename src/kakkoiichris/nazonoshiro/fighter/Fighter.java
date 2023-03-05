@@ -67,7 +67,7 @@ public abstract class Fighter implements Resettable {
                     }
                 }
                 else {
-                    Console.writeLine("Can't do that...");
+                    Console.writeLine("Can't do that...\n");
                     
                     continue;
                 }
@@ -203,7 +203,7 @@ public abstract class Fighter implements Resettable {
         var max = health.getMax().get().intValue();
         var now = health.getNow().get().intValue();
         
-        Console.write("%s %s (%03d / %03d) ║", name, active ? "*" : " ", now, max);
+        Console.write("%s %s (%03d / %03d) ║", active ? ">" : " ", name, now, max);
         
         var i = now;
         

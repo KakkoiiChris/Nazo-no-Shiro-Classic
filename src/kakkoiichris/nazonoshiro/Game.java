@@ -1,4 +1,4 @@
- // Christian Alexander, 12/4/2022
+// Christian Alexander, 12/4/2022
 package kakkoiichris.nazonoshiro;
 
 import kakkoiichris.nazonoshiro.castle.Castle;
@@ -6,6 +6,7 @@ import kakkoiichris.nazonoshiro.castle.Direction;
 import kakkoiichris.nazonoshiro.castle.room.EnemyRoom;
 import kakkoiichris.nazonoshiro.castle.room.PuzzleRoom;
 import kakkoiichris.nazonoshiro.fighter.Fighter;
+import kakkoiichris.nazonoshiro.fighter.Ninja;
 import kakkoiichris.nazonoshiro.fighter.Self;
 import kakkoiichris.nazonoshiro.item.Coin;
 import kakkoiichris.nazonoshiro.item.HealthPack;
@@ -82,8 +83,16 @@ public class Game {
         var vars = script.run();
         
         var name = vars.get("name");
+        
+        if (name.isEmpty()) name = "Self";
+        
         var birthday = vars.get("birthday");
+        
+        if (birthday.isEmpty()) birthday = "01/01/2000";
+        
         var gender = vars.get("gender");
+        
+        if (gender.isEmpty()) gender = "o";
         
         self = new Self(name, birthday, gender);
         
@@ -235,24 +244,6 @@ public class Game {
                 continue;
             }
             
-            if (choice.equals("skip")) {
-                var key = room.getKey();
-                
-                Console.writeLine("Set player key to '%d'.%n", key);
-                
-                self.setKey(key);
-                
-                continue;
-            }
-            
-            if (choice.equals("cheat")) {
-                Console.writeLine("Set player key to '99'.\n");
-                
-                self.setKey(99);
-                
-                continue;
-            }
-            
             if (choice.equals("w")) {
                 storeState();
                 
@@ -317,6 +308,36 @@ public class Game {
                 break;
             }
             
+            // TODO: HACKS FOR TESTING! DO NOT SHIP!
+            
+            if (choice.equals("skip")) {
+                var key = room.getKey();
+                
+                Console.writeLine("Set player key to '%d'.%n", key);
+                
+                self.setKey(key);
+                
+                continue;
+            }
+            
+            if (choice.equals("cheat")) {
+                Console.writeLine("Set player key to '99'.\n");
+                
+                self.setKey(99);
+                
+                continue;
+            }
+            
+            if (choice.equals("fight")) {
+                self.storeState();
+                
+                Console.writeLine(Fighter.fight(self, new Ninja()));
+                
+                self.resetState();
+                
+                continue;
+            }
+            
             Console.write("You don't know how to '%s'.%n%n", choice);
         }
     }
@@ -341,16 +362,16 @@ public class Game {
         var f = floor.get();
         var r = row.get();
         var c = column.get();
-    
+        
         if (castle.get(f, r, c).getExit() == direction) {
             endGame();
-        
+            
             return;
         }
-    
+        
         if (hasWall(direction)) {
             Console.writeLine("A wall blocks your path.\n");
-        
+            
             return;
         }
         
@@ -362,14 +383,14 @@ public class Game {
             if (notVisited(f, r, c)) {
                 Console.writeLine("The door is unlocked.\n");
             }
-        
+            
             floor.set(f);
             row.set(r);
             column.set(c);
             
             return;
         }
-    
+        
         Console.writeLine("None of the keys you have fit this lock.\n");
     }
     

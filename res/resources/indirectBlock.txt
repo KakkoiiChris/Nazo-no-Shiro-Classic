@@ -1,7 +1,7 @@
-@You barely dodged the # $.%
-@The # $ nearly struck you.%
-@The # $ sliced you somehow.%
-@The # $ caught you by surprise.%
-@The # $ hit you weakly.%
-@You were almost maimed by the # $.%
-@The # $'s attack couldn't have been closer.% 
+You barely dodged the %s.
+The %s nearly struck you.
+The %s sliced you somehow.
+The %s caught you by surprise.
+The %s hit you weakly.
+You were almost maimed by the %s.
+The %s's attack couldn't have been closer. 

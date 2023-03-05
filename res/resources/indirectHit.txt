@@ -1,7 +1,7 @@
-@You sideswiped the # $.%
-@You cut by the # $.%
-@You clipped the # $'s shield.%
-@You barely touched the # $.%
-@You could've hit the # $ more directly.%
-@You nearly missed the # $.% 
-@You need to strike the # $ harder.%
+You sideswiped the %s.
+You cut by the %s.
+You clipped the %s's shield.
+You barely touched the %s.
+You could've hit the %s more directly.
+You nearly missed the %s. 
+You need to strike the %s harder.

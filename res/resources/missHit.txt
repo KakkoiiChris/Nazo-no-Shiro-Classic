@@ -1,7 +1,7 @@
-@You missed the # $ completely.%
-@You never came near the # $.%
-@You lost control against the # $.%
-@You caught only air by the # $'s side.%
-@You can't seem to lock on to the # $.%
-@You don't stand a chance against the # $.%
-@Your training didn't surpass the # $'s training.%
+You missed the %s completely.
+You never came near the %s.
+You lost control against the %s.
+You caught only air by the %s's side.
+You can't seem to lock on to the %s.
+You don't stand a chance against the %s.
+Your training didn't surpass the %s's training.
