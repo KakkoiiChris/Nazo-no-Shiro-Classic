@@ -2,18 +2,45 @@
 package kakkoiichris.nazonoshiro;
 
 import java.util.Scanner;
+import java.util.Stack;
 
 public class Console {
     private static final Scanner input = new Scanner(System.in);
     
-    private static String prompt = "> ";
+    private static String prompt;
+    
+    private static final Stack<String> promptStack = new Stack<>();
+    
+    static {
+        setPrompt("> ");
+    }
     
     public static String getPrompt() {
         return prompt;
     }
     
+    public static void pushPrompt(String prompt) {
+        promptStack.push(prompt);
+        
+        Console.prompt = String.join("", promptStack);
+    }
+    
+    public static void popPrompt() {
+        if (!promptStack.isEmpty()) {
+            promptStack.pop();
+        }
+        
+        Console.prompt = String.join("", promptStack);
+    }
+    
     public static void setPrompt(String prompt) {
-        Console.prompt = prompt;
+        if (!promptStack.isEmpty()) {
+            promptStack.pop();
+        }
+        
+        promptStack.push(prompt);
+        
+        Console.prompt = String.join("", promptStack);
     }
     
     public static String read() {

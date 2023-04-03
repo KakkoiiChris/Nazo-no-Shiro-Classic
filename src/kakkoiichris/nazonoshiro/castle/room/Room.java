@@ -138,6 +138,18 @@ public class Room implements Resettable {
         return visited.get() ? descriptionAfter : descriptionBefore;
     }
     
+    public void enter() {
+        Console.writeLine("Enter\n");
+    }
+    
+    public void explore() {
+        Console.writeLine("Explore\n");
+    }
+    
+    public void exit() {
+        Console.writeLine("Exit\n");
+    }
+    
     public void look(Direction direction, Self self) {
         if (walls.isEmpty()) {
             Console.writeLine("There's nothing there.");
@@ -148,7 +160,15 @@ public class Room implements Resettable {
         if (hasWall(direction)) {
             var wall = getWall(direction);
             
-            wall.getStorage().open(self);
+            var storage = wall.getStorage();
+            
+            if (storage.isEmpty()) {
+                Console.writeLine("The %s is empty.", storage.getName());
+                
+                return;
+            }
+            
+            storage.open(self);
             
             return;
         }

@@ -3,7 +3,6 @@ package kakkoiichris.nazonoshiro.castle.room;
 
 import kakkoiichris.nazonoshiro.castle.Direction;
 import kakkoiichris.nazonoshiro.castle.Wall;
-import kakkoiichris.nazonoshiro.fighter.Ninja;
 import kakkoiichris.nazonoshiro.json.JsonConverter;
 import kakkoiichris.nazonoshiro.json.parser.Object;
 

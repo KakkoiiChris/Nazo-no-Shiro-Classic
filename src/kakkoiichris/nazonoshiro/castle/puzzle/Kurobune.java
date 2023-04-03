@@ -3,6 +3,8 @@ package kakkoiichris.nazonoshiro.castle.puzzle;
 
 import kakkoiichris.nazonoshiro.Console;
 
+import java.util.Arrays;
+
 public class Kurobune extends Puzzle {
     public Kurobune() {
         super("Kurobune");
@@ -19,9 +21,7 @@ public class Kurobune extends Puzzle {
         var board = new char[8][8];
         
         for (var r = 0; r < 8; r++) {
-            for (var c = 0; c < 8; c++) {
-                board[r][c] = '~';
-            }
+            Arrays.fill(board[r], '~');
         }
         
         setUp(board);
@@ -69,14 +69,9 @@ public class Kurobune extends Puzzle {
             }
             
             if (hits < 4 && torpedoes > 0) {
-                if (torpedoes == 1) {
-                    Console.writeLine("You have 1 torpedo left.");
-                }
-                else {
-                    Console.writeLine("You have %d torpedoes left.", torpedoes);
-                }
+                var plural = (torpedoes == 1) ? "" : "es";
                 
-                Console.newLine();
+                Console.writeLine("You have %d torpedo%s left.%n", torpedoes, plural);
             }
         }
         
@@ -102,7 +97,7 @@ public class Kurobune extends Puzzle {
                     Console.write("~ ");
                 }
                 else {
-                    Console.write(board[r][c] + " ");
+                    Console.write("%s ", board[r][c]);
                 }
             }
             

@@ -8,7 +8,7 @@ import kakkoiichris.nazonoshiro.Util;
 public abstract class Puzzle implements Resettable {
     private final String name;
     
-    protected ResetValue<Boolean> won = new ResetValue<>(false);
+    protected final ResetValue<Boolean> won = new ResetValue<>(false);
     
     public Puzzle(String name) {
         this.name = name;

@@ -46,32 +46,10 @@ public abstract class Storage implements Resettable {
         items.add(item);
     }
     
-    public int getItemCount(String name) {
-        var index = 0;
-        
-        for (var item : items) {
-            if (item.getName().equals(name.toLowerCase())) {
-                index++;
-            }
-        }
-        
-        return index;
-    }
-    
-    public int getKasugiCount(String name) {
-        var index = 0;
-        
-        for (var kasugi : kusuris) {
-            if (kasugi.getName().equals(name)) {
-                index++;
-            }
-        }
-        
-        return index;
-    }
-    
     public void rummage(Self self) {
         Console.writeLine("The %s opened.%n", name);
+        
+        Console.pushPrompt("%s > ".formatted(name));
         
         while (true) {
             if (items.isEmpty()) {
@@ -90,13 +68,13 @@ public abstract class Storage implements Resettable {
                 Console.writeLine("- Coins (%s)", Coin.getTotalString(coins));
             }
             
-            var allItems = items
+            var items = this.items
                 .stream()
                 .filter(item -> !(item instanceof Coin))
                 .collect(Collectors.groupingBy(item -> item.getName().toLowerCase()));
             
-            for (var key : allItems.keySet()) {
-                var list = allItems.get(key);
+            for (var key : items.keySet()) {
+                var list = items.get(key);
                 
                 var name = list.get(0).getName();
                 var count = list.size();
@@ -110,25 +88,32 @@ public abstract class Storage implements Resettable {
             
             Console.newLine();
             
-            if (pick.matches("take all|empty")) {
-                Console.writeLine("You stuffed everything into your backpack.");
-                
-                self.getInventory().addAll(items);
-                
-                items.clear();
+            if (pick.matches("exit|leave")) {
+                Console.writeLine("You closed the %s and stepped away.%n", name);
                 
                 break;
             }
             
-            var matcher = Pattern.compile("take (\\w+)").matcher(pick);
+            if (pick.matches("take all|empty")) {
+                Console.writeLine("You stuffed everything into your backpack.\n");
+                
+                self.getInventory().addAll(this.items);
+                
+                this.items.clear();
+                
+                break;
+            }
+            
+            var matcher = Pattern.compile("take (\\w+)(s?)").matcher(pick);
             
             if (matcher.find()) {
                 var choice = matcher.group(1);
+                var plural = !matcher.group(2).isEmpty();
                 
-                if (choice.equals("coins")) {
-                    Console.writeLine("You scooped up all the coins at the bottom.");
+                if (choice.equals("coin")) {
+                    Console.writeLine("You scooped up all the coins at the bottom.\n");
                     
-                    items.removeAll(coins);
+                    this.items.removeAll(coins);
                     
                     self.getInventory().addAll(coins);
                 }
@@ -137,6 +122,8 @@ public abstract class Storage implements Resettable {
                 }
             }
         }
+        
+        Console.popPrompt();
     }
     
     public abstract void open(Self self);

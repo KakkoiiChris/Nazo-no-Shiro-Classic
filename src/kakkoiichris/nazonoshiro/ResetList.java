@@ -38,7 +38,6 @@ public class ResetList<X> implements List<X>, Resettable {
         return current.toArray();
     }
     
-    @SuppressWarnings("SuspiciousToArrayCall")
     @Override
     public <T> T[] toArray(T[] a) {
         return current.toArray(a);
