@@ -173,14 +173,6 @@ public class Game {
                 
                 room.setVisited();
                 
-                if (!room.getWalls().isEmpty()) {
-                    for (var wall : room.getWalls().values()) {
-                        Console.writeLine("There is a %s to the %s.", wall.getStorage().getName(), wall.getDirection());
-                    }
-                    
-                    Console.newLine();
-                }
-                
                 Console.setPrompt("%s > ".formatted(room.getName()));
                 
                 var choice = Console.readLine().toLowerCase();
@@ -204,7 +196,7 @@ public class Game {
                     else {
                         Console.writeLine("""
                             The puzzle clicks and whirs away, and
-                            in a manner of seconds, it resets itself.
+                            in a matter of seconds, it resets itself.
                             Better luck next time...""");
                     }
                     
@@ -231,7 +223,19 @@ public class Game {
                         }
                     }
                     
-                    room.look(direction, self);
+                    room.search(direction, self);
+                    
+                    continue;
+                }
+                
+                matcher = Pattern.compile("look (.+)").matcher(choice);
+                
+                if (matcher.find()) {
+                    var directionName = matcher.group(1);
+                    
+                    var direction = Direction.valueOf(directionName.toUpperCase());
+                    
+                    room.look(direction);
                     
                     continue;
                 }
@@ -462,6 +466,6 @@ public class Game {
         
         Console.newLine();
         
-        exploring = false;
+        visiting = exploring = false;
     }
 }

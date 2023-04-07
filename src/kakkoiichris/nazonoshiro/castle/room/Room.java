@@ -150,7 +150,21 @@ public class Room implements Resettable {
         Console.writeLine("Exit\n");
     }
     
-    public void look(Direction direction, Self self) {
+    public void look(Direction direction) {
+        if (hasWall(direction)) {
+            var wall = getWall(direction);
+            
+            var storage = wall.getStorage();
+            
+            Console.writeLine("There is a '%s' in that direction.%n", storage.getName());
+            
+            return;
+        }
+        
+        Console.writeLine("There is a door in that direction.\n");
+    }
+    
+    public void search(Direction direction, Self self) {
         if (walls.isEmpty()) {
             Console.writeLine("There's nothing there.");
             
@@ -173,7 +187,7 @@ public class Room implements Resettable {
             return;
         }
         
-        Console.writeLine("Just a door. Nothing else.");
+        Console.writeLine("Nothing to search.");
     }
     
     public void distributeItems(List<Item> items) {
