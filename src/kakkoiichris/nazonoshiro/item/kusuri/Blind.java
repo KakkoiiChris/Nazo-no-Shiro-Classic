@@ -1,7 +1,7 @@
 //Christian Alexander, 9/13/2011
 package kakkoiichris.nazonoshiro.item.kusuri;
 
-import kakkoiichris.nazonoshiro.Console;
+import kakkoiichris.kotoba.Console;
 import kakkoiichris.nazonoshiro.fighter.Enemy;
 import kakkoiichris.nazonoshiro.fighter.Fighter;
 
@@ -11,21 +11,21 @@ public class Blind extends Kusuri {
     }
     
     @java.lang.Override
-    public boolean use(Fighter self) {
+    public boolean use(Console console, Fighter self) {
         return true;
     }
     
     @java.lang.Override
-    public void affect(Fighter fighter) {
+    public void affect(Console console, Fighter fighter) {
         if (timer != 0) {
             var pronoun = (fighter instanceof Enemy) ? "They" : "You";
             
-            Console.writeLine("%s've been blinded!%n", pronoun);
+            console.writeLine("%s've been blinded!%n", pronoun);
             
             fighter.setSpeed(fighter.getSpeed() - 3);
         }
         else {
-            Console.writeLine("Blind has worn off.\n");
+            console.writeLine("Blind has worn off.\n");
             
             fighter.setSpeed(fighter.getSpeed() + 3);
         }

@@ -1,6 +1,7 @@
 //Christian Alexander, 6/15/11, Pd. 6
 package kakkoiichris.nazonoshiro.item;
 
+import kakkoiichris.kotoba.Console;
 import kakkoiichris.nazonoshiro.fighter.Fighter;
 import kakkoiichris.nazonoshiro.fighter.Self;
 
@@ -34,12 +35,12 @@ public enum HealthPack implements Item {
     }
     
     @Override
-    public boolean pickUp(Self self) {
+    public boolean pickUp(Console console, Self self) {
         return true;
     }
     
     @Override
-    public boolean use(Fighter self) {
+    public boolean use(Console console,Fighter self) {
         return false;
     }
 }

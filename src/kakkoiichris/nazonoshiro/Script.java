@@ -1,6 +1,8 @@
 // Christian Alexander, 9/30/2022
 package kakkoiichris.nazonoshiro;
 
+import kakkoiichris.kotoba.Console;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +16,7 @@ public class Script {
         this.source = source;
     }
     
-    public Map<String, String> run() {
+    public Map<String, String> run(Console console) {
         var vars = new HashMap<String, String>();
         
         var newline = true;
@@ -34,7 +36,7 @@ public class Script {
                             case 0 -> {
                             }
                             
-                            case 1 -> Console.pause(Integer.parseInt(args.get(0)));
+                            case 1 -> console.pause(Integer.parseInt(args.get(0)));
                         }
                     }
                     
@@ -42,14 +44,14 @@ public class Script {
                         var key = args.get(0);
                         var prompt = args.get(1);
                         
-                        var promptLast = Console.getPrompt();
-                        Console.setPrompt(prompt + ' ');
+                        var promptLast = console.getPrompt();
+                        console.setPrompt(prompt + ' ');
                         
-                        var value = Console.readLine();
+                        var value = console.readLine().orElseThrow();
                         
                         vars.put(key, value);
                         
-                        Console.setPrompt(promptLast);
+                        console.setPrompt(promptLast);
                     }
                 }
             }
@@ -71,10 +73,10 @@ public class Script {
                 }
                 
                 if (newline) {
-                    Console.writeLine(output);
+                    console.writeLine(output);
                 }
                 else {
-                    Console.write(output);
+                    console.write(output);
                 }
             }
         }

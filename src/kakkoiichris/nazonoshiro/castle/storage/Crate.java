@@ -1,7 +1,7 @@
 //Christian Alexander, 6/21/11, Pd. 6
 package kakkoiichris.nazonoshiro.castle.storage;
 
-import kakkoiichris.nazonoshiro.Console;
+import kakkoiichris.kotoba.Console;
 import kakkoiichris.nazonoshiro.fighter.Self;
 import kakkoiichris.nazonoshiro.item.Weapon;
 
@@ -11,22 +11,22 @@ public class Crate extends Storage {
     }
     
     @Override
-    public void open(Self self) {
-        Console.writeLine("""
+    public void open(Console console, Self self) {
+        console.writeLine("""
             It seems to be sealed with nails.
             There is a small opening in the lid.
             A short, thin object could be used to
             pry it open.
             """.stripIndent());
         
-        Console.setPrompt("> ");
+        console.setPrompt("> ");
         
-        var decision = Console.readLine().toLowerCase();
+        var decision = console.readLine().orElseThrow().toLowerCase();
         
-        Console.newLine();
+        console.newLine();
         
         if (decision.equals("use tanto") && self.hasItem(Weapon.TANTO.getClass())) {
-            rummage(self);
+            rummage(console, self);
         }
     }
 }

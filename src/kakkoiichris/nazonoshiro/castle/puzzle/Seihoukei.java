@@ -1,7 +1,8 @@
 //Christian Alexander, 5/12/11, Pd. 6
 package kakkoiichris.nazonoshiro.castle.puzzle;
 
-import kakkoiichris.nazonoshiro.Console;
+import kakkoiichris.kotoba.Console;
+import kakkoiichris.kotoba.util.Util;
 
 public class Seihoukei extends Puzzle {
     private final char[][] board = new char[6][6];
@@ -77,17 +78,17 @@ public class Seihoukei extends Puzzle {
         }
     }
     
-    public void show(char[][] board) {
-        Console.writeLine("  0 1 2 3 4 5");
+    public void show(Console console, char[][] board) {
+        console.writeLine("  0 1 2 3 4 5");
         
         for (var r = 0; r < board.length; r++) {
-            Console.write("%d ", r);
+            console.write("%d ", r);
             
             for (var c = 0; c < board[0].length; c++) {
-                Console.write("%s ", board[r][c]);
+                console.write("%s ", board[r][c]);
             }
             
-            Console.newLine();
+            console.newLine();
         }
     }
     
@@ -410,93 +411,93 @@ public class Seihoukei extends Puzzle {
     }
     
     @Override
-    public boolean play() {
-        Console.writeLine("<[Seihoukei]>\n");
+    public boolean play(Console console) {
+        console.writeLine("<[Seihoukei]>\n");
         
         setUp();
         setKey();
         
-        Console.writeLine("Solve for this pattern:\n");
+        console.writeLine("Solve for this pattern:\n");
         
         while (!win()) {
-            Console.writeLine("  [Solution]");
+            console.writeLine("  [Solution]");
             
-            show(key);
+            show(console, key);
             
-            Console.newLine();
+            console.newLine();
             
-            show(board);
+            show(console, board);
             
-            Console.newLine();
+            console.newLine();
             
-            Console.setPrompt("Up / Down / Left / Right > ");
+            console.setPrompt("Up / Down / Left / Right > ");
             
-            var direction = Console.readLine().trim().toLowerCase();
+            var direction = console.readLine().orElseThrow().trim().toLowerCase();
             
             switch (direction) {
                 case "up" -> {
-                    Console.setPrompt("Column > ");
+                    console.setPrompt("Column > ");
                     
-                    var column = Console.readInt();
+                    int column = Util.toInt(console.readLine().orElseThrow()).orElse(-1);
                     
                     while (column < 0 || column > board[0].length) {
-                        Console.write("Invalid: enter again\nColumn: ");
+                        console.write("Invalid: enter again\nColumn: ");
                         
-                        column = Console.readInt();
+                        column = Util.toInt(console.readLine().orElseThrow()).orElse(-1);
                     }
                     
                     shiftUp(column);
                 }
                 
                 case "down" -> {
-                    Console.setPrompt("Column > ");
+                    console.setPrompt("Column > ");
                     
-                    var column = Console.readInt();
+                    int column = Util.toInt(console.readLine().orElseThrow()).orElse(-1);
                     
                     while (column < 0 || column > board[0].length) {
-                        Console.write("Invalid: enter again\nColumn: ");
+                        console.write("Invalid: enter again\nColumn: ");
                         
-                        column = Console.readInt();
+                        column = Util.toInt(console.readLine().orElseThrow()).orElse(-1);
                     }
                     
                     shiftDown(column);
                 }
                 
                 case "left" -> {
-                    Console.setPrompt("Row > ");
+                    console.setPrompt("Row > ");
                     
-                    var row = Console.readInt();
+                    int row = Util.toInt(console.readLine().orElseThrow()).orElse(-1);
                     
                     while (row < 0 || row > board.length) {
-                        Console.write("Invalid: enter again\nRow: ");
+                        console.write("Invalid: enter again\nRow: ");
                         
-                        row = Console.readInt();
+                        row = Util.toInt(console.readLine().orElseThrow()).orElse(-1);
                     }
                     
                     shiftLeft(row);
                 }
                 
                 case "right" -> {
-                    Console.setPrompt("Row > ");
+                    console.setPrompt("Row > ");
                     
-                    var row = Console.readInt();
+                    int row = Util.toInt(console.readLine().orElseThrow()).orElse(-1);
                     
                     while (row < 0 || row > board.length) {
-                        Console.write("Invalid: enter again\nRow: ");
+                        console.write("Invalid: enter again\nRow: ");
                         
-                        row = Console.readInt();
+                        row = Util.toInt(console.readLine().orElseThrow()).orElse(-1);
                     }
                     
                     shiftRight(row);
                 }
                 
-                default -> Console.writeLine("%s is not a valid direction!", direction);
+                default -> console.writeLine("%s is not a valid direction!", direction);
             }
         }
         
         victory();
         
-        Console.setPrompt("> ");
+        console.setPrompt("> ");
         
         return true;
     }

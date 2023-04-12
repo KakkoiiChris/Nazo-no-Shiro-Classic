@@ -1,6 +1,7 @@
 //Christian Alexander, 9/13/2011
 package kakkoiichris.nazonoshiro.item.kusuri;
 
+import kakkoiichris.kotoba.Console;
 import kakkoiichris.nazonoshiro.fighter.Fighter;
 
 public class Volatile extends Kusuri {
@@ -9,12 +10,12 @@ public class Volatile extends Kusuri {
     }
     
     @java.lang.Override
-    public boolean use(Fighter self) {
+    public boolean use(Console console, Fighter self) {
         return true;
     }
     
     @java.lang.Override
-    public void affect(Fighter fighter) {
+    public void affect(Console console,Fighter fighter) {
     
     }
 }

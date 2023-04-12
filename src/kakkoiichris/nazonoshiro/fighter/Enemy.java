@@ -1,7 +1,7 @@
 //Christian Alexander, 1/1/11, Pd. 6
 package kakkoiichris.nazonoshiro.fighter;
 
-import kakkoiichris.nazonoshiro.Console;
+import kakkoiichris.kotoba.Console;
 import kakkoiichris.nazonoshiro.ResetValue;
 import kakkoiichris.nazonoshiro.Resources;
 import kakkoiichris.nazonoshiro.Util;
@@ -32,32 +32,32 @@ public abstract class Enemy extends Fighter {
     }
     
     @Override
-    public void attack(Fighter opponent) {
+    public void attack(Console console, Fighter opponent) {
         var sa = getAttack();
         var sp = getPower();
         var ss = getSpeed();
-    
+        
         var ed = opponent.getDefense();
         var es = opponent.getSpeed();
-    
+        
         var damage = sa * 100 / (100 + ed);
-    
-        Console.writeLine("%s takes %02f damage!%n", opponent.name, damage);
-    
+        
+        console.write("%s takes %02f damage!%n", opponent.name, damage);
+        
         var list = (damage < 0) ? miss : direct;
         
         var message = Util.getRandom(list);
-    
-        Console.writeLine(message, opponent.name);
-    
-        Console.newLine();
-    
+        
+        console.write(message, opponent.name);
+        
+        console.newLine();
+        
         opponent.setHealth(opponent.getHealth() - damage);
-    
-        Console.newLine();
+        
+        console.newLine();
     }
     
-    public void use(Fighter opponent) {
+    public void use(Console console, Fighter opponent) {
         var kasugi = inventory
             .stream()
             .filter(item -> item instanceof Kusuri)
@@ -70,7 +70,7 @@ public abstract class Enemy extends Fighter {
                 
                 inventory.remove(used);
                 
-                Console.writeLine("They've been purified.\n");
+                console.writeLine("They've been purified.\n");
             }
         }
     }

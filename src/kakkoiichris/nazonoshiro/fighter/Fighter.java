@@ -1,7 +1,7 @@
 //Christian Alexander, 5/12/11, Pd. 6
 package kakkoiichris.nazonoshiro.fighter;
 
-import kakkoiichris.nazonoshiro.Console;
+import kakkoiichris.kotoba.Console;
 import kakkoiichris.nazonoshiro.ResetGroup;
 import kakkoiichris.nazonoshiro.ResetList;
 import kakkoiichris.nazonoshiro.Resettable;
@@ -15,76 +15,76 @@ public abstract class Fighter implements Resettable {
         LOSE
     }
     
-    public static FightResult fight(Self self, Enemy enemy) {
-        Console.writeLine("A %s stands before you.%n", enemy);
+    public static FightResult fight(Console console,Self self, Enemy enemy) {
+        console.write("A %s stands before you.%n%n", enemy);
         
         //determines who's attacking and who's defending in battle
         var yourTurn = self.getSpeed() > enemy.getSpeed() || self.getLuck() / 3 > Math.random() * 100;
         
         while (!(self.isDead() || enemy.isDead())) {
-            self.showHP(yourTurn);
-            Console.newLine();
+            self.showHP(console,yourTurn);
+            console.newLine();
             
-            enemy.showHP(!yourTurn);
-            Console.newLine();
+            enemy.showHP(console,!yourTurn);
+            console.newLine();
             
             if (yourTurn) {
-                self.allAffect();
+                self.allAffect(console);
                 self.filter();
                 
-                Console.setPrompt("Attack / Use / Run > ");
+                console.setPrompt("Attack / Use / Run > ");
                 
-                var action = Console.readLine().toLowerCase();
+                var action = console.readLine().orElseThrow().toLowerCase();
                 
-                Console.newLine();
+                console.newLine();
                 
                 if (action.matches("a(ttack)?")) {
-                    self.attack(enemy);
+                    self.attack(console,enemy);
                 }
                 else if (action.matches("u(se)?")) {
-                    self.use(enemy);
+                    self.use(console,enemy);
                 }
                 else if (action.matches("r(un)?")) {
                     var speedDiff = (enemy.getSpeed() - self.getSpeed()) / self.getSpeed();
                     
                     if (speedDiff >= 1) {
-                        Console.writeLine("You've been cornered.\n");
+                        console.writeLine("You've been cornered.\n");
                     }
                     else if (speedDiff >= 0) {
                         if (Math.random() > speedDiff) {
-                            Console.writeLine("You barely scraped by.\n");
+                            console.writeLine("You barely scraped by.\n");
                             
                             return FightResult.RUN;
                         }
                         else {
-                            Console.writeLine("You've been cut off.\n");
+                            console.writeLine("You've been cut off.\n");
                         }
                     }
                     else {
-                        Console.writeLine("You made a clean getaway.\n");
+                        console.writeLine("You made a clean getaway.\n");
                         
                         return FightResult.RUN;
                     }
                 }
                 else {
-                    Console.writeLine("Can't do that...\n");
+                    console.writeLine("Can't do that...\n");
                     
                     continue;
                 }
             }
             else {
-                enemy.allAffect();
+                enemy.allAffect(console);
                 
                 enemy.filter();
                 
-                enemy.use(self);
+                enemy.use(console,self);
                 
-                enemy.attack(self);
+                enemy.attack(console,self);
             }
             
             yourTurn = !yourTurn;
             
-            Console.pause(2);
+            console.pause(2);
         }
         
         if (self.isDead()) {
@@ -197,35 +197,35 @@ public abstract class Fighter implements Resettable {
         setHealth(getHealth() + value);
     }
     
-    public void showHP(boolean active) {
+    public void showHP(Console console, boolean active) {
         var blocks = " ▘▚▜█";
         
         var max = health.getMax().get().intValue();
         var now = health.getNow().get().intValue();
         
-        Console.write("%s %s (%03d / %03d) ║", active ? ">" : " ", name, now, max);
+        console.write("%s %s (%03d / %03d) ║", active ? ">" : " ", name, now, max);
         
         var i = now;
         
         if (i > 0) {
             while (i - 4 > 0) {
-                Console.write(blocks.charAt(4));
+                console.write(blocks.charAt(4));
                 
                 i -= 4;
             }
             
-            Console.write(blocks.charAt(i));
+            console.write(blocks.charAt(i));
         }
         
         i = max - now;
         
         while (i - 4 >= 0) {
-            Console.write(' ');
+            console.write(' ');
             
             i -= 4;
         }
         
-        Console.writeLine('║');
+        console.writeLine('║');
     }
     
     public boolean isDead() {
@@ -266,15 +266,15 @@ public abstract class Fighter implements Resettable {
         }
     }
     
-    public void allAffect() {
+    public void allAffect(Console console) {
         for (var i = 0; i < getEffectives().size(); i++) {
-            getEffectives().get(i).affect(this);
+            getEffectives().get(i).affect(console,this);
         }
     }
     
-    public abstract void attack(Fighter opponent);
+    public abstract void attack(Console console, Fighter opponent);
     
-    public abstract void use(Fighter opponent);
+    public abstract void use(Console console, Fighter opponent);
     
     public String toString() {
         return name;

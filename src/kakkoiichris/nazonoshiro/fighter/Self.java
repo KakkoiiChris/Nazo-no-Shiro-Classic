@@ -1,7 +1,7 @@
 //Christian Alexander, 5/12/11, Pd. 6
 package kakkoiichris.nazonoshiro.fighter;
 
-import kakkoiichris.nazonoshiro.Console;
+import kakkoiichris.kotoba.Console;
 import kakkoiichris.nazonoshiro.ResetValue;
 import kakkoiichris.nazonoshiro.Resources;
 import kakkoiichris.nazonoshiro.Util;
@@ -49,7 +49,7 @@ public class Self extends Fighter {
     }
     
     @Override
-    public void attack(Fighter opponent) {
+    public void attack(Console console, Fighter opponent) {
         var sa = getAttack();
         var sp = getPower();
         var ss = getSpeed();
@@ -58,23 +58,23 @@ public class Self extends Fighter {
         var es = opponent.getSpeed();
         
         var damage = sa * 100 / (100 + ed);
-    
-        Console.writeLine("%s takes %02f damage!%n", opponent.name, damage);
-    
-        var list = (damage < 0) ? miss : direct;
-    
-        var message = Util.getRandom(list);
-    
-        Console.writeLine(message, opponent.name);
         
-        Console.newLine();
-    
+        console.writeLine("%s takes %02f damage!%n", opponent.name, damage);
+        
+        var list = (damage < 0) ? miss : direct;
+        
+        var message = Util.getRandom(list);
+        
+        console.writeLine(message, opponent.name);
+        
+        console.newLine();
+        
         opponent.setHealth(opponent.getHealth() - damage);
         
-        Console.newLine();
+        console.newLine();
     }
     
-    public void use(Fighter opponent) {
+    public void use(Console console, Fighter opponent) {
         var kasugi = inventory
             .stream()
             .filter(item -> item instanceof Kusuri)
@@ -82,26 +82,26 @@ public class Self extends Fighter {
             .collect(Collectors.groupingBy(Kusuri::getName));
         
         if (kasugi.isEmpty()) {
-            Console.writeLine("You have no kusuri to use.%n");
+            console.writeLine("You have no kusuri to use.%n");
             
             return;
         }
         
-        Console.writeLine("Kusuri:");
+        console.writeLine("Kusuri:");
         
         for (var key : kasugi.keySet()) {
-            Console.writeLine("%s: [%d]", key, kasugi.get(key).size());
+            console.writeLine("%s: [%d]", key, kasugi.get(key).size());
         }
         
-        Console.newLine();
+        console.newLine();
         
         while (true) {
-            var choice = Console.read();
+            var choice = console.readLine().orElseThrow();
             
-            Console.writeLine("\n");
+            console.newLine();
             
             if (!kasugi.containsKey(choice)) {
-                Console.writeLine("You have no %s's to use.%n", choice);
+                console.writeLine("You have no %s's to use.%n", choice);
                 
                 continue;
             }

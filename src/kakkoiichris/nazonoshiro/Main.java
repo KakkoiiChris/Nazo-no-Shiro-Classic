@@ -1,16 +1,29 @@
 // Christian Alexander, 5/12/11, Pd. 6
 package kakkoiichris.nazonoshiro;
 
+import kakkoiichris.kotoba.Console;
+
 public class Main {
     private static Game game;
     
     public static void main(String[] args) {
-        mainMenu();
+        var console = new Console(
+            new Console.Config()
+                .prompt("> ")
+                .title("Nazo no Shiro")
+        );
         
-        Console.close();
+        try {
+            console.open();
+            
+            mainMenu(console);
+        }
+        finally {
+            console.close();
+        }
     }
     
-    private static void mainMenu() {
+    private static void mainMenu(Console console) {
         var playing = true;
         
         while (playing) {
@@ -19,12 +32,12 @@ public class Main {
             var title = Resources.getString(fileName);
             var splash = Util.getRandom(Resources.getLines("splashText.txt"));
             
-            Console.writeLine(title, splash);
+            console.writeLine(title, splash);
             
             var inMenu = true;
             
             while (inMenu) {
-                Console.writeLine("""
+                console.writeLine("""
                     1) New Game
                     2) Load Game
                     3) Continue
@@ -33,45 +46,45 @@ public class Main {
                     6) Quit
                     """.stripIndent());
                 
-                Console.setPrompt("> ");
+                console.setPrompt("> ");
                 
-                var action = Console.readLine().trim().toLowerCase();
+                var action = console.readLine().orElseThrow().trim().toLowerCase();
                 
-                Console.newLine();
+                console.newLine();
                 
                 if (action.matches("1|(new(\\s+game)?)")) {
-                    newGame();
+                    newGame(console);
                     
                     inMenu = false;
                 }
                 else if (action.matches("2|(load(\\s+game)?)")) {
-                    loadGame();
+                    loadGame(console);
                     
                     inMenu = false;
                 }
                 else if (action.matches("3|(continue(\\s+game)?)")) {
-                    continueGame();
-    
+                    continueGame(console);
+                    
                     inMenu = false;
                 }
                 else if (action.matches("4|options|settings")) {
-                    options();
+                    options(console);
                 }
                 else if (action.matches("5|credits")) {
-                    credits();
+                    credits(console);
                 }
                 else if (action.matches("6|quit(\\s+game)")) {
                     playing = inMenu = false;
                 }
                 else {
-                    Console.writeLine("You don't know how to '%s'...%n", action);
+                    console.writeLine("You don't know how to '%s'...%n", action);
                 }
             }
         }
     }
     
-    private static void newGame() {
-        game = new Game();
+    private static void newGame(Console console) {
+        game = new Game(console);
         
         game.newGame();
         
@@ -79,17 +92,17 @@ public class Main {
     }
     
     
-    private static void loadGame() {
-        game = new Game();
+    private static void loadGame(Console console) {
+        game = new Game(console);
         
         game.loadGame();
         
         game.play();
     }
     
-    private static void continueGame() {
-        if (game == null){
-            Console.writeLine("There is no game to continue.\n");
+    private static void continueGame(Console console) {
+        if (game == null) {
+            console.writeLine("There is no game to continue.\n");
             
             return;
         }
@@ -97,14 +110,14 @@ public class Main {
         game.play();
     }
     
-    private static void options() {
+    private static void options(Console console) {
     }
     
-    private static void credits() {
+    private static void credits(Console console) {
         var lines = Resources.getLines("credits.txt");
         
-        lines.forEach(Console::writeLine);
+        lines.forEach(console::writeLine);
         
-        Console.newLine();
+        console.newLine();
     }
 }

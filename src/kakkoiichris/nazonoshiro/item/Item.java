@@ -1,8 +1,10 @@
 //Christian Alexander, 6/14/11, Pd. 6
 package kakkoiichris.nazonoshiro.item;
 
+import kakkoiichris.kotoba.Console;
 import kakkoiichris.nazonoshiro.fighter.Fighter;
 import kakkoiichris.nazonoshiro.fighter.Self;
+
 
 public interface Item {
     int getValue();
@@ -11,7 +13,7 @@ public interface Item {
     
     String getDescription();
     
-    boolean pickUp(Self self);
+    boolean pickUp(Console console, Self self);
     
-    boolean use(Fighter self);
+    boolean use(Console console, Fighter self);
 }

@@ -1,6 +1,7 @@
 //Christian Alexander, 5/12/11, Pd. 6
 package kakkoiichris.nazonoshiro.castle.room;
 
+import kakkoiichris.kotoba.Console;
 import kakkoiichris.nazonoshiro.*;
 import kakkoiichris.nazonoshiro.castle.Direction;
 import kakkoiichris.nazonoshiro.castle.Wall;
@@ -138,35 +139,35 @@ public class Room implements Resettable {
         return visited.get() ? descriptionAfter : descriptionBefore;
     }
     
-    public void enter() {
-        Console.writeLine("Enter\n");
+    public void enter(Console console) {
+        console.writeLine("Enter\n");
     }
     
-    public void explore() {
-        Console.writeLine("Explore\n");
+    public void explore(Console console) {
+        console.writeLine("Explore\n");
     }
     
-    public void exit() {
-        Console.writeLine("Exit\n");
+    public void exit(Console console) {
+        console.writeLine("Exit\n");
     }
     
-    public void look(Direction direction) {
+    public void look(Console console,Direction direction) {
         if (hasWall(direction)) {
             var wall = getWall(direction);
             
             var storage = wall.getStorage();
             
-            Console.writeLine("There is a '%s' in that direction.%n", storage.getName());
+            console.write("You see a '%s' in that direction.%n%n", storage.getName());
             
             return;
         }
         
-        Console.writeLine("There is a door in that direction.\n");
+        console.writeLine("You see a door in that direction.\n");
     }
     
-    public void search(Direction direction, Self self) {
+    public void search(Console console,Direction direction, Self self) {
         if (walls.isEmpty()) {
-            Console.writeLine("There's nothing there.");
+            console.writeLine("There's nothing there.\n");
             
             return;
         }
@@ -177,17 +178,17 @@ public class Room implements Resettable {
             var storage = wall.getStorage();
             
             if (storage.isEmpty()) {
-                Console.writeLine("The %s is empty.", storage.getName());
+                console.writeLine("The %s is empty.%n", storage.getName());
                 
                 return;
             }
             
-            storage.open(self);
+            storage.open(console, self);
             
             return;
         }
         
-        Console.writeLine("Nothing to search.");
+        console.writeLine("Nothing to search there.\n");
     }
     
     public void distributeItems(List<Item> items) {

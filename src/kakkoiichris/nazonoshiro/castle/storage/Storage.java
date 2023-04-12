@@ -1,7 +1,7 @@
 //Christian Alexander, 6/21/11, Pd. 6
 package kakkoiichris.nazonoshiro.castle.storage;
 
-import kakkoiichris.nazonoshiro.Console;
+import kakkoiichris.kotoba.Console;
 import kakkoiichris.nazonoshiro.ResetList;
 import kakkoiichris.nazonoshiro.Resettable;
 import kakkoiichris.nazonoshiro.fighter.Self;
@@ -46,14 +46,14 @@ public abstract class Storage implements Resettable {
         items.add(item);
     }
     
-    public void rummage(Self self) {
-        Console.writeLine("The %s opened.%n", name);
+    public void rummage(Console console, Self self) {
+        console.writeLine("The %s opened.%n", name);
         
-        Console.pushPrompt("%s > ".formatted(name));
+        console.pushPrompt("%s > ".formatted(name));
         
         while (true) {
             if (items.isEmpty()) {
-                Console.writeLine("It is empty...");
+                console.writeLine("It is empty...");
                 
                 break;
             }
@@ -65,7 +65,7 @@ public abstract class Storage implements Resettable {
                 .toList();
             
             if (!coins.isEmpty()) {
-                Console.writeLine("- Coins (%s)", Coin.getTotalString(coins));
+                console.writeLine("- Coins (%s)", Coin.getTotalString(coins));
             }
             
             var items = this.items
@@ -79,23 +79,23 @@ public abstract class Storage implements Resettable {
                 var name = list.get(0).getName();
                 var count = list.size();
                 
-                Console.writeLine("- %s (%d)", name, count);
+                console.writeLine("- %s (%d)", name, count);
             }
             
-            Console.newLine();
+            console.newLine();
             
-            var pick = Console.readLine().toLowerCase();
+            var pick = console.readLine().orElseThrow().toLowerCase();
             
-            Console.newLine();
+            console.newLine();
             
             if (pick.matches("exit|leave")) {
-                Console.writeLine("You closed the %s and stepped away.%n", name);
+                console.writeLine("You closed the %s and stepped away.%n", name);
                 
                 break;
             }
             
             if (pick.matches("take all|empty")) {
-                Console.writeLine("You stuffed everything into your backpack.\n");
+                console.writeLine("You stuffed everything into your backpack.\n");
                 
                 self.getInventory().addAll(this.items);
                 
@@ -111,7 +111,7 @@ public abstract class Storage implements Resettable {
                 var plural = !matcher.group(2).isEmpty();
                 
                 if (choice.equals("coin")) {
-                    Console.writeLine("You scooped up all the coins at the bottom.\n");
+                    console.writeLine("You scooped up all the coins at the bottom.\n");
                     
                     this.items.removeAll(coins);
                     
@@ -123,8 +123,8 @@ public abstract class Storage implements Resettable {
             }
         }
         
-        Console.popPrompt();
+        console.popPrompt();
     }
     
-    public abstract void open(Self self);
+    public abstract void open(Console console, Self self);
 }

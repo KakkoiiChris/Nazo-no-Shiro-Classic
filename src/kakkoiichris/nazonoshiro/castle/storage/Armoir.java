@@ -1,7 +1,7 @@
 //Christian Alexander, 6/21/11, Pd. 6
 package kakkoiichris.nazonoshiro.castle.storage;
 
-import kakkoiichris.nazonoshiro.Console;
+import kakkoiichris.kotoba.Console;
 import kakkoiichris.nazonoshiro.fighter.Self;
 import kakkoiichris.nazonoshiro.item.Weapon;
 
@@ -11,22 +11,22 @@ public class Armoir extends Storage {
     }
     
     @Override
-    public void open(Self self) {
-        Console.writeLine("""
+    public void open(Console console, Self self) {
+        console.writeLine("""
             A thick rope holds the two doors closed.
             The ends of the rope are melted together.
             A sharp, powerful weapon could be used to
             cut the rope apart.
             """.stripIndent());
         
-        Console.setPrompt("> ");
+        console.setPrompt("> ");
         
-        var decision = Console.readLine().toLowerCase();
+        var decision = console.readLine().orElseThrow().toLowerCase();
         
-        Console.newLine();
+        console.newLine();
         
         if (decision.equals("use katana") && self.hasItem(Weapon.KATANA.getClass())) {
-            rummage(self);
+            rummage(console, self);
         }
     }
 }

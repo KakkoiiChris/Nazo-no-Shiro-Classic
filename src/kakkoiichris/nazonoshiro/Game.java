@@ -1,6 +1,7 @@
 // Christian Alexander, 12/4/2022
 package kakkoiichris.nazonoshiro;
 
+import kakkoiichris.kotoba.Console;
 import kakkoiichris.nazonoshiro.castle.Castle;
 import kakkoiichris.nazonoshiro.castle.Direction;
 import kakkoiichris.nazonoshiro.castle.room.EnemyRoom;
@@ -19,6 +20,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class Game {
+    private final Console console;
+    
     private final ResetValue<Integer> floor = new ResetValue<>(0); //the floor you are located in
     private final ResetValue<Integer> row = new ResetValue<>(1); //the row you are located in
     private final ResetValue<Integer> column = new ResetValue<>(2); //the column you are located in
@@ -34,12 +37,16 @@ public class Game {
     
     private boolean visiting = true;
     
+    public Game(Console console) {
+        this.console = console;
+    }
+    
     public void newGame() {
-        Console.setPrompt("Map Name > ");
+        console.setPrompt("Map Name > ");
         
-        var mapName = Console.readLine();
+        var mapName = console.readLine().orElseThrow();
         
-        Console.newLine();
+        console.newLine();
         
         if (mapName.isEmpty()) mapName = "original";
         
@@ -82,7 +89,7 @@ public class Game {
         
         var script = new Script(source);
         
-        var vars = script.run();
+        var vars = script.run(console);
         
         var name = vars.get("name");
         
@@ -110,13 +117,13 @@ public class Game {
         while (exploring) {
             var room = castle.get(floor.get(), row.get(), column.get());
             
-            Console.writeLine("[ %s ]%n", room);
+            console.writeLine("[ %s ]%n", room);
             
             visiting = true;
             
             while (visiting) {
                 if (room instanceof EnemyRoom e && !e.isDefeated()) {
-                    var result = Fighter.fight(self, e.getEnemy());
+                    var result = Fighter.fight(console, self, e.getEnemy());
                     
                     switch (result) {
                         case WIN -> {
@@ -128,7 +135,7 @@ public class Game {
                                 drop = Coin.random();
                             }
                             
-                            Console.writeLine("""
+                            console.writeLine("""
                                 The %s dropped something...
                                 
                                 It's a(n) %s!
@@ -143,20 +150,20 @@ public class Game {
                         case RUN -> {
                             ran.set(true);
                             
-                            Console.writeLine("That was a close one...");
+                            console.writeLine("That was a close one...");
                         }
                         
                         case LOSE -> {
-                            Console.writeLine("You died...\n\nContinue?\n");
+                            console.writeLine("You died...\n\nContinue?\n");
                             
                             resetState();
                             
-                            Console.setPrompt("Y / N > ");
+                            console.setPrompt("Y / N > ");
                             
                             var choice = "";
                             
                             do {
-                                choice = Console.readLine();
+                                choice = console.readLine().orElseThrow();
                             }
                             while (!choice.matches("[YyNn]"));
                             
@@ -169,21 +176,21 @@ public class Game {
                     continue;
                 }
                 
-                Console.writeLine("%s%n", room.getDescription());
+                console.writeLine("%s%n", room.getDescription());
                 
                 room.setVisited();
                 
-                Console.setPrompt("%s > ".formatted(room.getName()));
+                console.setPrompt("%s > ".formatted(room.getName()));
                 
-                var choice = Console.readLine().toLowerCase();
+                var choice = console.readLine().orElseThrow().toLowerCase();
                 
-                Console.newLine();
+                console.newLine();
                 
                 var matcher = Pattern.compile("(play|solve)( puzzle)?").matcher(choice);
                 
                 if (matcher.find() && room instanceof PuzzleRoom p && !p.getPuzzle().isWon()) {
-                    if (p.getPuzzle().play()) {
-                        Console.writeLine("""
+                    if (p.getPuzzle().play(console)) {
+                        console.writeLine("""
                             You won!
                             
                             You have earned a key.
@@ -194,7 +201,7 @@ public class Game {
                         self.setKey(p.getKey());
                     }
                     else {
-                        Console.writeLine("""
+                        console.writeLine("""
                             The puzzle clicks and whirs away, and
                             in a matter of seconds, it resets itself.
                             Better luck next time...""");
@@ -214,16 +221,21 @@ public class Game {
                 matcher = Pattern.compile("search (.+)").matcher(choice);
                 
                 if (matcher.find()) {
-                    var storageName = matcher.group(1);
+                    var option = matcher.group(1);
                     var direction = Direction.NONE;
                     
-                    for (var wall : room.getWalls().values()) {
-                        if (wall.getStorage().getName().toLowerCase().equals(storageName)) {
-                            direction = wall.getDirection();
+                    if (Direction.isValid(option.toUpperCase())) {
+                        direction = Direction.valueOf(option.toUpperCase());
+                    }
+                    else {
+                        for (var wall : room.getWalls().values()) {
+                            if (wall.getStorage().getName().toLowerCase().equals(option)) {
+                                direction = wall.getDirection();
+                            }
                         }
                     }
                     
-                    room.search(direction, self);
+                    room.search(console, direction, self);
                     
                     continue;
                 }
@@ -235,7 +247,7 @@ public class Game {
                     
                     var direction = Direction.valueOf(directionName.toUpperCase());
                     
-                    room.look(direction);
+                    room.look(console, direction);
                     
                     continue;
                 }
@@ -251,7 +263,7 @@ public class Game {
                         move(Direction.valueOf(direction.toUpperCase()));
                     }
                     else {
-                        Console.write("'%s' is not a valid direction.", direction);
+                        console.writeLine("'%s' is not a valid direction.", direction);
                     }
                     
                     continue;
@@ -306,13 +318,13 @@ public class Game {
                 }
                 
                 if (choice.equals("save")) {
-                    Console.write("Saving");
+                    console.write("Saving");
                     
                     continue;
                 }
                 
                 if (choice.equals("snq")) {
-                    Console.write("Saving");
+                    console.write("Saving");
                     
                     exploring = visiting = false;
                     
@@ -330,7 +342,7 @@ public class Game {
                 if (choice.equals("skip")) {
                     var key = room.getKey();
                     
-                    Console.writeLine("Set player key to '%d'.%n", key);
+                    console.writeLine("Set player key to '%d'.%n", key);
                     
                     self.setKey(key);
                     
@@ -338,7 +350,7 @@ public class Game {
                 }
                 
                 if (choice.equals("cheat")) {
-                    Console.writeLine("Set player key to '99'.\n");
+                    console.writeLine("Set player key to '99'.\n");
                     
                     self.setKey(99);
                     
@@ -348,14 +360,14 @@ public class Game {
                 if (choice.equals("fight")) {
                     self.storeState();
                     
-                    Console.writeLine("%s%n", Fighter.fight(self, new Ninja()));
+                    console.writeLine("%s%n", Fighter.fight(console, self, new Ninja()));
                     
                     self.resetState();
                     
                     continue;
                 }
                 
-                Console.write("You don't know how to '%s'.%n%n", choice);
+                console.writeLine("You don't know how to '%s'.%n", choice);
             }
         }
     }
@@ -388,7 +400,7 @@ public class Game {
         }
         
         if (hasWall(direction)) {
-            Console.writeLine("A wall blocks your path.\n");
+            console.writeLine("A wall blocks your path.\n");
             
             return;
         }
@@ -399,7 +411,7 @@ public class Game {
         
         if (self.getKey() >= castle.get(f, r, c).getLock()) {
             if (notVisited(f, r, c)) {
-                Console.writeLine("The door is unlocked.\n");
+                console.writeLine("The door is unlocked.\n");
             }
             
             floor.set(f);
@@ -411,11 +423,11 @@ public class Game {
             return;
         }
         
-        Console.writeLine("None of the keys you have fit this lock.\n");
+        console.writeLine("None of the keys you have fit this lock.\n");
     }
     
     private void showInventory() {
-        Console.pushPrompt("Inventory > ");
+        console.pushPrompt("Inventory > ");
         
         var action = "";
         
@@ -427,7 +439,7 @@ public class Game {
                 .toList();
             
             if (!coins.isEmpty()) {
-                Console.writeLine("- Coins (%s)", Coin.getTotalString(coins));
+                console.writeLine("- Coins (%s)", Coin.getTotalString(coins));
             }
             
             var items = self.getInventory()
@@ -438,17 +450,17 @@ public class Game {
             for (var key : items.keySet()) {
                 var count = items.get(key).size();
                 
-                Console.writeLine("- %s (%d)", key, count);
+                console.writeLine("- %s (%d)", key, count);
             }
             
-            Console.newLine();
+            console.newLine();
             
-            action = Console.readLine().toLowerCase();
+            action = console.readLine().orElseThrow().toLowerCase();
             
-            Console.newLine();
+            console.newLine();
         }
         
-        Console.popPrompt();
+        console.popPrompt();
     }
     
     private void storeState() {
@@ -462,9 +474,9 @@ public class Game {
     private void endGame() {
         var text = Resources.getLines("endGame.txt");
         
-        text.forEach(Console::writeLine);
+        text.forEach(console::writeLine);
         
-        Console.newLine();
+        console.newLine();
         
         visiting = exploring = false;
     }

@@ -1,7 +1,7 @@
 //Christian Alexander, 8/8/11, Pd. 6
 package kakkoiichris.nazonoshiro.castle.puzzle;
 
-import kakkoiichris.nazonoshiro.Console;
+import kakkoiichris.kotoba.Console;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,30 +21,29 @@ public class IroIro extends Puzzle {
     }
     
     @Override
-    public boolean play() {
-        
-        Console.writeLine("  <[IROIRO]>\n");
+    public boolean play(Console console) {
+        console.writeLine("  <[IROIRO]>\n");
         
         setUp();
         
-        show(board);
+        show(console, board);
         
-        var temp = Console.read();
+        var temp = console.readToken().orElseThrow();
         
-        Console.newLine();
+        console.newLine();
         
         victory();
         
         return true;
     }
     
-    public void show(char[][] guide) {
+    public void show(Console console, char[][] guide) {
         for (var r = 0; r < 4; r++) {
             for (var c = 0; c < 4; c++) {
-                Console.write("%s ", guide[r][c]);
+                console.write("%s ", guide[r][c]);
             }
             
-            Console.newLine();
+            console.newLine();
         }
     }
     

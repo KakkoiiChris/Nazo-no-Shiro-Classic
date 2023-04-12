@@ -1,7 +1,7 @@
 //Christian Alexander, 9/13/2011
 package kakkoiichris.nazonoshiro.item.kusuri;
 
-import kakkoiichris.nazonoshiro.Console;
+import kakkoiichris.kotoba.Console;
 import kakkoiichris.nazonoshiro.fighter.Fighter;
 import kakkoiichris.nazonoshiro.fighter.Self;
 import kakkoiichris.nazonoshiro.item.Item;
@@ -49,13 +49,13 @@ public abstract class Kusuri implements Item {
     }
     
     @java.lang.Override
-    public boolean pickUp(Self self) {
-        Console.writeLine("You pick up the %s.", name);
+    public boolean pickUp(Console console, Self self) {
+        console.writeLine("You pick up the %s.", name);
         
         return true;
     }
     
-    public abstract void affect(Fighter fighter);
+    public abstract void affect(Console console, Fighter fighter);
     
     public String toString() {
         return name;
