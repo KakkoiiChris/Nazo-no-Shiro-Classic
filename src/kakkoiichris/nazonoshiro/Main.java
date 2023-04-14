@@ -2,6 +2,7 @@
 package kakkoiichris.nazonoshiro;
 
 import kakkoiichris.kotoba.Console;
+import kakkoiichris.kotoba.Font;
 
 public class Main {
     private static Game game;
@@ -9,8 +10,9 @@ public class Main {
     public static void main(String[] args) {
         var console = new Console(
             new Console.Config()
-                .prompt("> ")
                 .title("Nazo no Shiro")
+                .prompt("> ")
+                .font(new Font("/font/Consolas24.bff"))
         );
         
         try {

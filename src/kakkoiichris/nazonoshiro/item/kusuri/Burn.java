@@ -16,7 +16,7 @@ public class Burn extends Kusuri {
     }
     
     @java.lang.Override
-    public void affect(Console console,Fighter fighter) {
+    public void affect(Console console, Fighter fighter) {
         var pronoun = (fighter instanceof Enemy) ? "Their" : "Your";
         
         if (timer != 0) {

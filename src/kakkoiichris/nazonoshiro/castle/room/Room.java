@@ -2,7 +2,10 @@
 package kakkoiichris.nazonoshiro.castle.room;
 
 import kakkoiichris.kotoba.Console;
-import kakkoiichris.nazonoshiro.*;
+import kakkoiichris.nazonoshiro.ResetGroup;
+import kakkoiichris.nazonoshiro.ResetValue;
+import kakkoiichris.nazonoshiro.Resettable;
+import kakkoiichris.nazonoshiro.Resources;
 import kakkoiichris.nazonoshiro.castle.Direction;
 import kakkoiichris.nazonoshiro.castle.Wall;
 import kakkoiichris.nazonoshiro.fighter.Self;
@@ -151,7 +154,7 @@ public class Room implements Resettable {
         console.writeLine("Exit\n");
     }
     
-    public void look(Console console,Direction direction) {
+    public void look(Console console, Direction direction) {
         if (hasWall(direction)) {
             var wall = getWall(direction);
             
@@ -165,7 +168,7 @@ public class Room implements Resettable {
         console.writeLine("You see a door in that direction.\n");
     }
     
-    public void search(Console console,Direction direction, Self self) {
+    public void search(Console console, Direction direction, Self self) {
         if (walls.isEmpty()) {
             console.writeLine("There's nothing there.\n");
             

@@ -40,7 +40,7 @@ public enum HealthPack implements Item {
     }
     
     @Override
-    public boolean use(Console console,Fighter self) {
+    public boolean use(Console console, Fighter self) {
         return false;
     }
 }

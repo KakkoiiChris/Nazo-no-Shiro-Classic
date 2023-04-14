@@ -61,11 +61,11 @@ public sealed interface Node permits Array, Value, Object {
         
         if (array.isPresent()) {
             var list = new ArrayList<Array>();
-    
+            
             for (var node : array.get().elements()) {
                 list.add(node.asArray().orElseThrow());
             }
-    
+            
             return Optional.of(list);
         }
         

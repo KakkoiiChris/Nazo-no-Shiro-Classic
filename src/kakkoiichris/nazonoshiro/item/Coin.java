@@ -69,14 +69,14 @@ public enum Coin implements Item {
     }
     
     @Override
-    public boolean pickUp(Console console,Self self) {
+    public boolean pickUp(Console console, Self self) {
         console.writeLine("The coin rings out as you scrape it up.");
         
         return true;
     }
     
     @Override
-    public boolean use(Console console,Fighter self) {
+    public boolean use(Console console, Fighter self) {
         console.writeLine("You cannot use this.");
         
         return false;

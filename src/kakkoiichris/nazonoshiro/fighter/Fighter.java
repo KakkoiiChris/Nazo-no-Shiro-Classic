@@ -15,17 +15,17 @@ public abstract class Fighter implements Resettable {
         LOSE
     }
     
-    public static FightResult fight(Console console,Self self, Enemy enemy) {
+    public static FightResult fight(Console console, Self self, Enemy enemy) {
         console.write("A %s stands before you.%n%n", enemy);
         
         //determines who's attacking and who's defending in battle
         var yourTurn = self.getSpeed() > enemy.getSpeed() || self.getLuck() / 3 > Math.random() * 100;
         
         while (!(self.isDead() || enemy.isDead())) {
-            self.showHP(console,yourTurn);
+            self.showHP(console, yourTurn);
             console.newLine();
             
-            enemy.showHP(console,!yourTurn);
+            enemy.showHP(console, !yourTurn);
             console.newLine();
             
             if (yourTurn) {
@@ -39,10 +39,10 @@ public abstract class Fighter implements Resettable {
                 console.newLine();
                 
                 if (action.matches("a(ttack)?")) {
-                    self.attack(console,enemy);
+                    self.attack(console, enemy);
                 }
                 else if (action.matches("u(se)?")) {
-                    self.use(console,enemy);
+                    self.use(console, enemy);
                 }
                 else if (action.matches("r(un)?")) {
                     var speedDiff = (enemy.getSpeed() - self.getSpeed()) / self.getSpeed();
@@ -77,9 +77,9 @@ public abstract class Fighter implements Resettable {
                 
                 enemy.filter();
                 
-                enemy.use(console,self);
+                enemy.use(console, self);
                 
-                enemy.attack(console,self);
+                enemy.attack(console, self);
             }
             
             yourTurn = !yourTurn;
@@ -268,7 +268,7 @@ public abstract class Fighter implements Resettable {
     
     public void allAffect(Console console) {
         for (var i = 0; i < getEffectives().size(); i++) {
-            getEffectives().get(i).affect(console,this);
+            getEffectives().get(i).affect(console, this);
         }
     }
     

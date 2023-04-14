@@ -16,7 +16,7 @@ public class Ultra extends Kusuri {
     }
     
     @java.lang.Override
-    public void affect(Console console,Fighter fighter) {
+    public void affect(Console console, Fighter fighter) {
         if (timer != 0) {
             var pronoun = (fighter instanceof Enemy) ? "They" : "You";
             

@@ -15,7 +15,7 @@ public class Volatile extends Kusuri {
     }
     
     @java.lang.Override
-    public void affect(Console console,Fighter fighter) {
+    public void affect(Console console, Fighter fighter) {
     
     }
 }

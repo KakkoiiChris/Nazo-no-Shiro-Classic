@@ -18,7 +18,7 @@ public class Pure extends Kusuri {
     }
     
     @java.lang.Override
-    public void affect(Console console,Fighter fighter) {
+    public void affect(Console console, Fighter fighter) {
         var pronoun = (fighter instanceof Enemy) ? "They" : "You";
         
         console.writeLine("%s used an antidote!%n", pronoun);

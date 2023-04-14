@@ -7,7 +7,7 @@ import kakkoiichris.nazonoshiro.fighter.Fighter;
 
 public class Brace extends Kusuri {
     public Brace() {
-        super("Brace", "",3, 3, true);
+        super("Brace", "", 3, 3, true);
     }
     
     @java.lang.Override
@@ -16,7 +16,7 @@ public class Brace extends Kusuri {
     }
     
     @java.lang.Override
-    public void affect(Console console,Fighter fighter) {
+    public void affect(Console console, Fighter fighter) {
         if (timer != 0) {
             var pronoun = (fighter instanceof Enemy) ? "They" : "You";
             
