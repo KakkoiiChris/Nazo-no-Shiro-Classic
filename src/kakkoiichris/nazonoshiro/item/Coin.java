@@ -76,7 +76,7 @@ public enum Coin implements Item {
     }
     
     @Override
-    public boolean use(Console console, Fighter self) {
+    public boolean use(Console console, Fighter fighter) {
         console.writeLine("You cannot use this.");
         
         return false;

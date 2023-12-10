@@ -6,7 +6,7 @@ import kakkoiichris.nazonoshiro.castle.Castle;
 import kakkoiichris.nazonoshiro.castle.Direction;
 import kakkoiichris.nazonoshiro.castle.room.EnemyRoom;
 import kakkoiichris.nazonoshiro.castle.room.PuzzleRoom;
-import kakkoiichris.nazonoshiro.fighter.Fighter;
+import kakkoiichris.nazonoshiro.fighter.Fight;
 import kakkoiichris.nazonoshiro.fighter.Ninja;
 import kakkoiichris.nazonoshiro.fighter.Self;
 import kakkoiichris.nazonoshiro.item.Coin;
@@ -123,7 +123,7 @@ public class Game {
             
             while (visiting) {
                 if (room instanceof EnemyRoom e && !e.isDefeated()) {
-                    var result = Fighter.fight(console, self, e.getEnemy());
+                    var result = Fight.fight(console, self, e.getEnemy());
                     
                     switch (result) {
                         case WIN -> {
@@ -360,7 +360,7 @@ public class Game {
                 if (choice.equals("fight")) {
                     self.storeState();
                     
-                    console.writeLine("%s%n", Fighter.fight(console, self, new Ninja()));
+                    console.writeLine("%s%n", Fight.fight(console, self, new Ninja()));
                     
                     self.resetState();
                     
@@ -373,11 +373,43 @@ public class Game {
     }
     
     private void move(Direction direction) {
-        floor.storeState();
-        row.storeState();
-        column.storeState();
-        
-        go(direction);
+        storeState();
+
+        var f = floor.get();
+        var r = row.get();
+        var c = column.get();
+
+        if (castle.get(f, r, c).getExit() == direction) {
+            endGame();
+
+            return;
+        }
+
+        if (hasWall(direction)) {
+            console.writeLine("A wall blocks your path.\n");
+
+            return;
+        }
+
+        f += direction.getDeltaFloor();
+        r += direction.getDeltaRow();
+        c += direction.getDeltaColumn();
+
+        if (self.getKey() >= castle.get(f, r, c).getLock()) {
+            if (notVisited(f, r, c)) {
+                console.writeLine("The door is unlocked.\n");
+            }
+
+            floor.set(f);
+            row.set(r);
+            column.set(c);
+
+            visiting = false;
+
+            return;
+        }
+
+        console.writeLine("None of the keys you have fit this lock.\n");
     }
     
     private boolean notVisited(int floor, int row, int column) {
@@ -386,44 +418,6 @@ public class Game {
     
     private boolean hasWall(Direction direction) {
         return castle.get(floor.get(), row.get(), column.get()).hasWall(direction);
-    }
-    
-    private void go(Direction direction) {
-        var f = floor.get();
-        var r = row.get();
-        var c = column.get();
-        
-        if (castle.get(f, r, c).getExit() == direction) {
-            endGame();
-            
-            return;
-        }
-        
-        if (hasWall(direction)) {
-            console.writeLine("A wall blocks your path.\n");
-            
-            return;
-        }
-        
-        f += direction.getDeltaFloor();
-        r += direction.getDeltaRow();
-        c += direction.getDeltaColumn();
-        
-        if (self.getKey() >= castle.get(f, r, c).getLock()) {
-            if (notVisited(f, r, c)) {
-                console.writeLine("The door is unlocked.\n");
-            }
-            
-            floor.set(f);
-            row.set(r);
-            column.set(c);
-            
-            visiting = false;
-            
-            return;
-        }
-        
-        console.writeLine("None of the keys you have fit this lock.\n");
     }
     
     private void showInventory() {

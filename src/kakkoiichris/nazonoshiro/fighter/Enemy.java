@@ -20,7 +20,7 @@ public abstract class Enemy extends Fighter {
     private final ResetValue<Item> droppable;
     
     public Enemy(String name, double attack, double power, double defense, double speed, double luck, double health) {
-        super(name, attack, power, defense, speed, luck, health);
+        super(name, attack, power, defense, speed, luck, health, "They", "Their");
         
         droppable = new ResetValue<>(null);
         

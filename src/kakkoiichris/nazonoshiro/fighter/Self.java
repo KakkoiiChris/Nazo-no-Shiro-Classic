@@ -15,12 +15,12 @@ public class Self extends Fighter {
     private static final List<String> indirect = Resources.getLines("indirectHit.txt");
     private static final List<String> miss = Resources.getLines("missHit.txt");
     
-    private String birthday = "", gender = "";
+    private final String birthday, gender;
     
     private final ResetValue<Integer> key = new ResetValue<>(0);   //stores all the keys you pick up
     
     public Self(String name, String birthday, String gender) {
-        super(name, 50, 50, 50, 50, 50, 50);
+        super(name, 50, 50, 50, 50, 50, 50, "You", "Your");
         
         this.birthday = birthday;
         this.gender = gender;
@@ -29,7 +29,7 @@ public class Self extends Fighter {
     }
     
     public Self() {
-        super("Self", 50, 50, 50, 50, 50, 50);
+        this("Self", "?", "?");
     }
     
     public String getBirthday() {
@@ -75,13 +75,11 @@ public class Self extends Fighter {
     }
     
     public void use(Console console, Fighter opponent) {
-        var kasugi = inventory
-            .stream()
-            .filter(item -> item instanceof Kusuri)
-            .map(Kusuri.class::cast)
-            .collect(Collectors.groupingBy(Kusuri::getName));
+        var kusuri = filterInventory(Kusuri.class)
+                .stream()
+                .collect(Collectors.groupingBy(Kusuri::getName));
         
-        if (kasugi.isEmpty()) {
+        if (kusuri.isEmpty()) {
             console.writeLine("You have no kusuri to use.%n");
             
             return;
@@ -89,8 +87,8 @@ public class Self extends Fighter {
         
         console.writeLine("Kusuri:");
         
-        for (var key : kasugi.keySet()) {
-            console.writeLine("%s: [%d]", key, kasugi.get(key).size());
+        for (var key : kusuri.keySet()) {
+            console.writeLine("%s: [%d]", key, kusuri.get(key).size());
         }
         
         console.newLine();
@@ -100,13 +98,13 @@ public class Self extends Fighter {
             
             console.newLine();
             
-            if (!kasugi.containsKey(choice)) {
+            if (!kusuri.containsKey(choice)) {
                 console.writeLine("You have no %s's to use.%n", choice);
                 
                 continue;
             }
             
-            var used = kasugi.get(choice).get(0);
+            var used = kusuri.get(choice).get(0);
             
             inventory.remove(used);
             

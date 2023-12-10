@@ -15,5 +15,5 @@ public interface Item {
     
     boolean pickUp(Console console, Self self);
     
-    boolean use(Console console, Fighter self);
+    boolean use(Console console, Fighter fighter);
 }

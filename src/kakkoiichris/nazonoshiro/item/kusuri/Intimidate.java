@@ -11,13 +11,13 @@ public class Intimidate extends Kusuri {
     }
     
     @java.lang.Override
-    public boolean use(Console console, Fighter self) {
+    public boolean use(Console console, Fighter fighter) {
         return true;
     }
     
     @java.lang.Override
     public void affect(Console console, Fighter fighter) {
-        var pronoun = (fighter instanceof Enemy) ? "Their" : "Your";
+        var pronoun = fighter.getPossessive();
         
         if (timer != 0) {
             console.writeLine("%s've been intimidated!%n", pronoun);

@@ -2,7 +2,7 @@
 package kakkoiichris.nazonoshiro.castle.puzzle;
 
 import kakkoiichris.kotoba.Console;
-import kakkoiichris.kotoba.util.Util;
+import kakkoiichris.kotoba.Util;
 
 public class Seihoukei extends Puzzle {
     private final char[][] board = new char[6][6];

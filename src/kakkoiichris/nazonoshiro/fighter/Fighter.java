@@ -8,112 +8,38 @@ import kakkoiichris.nazonoshiro.Resettable;
 import kakkoiichris.nazonoshiro.item.Item;
 import kakkoiichris.nazonoshiro.item.kusuri.Kusuri;
 
+import java.util.List;
+
 public abstract class Fighter implements Resettable {
-    public enum FightResult {
-        WIN,
-        RUN,
-        LOSE
-    }
-    
-    public static FightResult fight(Console console, Self self, Enemy enemy) {
-        console.write("A %s stands before you.%n%n", enemy);
-        
-        //determines who's attacking and who's defending in battle
-        var yourTurn = self.getSpeed() > enemy.getSpeed() || self.getLuck() / 3 > Math.random() * 100;
-        
-        while (!(self.isDead() || enemy.isDead())) {
-            self.showHP(console, yourTurn);
-            console.newLine();
-            
-            enemy.showHP(console, !yourTurn);
-            console.newLine();
-            
-            if (yourTurn) {
-                self.allAffect(console);
-                self.filter();
-                
-                console.setPrompt("Attack / Use / Run > ");
-                
-                var action = console.readLine().orElseThrow().toLowerCase();
-                
-                console.newLine();
-                
-                if (action.matches("a(ttack)?")) {
-                    self.attack(console, enemy);
-                }
-                else if (action.matches("u(se)?")) {
-                    self.use(console, enemy);
-                }
-                else if (action.matches("r(un)?")) {
-                    var speedDiff = (enemy.getSpeed() - self.getSpeed()) / self.getSpeed();
-                    
-                    if (speedDiff >= 1) {
-                        console.writeLine("You've been cornered.\n");
-                    }
-                    else if (speedDiff >= 0) {
-                        if (Math.random() > speedDiff) {
-                            console.writeLine("You barely scraped by.\n");
-                            
-                            return FightResult.RUN;
-                        }
-                        else {
-                            console.writeLine("You've been cut off.\n");
-                        }
-                    }
-                    else {
-                        console.writeLine("You made a clean getaway.\n");
-                        
-                        return FightResult.RUN;
-                    }
-                }
-                else {
-                    console.writeLine("Can't do that...\n");
-                    
-                    continue;
-                }
-            }
-            else {
-                enemy.allAffect(console);
-                
-                enemy.filter();
-                
-                enemy.use(console, self);
-                
-                enemy.attack(console, self);
-            }
-            
-            yourTurn = !yourTurn;
-            
-            console.pause(2);
-        }
-        
-        if (self.isDead()) {
-            return FightResult.LOSE;
-        }
-        
-        return FightResult.WIN;
-    }
-    
     protected final String name;
     
-    protected final Stat attack, power, defense, speed, luck, health;
-    
+    protected final Stat attack;
+    protected final Stat power;
+    protected final Stat defense;
+    protected final Stat speed;
+    protected final Stat luck;
+    protected final Stat health;
+    private final String pronoun;
+    private final String possessive;
+
     protected final ResetList<Item> inventory = new ResetList<>();
     
     protected final ResetList<Kusuri> effectives = new ResetList<>();
     
     protected final ResetGroup resetGroup;
     
-    public Fighter(String name, double attack, double power, double defense, double speed, double luck, double health) {
+    public Fighter(String name, double attack, double power, double defense, double speed, double luck, double health, String pronoun, String possessive) {
         this.name = name;
-        
+
         this.attack = new Stat("Attack", 0, attack);
         this.power = new Stat("Power", 0, power);
         this.defense = new Stat("Defense", 0, defense);
         this.speed = new Stat("Speed", 0, speed);
         this.luck = new Stat("Luck", 0, luck);
         this.health = new Stat("Health", 0, health);
-        
+        this.pronoun = pronoun;
+        this.possessive = possessive;
+
         resetGroup = ResetGroup.of(this.attack, this.power, this.defense, this.speed, this.luck, this.health, inventory, effectives);
     }
     
@@ -196,7 +122,15 @@ public abstract class Fighter implements Resettable {
     public void heal(int value) {
         setHealth(getHealth() + value);
     }
-    
+
+    public String getPronoun() {
+        return pronoun;
+    }
+
+    public String getPossessive() {
+        return possessive;
+    }
+
     public void showHP(Console console, boolean active) {
         var blocks = " ▘▚▜█";
         
@@ -235,6 +169,14 @@ public abstract class Fighter implements Resettable {
     public ResetList<Item> getInventory() {
         return inventory;
     }
+
+    @SuppressWarnings("unchecked")
+    public <T extends Item> List<T> filterInventory(Class<T> type) {
+        return (List<T>) inventory
+                .stream()
+                .filter(type::isInstance)
+                .toList();
+    }
     
     public ResetList<Kusuri> getEffectives() {
         return effectives;
@@ -271,12 +213,12 @@ public abstract class Fighter implements Resettable {
             getEffectives().get(i).affect(console, this);
         }
     }
-    
-    public abstract void attack(Console console, Fighter opponent);
-    
-    public abstract void use(Console console, Fighter opponent);
-    
+
     public String toString() {
         return name;
     }
+
+    public abstract void attack(Console console, Fighter opponent);
+
+    public abstract void use(Console console, Fighter opponent);
 }

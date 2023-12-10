@@ -10,7 +10,7 @@ public class Fixer extends Kusuri {
     }
     
     @java.lang.Override
-    public boolean use(Console console, Fighter self) {
+    public boolean use(Console console, Fighter fighter) {
         return true;
     }
     
