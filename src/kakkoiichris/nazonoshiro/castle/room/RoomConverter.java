@@ -17,13 +17,11 @@ public class RoomConverter implements JsonConverter<Room> {
         var row = position.get(1).asNumber().orElseThrow().intValue();
         var column = position.get(2).asNumber().orElseThrow().intValue();
         
-        var key = object.get("key").asNumber().orElseThrow().intValue();
-        
         var lock = object.get("lock").asNumber().orElseThrow().intValue();
         
         var locked = object.get("locked").asBoolean().orElseThrow();
         
-        var room = new Room(name, floor, row, column, key, lock, locked);
+        var room = new Room(name, floor, row, column, lock, locked);
         
         var wallList = object.get("walls").asArray().orElseThrow();
         

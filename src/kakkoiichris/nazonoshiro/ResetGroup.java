@@ -20,8 +20,8 @@ public class ResetGroup implements Resettable {
         return resettables.add(resettable);
     }
     
-    public boolean addAll(Collection<? extends Resettable> resettable) {
-        return resettables.addAll(resettable);
+    public void addAll(Collection<? extends Resettable> resettable) {
+        resettables.addAll(resettable);
     }
     
     public void clear() {

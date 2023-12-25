@@ -8,15 +8,13 @@ import java.util.List;
 
 public class EnemyRoom extends Room {
     private final Enemy enemy;
-    
-    private final ResetValue<Boolean> defeated = new ResetValue<>(false);
-    
-    public EnemyRoom(String name, int floor, int row, int column, int key, int lock, boolean locked, Enemy enemy) {
-        super(name, floor, row, column, key, lock, locked);
+
+    public EnemyRoom(String name, int floor, int row, int column, int lock, boolean locked, Enemy enemy) {
+        super(name, floor, row, column, lock, locked);
         
         this.enemy = enemy;
         
-        resetGroup.addAll(List.of(this.enemy, defeated));
+        resetGroup.add(this.enemy);
     }
     
     public Enemy getEnemy() {
@@ -24,10 +22,6 @@ public class EnemyRoom extends Room {
     }
     
     public boolean isDefeated() {
-        return defeated.get();
-    }
-    
-    public void setDefeated() {
-        defeated.set(true);
+        return enemy.isDead();
     }
 }

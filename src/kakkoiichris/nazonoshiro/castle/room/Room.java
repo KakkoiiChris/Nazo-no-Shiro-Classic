@@ -22,7 +22,6 @@ public class Room implements Resettable {
     private final int row;
     private final int column;
     private final int lock;
-    private final int key;
 
     private final Map<Direction, Wall> walls = new HashMap<>();
 
@@ -38,12 +37,11 @@ public class Room implements Resettable {
 
     private final String descriptionAfter;
 
-    public Room(String name, int floor, int row, int column, int key, int lock, boolean locked) {
+    public Room(String name, int floor, int row, int column, int lock, boolean locked) {
         this.name = name;
         this.floor = floor;
         this.row = row;
         this.column = column;
-        this.key = key;
         this.lock = lock;
         this.locked = new ResetValue<>(locked);
 
@@ -75,7 +73,7 @@ public class Room implements Resettable {
     }
 
     public int getKey() {
-        return key;
+        return lock + 1;
     }
 
     public int getLock() {

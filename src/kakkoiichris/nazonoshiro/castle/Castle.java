@@ -2,6 +2,8 @@ package kakkoiichris.nazonoshiro.castle;
 
 import kakkoiichris.nazonoshiro.Resettable;
 import kakkoiichris.nazonoshiro.Resources;
+import kakkoiichris.nazonoshiro.castle.puzzle.Seihoukei;
+import kakkoiichris.nazonoshiro.castle.room.PuzzleRoom;
 import kakkoiichris.nazonoshiro.castle.room.Room;
 import kakkoiichris.nazonoshiro.item.Item;
 import kakkoiichris.nazonoshiro.json.Json;
@@ -32,11 +34,11 @@ public class Castle implements Resettable {
         this.name = name;
         this.rooms = rooms;
         
-        //rooms[0][1][1] = new EnemyRoom("FIGHT!!!", 0, 0, false, new Ninja());
+        rooms[0][1][1] = new PuzzleRoom("PLAY!!!", 0, 1, 1, 0, false, new Seihoukei());
     }
     
-    public Room get(int floor, int row, int column) {
-        return rooms[floor][row][column];
+    public Room get(Position position) {
+        return rooms[position.getFloor()][position.getRow()][position.getColumn()];
     }
     
     public void distributeItems(List<Item> items) {

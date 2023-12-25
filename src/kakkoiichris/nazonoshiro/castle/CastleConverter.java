@@ -10,13 +10,21 @@ public class CastleConverter implements JsonConverter<Castle> {
     @Override
     public Castle load(Object object) {
         var name = object.get("name").asString().orElseThrow();
-        
+
+        var spawn = object.get("spawn").asArray().orElseThrow();
+
+        var floor = spawn.get(0).asNumber().orElseThrow().intValue();
+        var row = spawn.get(1).asNumber().orElseThrow().intValue();
+        var column = spawn.get(2).asNumber().orElseThrow().intValue();
+
+        var position = new Position(floor, row, column);
+
         var size = object.get("size").asArray().orElseThrow();
         
         var floors = size.get(0).asNumber().orElseThrow().intValue();
         var rows = size.get(1).asNumber().orElseThrow().intValue();
         var columns = size.get(2).asNumber().orElseThrow().intValue();
-        
+
         var rooms = new Room[floors][rows][columns];
         
         var roomList = object.get("rooms").asObjectArray().orElseThrow();
