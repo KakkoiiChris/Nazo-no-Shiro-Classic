@@ -2,16 +2,23 @@
 package kakkoiichris.nazonoshiro.castle.puzzle;
 
 import kakkoiichris.kotoba.Console;
+import kakkoiichris.nazonoshiro.Event;
 
+import java.awt.event.KeyEvent;
 import java.util.Arrays;
 
 public class Kurobune extends Puzzle {
     public Kurobune() {
-        super("Kurobune");
+        super("Kurobune","");
     }
     
     @Override
-    public boolean play(Console console) {
+    public void init(Console console) {
+    
+    }
+    
+    @Override
+    public Event doRound(Console console) {
         console.writeLine("  <[KUROBUNE]>\n");
         
         var torpedoes = 20;
@@ -76,14 +83,19 @@ public class Kurobune extends Puzzle {
         }
         
         if (hits != 4) {
-            return false;
+            return Event.FAIL;
         }
         
         victory();
         
         console.setPrompt("> ");
         
-        return true;
+        return Event.SUCCESS;
+    }
+    
+    @Override
+    public void wrapUp(Console console) {
+    
     }
     
     public void show(Console console, char[][] board) {

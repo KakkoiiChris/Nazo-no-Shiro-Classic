@@ -2,468 +2,204 @@
 package kakkoiichris.nazonoshiro.castle.puzzle;
 
 import kakkoiichris.kotoba.Console;
-import kakkoiichris.kotoba.Util;
+import kakkoiichris.nazonoshiro.Event;
+import kakkoiichris.nazonoshiro.Resources;
+import kakkoiichris.nazonoshiro.Util;
 
 import java.awt.event.KeyEvent;
 
 public class Seihoukei extends Puzzle {
-    private final char[][] board = new char[6][6];
-    private final char[][] key = new char[6][6];
-
+    private static final int SIZE = 6;
+    private static final char NONE = ' ';
+    private static final char PIECE = 'O';
+    private final char[][] board = new char[SIZE][SIZE];
+    private final char[][] key = new char[SIZE][SIZE];
+    
+    private int row, col;
+    
     public Seihoukei() {
-        super("Seihoukei");
+        super(
+            "Seihoukei",
+            """
+                SeiHouKei
+                =========
+                
+                Slide the rows and columns around
+                to solve the board back to the
+                original pattern.
+                
+                Controls
+                ========
+                
+                   [W]     Move
+                [A][S][D] Cursor
+                   
+                   [△]      Slide
+                [◁][▽][▷] Row/Column"""
+        );
     }
-
-    public void shiftUp(int c) {
-        var temp = board[0][c];
-
-        for (var i = 0; i < 5; i++) {
-            board[i][c] = board[i + 1][c];
-        }
-
-        board[5][c] = temp;
+    
+    @Override
+    public void init(Console console) {
+        setBoardAndKey();
+        
+        row = 0;
+        col = 0;
+        
+        console.writeLine("Solve for this pattern:\n");
+        
+        show(console, key, -1, -1);
+        
+        console.newLine();
     }
-
-    public void shiftDown(int c) {
-        var temp = board[5][c];
-
-        for (var i = 5; i > 0; i--) {
-            board[i][c] = board[i - 1][c];
-        }
-
-        board[0][c] = temp;
-    }
-
-    public void shiftLeft(int r) {
-        var temp = board[r][0];
-
-        for (var i = 0; i < 5; i++) {
-            board[r][i] = board[r][i + 1];
-        }
-
-        board[r][5] = temp;
-    }
-
-    public void shiftRight(int r) {
-        var temp = board[r][5];
-
-        for (var i = 5; i > 0; i--) {
-            board[r][i] = board[r][i - 1];
-        }
-
-        board[r][0] = temp;
-    }
-
-    public void setUp() {
+    
+    public void setBoardAndKey() {
         for (var r = 0; r < board.length; r++) {
             for (var c = 0; c < board[0].length; c++) {
-                board[r][c] = '~';
+                board[r][c] = NONE;
             }
         }
-
-        for (int i = 0; i < 12; i++) {
+        
+        for (var i = 0; i < 12; ) {
             var r = (int) (Math.random() * board.length);
             var c = (int) (Math.random() * board[0].length);
-
-            if (board[r][c] != '#') {
-                board[r][c] = '#';
-            } else {
-                i--;
+            
+            if (board[r][c] != PIECE) {
+                board[r][c] = PIECE;
+                
+                i++;
             }
         }
-
-        for (var r = 0; r < key.length; r++) {
-            for (var c = 0; c < key[0].length; c++) {
-                key[r][c] = '~';
+        
+        setKey();
+    }
+    
+    public void setKey() {
+        var keyLine = Util.getRandom(Resources.getLines("seihoukei.txt"));
+        
+        var i = 0;
+        
+        for (var r = 0; r < SIZE; r++) {
+            for (var c = 0; c < SIZE; c++) {
+                key[r][c] = keyLine.charAt(i++);
             }
         }
     }
-
+    
+    @Override
+    public Event doRound(Console console) {
+        show(console, board, row, col);
+        
+        console.newLine();
+        
+        var input = console.readKey(true).orElseThrow();
+        
+        switch (input.getKeyCode()) {
+            case KeyEvent.VK_W -> row = Math.max(row - 1, 0);
+            
+            case KeyEvent.VK_S -> row = Math.min(row + 1, 5);
+            
+            case KeyEvent.VK_A -> col = Math.max(col - 1, 0);
+            
+            case KeyEvent.VK_D -> col = Math.min(col + 1, 5);
+            
+            case KeyEvent.VK_UP -> shiftUp(col);
+            
+            case KeyEvent.VK_DOWN -> shiftDown(col);
+            
+            case KeyEvent.VK_LEFT -> shiftLeft(row);
+            
+            case KeyEvent.VK_RIGHT -> shiftRight(row);
+            
+            case KeyEvent.VK_SLASH -> {
+                show(console, key, -1, -1);
+                
+                console.newLine();
+            }
+            
+            default -> console.writeLine("'%s' is not a valid key!", input.getKeyChar());
+        }
+        
+        if (wasSolved()) {
+            return Event.SUCCESS;
+        }
+        
+        return Event.CONTINUE;
+    }
+    
     public void show(Console console, char[][] board, int row, int col) {
-        console.writeLine("  0 1 2 3 4 5");
-
-        for (var r = 0; r < board.length; r++) {
-            console.write("%d ", r);
-
-            for (var c = 0; c < board[0].length; c++) {
+        console.writeLine("#".repeat((SIZE * 3) + 4));
+        
+        for (var r = 0; r < SIZE; r++) {
+            console.write("# ");
+            
+            for (var c = 0; c < SIZE; c++) {
                 var format = (r == row && c == col) ? "[%s]" : " %s ";
+                
                 console.write(format, board[r][c]);
             }
-
-            console.newLine();
+            
+            console.writeLine(" #");
         }
+        console.write("#".repeat((SIZE * 3) + 4));
     }
-
-    public void setKey() {
-        var k = (int) (Math.random() * 20);
-
-        switch (k) {
-            case 0 -> {
-                key[0][0] = '#';
-                key[0][5] = '#';
-                key[1][1] = '#';
-                key[1][4] = '#';
-                key[2][2] = '#';
-                key[2][3] = '#';
-                key[3][3] = '#';
-                key[3][2] = '#';
-                key[4][4] = '#';
-                key[4][1] = '#';
-                key[5][5] = '#';
-                key[5][0] = '#';
-            }
-
-            case 1 -> {
-                key[0][0] = '#';
-                key[0][4] = '#';
-                key[0][5] = '#';
-                key[1][0] = '#';
-                key[1][3] = '#';
-                key[2][1] = '#';
-                key[3][4] = '#';
-                key[4][2] = '#';
-                key[4][5] = '#';
-                key[5][0] = '#';
-                key[5][1] = '#';
-                key[5][5] = '#';
-            }
-
-            case 2 -> {
-                key[0][0] = '#';
-                key[0][1] = '#';
-                key[1][0] = '#';
-                key[1][3] = '#';
-                key[2][3] = '#';
-                key[2][4] = '#';
-                key[3][1] = '#';
-                key[3][2] = '#';
-                key[4][2] = '#';
-                key[4][5] = '#';
-                key[5][4] = '#';
-                key[5][5] = '#';
-            }
-
-            case 3 -> {
-                key[0][0] = '#';
-                key[0][5] = '#';
-                key[1][2] = '#';
-                key[1][3] = '#';
-                key[2][1] = '#';
-                key[2][4] = '#';
-                key[3][1] = '#';
-                key[3][4] = '#';
-                key[4][2] = '#';
-                key[4][3] = '#';
-                key[5][0] = '#';
-                key[5][5] = '#';
-            }
-
-            case 4 -> {
-                key[0][2] = '#';
-                key[0][3] = '#';
-                key[1][1] = '#';
-                key[1][4] = '#';
-                key[2][0] = '#';
-                key[2][5] = '#';
-                key[3][0] = '#';
-                key[3][5] = '#';
-                key[4][1] = '#';
-                key[4][4] = '#';
-                key[5][2] = '#';
-                key[5][3] = '#';
-            }
-
-            case 5 -> {
-                key[0][0] = '#';
-                key[0][1] = '#';
-                key[1][4] = '#';
-                key[1][5] = '#';
-                key[2][0] = '#';
-                key[2][1] = '#';
-                key[3][4] = '#';
-                key[3][5] = '#';
-                key[4][0] = '#';
-                key[4][1] = '#';
-                key[5][4] = '#';
-                key[5][5] = '#';
-            }
-
-            case 6 -> {
-                key[0][0] = '#';
-                key[0][5] = '#';
-                key[1][0] = '#';
-                key[1][2] = '#';
-                key[1][3] = '#';
-                key[1][5] = '#';
-                key[4][0] = '#';
-                key[4][2] = '#';
-                key[4][3] = '#';
-                key[4][5] = '#';
-                key[5][0] = '#';
-                key[5][5] = '#';
-            }
-
-            case 7 -> {
-                key[1][0] = '#';
-                key[1][2] = '#';
-                key[1][3] = '#';
-                key[2][0] = '#';
-                key[2][2] = '#';
-                key[2][4] = '#';
-                key[3][1] = '#';
-                key[3][3] = '#';
-                key[3][5] = '#';
-                key[4][2] = '#';
-                key[4][3] = '#';
-                key[4][5] = '#';
-            }
-
-            case 8 -> {
-                key[0][0] = '#';
-                key[0][4] = '#';
-                key[1][1] = '#';
-                key[1][3] = '#';
-                key[2][2] = '#';
-                key[2][5] = '#';
-                key[3][0] = '#';
-                key[3][3] = '#';
-                key[4][2] = '#';
-                key[4][4] = '#';
-                key[5][1] = '#';
-                key[5][5] = '#';
-            }
-
-            case 9 -> {
-                key[0][0] = '#';
-                key[0][3] = '#';
-                key[0][5] = '#';
-                key[1][1] = '#';
-                key[1][4] = '#';
-                key[2][0] = '#';
-                key[3][5] = '#';
-                key[4][1] = '#';
-                key[4][4] = '#';
-                key[5][0] = '#';
-                key[5][2] = '#';
-                key[5][5] = '#';
-            }
-
-            case 10 -> {
-                key[0][1] = '#';
-                key[0][5] = '#';
-                key[1][0] = '#';
-                key[1][3] = '#';
-                key[1][4] = '#';
-                key[2][0] = '#';
-                key[3][5] = '#';
-                key[4][1] = '#';
-                key[4][2] = '#';
-                key[4][5] = '#';
-                key[5][0] = '#';
-                key[5][4] = '#';
-            }
-
-            case 11 -> {
-                key[0][1] = '#';
-                key[0][3] = '#';
-                key[1][5] = '#';
-                key[2][0] = '#';
-                key[2][2] = '#';
-                key[2][3] = '#';
-                key[3][2] = '#';
-                key[3][3] = '#';
-                key[3][5] = '#';
-                key[4][0] = '#';
-                key[5][2] = '#';
-                key[5][4] = '#';
-            }
-
-            case 12 -> {
-                key[0][1] = '#';
-                key[0][4] = '#';
-                key[1][0] = '#';
-                key[1][1] = '#';
-                key[1][4] = '#';
-                key[1][5] = '#';
-                key[4][0] = '#';
-                key[4][1] = '#';
-                key[4][4] = '#';
-                key[4][5] = '#';
-                key[5][1] = '#';
-                key[5][4] = '#';
-            }
-
-            case 13 -> {
-                key[0][1] = '#';
-                key[0][3] = '#';
-                key[1][0] = '#';
-                key[2][1] = '#';
-                key[2][3] = '#';
-                key[2][5] = '#';
-                key[3][0] = '#';
-                key[3][2] = '#';
-                key[3][4] = '#';
-                key[4][5] = '#';
-                key[5][2] = '#';
-                key[5][4] = '#';
-            }
-
-            case 14 -> {
-                key[0][0] = '#';
-                key[0][3] = '#';
-                key[1][1] = '#';
-                key[1][4] = '#';
-                key[2][2] = '#';
-                key[2][5] = '#';
-                key[3][0] = '#';
-                key[3][3] = '#';
-                key[4][1] = '#';
-                key[4][4] = '#';
-                key[5][2] = '#';
-                key[5][5] = '#';
-            }
-
-            case 15 -> {
-                key[0][0] = '#';
-                key[0][2] = '#';
-                key[0][5] = '#';
-                key[1][3] = '#';
-                key[2][1] = '#';
-                key[2][5] = '#';
-                key[3][0] = '#';
-                key[3][4] = '#';
-                key[4][2] = '#';
-                key[5][0] = '#';
-                key[5][3] = '#';
-                key[5][5] = '#';
-            }
-
-            case 16 -> {
-                key[0][0] = '#';
-                key[0][3] = '#';
-                key[1][0] = '#';
-                key[1][4] = '#';
-                key[2][0] = '#';
-                key[2][1] = '#';
-                key[3][4] = '#';
-                key[3][5] = '#';
-                key[4][1] = '#';
-                key[4][5] = '#';
-                key[5][2] = '#';
-                key[5][5] = '#';
-            }
-
-            case 17 -> {
-                key[0][0] = '#';
-                key[0][5] = '#';
-                key[1][2] = '#';
-                key[1][3] = '#';
-                key[2][1] = '#';
-                key[2][4] = '#';
-                key[3][0] = '#';
-                key[3][5] = '#';
-                key[4][2] = '#';
-                key[4][3] = '#';
-                key[5][1] = '#';
-                key[5][4] = '#';
-            }
-
-            case 18 -> {
-                key[0][0] = '#';
-                key[0][2] = '#';
-                key[1][3] = '#';
-                key[1][5] = '#';
-                key[2][1] = '#';
-                key[2][3] = '#';
-                key[3][2] = '#';
-                key[3][4] = '#';
-                key[4][0] = '#';
-                key[4][2] = '#';
-                key[5][3] = '#';
-                key[5][5] = '#';
-            }
-
-            case 19 -> {
-                key[0][0] = '#';
-                key[0][5] = '#';
-                key[1][1] = '#';
-                key[1][4] = '#';
-                key[2][1] = '#';
-                key[2][4] = '#';
-                key[3][0] = '#';
-                key[3][5] = '#';
-                key[4][0] = '#';
-                key[4][5] = '#';
-                key[5][1] = '#';
-                key[5][4] = '#';
-            }
+    
+    private void shiftUp(int c) {
+        var temp = board[0][c];
+        
+        for (var i = 0; i < SIZE - 1; i++) {
+            board[i][c] = board[i + 1][c];
         }
+        
+        board[5][c] = temp;
     }
-
-    public boolean win() {
-        for (var r = 0; r < board.length; r++) {
-            for (var c = 0; c < board.length; c++) {
+    
+    private void shiftDown(int c) {
+        var temp = board[SIZE - 1][c];
+        
+        for (var i = SIZE - 1; i > 0; i--) {
+            board[i][c] = board[i - 1][c];
+        }
+        
+        board[0][c] = temp;
+    }
+    
+    private void shiftLeft(int r) {
+        var temp = board[r][0];
+        
+        for (var i = 0; i < SIZE - 1; i++) {
+            board[r][i] = board[r][i + 1];
+        }
+        
+        board[r][5] = temp;
+    }
+    
+    private void shiftRight(int r) {
+        var temp = board[r][SIZE - 1];
+        
+        for (var i = SIZE - 1; i > 0; i--) {
+            board[r][i] = board[r][i - 1];
+        }
+        
+        board[r][0] = temp;
+    }
+    
+    public boolean wasSolved() {
+        for (var r = 0; r < SIZE; r++) {
+            for (var c = 0; c < SIZE; c++) {
                 if (board[r][c] != key[r][c]) {
                     return false;
                 }
             }
         }
-
+        
         return true;
     }
-
+    
     @Override
-    public boolean play(Console console) {
-        console.writeLine("<[Seihoukei]>\n");
-
-        setUp();
-        setKey();
-
-        var row = 0;
-        var col = 0;
-
-        console.writeLine("Solve for this pattern:\n");
-
-        while (!win()) {
-            console.writeLine("  [Solution]");
-
-            show(console, key, -1, -1);
-
-            console.newLine();
-
-            show(console, board, row, col);
-
-            console.newLine();
-
-            console.setPrompt("WASD to Move, Arrows to Slide");
-
-            var direction = console.readKey(true).orElseThrow();
-
-            switch (direction.getKeyCode()) {
-                case KeyEvent.VK_W -> row = Math.max(row - 1, 0);
-
-                case KeyEvent.VK_S -> row = Math.min(row + 1, 5);
-
-                case KeyEvent.VK_A -> col = Math.max(col - 1, 0);
-
-                case KeyEvent.VK_D -> col = Math.min(col + 1, 5);
-
-                case KeyEvent.VK_UP -> shiftUp(col);
-
-                case KeyEvent.VK_DOWN -> shiftDown(col);
-
-                case KeyEvent.VK_LEFT -> shiftLeft(row);
-
-                case KeyEvent.VK_RIGHT -> shiftRight(row);
-
-                default -> console.writeLine("%s is not a valid direction!", direction);
-            }
-        }
-
-        victory();
-
-        console.setPrompt("> ");
-
-        return true;
+    public void wrapUp(Console console) {
+        show(console, board, -1, -1);
+        
+        console.newLine();
     }
 }

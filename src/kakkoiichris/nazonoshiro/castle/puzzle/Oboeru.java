@@ -3,17 +3,25 @@ package kakkoiichris.nazonoshiro.castle.puzzle;
 
 import kakkoiichris.kotoba.Console;
 import kakkoiichris.kotoba.Util;
+import kakkoiichris.nazonoshiro.Event;
+
+import java.awt.event.KeyEvent;
 
 public class Oboeru extends Puzzle {
     private final char[][] board = new char[5][6];
     private final char[][] key = new char[5][6];
     
     public Oboeru() {
-        super("Oboeru");
+        super("Oboeru","");
     }
     
     @Override
-    public boolean play(Console console) {
+    public void init(Console console) {
+    
+    }
+    
+    @Override
+    public Event doRound(Console console) {
         setUp();
         
         showBoard(console);
@@ -105,7 +113,7 @@ public class Oboeru extends Puzzle {
             console.newLine();
             
             if (tries == 3) {
-                return false;
+                return Event.FAIL;
             }
         }
         
@@ -113,7 +121,12 @@ public class Oboeru extends Puzzle {
         
         console.setPrompt("> ");
         
-        return true;
+        return Event.SUCCESS;
+    }
+    
+    @Override
+    public void wrapUp(Console console) {
+    
     }
     
     public void setUp() {

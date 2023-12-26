@@ -2,7 +2,9 @@
 package kakkoiichris.nazonoshiro.castle.puzzle;
 
 import kakkoiichris.kotoba.Console;
+import kakkoiichris.nazonoshiro.Event;
 
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,11 +19,16 @@ public class IroIro extends Puzzle {
     private final List<Character> level4 = new ArrayList<>();
     
     public IroIro() {
-        super("IroIro");
+        super("IroIro","");
     }
     
     @Override
-    public boolean play(Console console) {
+    public void init(Console console) {
+    
+    }
+    
+    @Override
+    public Event doRound(Console console) {
         console.writeLine("  <[IROIRO]>\n");
         
         setUp();
@@ -34,7 +41,12 @@ public class IroIro extends Puzzle {
         
         victory();
         
-        return true;
+        return Event.SUCCESS;
+    }
+    
+    @Override
+    public void wrapUp(Console console) {
+    
     }
     
     public void show(Console console, char[][] guide) {
