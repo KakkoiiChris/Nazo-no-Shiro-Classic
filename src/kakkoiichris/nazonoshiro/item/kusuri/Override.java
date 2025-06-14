@@ -8,14 +8,14 @@ public class Override extends Kusuri {
     public Override() {
         super("Override", "", 1, 0, true);
     }
-    
+
     @java.lang.Override
     public boolean use(Console console, Fighter fighter) {
         return true;
     }
-    
+
     @java.lang.Override
     public void affect(Console console, Fighter fighter) {
-    
+
     }
 }

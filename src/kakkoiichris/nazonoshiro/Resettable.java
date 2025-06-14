@@ -3,6 +3,6 @@ package kakkoiichris.nazonoshiro;
 
 public interface Resettable {
     void storeState();
-    
+
     void resetState();
 }

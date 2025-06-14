@@ -8,15 +8,15 @@ public class Dresser extends Storage {
     public Dresser() {
         super("Dresser");
     }
-    
+
     @Override
     public void open(Console console, Self self) {
         console.writeLine("""
-            The dresser seems to contain but Royal
-            Kimonos and Headdresses. Further inspection
-            reveals scattered Items on the bottom.
-            """.stripIndent());
-        
+                The dresser seems to contain but Royal
+                Kimonos and Headdresses. Further inspection
+                reveals scattered Items on the bottom.
+                """.stripIndent());
+
         rummage(console, self);
     }
 }

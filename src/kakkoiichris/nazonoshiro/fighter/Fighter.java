@@ -12,7 +12,7 @@ import java.util.List;
 
 public abstract class Fighter implements Resettable {
     protected final String name;
-    
+
     protected final Stat attack;
     protected final Stat power;
     protected final Stat defense;
@@ -23,11 +23,11 @@ public abstract class Fighter implements Resettable {
     private final String possessive;
 
     protected final ResetList<Item> inventory = new ResetList<>();
-    
+
     protected final ResetList<Kusuri> effectives = new ResetList<>();
-    
+
     protected final ResetGroup resetGroup;
-    
+
     public Fighter(String name, double attack, double power, double defense, double speed, double luck, double health, String pronoun, String possessive) {
         this.name = name;
 
@@ -42,83 +42,83 @@ public abstract class Fighter implements Resettable {
 
         resetGroup = ResetGroup.of(this.attack, this.power, this.defense, this.speed, this.luck, this.health, inventory, effectives);
     }
-    
+
     public String getName() {
         return name;
     }
-    
+
     public Stat getAttackStat() {
         return attack;
     }
-    
+
     public Stat getPowerStat() {
         return power;
     }
-    
+
     public Stat getDefenseStat() {
         return defense;
     }
-    
+
     public Stat getSpeedStat() {
         return speed;
     }
-    
+
     public Stat getLuckStat() {
         return luck;
     }
-    
+
     public Stat getHealthStat() {
         return health;
     }
-    
+
     public double getAttack() {
         return attack.getNow().get();
     }
-    
+
     public void setAttack(double value) {
         attack.getNow().set(value);
     }
-    
+
     public double getPower() {
         return power.getNow().get();
     }
-    
+
     public void setPower(double value) {
         power.getNow().set(value);
     }
-    
+
     public double getDefense() {
         return defense.getNow().get();
     }
-    
+
     public void setDefense(double value) {
         defense.getNow().set(value);
     }
-    
+
     public double getSpeed() {
         return speed.getNow().get();
     }
-    
+
     public void setSpeed(double value) {
         speed.getNow().set(value);
     }
-    
+
     public double getLuck() {
         return luck.getNow().get();
     }
-    
+
     public void setLuck(double value) {
         luck.getNow().set(value);
     }
-    
+
     public double getHealth() {
         return health.getNow().get();
     }
-    
+
     public void setHealth(double value) {
         health.getNow().set(value);
     }
-    
+
     public void heal(int value) {
         setHealth(getHealth() + value);
     }
@@ -133,39 +133,39 @@ public abstract class Fighter implements Resettable {
 
     public void showHP(Console console, boolean active) {
         var blocks = " ▘▚▜█";
-        
+
         var max = health.getMax().get().intValue();
         var now = health.getNow().get().intValue();
-        
+
         console.write("%s %s (%03d / %03d) ║", active ? ">" : " ", name, now, max);
-        
+
         var i = now;
-        
+
         if (i > 0) {
             while (i - 4 > 0) {
                 console.write(blocks.charAt(4));
-                
+
                 i -= 4;
             }
-            
+
             console.write(blocks.charAt(i));
         }
-        
+
         i = max - now;
-        
+
         while (i - 4 >= 0) {
             console.write(' ');
-            
+
             i -= 4;
         }
-        
+
         console.writeLine('║');
     }
-    
+
     public boolean isDead() {
         return getHealth() <= 0;
     }
-    
+
     public ResetList<Item> getInventory() {
         return inventory;
     }
@@ -177,29 +177,29 @@ public abstract class Fighter implements Resettable {
                 .filter(type::isInstance)
                 .toList();
     }
-    
+
     public ResetList<Kusuri> getEffectives() {
         return effectives;
     }
-    
+
     public void add(Item item) {
         inventory.add(item);
     }
-    
+
     @Override
     public void storeState() {
         resetGroup.storeState();
     }
-    
+
     @Override
     public void resetState() {
         resetGroup.resetState();
     }
-    
+
     public <T extends Item> boolean hasItem(Class<T> clazz) {
         return inventory.stream().anyMatch(clazz::isInstance);
     }
-    
+
     public void filter() {
         for (var i = 0; i < getEffectives().size(); i++) {
             if (getEffectives().get(i).getTimer() == -1) {
@@ -207,7 +207,7 @@ public abstract class Fighter implements Resettable {
             }
         }
     }
-    
+
     public void allAffect(Console console) {
         for (var i = 0; i < getEffectives().size(); i++) {
             getEffectives().get(i).affect(console, this);

@@ -14,107 +14,107 @@ public class Self extends Fighter {
     private static final List<String> direct = Resources.getLines("directHit.txt");
     private static final List<String> indirect = Resources.getLines("indirectHit.txt");
     private static final List<String> miss = Resources.getLines("missHit.txt");
-    
+
     private final String birthday, gender;
-    
+
     private final ResetValue<Integer> key = new ResetValue<>(0);   //stores all the keys you pick up
-    
+
     public Self(String name, String birthday, String gender) {
         super(name, 50, 50, 50, 50, 50, 50, "You", "Your");
-        
+
         this.birthday = birthday;
         this.gender = gender;
-        
+
         resetGroup.add(key);
     }
-    
+
     public Self() {
         this("Self", "?", "?");
     }
-    
+
     public String getBirthday() {
         return birthday;
     }
-    
+
     public String getGender() {
         return gender;
     }
-    
+
     public int getKey() {
         return key.get();
     }
-    
+
     public void setKey(int value) {
         key.set(Math.max(key.get(), value));
     }
-    
+
     @Override
     public void attack(Console console, Fighter opponent) {
         var sa = getAttack();
         var sp = getPower();
         var ss = getSpeed();
-        
+
         var ed = opponent.getDefense();
         var es = opponent.getSpeed();
-        
+
         var damage = sa * 100 / (100 + ed);
-        
+
         console.writeLine("%s takes %02f damage!%n", opponent.name, damage);
-        
+
         var list = (damage < 0) ? miss : direct;
-        
+
         var message = Util.getRandom(list);
-        
+
         console.writeLine(message, opponent.name);
-        
+
         console.newLine();
-        
+
         opponent.setHealth(opponent.getHealth() - damage);
-        
+
         console.newLine();
     }
-    
+
     public void use(Console console, Fighter opponent) {
         var kusuri = filterInventory(Kusuri.class)
                 .stream()
                 .collect(Collectors.groupingBy(Kusuri::getName));
-        
+
         if (kusuri.isEmpty()) {
             console.writeLine("You have no kusuri to use.%n");
-            
+
             return;
         }
-        
+
         console.writeLine("Kusuri:");
-        
+
         for (var key : kusuri.keySet()) {
             console.writeLine("%s: [%d]", key, kusuri.get(key).size());
         }
-        
+
         console.newLine();
-        
+
         while (true) {
             var choice = console.readLine().orElseThrow();
-            
+
             console.newLine();
-            
+
             if (!kusuri.containsKey(choice)) {
                 console.writeLine("You have no %s's to use.%n", choice);
-                
+
                 continue;
             }
-            
+
             var used = kusuri.get(choice).get(0);
-            
+
             inventory.remove(used);
-            
+
             if (used.isForYou()) {
                 getEffectives().add(used);
             }
             else {
                 opponent.getEffectives().add(used);
             }
-            
+
             break;
         }
     }

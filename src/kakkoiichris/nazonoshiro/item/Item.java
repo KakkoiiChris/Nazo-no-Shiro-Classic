@@ -8,12 +8,12 @@ import kakkoiichris.nazonoshiro.fighter.Self;
 
 public interface Item {
     int getValue();
-    
+
     String getName();
-    
+
     String getDescription();
-    
+
     boolean pickUp(Console console, Self self);
-    
+
     boolean use(Console console, Fighter fighter);
 }

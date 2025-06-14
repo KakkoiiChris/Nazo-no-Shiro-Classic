@@ -7,6 +7,7 @@ import kakkoiichris.nazonoshiro.castle.Direction;
 import kakkoiichris.nazonoshiro.castle.Position;
 import kakkoiichris.nazonoshiro.castle.room.EnemyRoom;
 import kakkoiichris.nazonoshiro.castle.room.PuzzleRoom;
+import kakkoiichris.nazonoshiro.castle.room.Room;
 import kakkoiichris.nazonoshiro.fighter.Fight;
 import kakkoiichris.nazonoshiro.fighter.Ninja;
 import kakkoiichris.nazonoshiro.fighter.Self;
@@ -25,10 +26,11 @@ public class Game {
 
     private final Position position = new Position(0, 1, 2);
 
-    private final ResetValue<Boolean> ran = new ResetValue<>(false); //keeps track of if you run from a fight
+    private final ResetValue<Boolean> ran = new ResetValue<>(false);
 
     private Castle castle;
-    private Self self = new Self(); //this fighter represents you
+
+    private Self self = new Self();
 
     private ResetGroup resetGroup;
 
@@ -55,15 +57,21 @@ public class Game {
 
         var items = new ArrayList<Item>();
 
-        for (var count = 0; count < Util.random.nextInt(500, 1_000); count++) {
+        var amount = Util.random.nextInt(500, 1_000);
+
+        for (var count = 0; count < amount; count++) {
             items.add(Coin.random());
         }
 
-        for (var count = 0; count < Util.random.nextInt(100, 250); count++) {
+        amount = Util.random.nextInt(100, 250);
+
+        for (var count = 0; count < amount; count++) {
             items.add(HealthPack.HERB);
         }
 
-        for (var count = 0; count < Util.random.nextInt(50, 100); count++) {
+        amount = Util.random.nextInt(50, 100);
+
+        for (var count = 0; count < amount; count++) {
             items.add(HealthPack.BUSHEL);
         }
 
@@ -128,9 +136,9 @@ public class Game {
 
                             console.writeLine("""
                                     The %s dropped something...
-                                                                    
+                                    
                                     It's a(n) %s!
-                                                                    
+                                    
                                     They also dropped a key. Now to
                                     find which door it unlocks...
                                     """.stripIndent(), e.getEnemy(), drop);
@@ -145,7 +153,11 @@ public class Game {
                         }
 
                         case LOSE -> {
-                            console.writeLine("You died...\n\nContinue?\n");
+                            console.writeLine("""
+                                You died...
+
+                                Continue?
+                                """);
 
                             console.setPrompt("Y / N > ");
 
@@ -181,14 +193,15 @@ public class Game {
                     if (p.getPuzzle().play(console)) {
                         console.writeLine("""
                                 You won!
-                                                            
+                                
                                 You have earned a key.
-                                                            
+                                
                                 Now to figure out which door it unlocks...
                                 """.stripIndent());
 
                         self.setKey(p.getKey());
-                    } else {
+                    }
+                    else {
                         console.writeLine("""
                                 The puzzle clicks and whirs away, and
                                 in a matter of seconds, it resets itself.
@@ -214,7 +227,8 @@ public class Game {
 
                     if (Direction.isValid(option.toUpperCase())) {
                         direction = Direction.valueOf(option.toUpperCase());
-                    } else {
+                    }
+                    else {
                         for (var wall : room.getWalls().values()) {
                             if (wall.getStorage().getName().toLowerCase().equals(option)) {
                                 direction = wall.getDirection();
@@ -248,7 +262,8 @@ public class Game {
 
                     if (Direction.isValid(direction)) {
                         move(Direction.valueOf(direction.toUpperCase()));
-                    } else {
+                    }
+                    else {
                         console.writeLine("'%s' is not a valid direction.", direction);
                     }
 
@@ -344,11 +359,11 @@ public class Game {
                 }
 
                 if (choice.equals("fight")) {
-                    self.storeState();
+                    storeState();
 
                     console.writeLine("%s%n", Fight.fight(console, self, new Ninja()));
 
-                    self.resetState();
+                    resetState();
 
                     continue;
                 }
@@ -361,13 +376,15 @@ public class Game {
     private void move(Direction direction) {
         storeState();
 
-        if (castle.get(position).getExit() == direction) {
+        var room = getRoom();
+
+        if (room.getExit() == direction) {
             endGame();
 
             return;
         }
 
-        if (hasWall(direction)) {
+        if (room.hasWall(direction)) {
             console.writeLine("A wall blocks your path.\n");
 
             return;
@@ -375,8 +392,10 @@ public class Game {
 
         var nextPosition = position.plus(direction);
 
-        if (self.getKey() >= castle.get(nextPosition).getLock()) {
-            if (notVisited(nextPosition)) {
+        room = getRoom(nextPosition);
+
+        if (self.getKey() >= room.getLock()) {
+            if (!room.isVisited()) {
                 console.writeLine("The door is unlocked.\n");
             }
 
@@ -390,12 +409,12 @@ public class Game {
         console.writeLine("None of the keys you have fit this lock.\n");
     }
 
-    private boolean notVisited(Position position) {
-        return !castle.get(position).isVisited();
+    private Room getRoom() {
+        return getRoom(position);
     }
 
-    private boolean hasWall(Direction direction) {
-        return castle.get(position).hasWall(direction);
+    private Room getRoom(Position position) {
+        return castle.get(position);
     }
 
     private void showInventory() {

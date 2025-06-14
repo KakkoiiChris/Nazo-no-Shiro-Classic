@@ -7,20 +7,20 @@ import java.util.Random;
 
 public class Util {
     public static final Random random = new Random();
-    
+
     public static <T> T getRandom(List<T> list) {
         return list.get(random.nextInt(list.size()));
     }
-    
+
     public static <T> T removeRandom(List<T> list) {
         return list.remove(random.nextInt(list.size()));
     }
-    
+
     public static <T> void shuffle(List<T> list) {
         var shuffled = new ArrayList<>(list);
-        
+
         list.clear();
-        
+
         while (!shuffled.isEmpty()) {
             list.add(removeRandom(shuffled));
         }

@@ -8,15 +8,15 @@ public class Desk extends Storage {
     public Desk() {
         super("Desk");
     }
-    
+
     @Override
     public void open(Console console, Self self) {
         console.writeLine("""
-            Despite the presence of a metal lock, the
-            desk drawer seems to be propped open slightly.
-            Quite a lucky find.
-            """.stripIndent());
-        
-        rummage(console,self);
+                Despite the presence of a metal lock, the
+                desk drawer seems to be propped open slightly.
+                Quite a lucky find.
+                """.stripIndent());
+
+        rummage(console, self);
     }
 }

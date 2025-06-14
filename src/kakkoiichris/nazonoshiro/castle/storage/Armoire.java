@@ -5,9 +5,9 @@ import kakkoiichris.kotoba.Console;
 import kakkoiichris.nazonoshiro.fighter.Self;
 import kakkoiichris.nazonoshiro.item.Weapon;
 
-public class Armoir extends Storage {
-    public Armoir() {
-        super("Armoir");
+public class Armoire extends Storage {
+    public Armoire() {
+        super("Armoire");
     }
     
     @Override

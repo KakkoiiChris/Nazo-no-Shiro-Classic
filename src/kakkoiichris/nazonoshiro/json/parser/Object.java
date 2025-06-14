@@ -10,7 +10,7 @@ public record Object(Location location, Map<String, Node> members) implements No
     public Node get(String name) {
         return members.get(name);
     }
-    
+
     public Optional<Node> tryGet(String name) {
         return Optional.ofNullable(members.get(name));
     }

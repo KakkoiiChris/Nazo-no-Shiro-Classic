@@ -13,34 +13,34 @@ import java.util.List;
 // Christian Alexander, 9/8/2022
 public class Castle implements Resettable {
     protected final String name;
-    
+
     protected final Room[][][] rooms;
-    
+
     public static Castle load(String fileName) {
         var string = Resources.tryGetString(fileName);
-        
+
         if (string.isEmpty()) {
             throw new RuntimeException();
         }
-        
+
         var source = string.get();
-        
+
         var json = Json.of(source, new CastleConverter());
-        
+
         return json.load();
     }
-    
+
     public Castle(String name, Room[][][] rooms) {
         this.name = name;
         this.rooms = rooms;
-        
+
         rooms[0][1][1] = new PuzzleRoom("PLAY!!!", 0, 1, 1, 0, false, new Seihoukei());
     }
-    
+
     public Room get(Position position) {
         return rooms[position.getFloor()][position.getRow()][position.getColumn()];
     }
-    
+
     public void distributeItems(List<Item> items) {
         for (var floor : rooms) {
             for (var row : floor) {
@@ -50,7 +50,7 @@ public class Castle implements Resettable {
             }
         }
     }
-    
+
     @Override
     public void storeState() {
         for (var floor : rooms) {
@@ -61,7 +61,7 @@ public class Castle implements Resettable {
             }
         }
     }
-    
+
     @Override
     public void resetState() {
         for (var floor : rooms) {

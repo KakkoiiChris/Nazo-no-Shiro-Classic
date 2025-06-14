@@ -8,14 +8,14 @@ public class Fixer extends Kusuri {
     public Fixer() {
         super("Kasugi", "", 0, 3, true);
     }
-    
+
     @java.lang.Override
     public boolean use(Console console, Fighter fighter) {
         return true;
     }
-    
+
     @java.lang.Override
     public void affect(Console console, Fighter fighter) {
-    
+
     }
 }
